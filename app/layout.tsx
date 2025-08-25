@@ -10,6 +10,7 @@ import { metaData } from "./lib/config";
 
 const inter = Inter({ subsets: ["latin"] });
 
+{/* metadata 配置，用于设置网站的 SEO（搜索引擎优化）和社交媒体分享信息 自动从 app/lib/config.ts 读取数据*/}
 export const metadata: Metadata = {
   metadataBase: new URL(metaData.baseUrl),
   title: {
@@ -53,6 +54,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.className}`}>
+      {/* RSS 和 Feed 链接声明 */}
       <head>
         <link
           rel="alternate"
@@ -80,7 +82,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="flex-auto min-w-0 mt-2 md:mt-6 flex flex-col px-6 sm:px-12 md:px-16 max-w-[1600px] w-full">
+          <main className="flex-auto min-w-0 flex flex-col px-6 sm:px-12 md:px-16 max-w-[1600px] w-full">
             <Navbar />
             {children}
             <Footer />
