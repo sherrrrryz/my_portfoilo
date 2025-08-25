@@ -27,7 +27,7 @@
   --nav-border:        rgba(0, 0, 0, 0.08); /* 分割线 */
   --nav-ring:          rgba(0, 0, 0, 0.35); /* focus ring */
   --nav-icon:          rgba(0, 0, 0, 0.88); /* 汉堡/图标颜色 */
-  --nav-avatar-ring:   rgba(0, 0, 0, 0.08); {/* 头像细描边 */}
+  --nav-avatar-ring:   rgba(0, 0, 0, 0.08); 
 }
 
 /* Dark theme colors */
@@ -171,4 +171,8 @@ table {
 
 .title {
   text-wrap: balance;
+}
+
+.nav-link-active {
+  color: var(--accent);
 }
