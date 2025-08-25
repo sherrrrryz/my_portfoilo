@@ -20,6 +20,14 @@
   --sh-jsxliterals: #6266d1;
   --sh-property: #e25a1c;
   --sh-entity: #e25a1c;
+  --nav-bg:            #ffffff;
+  --nav-fg:            rgba(0, 0, 0, 0.88); /* 主文字 */
+  --nav-dim:           rgba(0, 0, 0, 0.70); /* 次级/未激活链接 */
+  --accent:        rgba(105, 215, 103, 0.90); /* 悬停/激活高亮绿 */
+  --nav-border:        rgba(0, 0, 0, 0.08); /* 分割线 */
+  --nav-ring:          rgba(0, 0, 0, 0.35); /* focus ring */
+  --nav-icon:          rgba(0, 0, 0, 0.88); /* 汉堡/图标颜色 */
+  --nav-avatar-ring:   rgba(0, 0, 0, 0.08); {/* 头像细描边 */}
 }
 
 /* Dark theme colors */
@@ -34,6 +42,14 @@
   --sh-jsxliterals: #6266d1;
   --sh-property: #e25a1c;
   --sh-entity: #e25a1c;
+  --nav-bg:            #181818;
+  --nav-fg:            rgba(255, 255, 255, 0.90);
+  --nav-dim:           rgba(255, 255, 255, 0.80);
+  --accent:        rgba(105, 215, 103, 0.90);
+  --nav-border:        rgba(255, 255, 255, 0.10);
+  --nav-ring:          rgba(255, 255, 255, 0.50);
+  --nav-icon:          #ffffff;
+  --nav-avatar-ring:   rgba(255, 255, 255, 0.10);
 }
 
 html {
