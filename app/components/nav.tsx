@@ -65,7 +65,7 @@ export function Navbar() {
             className={[
               "relative uppercase text-xl font-light leading-none whitespace-nowrap transition-colors",
               "text-[var(--nav-dim)] hover:text-[var(--accent)]",
-              active ? "text-[var(--accent)] font-normal" : "",
+              active ? "nav-link-active font-normal" : "",
               "focus:outline-none focus-visible:ring-2 ring-[var(--nav-ring)] rounded-sm",
             ].join(" ")}
           >
