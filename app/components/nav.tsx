@@ -7,6 +7,7 @@ import { ThemeSwitch } from "./theme-switch";
 import { metaData } from "../lib/config";
 
 const navItems = {
+  "/": { name: "Home" },
   "/blog": { name: "Blog" },
   "/projects": { name: "Projects" },
   "/photos": { name: "Photos" },
@@ -63,9 +64,9 @@ export function Navbar() {
             onClick={close}
             className={[
               "relative uppercase text-xl font-light leading-none whitespace-nowrap transition-colors",
-              "text-[rgba(255,255,255,0.9)] hover:text-[rgba(105,215,103,0.9)]",
-              active ? "text-[rgba(105,215,103,0.9)] font-normal" : "",
-              "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-sm",
+              "text-[var(--nav-dim)] hover:text-[var(--accent)]",
+              active ? "text-[var(--accent)] font-normal" : "",
+              "focus:outline-none focus-visible:ring-2 ring-[var(--nav-ring)] rounded-sm",
             ].join(" ")}
           >
             {name}
@@ -84,7 +85,7 @@ export function Navbar() {
           <div className="flex items-center">
             <Link
               href="/"
-              className="flex items-center gap-2 font-bold uppercase tracking-wide text-[rgba(255,255,255,0.9)] text-2xl leading-none whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-md"
+              className="flex items-center gap-2 font-bold uppercase tracking-wide text-[var(--nav-fg)] text-2xl leading-none whitespace-nowrap focus:outline-none focus-visible:ring-2 ring-[var(--nav-ring)] rounded-sm"
             >
               <img
                 src="/avatar.png"
