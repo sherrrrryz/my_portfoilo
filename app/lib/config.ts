@@ -1,10 +1,10 @@
 export const metaData = {
   baseUrl: "https://nextfolio-template.vercel.app/",
-  title: "Nextfolio",
-  name: "Sirius",
+  title: "HELLO!",
+  name: "XUEYI ZHOU",
   ogImage: "/opengraph-image.png",
   description:
-    "A clean, fast, and lightweight portfolio template built with Next.js, Vercel, and Tailwind CSS for optimal performance.",
+    "Portfolio of Xueyi Zhou, a UX/Product Designer with experience at Huawei, Xiaomi, and AppLovin.",
 };
 
 export const socialLinks = {

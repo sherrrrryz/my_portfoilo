@@ -13,7 +13,8 @@ export function Navbar() {
     <nav className="lg:mb-16 mb-12 py-5">
       <div className="flex flex-col md:flex-row md:items-center justify-between">
         <div className="flex items-center">
-          <Link href="/" className="text-3xl font-semibold">
+          <Link href="/" className="flex items-center gap-2 text-4xl font-bold">
+            <img src="/avatar.png" alt="avatar" className="w-12 h-12" />
             {metaData.title}
           </Link>
         </div>
