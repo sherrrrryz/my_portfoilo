@@ -83,7 +83,7 @@ function ExperienceCard({
       {showLine && (
         <div className="h-6 w-full">
           <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 865 24">
-            <line stroke="white" strokeOpacity="0.3" x2="865" y1="11.5" y2="11.5" />
+            <line stroke="var(--sh-identifier)" strokeOpacity="0.1" x2="865" y1="11.5" y2="11.5" />
           </svg>
         </div>
       )}
@@ -247,7 +247,7 @@ function Education() {
       <div className="w-full px-6 md:px-16">
         <div className="h-24 w-full">
           <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1472 96">
-            <line stroke="white" strokeOpacity="0.3" x1="24" x2="1448" y1="47.5" y2="47.5" />
+            <line stroke="var(--sh-identifier)" strokeOpacity="0.1" x1="24" x2="1448" y1="47.5" y2="47.5" />
           </svg>
         </div>
       </div>

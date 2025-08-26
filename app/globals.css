@@ -11,8 +11,10 @@
 
 /* Light theme colors */
 :root {
+  background-color: #fafaf9;
   --sh-class: #2d5e9d;
-  --sh-identifier: #354150;
+  --sh-identifier: #000000;
+  --sh-btn: white;
   --sh-sign: #8996a3;
   --sh-string: #007f7a;
   --sh-keyword: #e02518;
@@ -21,7 +23,6 @@
   --sh-property: #e25a1c;
   --sh-entity: #e25a1c;
   --greytext: rgba(0,0,0,0.6);
-  --nav-bg:            #ffffff;
   --nav-fg:            rgba(0, 0, 0, 0.88); /* 主文字 */
   --nav-dim:           rgba(0, 0, 0, 0.70); /* 次级/未激活链接 */
   --accent:            #2EA82C; /* 新的绿色 */
@@ -36,6 +37,7 @@
   background-color: #111111;
   --sh-class: #4c97f8;
   --sh-identifier: white;
+  --sh-btn: black;
   --sh-sign: #8996a3;
   --sh-string: #0fa295;
   --sh-keyword: #f47067;
@@ -44,7 +46,6 @@
   --sh-property: #e25a1c;
   --sh-entity: #e25a1c;
   --greytext: rgba(255,255,255,0.6);
-  --nav-bg:            #181818;
   --nav-fg:            rgba(255, 255, 255, 0.90);
   --nav-dim:           rgba(255, 255, 255, 0.80);
   --accent:            #69D767;

@@ -20,7 +20,7 @@ function HeroSection() {
           </div>
 
           {/* Main heading - responsive text size */}
-          <h2 className="text-2xl md:text-5xl font-bold text-white capitalize leading-[1.5] max-w-full">
+          <h2 className="text-2xl md:text-5xl font-bold text-[var(--sh-identifier)] capitalize leading-[1.5] max-w-full">
             Hi 👋 nice to meet you!
           </h2>
 
@@ -33,7 +33,7 @@ function HeroSection() {
           </div>
 
           {/* CTA Button */}
-          <button className="bg-[rgba(255,255,255,0.95)] px-6 py-3 rounded-[12px] text-black font-semibold text-[16px] capitalize hover:bg-white transition-colors">
+          <button className="bg-[var(--sh-identifier)] px-6 py-3 rounded-[12px] text-[var(--sh-btn)] font-semibold text-[16px] capitalize hover:opacity-80 transition-colors">
             👉 Let's Connect!
           </button>
         </div>
@@ -62,7 +62,7 @@ function ProjectCard({
         height={500}
       />
       </div>
-      <div className="flex flex-col gap-2 text-white capitalize">
+      <div className="flex flex-col gap-2 text-[var(--sh-identifier)] capitalize">
         <h3 className="text-[24px] font-semibold">{title}</h3>
         <p className="text-[20px] font-light">{description}</p>
       </div>
