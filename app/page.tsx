@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { socialLinks } from "./lib/config";
+import Link from "next/link";
 
 function HeroSection() {
   return (
@@ -42,14 +42,94 @@ function HeroSection() {
   );
 }
 
-function CallToAction() {
+function ProjectCard({ 
+  images, 
+  title, 
+  description 
+}: { 
+  images: string, 
+  title: string, 
+  description: string 
+}) {
+  return (
+    <div className="flex flex-col gap-9 w-full">
+      <div className="aspect-[2/1] rounded-[24px] w-full bg-white overflow-hidden relative">
+      <Image 
+        src={images}
+        alt={title}
+        className="w-full h-full object-cover"
+        width={500} 
+        height={500}
+      />
+      </div>
+      <div className="flex flex-col gap-2 text-white capitalize">
+        <h3 className="text-[24px] font-semibold">{title}</h3>
+        <p className="text-[20px] font-light">{description}</p>
+      </div>
+    </div>
+  );
+}
+
+function ProjectsSection() {
+  const projects = [
+    {
+      images: "/projectimg1.png",
+      title: "Lock Screen",
+      description: "interaction design"
+    },
+    {
+      images: "/projectimg2.png",
+      title: "Lock Screen",
+      description: "interaction design"
+    },
+    {
+      images: "/projectimg3.png",
+      title: "Lock Screen",
+      description: "interaction design"
+    },
+    {
+      images: "/projectimg4.png",
+      title: "Lock Screen",
+      description: "interaction design"
+    }
+  ];
+
+  return (
+    <section className="w-full">
+      <div className="mx-auto px-6 md:px-16 py-6">
+        <div className="flex flex-col gap-12">
+          <div className="flex flex-col lg:flex-row gap-9">
+            <ProjectCard {...projects[0]} />
+            <div className="lg:hidden">
+              <ProjectCard {...projects[1]} />
+            </div>
+            <div className="hidden lg:block w-full">
+              <ProjectCard {...projects[1]} />
+            </div>
+          </div>
+          <div className="flex flex-col lg:flex-row gap-9">
+            <ProjectCard {...projects[2]} />
+            <div className="lg:hidden">
+              <ProjectCard {...projects[3]} />
+            </div>
+            <div className="hidden lg:block w-full">
+              <ProjectCard {...projects[3]} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LearnMore() {
   return (
     <section className="w-full">
       <div className="max-w-7xl mx-auto px-6 py-32">
-        <div className="flex flex-col items-center justify-center gap-2.5">
-          <h2 className="text-xl font-medium text-[var(--nav-fg)] capitalize text-center">
-            learn more about me
-          </h2>
+        <div className="text-xl font-medium text-[var(--nav-fg)] capitalize text-center">
+          <Link href="/about" className="flex flex-col items-center justify-center hover:text-[var(--accent)] underline">
+          learn more about me
+          </Link>
         </div>
       </div>
     </section>
@@ -58,9 +138,10 @@ function CallToAction() {
 
 export default function Page() {
   return (
-    <section>
+    <section className="w-full flex flex-col gap-6 md:gap-16">
       <HeroSection />
-      <CallToAction />
+      <ProjectsSection />
+      <LearnMore />
     </section>
   );
 }

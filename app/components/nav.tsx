@@ -8,8 +8,9 @@ import { metaData } from "../lib/config";
 
 const navItems = {
   "/": { name: "Home" },
-  "/blog": { name: "Blog" },
+  "/about": { name: "About" },
   "/projects": { name: "Projects" },
+  "/blog": { name: "Blog" },
   "/photos": { name: "Photos" },
 };
 
