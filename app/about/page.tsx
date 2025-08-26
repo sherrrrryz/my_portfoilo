@@ -1,6 +1,7 @@
 
 
 import Image from "next/image";
+import { FadeInWhenVisible } from "../components/fadeIn";
 
 
 function AboutSection() {
@@ -37,6 +38,7 @@ function AboutSection() {
         </div>
       </div>
     </section>
+    
   );
 }
   
@@ -257,11 +259,25 @@ function Education() {
 export default function AboutPage() {
   return (
     <div className=" min-h-screen w-full">
-      <AboutSection />
+      <FadeInWhenVisible>
+        <AboutSection />
+      </FadeInWhenVisible>
+
+      <FadeInWhenVisible>
+        <SectionDivider />
+      </FadeInWhenVisible>
+
+      <FadeInWhenVisible>
+        <WorkExperience />
+      </FadeInWhenVisible>
+
+      <FadeInWhenVisible>
       <SectionDivider />
-      <WorkExperience />
-      <SectionDivider />
+      </FadeInWhenVisible>
+      
+      <FadeInWhenVisible>
       <Education />
+      </FadeInWhenVisible>
     </div>
   );
 }

@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { FadeInWhenVisible } from "../../components/fadeIn";
+
 
 export default function DesignSystem() {
   return (
     <section className="w-full">
+      <FadeInWhenVisible>
       <div className="mx-auto px-6 md:px-16 py-12">
         {/* 返回按钮 */}
         <Link 
@@ -20,6 +23,7 @@ export default function DesignSystem() {
           <p>The system reduced design-to-development time by 40% and improved cross-team collaboration through standardized design tokens and guidelines.</p>
         </div>
       </div>
+      </FadeInWhenVisible>
     </section>
   );
 }

@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { FadeInWhenVisible } from "../../components/fadeIn";
 
 export default function TouchArea() {
   return (
     <section className="w-full">
+      <FadeInWhenVisible>
       <div className="mx-auto px-6 md:px-16 py-12">
         {/* 返回按钮 */}
         <Link 
@@ -20,6 +22,7 @@ export default function TouchArea() {
           <p>The research findings led to a 25% reduction in user errors and significantly improved usability for users with motor disabilities.</p>
         </div>
       </div>
+      </FadeInWhenVisible>
     </section>
   );
 }

@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { FadeInWhenVisible } from "../../components/fadeIn";
 
 export default function LockScreen() {
   return (
     <section className="w-full">
+      <FadeInWhenVisible>
       <div className="mx-auto px-6 md:px-16 py-12">
         {/* 返回按钮 */}
         <Link 
@@ -20,6 +22,7 @@ export default function LockScreen() {
           <p>The design incorporates adaptive themes and customizable widgets, allowing users to transform their lock screen into a personalized dashboard.</p>
         </div>
       </div>
+      </FadeInWhenVisible>
     </section>
   );
 }

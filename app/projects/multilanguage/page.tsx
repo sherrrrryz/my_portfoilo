@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { FadeInWhenVisible } from "../../components/fadeIn";
 
 export default function MultiLanguage() {
   return (
     <section className="w-full">
+      <FadeInWhenVisible>
       <div className="mx-auto px-6 md:px-16 py-12">
         {/* 返回按钮 */}
         <Link 
@@ -20,6 +22,7 @@ export default function MultiLanguage() {
           <p>The solution increased global user engagement by 35% and successfully launched in markets across Asia, Europe, and the Middle East.</p>
         </div>
       </div>
+      </FadeInWhenVisible>
     </section>
   );
 }

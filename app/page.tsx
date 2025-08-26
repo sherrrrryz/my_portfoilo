@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FadeInWhenVisible } from "./components/fadeIn";
 
 function HeroSection() {
   return (
@@ -150,9 +151,15 @@ function LearnMore() {
 export default function Page() {
   return (
     <section className="w-full flex flex-col gap-6 md:gap-16">
-      <HeroSection />
-      <ProjectsSection />
-      <LearnMore />
+      <FadeInWhenVisible>
+        <HeroSection />
+      </FadeInWhenVisible>
+      <FadeInWhenVisible delay={0.2}>
+        <ProjectsSection />
+      </FadeInWhenVisible>
+      <FadeInWhenVisible delay={0.4}>
+        <LearnMore />
+      </FadeInWhenVisible>
     </section>
   );
 }
