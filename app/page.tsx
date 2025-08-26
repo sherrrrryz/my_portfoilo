@@ -1,63 +1,66 @@
 import Image from "next/image";
 import { socialLinks } from "./lib/config";
 
+function HeroSection() {
+  return (
+    <section className="w-full">
+      <div className="mx-auto px-6 md:px-16 py-12">
+        <div className="flex flex-col gap-4 items-start">
+          {/* Name and title */}
+          <div className="flex gap-1 items-center flex-wrap">
+            <span className="text-xl md:text-2xl text-[var(--greytext)] font-light capitalize">
+              xueyi(Sherry) Zhou
+            </span>
+            <div className="flex items-center justify-center h-[23px]">
+              <div className="w-[23px] h-[1px] bg-[var(--greytext)] rotate-90"></div>
+            </div>
+            <span className="text-xl md:text-2xl text-[var(--greytext)] font-light capitalize">
+              Product & UX designer
+            </span>
+          </div>
+
+          {/* Main heading - responsive text size */}
+          <h2 className="text-2xl md:text-5xl font-bold text-white capitalize leading-[1.5] max-w-full">
+            Hi 👋 nice to meet you!
+          </h2>
+
+          {/* Description */}
+          <div className="flex flex-col gap-4 text-base text-[var(--nav-fg)] font-normal leading-[1.5] tracking-[0.48px] capitalize max-w-[1000px]">
+            <p>
+              I'm a UX/Product Designer with 5 years experience at Huawei, Xiaomi, and AppLovin.</p>
+            <p className="hidden md:block">Recently, I've been excited about the new opportunities AI brings and I'm actively learning coding to expand my skills. <br></br>I'll also be starting new journeys with BrainStation and Designlab to grow further.</p>
+            <p className="hidden md:block">I'm always happy to connect and make friends! 🌟</p>
+          </div>
+
+          {/* CTA Button */}
+          <button className="bg-[rgba(255,255,255,0.95)] px-6 py-3 rounded-[12px] text-black font-semibold text-[16px] capitalize hover:bg-white transition-colors">
+            👉 Let's Connect!
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CallToAction() {
+  return (
+    <section className="w-full">
+      <div className="max-w-7xl mx-auto px-6 py-32">
+        <div className="flex flex-col items-center justify-center gap-2.5">
+          <h2 className="text-xl font-medium text-[var(--nav-fg)] capitalize text-center">
+            learn more about me
+          </h2>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Page() {
   return (
     <section>
-      <a href={socialLinks.twitter} target="_blank">
-        <Image
-          src="/profile.png"
-          alt="Profile photo"
-          className="rounded-full bg-gray-100 block lg:mt-5 mt-0 lg:mb-5 mb-10 mx-auto sm:float-right sm:ml-5 sm:mb-5 grayscale hover:grayscale-0"
-          unoptimized
-          width={160}
-          height={160}
-          priority
-        />
-      </a>
-      <h1 className="mb-8 text-2xl font-medium">Portfolio template!</h1>
-      <div className="prose prose-neutral dark:prose-invert">
-        <p>
-          A clean, fast, and lightweight portfolio template built with Next.js,
-          Vercel, and Tailwind CSS.
-        </p>
-        <p>
-          Nextfolio has everything you need for a portfolio: MDX blog, SEO, RSS,
-          Atom & JSON feeds, analytics, Tweet & YouTube embeds, KaTeX and {""}
-          <a
-            target="_blank"
-            href="https://github.com/1msirius/Nextfolio?tab=readme-ov-file#features"
-          >
-            more
-          </a>
-          .
-        </p>
-        <p>
-          Nextfolio is{" "}
-          <a href={socialLinks.github} target="_blank">
-            open-source
-          </a>{" "}
-          and fully customizable, making it easy to add more features.
-        </p>
-        <p>
-          <a
-            href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F1msirius%2FNextfolio"
-            target="_blank"
-          >
-            Deploy
-          </a>{" "}
-          your Nextfolio site with Vercel in minutes and follow the set up
-          instructions in the{" "}
-          <a href="/blog/getting-started">Getting Started</a> post.
-        </p>
-        <p>
-          Built and maintained by{" "}
-          <a href="https://imsirius.xyz/" target="_blank">
-            Sirius
-          </a>
-          .
-        </p>
-      </div>
+      <HeroSection />
+      <CallToAction />
     </section>
   );
 }
