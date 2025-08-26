@@ -42,7 +42,7 @@ function HeroSection() {
   );
 }
 
-function ProjectCard({ 
+export function ProjectCard({ 
   images, 
   title, 
   description 
@@ -70,7 +70,7 @@ function ProjectCard({
   );
 }
 
-function ProjectsSection() {
+export function ProjectsSection() {
   const projects = [
     {
       images: "/projectimg1.png",
