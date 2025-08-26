@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function Projects() {
   return (
     <section>
-      <h1 className="flex text-4xl justify-center font-bold m-10">Projects</h1>
+      <h1 className="flex text-4xl font-bold m-10">Projects</h1>
       <ProjectsSection />
     </section>
   );

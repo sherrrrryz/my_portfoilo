@@ -43,56 +43,67 @@ function HeroSection() {
 }
 
 export function ProjectCard({ 
+  link,
   images, 
   title, 
   description 
 }: { 
+  link: string,
   images: string, 
   title: string, 
   description: string 
 }) {
   return (
-    <div className="flex flex-col gap-9 w-full">
-      <div className="aspect-[2/1] rounded-[24px] w-full bg-white overflow-hidden relative">
-      <Image 
-        src={images}
-        alt={title}
-        className="w-full h-full object-cover"
-        width={500} 
-        height={500}
-      />
+    
+      <div className="w-full">
+        <Link href={link} className="flex flex-col gap-6">
+          <div className="aspect-[2/1] rounded-3xl w-full overflow-hidden relative">
+            <Image 
+              src={images}
+              alt={title}
+              fill
+              className="object-cover"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 capitalize">
+            <h3 className="text-xl font-semibold text-[var(--sh-identifier)]">{title}</h3>
+            <p className="text-lg font-light text-[var(--nav-dim)]">{description}</p>
+          </div>
+        </Link>
       </div>
-      <div className="flex flex-col gap-2 text-[var(--sh-identifier)] capitalize">
-        <h3 className="text-[24px] font-semibold">{title}</h3>
-        <p className="text-[20px] font-light">{description}</p>
-      </div>
-    </div>
+    
   );
 }
 
 export function ProjectsSection() {
   const projects = [
     {
+      link: "/projects/lockscreen",        // 修复：移除.tsx扩展名，匹配实际目录名
       images: "/projectimg1.png",
-      title: "Lock Screen",
-      description: "interaction design"
+      title: "Lock screen personalization editing",
+      description: "Interaction Design · Product Design · Visual Design"
     },
     {
+      link: "/projects/toucharea",         // 修复：移除.tsx扩展名，匹配实际目录名
       images: "/projectimg2.png",
-      title: "Lock Screen",
-      description: "interaction design"
+      title: "Research on screen touch hotspots",                // 建议：更新为正确的标题
+      description: "Project Lead · Experimental Design · Interaction Design"
     },
     {
+      link: "/projects/designsystem",      // 修复：移除.tsx扩展名，匹配实际目录名
       images: "/projectimg3.png",
-      title: "Lock Screen",
-      description: "interaction design"
+      title: "MIUI Design Guidelines 2.0",             // 建议：更新为正确的标题
+      description: "Project Lead · Design system · Design specifications"
     },
     {
+      link: "/projects/multilanguage",     // 修复：移除.tsx扩展名，匹配实际目录名
       images: "/projectimg4.png",
-      title: "Lock Screen",
-      description: "interaction design"
+      title: "MIUI multilingual design specifications and processes",            // 建议：更新为正确的标题
+      description: "Multilingual Design · Global Design"
     }
   ];
+
 
   return (
     <section className="w-full">
