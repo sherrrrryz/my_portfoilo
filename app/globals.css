@@ -12,6 +12,7 @@
 /* Light theme colors */
 :root {
   background-color: #fafaf9;
+  --imgbg: #F2F2F2;
   --sh-class: #2d5e9d;
   --sh-identifier: #000000;
   --sh-btn: white;
@@ -35,6 +36,7 @@
 /* Dark theme colors */
 .dark {
   background-color: #111111;
+  --imgbg: #191919;
   --sh-class: #4c97f8;
   --sh-identifier: white;
   --sh-btn: black;
