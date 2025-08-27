@@ -244,15 +244,9 @@ function Education() {
   );
 }
 
-  function SectionDivider() {
+  export function SectionDivider() {
     return (
-      <div className="w-full px-6 md:px-16">
-        <div className="h-24 w-full">
-          <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 1472 96">
-            <line stroke="var(--sh-identifier)" strokeOpacity="0.1" x1="24" x2="1448" y1="47.5" y2="47.5" />
-          </svg>
-        </div>
-      </div>
+      <hr className="w-full h-24 border-t border-[var(--sh-identifier)] opacity-10" />
     );
   }
 
