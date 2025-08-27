@@ -8,7 +8,7 @@ interface PageHeaderProps {
 
 export default function PageHeader({ subtitle, title }: PageHeaderProps) {
   return (
-    <header className="mb-10 md:mb-14">
+    <header className="w-full mt-12">
       {subtitle && (
         <p className="uppercase text-sm tracking-wider text-[var(--nav-dim)]">
           {subtitle}

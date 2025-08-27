@@ -23,7 +23,7 @@ export default function Project3Col({
   },
 }: Props) {
   return (
-    <section className="w-full my-40">
+    <section className="w-full my-30">
       <div
         className={[
           // 手机端默认：1 列 → 三行
