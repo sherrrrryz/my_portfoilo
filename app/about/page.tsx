@@ -144,9 +144,9 @@ function WorkExperience() {
           {/* Skills */}
           <div className="flex flex-col gap-12">
             <div className="font-bold text-2xl md:text-3xl text-[var(--sh-identifier)] capitalize">
-              🔧 Skills
+              🎨 Skills
             </div>
-            <div className="flex flex-col gap-6 text-[var(--sh-identifier)] text-xl md:text-2xl capitalize">
+            <div className="flex flex-col gap-6 text-[var(--sh-identifier)] text-lg md:text-xl capitalize">
               {[
                 "Interaction Design",
                 "Interface Design", 
@@ -168,7 +168,7 @@ function WorkExperience() {
             <div className="font-bold text-2xl md:text-3xl text-[var(--sh-identifier)] capitalize">
               🔧 Tools
             </div>
-            <div className="flex flex-col gap-6 text-[var(--sh-identifier)] text-xl md:text-2xl capitalize">
+            <div className="flex flex-col gap-6 text-[var(--sh-identifier)] text-lg md:text-xl capitalize">
               {["Figma", "Cursor", "Protopie", "VS studio code", "Adobe"].map((tool, index) => (
                 <p key={index}>{tool}</p>
               ))}
@@ -180,7 +180,7 @@ function WorkExperience() {
             <div className="font-bold text-2xl md:text-3xl text-[var(--sh-identifier)] capitalize">
               🇬🇧 Language
             </div>
-            <div className="flex flex-col gap-6 text-[var(--sh-identifier)] text-xl md:text-2xl capitalize">
+            <div className="flex flex-col gap-6 text-[var(--sh-identifier)] text-lg md:text-xl capitalize">
               <p>English</p>
               <p>Chinese</p>
             </div>
@@ -274,7 +274,7 @@ export default function AboutPage() {
       <FadeInWhenVisible>
       <SectionDivider />
       </FadeInWhenVisible>
-      
+
       <FadeInWhenVisible>
       <Education />
       </FadeInWhenVisible>
