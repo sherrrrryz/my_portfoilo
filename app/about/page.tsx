@@ -246,7 +246,9 @@ function Education() {
 
   export function SectionDivider() {
     return (
-      <hr className="w-full h-24 border-t border-[var(--sh-identifier)] opacity-10" />
+      <div className="w-full h-24 flex items-center">
+        <hr className="w-full border-t border-[var(--sh-identifier)] opacity-10" />
+      </div>
     );
   }
 
