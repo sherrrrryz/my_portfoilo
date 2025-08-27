@@ -93,7 +93,7 @@ export function Navbar() {
                 alt="avatar"
                 className="w-8 h-8 rounded-full object-cover ring-1 ring-white/10"
               />
-              {metaData.title}
+              Hello!
             </Link>
           </div>
 
