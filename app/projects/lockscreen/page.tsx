@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { FadeInWhenVisible } from "../../components/fadeIn";
 import React from "react";
+import Project3Col from "app/components/project3col";
+import { SectionDivider } from "app/about/page";
+import PageHeader from "app/components/pageheader";
+import { TwoCol } from "app/components/twocol";
+import ResponsiveImg from "app/components/projectimg";
 
 // export default function LockScreen() {
 //   return (
@@ -41,7 +46,7 @@ const project = {
     "Prototype design and production",
     "Usability testing",
   ],
-  team: ["Design lead 1", "Graphic Designer 4", "Product Manager 2"],
+  team: ["Design lead 1", "UX Designer (Me)", "Graphic Designer 4", "Product Manager 2"],
   background:
     "The project was initiated by lock screen visual designers who provided 7 new lock screen designs and 2 new technical capability requirements. As the interaction designer, I joined after the initial pitch succeeded to design the editing flows and framework for lock screen personalization.",
   potentialIssues: [
@@ -78,9 +83,10 @@ const project = {
   ],
   // Insert your image links here (copied from xueyizhou.xyz project page)
   images: {
-    hero: ["/projectimg1.png"],
-    tech: ["/tech.png"],
-    flows: ["/flows.png"],
+    hero: ["/lockscreen/lockscreencover.png", "/lockscreen/background.png"],
+    competitor: ["/lockscreen/competitor1.png", "/lockscreen/competitor2.png"],
+    strategy: ["/lockscreen/strategy1.png", "/lockscreen/strategy2.png", "/lockscreen/strategy3.png"],
+    final: ["/lockscreen/final1.png", "/lockscreen/final2.png", "/lockscreen/final3.png"],
   },
 };
 
@@ -123,96 +129,112 @@ function ImgRow({ srcs }: { srcs: string[] }) {
 
 export default function ProjectLockScreen() {
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 md:px-10 lg:px-12 py-10 md:py-14">
-      {/* Header */}
-      <header className="mb-10 md:mb-14">
-        <p className="uppercase text-sm tracking-wider text-[var(--nav-dim)]">
-          {project.subtitle}
-        </p>
-        <h1 className="mt-2 text-3xl md:text-5xl font-extrabold text-[var(--nav-fg)]">
-          {project.title}
-        </h1>
-        <ImgRow srcs={project.images.hero} />
-      </header>
+    
+    <main className="mx-auto w-full px-6 md:px-10 lg:px-12 py-10 md:py-14">
+      
+      <ResponsiveImg 
+        src={project.images.hero[0]} 
+        alt={project.title} 
+      />
+
+      <PageHeader
+        subtitle={project.subtitle}
+        title={project.title}
+      />
+
+      <SectionDivider />
 
       {/* Overview */}
-      <section className="mb-12 md:mb-16">
-        <SectionTitle>Overview</SectionTitle>
-        <p className="mt-3 text-[var(--nav-fg)] leading-relaxed">
-          {project.overview}
-        </p>
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h3 className="font-semibold text-[var(--nav-fg)]">
-              My Contributions
-            </h3>
-            <Bullets items={project.contributions} />
-          </div>
-          <div>
-            <h3 className="font-semibold text-[var(--nav-fg)]">Team</h3>
-            <Bullets items={project.team} />
-          </div>
+      <Project3Col
+      overview={project.overview}
+      contributions={project.contributions}
+      team={project.team}
+      />
+
+      <SectionDivider />
+
+      <TwoCol title="Project Background" children={project.background} />
+
+      <ResponsiveImg 
+        src={project.images.hero[1]} 
+        alt={project.title} 
+      />
+
+      <SectionDivider />
+
+      <TwoCol title="Competitor Analysis">
+        <div className="space-y-4 leading-relaxed">
+          {project.competitorFindings.map((text, i) => (
+          <li key={i}>{text}</li>
+          ))}
         </div>
-      </section>
+      </TwoCol>
 
-      {/* Project Background */}
-      <section className="mb-12 md:mb-16">
-        <SectionTitle>Project Background</SectionTitle>
-        <p className="mt-3 text-[var(--nav-fg)] leading-relaxed">
-          {project.background}
-        </p>
-      </section>
+      <ResponsiveImg 
+        src={project.images.competitor[0]} 
+        alt={project.title} 
+      />
+      <ResponsiveImg 
+        src={project.images.competitor[1]} 
+        alt={project.title} 
+      />
 
-      {/* Potential Issues */}
-      <section className="mb-12 md:mb-16">
-        <SectionTitle>Potential Issues</SectionTitle>
-        <Bullets items={project.potentialIssues} />
-      </section>
+      <SectionDivider />
 
-      {/* Competitor Analysis */}
-      <section className="mb-12 md:mb-16">
-        <SectionTitle>Competitor Analysis (Apple)</SectionTitle>
-        <Bullets items={project.competitorFindings} />
-      </section>
+      <TwoCol title="Design Strategy">
+        <div className="space-y-4 leading-relaxed">
+          {project.designPrinciples.map((text, i) => (
+          <li key={i}>{text}</li>
+          ))}
+        </div>
+      </TwoCol>
 
-      {/* Design Principles / Goals */}
-      <section className="mb-12 md:mb-16">
-        <SectionTitle>Design Principles / Goals</SectionTitle>
-        <Bullets items={project.designPrinciples} />
-      </section>
+      <ResponsiveImg 
+        src={project.images.strategy[0]} 
+        alt={project.title} 
+      />
+      <ResponsiveImg 
+        src={project.images.strategy[1]} 
+        alt={project.title} 
+      />
+      <ResponsiveImg 
+        src={project.images.strategy[2]} 
+        alt={project.title} 
+      />
 
-      {/* Product Strategies */}
-      <section className="mb-12 md:mb-16">
-        <SectionTitle>Product Strategies</SectionTitle>
-        <Bullets items={project.strategies} />
-        <ImgRow srcs={project.images.tech} />
-      </section>
+      <SectionDivider />
 
-      {/* Interaction Framework */}
-      <section className="mb-12 md:mb-16">
-        <SectionTitle>Interaction Framework</SectionTitle>
-        <p className="mt-3 text-[var(--nav-fg)]">
-          The main flows include: entry and trigger flow, lock screen applying
-          flow, and customization flow for each template.
-        </p>
-        <ImgRow srcs={project.images.flows} />
-      </section>
+      <TwoCol title="Final Model Highlights">
+        <div className="space-y-4 leading-relaxed">
+          {project.finalModelHighlights.map((text, i) => (
+          <li key={i}>{text}</li>
+          ))}
+        </div>
+      </TwoCol>
 
-      {/* Highlights & Usability Focus */}
-      <section className="mb-12 md:mb-16">
-        <SectionTitle>Highlights of Final Model</SectionTitle>
-        <Bullets items={project.finalModelHighlights} />
-      </section>
+      <ResponsiveImg 
+        src={project.images.final[0]} 
+        alt={project.title} 
+      />
+      <ResponsiveImg 
+        src={project.images.final[1]} 
+        alt={project.title} 
+      />
+      <ResponsiveImg 
+        src={project.images.final[2]} 
+        alt={project.title} 
+      />
+      
+      <SectionDivider />
 
-      <section className="mb-12 md:mb-16">
-        <SectionTitle>Usability Testing & Focus Points</SectionTitle>
-        <Bullets items={project.usabilityFocus} />
-      </section>
-
-      {/* Footer */}
-      <footer className="pt-6 border-t border-[var(--nav-border)] text-sm text-[var(--nav-dim)]">
-        © Sherry’s Portfolio
-      </footer>
+      <TwoCol title="Usability Results">
+        <div className="space-y-4 leading-relaxed">
+          {project.usabilityFocus.map((text, i) => (
+          <li key={i}>{text}</li>
+          ))}
+        </div>
+      </TwoCol>
+ 
     </main>
   );
 }
