@@ -15,7 +15,7 @@ export default function Projects() {
   return (
     <section>
       <FadeInWhenVisible>
-      <h1 className="flex text-4xl font-bold m-10">Projects</h1>
+      <h1 className="flex text-6xl justify-center font-bold mb-16 mt-16">Projects</h1>
       <ProjectsSection />
       </FadeInWhenVisible>
     </section>

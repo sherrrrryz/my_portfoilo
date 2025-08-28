@@ -56,8 +56,8 @@ export function ProjectCard({
   return (
     
       <div className="w-full">
-        <Link href={link} className="flex flex-col gap-6">
-          <div className="aspect-[2/1] rounded-3xl w-full overflow-hidden relative">
+        <Link href={link} className="flex flex-col gap-4">
+          <div className="aspect-[2/1] w-full overflow-hidden relative">
             <Image 
               src={images}
               alt={title}
@@ -107,9 +107,9 @@ export function ProjectsSection() {
 
   return (
     <section className="w-full">
-      <div className="mx-auto px-6 md:px-16 py-6">
-        <div className="flex flex-col gap-12">
-          <div className="flex flex-col lg:flex-row gap-9">
+      <div className="mx-auto py-6">
+        <div className="flex flex-col gap-24">
+          <div className="flex flex-col lg:flex-row gap-4">
             <ProjectCard {...projects[0]} />
             <div className="lg:hidden">
               <ProjectCard {...projects[1]} />
@@ -118,7 +118,7 @@ export function ProjectsSection() {
               <ProjectCard {...projects[1]} />
             </div>
           </div>
-          <div className="flex flex-col lg:flex-row gap-9">
+          <div className="flex flex-col lg:flex-row gap-4">
             <ProjectCard {...projects[2]} />
             <div className="lg:hidden">
               <ProjectCard {...projects[3]} />
@@ -156,9 +156,7 @@ export default function Page() {
       <FadeInWhenVisible delay={0.2}>
         <ProjectsSection />
       </FadeInWhenVisible>
-      <FadeInWhenVisible delay={0.4}>
         <LearnMore />
-      </FadeInWhenVisible>
     </section>
   );
 }

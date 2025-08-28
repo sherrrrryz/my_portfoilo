@@ -33,6 +33,7 @@ import ResponsiveImg from "app/components/projectimg";
 //   );
 // }
 
+
 /** Data model (edit here to drive the page) */
 const project = {
   title: "Lock Screen Personalization Editing",
@@ -90,47 +91,17 @@ const project = {
   },
 };
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--nav-fg)]">
-      {children}
-    </h2>
-  );
-}
-
-function Bullets({ items }: { items: string[] }) {
-  return (
-    <ul className="mt-3 space-y-2 text-[var(--nav-dim)] leading-relaxed">
-      {items.map((t, i) => (
-        <li key={i} className="flex gap-2">
-          <span className="text-[var(--nav-accent)]">•</span>
-          <span>{t}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function ImgRow({ srcs }: { srcs: string[] }) {
-  if (!srcs?.length) return null;
-  return (
-    <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      {srcs.map((src, i) => (
-        <div
-          key={i}
-          className="w-full aspect-[2/1] bg-black/5 dark:bg-white/5 rounded-lg overflow-hidden"
-        >
-          <img src={src} alt="" className="w-full h-full object-cover" />
-        </div>
-      ))}
-    </div>
-  );
-}
 
 export default function ProjectLockScreen() {
   return (
     
-    <main className="mx-auto w-full px-6 md:px-10 lg:px-12 py-10 md:py-14">
+    <main className="w-full py-4 md:py-8">
+      <Link 
+          href="/projects" 
+          className="inline-flex items-center text-[var(--nav-fg)] hover:text-[var(--accent)] mb-8 transition-colors"
+        >
+          ← See All Projects
+        </Link>
       
       <ResponsiveImg 
         src={project.images.hero[0]} 
