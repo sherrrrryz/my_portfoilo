@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { projects } from "./project-data";
-import { ProjectsSection } from "../page";
+import { ProjectsSection } from "../components/project/projectSection";
 import { FadeInWhenVisible } from "../components/fadeIn";
 
 export const metadata: Metadata = {

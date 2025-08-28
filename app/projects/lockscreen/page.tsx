@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FadeInWhenVisible } from "../../components/fadeIn";
 import React from "react";
 import Project3Col from "app/components/project3col";
-import { SectionDivider } from "app/about/page";
+import { SectionDivider } from "app/components/sectionDivider";
 import PageHeader from "app/components/pageheader";
 import { TwoCol } from "app/components/twocol";
 import ResponsiveImg from "app/components/projectimg";

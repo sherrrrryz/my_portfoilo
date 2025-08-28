@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { FadeInWhenVisible } from "../components/fadeIn";
+import { SectionDivider } from "../components/sectionDivider";
 
 
 function AboutSection() {
@@ -244,13 +245,6 @@ function Education() {
   );
 }
 
-  export function SectionDivider() {
-    return (
-      <div className="w-full h-24 flex items-center">
-        <hr className="w-full border-t border-[var(--sh-identifier)] opacity-10" />
-      </div>
-    );
-  }
 
 export default function AboutPage() {
   return (
