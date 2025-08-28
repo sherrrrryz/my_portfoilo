@@ -7,10 +7,10 @@ interface TwoColProps {
 
 export function TwoCol({ title, children }: TwoColProps) {
   return (
-    <section className="w-full my-30">
-      <div className="flex flex-col md:flex-row md:items-start">
+    <section className="w-full my-12 md:my-30">
+      <div className="flex flex-col md:flex-row md:items-start gap-4">
         {/* 左边标题 - hug */}
-        <h2 className="text-base md:text-2xl font-bold uppercase tracking-wide text-[var(--nav-fg)]">
+        <h2 className="text-lg md:text-2xl font-bold uppercase tracking-wide text-[var(--nav-fg)]">
           {title}
         </h2>
 

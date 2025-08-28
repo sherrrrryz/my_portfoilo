@@ -85,8 +85,8 @@ const project = {
   images: {
     hero: ["/lockscreen/lockscreencover.png", "/lockscreen/background.png"],
     competitor: ["/lockscreen/competitor1.png", "/lockscreen/competitor2.png"],
-    strategy: ["/lockscreen/strategy1.png", "/lockscreen/strategy2.png", "/lockscreen/strategy3.png"],
-    final: ["/lockscreen/final1.png", "/lockscreen/final2.png", "/lockscreen/final3.png"],
+    strategy: ["/lockscreen/strategy1.png", "/lockscreen/strategy2.png", "/lockscreen/strategy3.png", "/lockscreen/strategy4.png"],
+    final: ["/lockscreen/final1.png", "/lockscreen/final2.png", "/lockscreen/final3.png", "/lockscreen/final4.png", "/lockscreen/final5.png"],
   },
 };
 
@@ -181,13 +181,21 @@ export default function ProjectLockScreen() {
 
       <SectionDivider />
 
-      <TwoCol title="Design Strategy">
+      <TwoCol title="Design Principles / Goals">
         <div className="space-y-4 leading-relaxed">
           {project.designPrinciples.map((text, i) => (
           <li key={i}>{text}</li>
           ))}
         </div>
       </TwoCol>
+
+      <div className="w-full my-4 md:my-8 text-lg md:text-2xl font-bold text-[var(--nav-fg)]">
+      Product Strategies
+      </div>
+
+      <div className="w-full my-3 md:my-6 text-sm md:text-base text-[var(--nav-fg)]">
+      {project.strategies[0]}
+      </div>
 
       <ResponsiveImg 
         src={project.images.strategy[0]} 
@@ -197,8 +205,22 @@ export default function ProjectLockScreen() {
         src={project.images.strategy[1]} 
         alt={project.title} 
       />
+
+      <div className="w-full my-3 md:my-6 text-sm md:text-base text-[var(--nav-fg)]">
+      {project.strategies[1]}
+      </div>
+
       <ResponsiveImg 
         src={project.images.strategy[2]} 
+        alt={project.title} 
+      />
+
+      <div className="w-full my-3 md:my-6 text-sm md:text-base text-[var(--nav-fg)]">
+      {project.strategies[2]}
+      </div>
+
+      <ResponsiveImg 
+        src={project.images.strategy[3]} 
         alt={project.title} 
       />
 
@@ -222,6 +244,16 @@ export default function ProjectLockScreen() {
       />
       <ResponsiveImg 
         src={project.images.final[2]} 
+        alt={project.title} 
+      />
+
+      <ResponsiveImg 
+        src={project.images.final[3]} 
+        alt={project.title} 
+      />
+
+      <ResponsiveImg 
+        src={project.images.final[4]} 
         alt={project.title} 
       />
       
