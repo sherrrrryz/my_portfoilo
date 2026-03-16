@@ -129,6 +129,8 @@ export function CustomMDX(props) {
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
         },
+        parseFrontmatter: true,
+        blockJS: false,
       }}
     />
   );
