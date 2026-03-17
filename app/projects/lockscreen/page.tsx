@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { FadeInWhenVisible } from "../../components/fadeIn";
 import React from "react";
 import Project3Col from "app/components/project3col";
 import { SectionDivider } from "app/components/sectionDivider";
 import PageHeader from "app/components/pageheader";
 import { TwoCol } from "app/components/twocol";
 import ResponsiveImg from "app/components/projectimg";
+import { SeeDetailProvider } from "./SeeDetailContext";
+import SeeDetailButton from "./SeeDetailButton";
 
 // export default function LockScreen() {
 //   return (
@@ -94,23 +95,24 @@ const project = {
 
 export default function ProjectLockScreen() {
   return (
-    
+    <SeeDetailProvider>
     <main className="w-full py-4 md:py-8">
-      <Link 
-          href="/projects" 
+      <Link
+          href="/projects"
           className="inline-flex items-center text-[var(--nav-fg)] hover:text-[var(--accent)] mb-8 transition-colors"
         >
           ← See All Projects
         </Link>
-      
-      <ResponsiveImg 
-        src={project.images.hero[0]} 
-        alt={project.title} 
+
+      <ResponsiveImg
+        src={project.images.hero[0]}
+        alt={project.title}
       />
 
       <PageHeader
         subtitle={project.subtitle}
         title={project.title}
+        action={<SeeDetailButton />}
       />
 
       <SectionDivider />
@@ -237,7 +239,13 @@ export default function ProjectLockScreen() {
           ))}
         </div>
       </TwoCol>
- 
+
+      {/* Bottom "See Detail" CTA */}
+      <div className="w-full py-12 flex justify-center">
+        <SeeDetailButton />
+      </div>
+
     </main>
+    </SeeDetailProvider>
   );
 }
