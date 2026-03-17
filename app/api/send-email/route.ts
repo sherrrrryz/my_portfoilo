@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         from: "Portfolio Contact <onboarding@resend.dev>",
-        to: "sherrrryz@outlook.com",
+        to: "sherrrrrryz@gmail.com", // TODO: change to sherrrryz@outlook.com after verifying domain on resend.com
         subject: `Lock Screen Project - Message from ${name}`,
         text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message || "(No message provided)"}`,
         reply_to: email,
@@ -36,9 +36,9 @@ export async function POST(req: NextRequest) {
 
     if (!res.ok) {
       const errorData = await res.json();
-      console.error("Resend API error:", errorData);
+      console.error("Resend API error:", JSON.stringify(errorData));
       return NextResponse.json(
-        { error: "Failed to send email" },
+        { error: "Failed to send email", detail: errorData },
         { status: 500 }
       );
     }
