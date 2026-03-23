@@ -14,7 +14,7 @@ export const SlideSection = forwardRef<HTMLElement, SlideSectionProps>(
       <section
         ref={ref}
         id={`slide-${slide.id}`}
-        className="w-full min-h-screen px-8 md:px-16 pb-16 md:pb-28 max-w-7xl mx-auto snap-start"
+        className="w-full min-h-screen px-8 md:px-16 pb-32 md:pb-56 max-w-7xl mx-auto"
       >
         <FadeInWhenVisible>
           {children}

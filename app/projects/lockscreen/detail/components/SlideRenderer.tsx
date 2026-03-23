@@ -5,6 +5,7 @@ import { SlideImageDual } from "./SlideImageDual";
 import { SlideVideo } from "./SlideVideo";
 import { SlideBulletList } from "./SlideBulletList";
 import { CollapsibleBlock } from "./CollapsibleBlock";
+import { TeamChart } from "./TeamChart";
 
 interface SlideRendererProps {
   blocks: SlideContentBlock[];
@@ -12,9 +13,14 @@ interface SlideRendererProps {
 }
 
 type MediaBlock = Extract<SlideContentBlock, { type: "image" | "imageDual" | "video" }>;
+type FullWidthBlock = Extract<SlideContentBlock, { type: "teamChart" }>;
 
 function isMedia(b: SlideContentBlock): b is MediaBlock {
   return b.type === "image" || b.type === "imageDual" || b.type === "video";
+}
+
+function isFullWidth(b: SlideContentBlock): b is FullWidthBlock {
+  return b.type === "teamChart";
 }
 
 function renderTextBlock(block: SlideContentBlock, i: number) {
@@ -38,10 +44,11 @@ export function SlideRenderer({ blocks, onEnlarge }: SlideRendererProps) {
     ? (blocks[headingIdx] as Extract<SlideContentBlock, { type: "heading" }>).text
     : "";
 
-  // Group into: runs of text blocks, and individual media blocks
+  // Group into: runs of text blocks, individual media blocks, and full-width blocks
   type Group =
     | { kind: "text"; blocks: SlideContentBlock[] }
-    | { kind: "media"; block: MediaBlock };
+    | { kind: "media"; block: MediaBlock }
+    | { kind: "fullwidth"; block: FullWidthBlock };
 
   const groups: Group[] = [];
   let textRun: SlideContentBlock[] = [];
@@ -51,6 +58,9 @@ export function SlideRenderer({ blocks, onEnlarge }: SlideRendererProps) {
     if (isMedia(block)) {
       if (textRun.length > 0) { groups.push({ kind: "text", blocks: textRun }); textRun = []; }
       groups.push({ kind: "media", block });
+    } else if (isFullWidth(block)) {
+      if (textRun.length > 0) { groups.push({ kind: "text", blocks: textRun }); textRun = []; }
+      groups.push({ kind: "fullwidth", block });
     } else {
       textRun.push(block);
     }
@@ -60,8 +70,16 @@ export function SlideRenderer({ blocks, onEnlarge }: SlideRendererProps) {
   let headingUsed = false;
 
   return (
-    <div>
+    <div className="space-y-10">
       {groups.map((group, gi) => {
+        if (group.kind === "fullwidth") {
+          return (
+            <div key={gi} className="w-full">
+              <TeamChart members={group.block.members} />
+            </div>
+          );
+        }
+
         if (group.kind === "media") {
           const b = group.block;
           return (
@@ -80,10 +98,21 @@ export function SlideRenderer({ blocks, onEnlarge }: SlideRendererProps) {
         }
 
         const title = !headingUsed ? heading : "";
+        const isFirst = !headingUsed;
         if (!headingUsed) headingUsed = true;
 
+        if (!isFirst) {
+          return (
+            <div key={gi} className="w-full">
+              <div className="text-[var(--nav-fg)] leading-relaxed">
+                {group.blocks.map((block, bi) => renderTextBlock(block, bi))}
+              </div>
+            </div>
+          );
+        }
+
         return (
-          <div key={gi} className="w-full pt-16 md:pt-28 pb-4">
+          <div key={gi} className="w-full pt-16 md:pt-28">
             <div className="flex flex-col md:flex-row md:items-start gap-4">
               <h2 className="text-lg md:text-2xl font-bold uppercase tracking-wide text-[var(--nav-fg)]">
                 {title}

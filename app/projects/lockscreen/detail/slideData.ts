@@ -6,7 +6,8 @@ export type SlideContentBlock =
   | { type: "image"; src: string; alt: string; caption?: string }
   | { type: "imageDual"; images: [{ src: string; alt: string; caption?: string }, { src: string; alt: string; caption?: string }] }
   | { type: "video"; provider: "youtube" | "screenpal"; videoId: string; caption?: string }
-  | { type: "collapsible"; title: string; content: string };
+  | { type: "collapsible"; title: string; content: string }
+  | { type: "teamChart"; members: { count: number; label: string; subtitle?: string; highlight?: boolean }[] };
 
 export interface Slide {
   id: string;
@@ -22,7 +23,7 @@ export const slides: Slide[] = [
     title: "Lock Screen Personalization",
     sectionNumber: 0,
     speakerNotes:
-      "Open with the scale: 750 million monthly active users means this feature touched more people than the population of Europe. Launched in October 2023, the Xiaomi lock screen editor was one of the most ambitious personalization features in MIUI history.",
+      "This project is a personalized lock screen editor I worked on at Xiaomi.\nXiaomi is a top global smartphone brand, and reaches about 750M monthly active users worldwide.\nThis project launched in October 2023.\nI was responsible for building the editing experience—like how people browse templates, customize them, and apply them.",
     content: [],
   },
   {
@@ -30,12 +31,12 @@ export const slides: Slide[] = [
     title: "Final Result Demo",
     sectionNumber: 2,
     speakerNotes:
-      "Before diving into the process, let's see what we built. This demo video walks through the complete lock screen editing experience — from entering the editor to applying a custom theme.",
+      "Before we diving into the process, let me first show you the final result which is an official video posted on Xiaomi's youtube.",
     content: [
       { type: "heading", text: "Final Result Demo" },
       {
         type: "paragraph",
-        text: "Watch the complete lock screen editor experience — from entering edit mode to customizing widgets, fonts, and wallpapers, then applying the final look.",
+        text: "Watch the official Xiaomi video — showcasing three featured lock screen themes, followed by the customization experience where users can personalize fonts, wallpapers, and styles.",
       },
       {
         type: "video",
@@ -50,29 +51,17 @@ export const slides: Slide[] = [
     title: "Background",
     sectionNumber: 3,
     speakerNotes:
-      "Apple's WWDC 2022 announcement of customizable lock screens changed the competitive landscape overnight. Every Android OEM needed to respond, and Xiaomi was positioned to go further than Apple by leveraging its ecosystem advantages.",
+      "Apple announced lock screen personalization in June 2022, so this became a \"must-have\" direction for the industry.\nAnd of course we didn't want to just catch up.",
     content: [
       { type: "heading", text: "Background" },
-      { type: "subheading", text: "The industry moment that changed everything" },
-      {
+{
         type: "paragraph",
-        text: "In June 2022, Apple announced customizable lock screens at WWDC — the first major lock screen redesign in iPhone history. The industry took notice.",
-      },
-      {
-        type: "bullets",
-        items: [
-          "Apple iOS 16: first customizable lock screen in iPhone history",
-          "Widgets, fonts, and photo depth effects set a new standard",
-          "Android OEMs were pressured to respond with comparable experiences",
-          "Xiaomi's MIUI had 750M+ MAU — a platform with unique scale advantages",
-          "Opportunity: go beyond Apple with deeper customization and ecosystem integration",
-        ],
+        text: "In June 2022, Apple announced customizable lock screens at WWDC — the first major lock screen redesign in iPhone history.",
       },
       {
         type: "image",
         src: "/lockscreen/1-1.png",
         alt: "Apple iOS 16 lock screen customization announcement",
-        caption: "Apple's WWDC 2022 announcement set the competitive context",
       },
     ],
   },
@@ -81,23 +70,22 @@ export const slides: Slide[] = [
     title: "My Role & Collaboration",
     sectionNumber: 4,
     speakerNotes:
-      "This was a true cross-functional effort. I was the lead designer for the editor UX, working alongside two other designers who handled the template library and widget design. The 10-month timeline from October 2022 to launch was aggressive for a feature of this complexity.",
+      "The team included 1 design lead, 2 PMs, 6 theme visual designers, and 1 UI designer. I was the only UX / product designer responsible for the editor experience.\nI officially took ownership of the editor design around late October 2022, and delivered to engineering over the next ~10 months.",
     content: [
       { type: "heading", text: "My Role & Collaboration" },
-      { type: "subheading", text: "10-month timeline · Cross-functional team" },
+      { type: "subheading", text: "October 2022 – August 2023 · Cross-functional team" },
       {
         type: "paragraph",
-        text: "I was the lead UX designer for the lock screen editor interaction model, responsible for the editing flow, navigation architecture, and core interaction patterns.",
+        text: "I was the only UX / product designer on the team, solely responsible for the editor experience — including the editing flow, navigation architecture, and core interaction patterns.",
       },
       {
-        type: "bullets",
-        items: [
-          "Lead designer: editor UX, navigation model, interaction design",
-          "Collaborated with 2 designers on template library and widget system",
-          "Partnered with 1 PM for strategy alignment and feature prioritization",
-          "Worked with engineering team of 8 across Android and MIUI platform",
-          "Timeline: October 2022 brief → October 2023 launch (10 months)",
-          "Presented to VP of MIUI Design at 3 major review milestones",
+        type: "teamChart",
+        members: [
+          { count: 1, label: "Design Lead" },
+          { count: 2, label: "Product Managers" },
+          { count: 6, label: "Theme Visual Designers" },
+          { count: 1, label: "UX / Product Designer", subtitle: "Editor Experience", highlight: true },
+          { count: 1, label: "UI Designer" },
         ],
       },
     ],
@@ -107,29 +95,22 @@ export const slides: Slide[] = [
     title: "Early Stage: Brainstorming",
     sectionNumber: 5,
     speakerNotes:
-      "We ran a structured two-day workshop with the full design team to explore the possibility space. From moodboards to concept sketches, we crystallized two distinct future directions that would shape the rest of the project.",
+      "In the early ideation phase, I mainly contributed as the designer and workshop facilitator.\nWith 9 core contributors—including PMs, Designers, plus 6 design director and managers to observe and vote, about 15 people total.\nWe used moodboard, round-robin brainstorming to generate ideas fast, and group voting to prioritize the best directions.",
     content: [
       { type: "heading", text: "Early Stage: Brainstorming" },
-      { type: "subheading", text: "Workshop · Moodboard · 2 Future Directions" },
-      {
-        type: "paragraph",
-        text: "We began with a structured brainstorming workshop — broad exploration before any constraints were applied. The goal was to understand what 'lock screen personalization' could mean at its most ambitious.",
-      },
+      { type: "subheading", text: "Moodboard · Round-robin Brainstorming · Group Voting · 15 Participants" },
+      { type: "paragraph", text: "Aligned on two future directions:" },
       {
         type: "bullets",
         items: [
-          "2-day design workshop with full team",
-          "Competitive moodboard: Apple, Samsung One UI, HyperOS early concepts",
-          "User interview synthesis: what do people actually want to change?",
-          "Direction A: Template-first — curated presets with limited customization",
-          "Direction B: Modular editor — granular control over every element",
+          "Creating high-quality, more artistic lock screen templates",
+          "Supporting real-time, contextual, and highly customizable information on the lock screen",
         ],
       },
       {
         type: "image",
         src: "/lockscreen/1-2.png",
         alt: "Brainstorming workshop sketches and moodboard",
-        caption: "Brainstorming: two future directions",
       },
     ],
   },
@@ -138,41 +119,28 @@ export const slides: Slide[] = [
     title: "Problems I Saw",
     sectionNumber: 6,
     speakerNotes:
-      "Even in the early excitement, I identified four systemic risks that could undermine the product. Surfacing these early — before we committed to a direction — was one of the most impactful contributions I made to the project.",
+      "These templates were designed by the 6 theme visual designers. Two standout effects: Multilayered and Glass.\nWhen I saw these beautiful templates, I thought — I need to do my best to make sure users can easily and fully enjoy them.\nSo before I officially started designing the editor, I already saw some challenges: How do we build one editor framework that supports all of these distinct templates? Are there too many to choose from — do we need a clear default to anchor the experience? And how do we make these templates truly easy to try and customize?",
     content: [
       { type: "heading", text: "Problems I Saw" },
-      { type: "subheading", text: "4 risks identified · Design goal statement" },
-      {
-        type: "paragraph",
-        text: "Before we built anything, I stepped back to articulate the risks I saw in both directions. These became the foundation for our design goals.",
-      },
-      {
-        type: "bullets",
-        items: [
-          "Risk 1: Feature overwhelm — too many options create decision paralysis",
-          "Risk 2: Incoherence — user combinations look ugly, hurting brand perception",
-          "Risk 3: Discoverability — if users can't find features, they don't exist",
-          "Risk 4: Apply vs. preview confusion — unclear when changes take effect",
-        ],
-      },
-      { type: "subheading", text: "Design Goal Statement" },
-      {
-        type: "paragraph",
-        text: "Design a lock screen editor that feels powerful but approachable — where every user can create something beautiful in under 2 minutes, without needing design expertise.",
-      },
       {
         type: "imageDual",
         images: [
           {
             src: "/lockscreen/1-3.png",
             alt: "Problems identified in early concepts",
-            caption: "Risk analysis: feature overwhelm and incoherence",
           },
           {
             src: "/lockscreen/1-4.png",
             alt: "Design goal statement",
-            caption: "Design goal: powerful yet approachable",
           },
+        ],
+      },
+{
+        type: "bullets",
+        items: [
+          "Framework scalability — every template looks distinct with different customizable properties",
+          "Choice overload — with so many template types, users can easily get stuck",
+          "Discovery gap — with so many options, passive users may never explore the full depth",
         ],
       },
     ],
@@ -182,37 +150,36 @@ export const slides: Slide[] = [
     title: "Step 1: Research",
     sectionNumber: 7,
     speakerNotes:
-      "We did a deep competitive teardown of Apple's implementation, documenting every interaction, every edge case, and every decision they made. The findings were illuminating — Apple optimized for delight over power, which left room for Xiaomi to differentiate on depth.",
+      "To better understand the problem and the possibilities, I started with a competitive product analysis.\nApple's experience is polished, but I saw opportunities:\n- New templates have low exposure — users have to tap the bottom-right \"+\" button just to browse them\n- Template thumbnails are small and hard to preview in detail\n- For users without strong customization needs, the apply process is long — at least 6 steps\n- Templates are not interoperable: bottom editing options are inconsistent across templates, making it hard to predict what's customizable — and on some templates, you can't even change the wallpaper",
     content: [
       { type: "heading", text: "Step 1: Research" },
-      { type: "subheading", text: "Competitive analysis · Apple iOS 16 deep dive" },
+      { type: "subheading", text: "Competitive Analysis · Apple iOS 16" },
       {
         type: "paragraph",
-        text: "We ran a structured competitive analysis focused on Apple iOS 16 as the market-defining benchmark, supplemented by Samsung, OPPO, and Vivo implementations.",
+        text: "Apple's experience is polished — but I found four gaps worth addressing.",
+      },
+      {
+        type: "image",
+        src: "/lockscreen/1-5.png",
+        alt: "Competitive analysis matrix",
       },
       {
         type: "bullets",
         items: [
-          "Apple strength: beautiful defaults, depth photo effect, seamless preview",
-          "Apple limitation: limited widget library, no font color customization, no wallpaper-widget coordination",
-          "Samsung One UI: powerful but cluttered, steep learning curve",
-          "Key finding: users want templates as a starting point, not as a limitation",
-          "Key finding: the 'apply' moment is the most anxiety-inducing part of the flow",
+          "Low template discoverability — new templates are buried behind a hidden \"+\" entry point, reducing browse intent",
+          "Insufficient preview fidelity — small thumbnails make it difficult to evaluate designs before committing",
+          "High-friction apply flow — completing a template requires a minimum of 6 steps, creating unnecessary drop-off",
         ],
       },
       {
-        type: "imageDual",
-        images: [
-          {
-            src: "/lockscreen/1-5.png",
-            alt: "Competitive analysis matrix",
-            caption: "Competitive analysis across iOS 16, Samsung, OPPO, and Vivo",
-          },
-          {
-            src: "/lockscreen/1-6.png",
-            alt: "Apple iOS 16 deep dive findings",
-            caption: "Apple iOS 16 interaction teardown",
-          },
+        type: "image",
+        src: "/lockscreen/1-6.png",
+        alt: "Apple iOS 16 deep dive findings",
+      },
+      {
+        type: "bullets",
+        items: [
+          "Inconsistent customization model — editing options vary by template with no clear indication of scope; some templates restrict wallpaper changes entirely",
         ],
       },
     ],

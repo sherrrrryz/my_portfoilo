@@ -7,7 +7,7 @@ export const CoverSection = forwardRef<HTMLElement>((_, ref) => {
   return (
     <section
       ref={ref}
-      className="w-full min-h-screen max-w-7xl mx-auto px-8 md:px-16 flex flex-col justify-center snap-start"
+      className="w-full min-h-screen max-w-7xl mx-auto px-8 md:px-16 flex flex-col justify-center"
     >
       <div className="w-full">
         <Image
@@ -20,7 +20,7 @@ export const CoverSection = forwardRef<HTMLElement>((_, ref) => {
         />
       </div>
       <PageHeader
-        subtitle="Interaction Design · Product Design · Visual Design"
+        subtitle="Product Design · UX Design · Prototyping · User Research · Visual Design"
         title="Lock Screen Personalization Editing"
       />
       <div className="mt-8 w-full">
@@ -28,9 +28,6 @@ export const CoverSection = forwardRef<HTMLElement>((_, ref) => {
           750M MAU · Launched October 2023
         </p>
         <p className="text-[var(--nav-fg)] leading-relaxed">
-          What does it take to design a personalization feature used by three-quarters of a billion people?
-        </p>
-        <p className="text-[var(--nav-fg)] leading-relaxed mt-2">
           This is the story of Xiaomi&apos;s lock screen editor — a product that redefined how users express themselves on their most-viewed screen.
         </p>
       </div>

@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef, useState, useCallback, useEffect, RefObject } from "react";
+
 import { slides } from "../slideData";
 import { Sidebar } from "./Sidebar";
 import { SlideSection } from "./SlideSection";
@@ -82,7 +83,7 @@ export function PresentationShell() {
       {/* Main scrollable content */}
       <div
         ref={scrollContainerRef}
-        className="flex-1 overflow-y-auto snap-y snap-mandatory"
+        className="flex-1 overflow-y-auto"
         style={{ scrollBehavior: "smooth" }}
       >
         {slides.map((slide, index) =>
