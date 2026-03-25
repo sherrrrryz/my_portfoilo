@@ -16,17 +16,17 @@ export function FlowCards({ title, cards }: { title?: string; cards: FlowCard[] 
       {cards.map((card) => (
         <div
           key={card.number}
-          className={`group flex items-center gap-4 rounded-2xl px-6 py-7 transition-colors duration-200 bg-[var(--card-bg,#f3f4f6)] text-[var(--nav-fg)] ${
+          className={`group flex items-center gap-4 rounded-2xl px-6 py-7 transition-colors duration-200 bg-[var(--slide-card-bg,#f5f5f4)] text-[var(--nav-fg)] ${
             card.highlight
-              ? "hover:bg-[#1a2332] hover:text-white cursor-pointer"
+              ? "hover:bg-[var(--nav-fg)] hover:text-white cursor-pointer"
               : ""
           }`}
         >
           <span
-            className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-base font-semibold bg-[var(--nav-dim-bg,#e5e7eb)] text-[var(--nav-fg)] transition-colors duration-200 ${
+            className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-base font-semibold transition-colors duration-200 ${
               card.highlight
-                ? "group-hover:bg-white/20 group-hover:text-white"
-                : ""
+                ? "group-hover:bg-white/20 group-hover:text-white bg-[var(--nav-fg)]/10 text-[var(--nav-fg)]"
+                : "bg-[var(--nav-fg)]/10 text-[var(--nav-fg)]"
             }`}
           >
             {card.number}
