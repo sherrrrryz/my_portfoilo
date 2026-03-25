@@ -10,7 +10,7 @@ export type SlideContentBlock =
   | { type: "teamChart"; members: { count: number; label: string; subtitle?: string; highlight?: boolean }[] }
   | { type: "flowCards"; title?: string; cards: { number: number; label: string; highlight?: boolean }[] }
   | { type: "heroText"; text: string }
-  | { type: "infoCard"; items: { label: string; value: string; icon?: string; highlight?: boolean; bigNumber?: string; bullets?: string[] }[] };
+  | { type: "infoCard"; items: { label: string; value?: string; icon?: string; highlight?: boolean; bigNumber?: string; bullets?: string[] }[] };
 
 export interface Slide {
   id: string;
