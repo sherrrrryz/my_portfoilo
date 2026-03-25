@@ -7,13 +7,17 @@ export type SlideContentBlock =
   | { type: "imageDual"; images: [{ src: string; alt: string; caption?: string }, { src: string; alt: string; caption?: string }] }
   | { type: "video"; provider: "youtube" | "screenpal"; videoId: string; caption?: string }
   | { type: "collapsible"; title: string; content: string }
-  | { type: "teamChart"; members: { count: number; label: string; subtitle?: string; highlight?: boolean }[] };
+  | { type: "teamChart"; members: { count: number; label: string; subtitle?: string; highlight?: boolean }[] }
+  | { type: "flowCards"; title?: string; cards: { number: number; label: string; highlight?: boolean }[] }
+  | { type: "heroText"; text: string }
+  | { type: "infoCard"; items: { label: string; value: string; icon?: string; highlight?: boolean; bigNumber?: string; bullets?: string[] }[] };
 
 export interface Slide {
   id: string;
   title: string;
   sectionNumber: number;
   speakerNotes: string;
+  hidden?: boolean;
   content: SlideContentBlock[];
 }
 
@@ -189,38 +193,29 @@ export const slides: Slide[] = [
     title: "Step 2: Break Down the Template",
     sectionNumber: 8,
     speakerNotes:
-      "The breakthrough insight was modeling the lock screen as two distinct layers: the wallpaper layer and the element layer. This two-layer model became the conceptual foundation for the entire editing experience and the information architecture.",
+      "Then I listed all editable options across templates in a matrix, so I could see what's shared and what's unique.\nWhat I realized: even though the table looks complex, almost everything falls into just two categories: Wallpaper-related edits, like switching or cropping wallpaper. and text-related edits like changing the font and color.\nThis two-layer model became the foundation of the editor framework.",
     content: [
       { type: "heading", text: "Step 2: Break Down the Template" },
       { type: "subheading", text: "Editable options matrix · Two-layer model" },
       {
         type: "paragraph",
-        text: "We decomposed every possible editable element on the lock screen into a structured matrix, then identified the relationships between them. This led to our two-layer model.",
+        text: "I mapped every editable option across all templates into a matrix to identify what's shared and what's unique to each.",
       },
       {
-        type: "bullets",
-        items: [
-          "Layer 1 — Wallpaper: photo, live wallpaper, AI-generated, Xiaomi themes",
-          "Layer 2 — Elements: clock, date, widgets (top/bottom), notification style",
-          "Each element has: position, size, style, color, content source",
-          "Cross-layer dependencies: element color should auto-adapt to wallpaper",
-          "Template = a saved state of both layers simultaneously",
-        ],
+        type: "image",
+        src: "/lockscreen/1-7.png",
+        alt: "Editable elements matrix across templates",
+        caption: "Editable options matrix across all template types",
       },
       {
-        type: "imageDual",
-        images: [
-          {
-            src: "/lockscreen/1-7.png",
-            alt: "Editable elements matrix",
-            caption: "Decomposing every editable element",
-          },
-          {
-            src: "/lockscreen/1-8.png",
-            alt: "Two-layer model diagram",
-            caption: "The two-layer mental model: wallpaper + elements",
-          },
-        ],
+        type: "paragraph",
+        text: "Despite the complexity, almost everything falls into just two categories: wallpaper-related edits (switch, crop, glass effects, multilayered effect) and text-related edits (font, color, content, signature). This two-layer model became the foundation of the editor framework.",
+      },
+      {
+        type: "image",
+        src: "/lockscreen/1-8.png",
+        alt: "Two-layer model diagram",
+        caption: "The two-layer model: wallpaper layer + text layer",
       },
     ],
   },
@@ -229,29 +224,19 @@ export const slides: Slide[] = [
     title: "Step 3: Data & Alignment",
     sectionNumber: 9,
     speakerNotes:
-      "A critical alignment moment came when data from the PM team confirmed that wallpaper is the primary driver of lock screen customization behavior. 78% of users who customized their lock screen started with wallpaper. This data reshaped our prioritization.",
+      "I also aligned with PM on data insights: wallpaper is one of the strongest places where users express aesthetic preference.\nSo we prioritized wallpaper editing as the core of Xiaomi's lock screen editing experience.",
     content: [
       { type: "heading", text: "Step 3: Data & Alignment" },
       { type: "subheading", text: "PM alignment · Wallpaper as core" },
       {
         type: "paragraph",
-        text: "Working with the PM, we pulled MIUI usage data to understand the current state of lock screen customization and where users were spending time.",
-      },
-      {
-        type: "bullets",
-        items: [
-          "78% of lock screen customizations start with a wallpaper change",
-          "Only 23% of users ever changed clock style after setting wallpaper",
-          "Template adoption: users who start from a template complete the flow 3x more often",
-          "Alignment decision: wallpaper selection is the entry point and anchor of the entire flow",
-          "PM agreement: deprioritize advanced element customization in V1",
-        ],
+        text: "Data showed that lock screen wallpaper ranks #1 among all personalization options. Users change it 5.18 times per month on average, and 53% actively use non-default wallpapers. Wallpaper is clearly where users express aesthetic preference most, which made it the natural core of our editing experience.",
       },
       {
         type: "image",
         src: "/lockscreen/1-9.png",
-        alt: "Data alignment presentation with PM",
-        caption: "Data-driven prioritization: wallpaper as the north star",
+        alt: "Data alignment with PM",
+        caption: "Aligning on wallpaper as the core of the editing experience",
       },
     ],
   },
@@ -260,171 +245,192 @@ export const slides: Slide[] = [
     title: "Product Strategy & Design Goals",
     sectionNumber: 10,
     speakerNotes:
-      "With research, data, and alignment complete, we crystallized three product goals and three corresponding design strategies. These became the filter for every design decision for the rest of the project.",
+      "Based on the findings, we aligned on three design principles and three product strategies to guide the editor.\nFirst, Instant Temptation: the moment users open the editor, they should see something beautiful right away.\nSecond, Frictionless Apply: if someone just wants a nice lock screen, they should be able to pick one and apply it in seconds.\nThird, Scalable Framework: whatever editing model we build, it needs to work the same way across all templates, so users only learn it once.\nWith those goals in mind, and after the theme team's preference research on lock screen templates, we also defined three product strategies:\nWe'd lead with Classic and Rhombus Time as the main styles, with lots of ready-made presets.\nMagazine would be our signature line, rolled out gradually as engineering caught up.\nAnd no matter which template, users always get a baseline set of edits: font, color, wallpaper, and effects.",
     content: [
       { type: "heading", text: "Product Strategy & Design Goals" },
-      { type: "subheading", text: "3 goals · 3 strategies" },
+      { type: "subheading", text: "Design principles" },
+      {
+        type: "bullets",
+        items: [
+          "Instant Temptation: When users enter editing, the experience should immediately highlight the appeal of the new designs.",
+          "Frictionless Apply: For users with low customization needs, it should be fast to pick a good-looking preset and apply it.",
+          "Scalable and Consistent Framework: The customization framework should be universal, predictable, and easy to learn, so it scales across many different templates.",
+        ],
+      },
+      { type: "subheading", text: "Product strategy:" },
       {
         type: "paragraph",
-        text: "From our research and alignment phase, we established a clear strategic framework to guide design decisions.",
-      },
-      { type: "subheading", text: "Goals" },
-      {
-        type: "bullets",
-        items: [
-          "Goal 1: Enable anyone to create a beautiful lock screen in under 2 minutes",
-          "Goal 2: Surface the full depth of customization options progressively",
-          "Goal 3: Make every combination look intentionally designed, not random",
-        ],
-      },
-      { type: "subheading", text: "Strategies" },
-      {
-        type: "bullets",
-        items: [
-          "Strategy 1: Templates-first entry with escape hatches to granular control",
-          "Strategy 2: Wallpaper-driven theming — elements auto-adapt to wallpaper palette",
-          "Strategy 3: Live preview at every step — no 'apply and hope'",
-        ],
+        text: "Classic Lock Screen and Rhombus Time as the primary styles, with multiple ready-to-use presets for quick apply.",
       },
       {
-        type: "imageDual",
-        images: [
-          {
-            src: "/lockscreen/1-10.png",
-            alt: "Product strategy overview",
-            caption: "Strategic framework",
-          },
-          {
-            src: "/lockscreen/1-11.png",
-            alt: "Design goals diagram",
-            caption: "3 goals · 3 strategies",
-          },
-        ],
+        type: "image",
+        src: "/lockscreen/1-12.png",
+        alt: "Magazine style",
       },
       {
-        type: "imageDual",
-        images: [
-          {
-            src: "/lockscreen/1-12.png",
-            alt: "Templates-first entry concept",
-            caption: "Strategy 1: templates-first",
-          },
-          {
-            src: "/lockscreen/1-13.png",
-            alt: "Wallpaper-driven theming concept",
-            caption: "Strategy 2: wallpaper-driven theming",
-          },
+        type: "image",
+        src: "/lockscreen/1-10.png",
+        alt: "Product strategy overview",
+      },
+      {
+        type: "paragraph",
+        text: "Magazine as a signature style line, expanded over time based on engineering progress.",
+      },
+      {
+        type: "image",
+        src: "/lockscreen/1-11.png",
+        alt: "Classic Lock Screen and Rhombus Time styles",
+      },
+      {
+        type: "paragraph",
+        text: "No matter which template users choose, we guarantee a baseline set of edits: changing font and color, switching wallpapers, and enabling wallpaper effects (glass and layering).",
+      },
+      {
+        type: "image",
+        src: "/lockscreen/1-13.png",
+        alt: "Baseline edits across templates",
+      },
+    ],
+  },
+  {
+    id: "four-core-flows",
+    title: "Four Core Flows",
+    sectionNumber: 11,
+    speakerNotes:
+      "When we built the overall solution, I broke the experience into four core flows. But I'll mainly focus on template browsing and quick apply, because it's where we make the experience feel fun, more challenging.",
+    content: [
+      { type: "heading", text: "Four Core Flows" },
+      {
+        type: "flowCards",
+        title: "When we built the overall solution, I broke the experience into four core flows:",
+        cards: [
+          { number: 1, label: "Entry & trigger" },
+          { number: 2, label: "Template browsing & quick apply", highlight: true },
+          { number: 3, label: "Template customization" },
+          { number: 4, label: "My Lock Screens management" },
         ],
       },
     ],
   },
   {
-    id: "cross-nav",
-    title: "Key Decision: Cross Navigation",
-    sectionNumber: 11,
+    id: "first-impression",
+    title: "Ideal First Impression",
+    sectionNumber: 12,
     speakerNotes:
-      "The most debated design decision was how to handle navigation between the two editing axes — vertical for wallpaper selection, horizontal for element configuration. The two-axis UX pattern we developed, paired with a persistent Apply button, became the signature interaction of the editor.",
+      "",
     content: [
-      { type: "heading", text: "Key Decision: Cross Navigation" },
-      { type: "subheading", text: "Two-axis UX pattern · Apply button design" },
+      { type: "heading", text: "Ideal First Impression" },
+      { type: "heroText", text: "The moment users enter editing,\nthey can immediately start exploring new lock screen styles in a more immersive way." },
+    ],
+  },
+  {
+    id: "cross-nav-detail",
+    title: "My Lock Screens as Home",
+    sectionNumber: 13,
+    speakerNotes:
+      "At the same time, we really agreed with Apple's decision: when you long-press the lock screen to enter editing, you land on \"My Lock Screens\" first. It helps users quickly answer, \"Where am I right now?\" and builds a stable mental model.",
+    content: [
+      { type: "heading", text: "My Lock Screens as Home" },
       {
         type: "paragraph",
-        text: "The core navigation challenge: users need to switch between wallpapers (a browsing task) and configure elements (an editing task). These are fundamentally different mental modes.",
+        text: "We agreed with Apple's approach: long-press the lock screen to enter editing, and land on \"My Lock Screens\" first. It helps users quickly orient themselves and builds a stable mental model.",
       },
       {
-        type: "bullets",
-        items: [
-          "Vertical scroll: browse and select wallpapers (gallery mental model)",
-          "Horizontal swipe: switch between element configuration panels",
-          "Lock screen preview: always visible, always shows current state",
-          "Apply button: sticky, only activates when changes are unsaved",
-          "Cancel: reverts all changes, with confirmation if edits are substantial",
-        ],
+        type: "image",
+        src: "/lockscreen/1-16.png",
+        alt: "My Lock Screens entry point",
       },
+    ],
+  },
+  {
+    id: "panel-switching",
+    title: "The Key Question",
+    sectionNumber: 14,
+    speakerNotes:
+      "",
+    content: [
+      { type: "heading", text: "The Key Question" },
+      { type: "heroText", text: "How do we help users quickly get their bearings,\nwithout slowing down the exploration experience?" },
+    ],
+  },
+  {
+    id: "complete-flow",
+    title: "Two-axis Gallery Navigation",
+    sectionNumber: 15,
+    speakerNotes:
+      "To solve this, we chose a UX pattern that many designers consider tricky:\nJust like Apple, users land on their current lock screen template first, and when they swipe down they can immediately see other templates.\nUsers swipe left to browse presets within the same style, and swipe up/down to move between categories.\nTo keep the experience fast, a persistent Apply button stays in the top-right corner, so users can apply a look at any time.",
+    content: [
+      { type: "heading", text: "Two-axis Gallery Navigation" },
       {
-        type: "imageDual",
-        images: [
-          {
-            src: "/lockscreen/1-14.png",
-            alt: "Cross navigation diagram",
-            caption: "Two-axis navigation model",
-          },
-          {
-            src: "/lockscreen/1-15.png",
-            alt: "Apply button states",
-            caption: "Apply button state design",
-          },
-        ],
-      },
-      {
-        type: "imageDual",
-        images: [
-          {
-            src: "/lockscreen/1-16.png",
-            alt: "Navigation interaction detail",
-            caption: "Vertical scroll: wallpaper gallery",
-          },
-          {
-            src: "/lockscreen/1-17.png",
-            alt: "Element panel switching",
-            caption: "Horizontal swipe: element panels",
-          },
-        ],
+        type: "paragraph",
+        text: "We chose a two-axis navigation pattern: users land on their current lock screen first, swipe down to browse other templates by category, and swipe left to explore presets within the same style. A persistent Apply button in the top-right corner lets users commit at any time.",
       },
       {
         type: "image",
         src: "/lockscreen/1-18.png",
         alt: "Complete navigation flow",
-        caption: "Full cross-navigation interaction model",
       },
     ],
   },
   {
-    id: "usability",
-    title: "Usability Testing & Iterations",
-    sectionNumber: 12,
+    id: "usability-method",
+    title: "Usability Testing",
+    sectionNumber: 16,
     speakerNotes:
-      "We ran three rounds of usability testing with 8 participants each. The most surprising finding was that users didn't understand the horizontal swipe gesture for switching panels — we had to introduce motion cues and a title redesign to solve this.",
+      "Because two-axis navigation can feel disorienting, we needed to validate it before shipping. I built a near-production prototype in ProtoPie and invited 16 internal company members to complete a set of tasks, covering the full journey from entering editing mode to applying a new lock screen. I ran this qualitative study entirely on my own at very low cost.",
     content: [
-      { type: "heading", text: "Usability Testing & Iterations" },
-      { type: "subheading", text: "Test results · Title redesign · Motion cues" },
+      { type: "heading", text: "Usability Testing" },
       {
-        type: "paragraph",
-        text: "Three rounds of moderated usability testing with 24 participants total (8 per round). Each round targeted specific hypotheses.",
+        type: "infoCard",
+        items: [
+          { label: "Goal", icon: "goal", value: "Two-axis navigation can feel **disorienting**. We needed to validate the overall structure for usability issues before shipping." },
+          { label: "Method", icon: "method", highlight: true, value: "Qualitative usability test\n\nModerated, task-based sessions using a near-production ProtoPie prototype. Run solo at low cost." },
+          { label: "Participants", icon: "participants", highlight: true, bigNumber: "16", value: "internal company members" },
+          { label: "Scope", icon: "scope", bullets: ["Trigger editing mode", "Browse templates", "Customize a template", "Apply a new lock screen"] },
+          { label: "Process", icon: "process", highlight: true, value: "Observed task completion, guided when needed, asked follow-ups, and collected a satisfaction survey." },
+        ],
       },
-      { type: "subheading", text: "Key Findings & Iterations" },
+    ],
+  },
+  {
+    id: "usability-results",
+    title: "Usability Testing Results",
+    sectionNumber: 17,
+    speakerNotes:
+      "The usability testing was super helpful. Most people could complete all of the tasks, and many said the interaction felt cool and engaging. But we also found that some users didn't notice the page title at all. As a result, they struggled to understand the relationship between vertical swipes and horizontal swipes. Based on the findings, we made two major improvements: We moved and redesigned the title placement to make it more visible and informative. And we added subtle motion cues to teach the series concept, so when users swipe to the next row, the templates expand from the center outward, which makes the grouping easier to understand.",
+    content: [
+      { type: "heading", text: "Usability Testing Results" },
+      { type: "paragraph", text: "All participants completed the core tasks successfully and responded positively to the interaction. However, a key usability issue emerged:" },
       {
         type: "bullets",
         items: [
-          "Finding: 6/8 users didn't discover horizontal panel switching in Round 1",
-          "Iteration: Added animated carousel indicator dots below the preview",
-          "Finding: 'Apply' button was missed when wallpaper selection was in focus",
-          "Iteration: Apply button anchored to bottom of screen, always visible",
-          "Finding: Users confused 'style' (visual preset) with 'widget' (live data)",
-          "Iteration: Renamed 'Style' to 'Theme' and 'Widget' to 'Info' in UI labels",
-          "Round 3 result: 7/8 users completed full customization task in under 2 minutes",
+          "Several participants overlooked the page title, leaving the two-axis navigation structure unclear.",
+          "Without that context, they could not distinguish between vertical navigation (across categories) and horizontal navigation (within a category).",
         ],
       },
+      { type: "subheading", text: "Improvement 1: Redesigned Title Placement" },
+      { type: "paragraph", text: "Repositioned and redesigned the category title for greater visibility, enabling users to immediately identify which category they are browsing." },
       {
         type: "image",
         src: "/lockscreen/1-19.png",
-        alt: "Before and after usability iteration",
-        caption: "Before and after: panel navigation with motion cues",
+        alt: "Redesigned title placement for better navigation clarity",
       },
+      { type: "subheading", text: "Improvement 2: Motion Cues for Series Grouping" },
+      { type: "paragraph", text: "Introduced subtle motion cues to reinforce the series concept: when users swipe to a new category, templates expand outward from the center, visually communicating the grouping structure." },
       {
         type: "video",
         provider: "screenpal",
         videoId: "cOeDFMnZ7xt",
-        caption: "Usability test session recording",
+        caption: "Motion cue demo: templates expand to reveal the series concept",
       },
     ],
   },
   {
     id: "final-shots",
     title: "Final Design Shots",
-    sectionNumber: 13,
+    sectionNumber: 18,
     speakerNotes:
-      "These final design shots represent the polished, shipped product. Each screen was refined through dozens of iterations and stakeholder reviews. The visual design reflects MIUI's evolution toward a cleaner, more premium aesthetic.",
+      "Here are the final shipped screens. The editing home page, where users browse and apply templates. The flows of customization for adjusting fonts, colors, and switching content. We also need to designed other entry points like from setting and the first-time onboarding flow. And finally, we adapted the entire experience for foldable phones and tablets.",
     content: [
       { type: "heading", text: "Final Design Shots" },
       { type: "subheading", text: "Shipped product · October 2023" },
@@ -437,13 +443,13 @@ export const slides: Slide[] = [
         images: [
           {
             src: "/lockscreen/1-20.png",
-            alt: "Lock screen editor entry screen",
-            caption: "Entry: long-press on lock screen to enter editor",
+            alt: "Lock screen editing home page",
+            caption: "Lock screen editing home",
           },
           {
             src: "/lockscreen/1-21.png",
-            alt: "Wallpaper selection screen",
-            caption: "Wallpaper gallery with live preview",
+            alt: "Customization editing page",
+            caption: "Customization editing",
           },
         ],
       },
@@ -452,13 +458,13 @@ export const slides: Slide[] = [
         images: [
           {
             src: "/lockscreen/1-22.png",
-            alt: "Element customization panel",
-            caption: "Element editor with auto-color adaptation",
+            alt: "Additional entry points and first-time onboarding",
+            caption: "Other entry points and first-time onboarding",
           },
           {
             src: "/lockscreen/1-23.png",
-            alt: "Final lock screen with applied customization",
-            caption: "Final applied lock screen — custom photo, adapted clock color",
+            alt: "Foldable phone and tablet adaptation",
+            caption: "Foldable and tablet adaptation",
           },
         ],
       },
@@ -467,7 +473,8 @@ export const slides: Slide[] = [
   {
     id: "closing",
     title: "Closing",
-    sectionNumber: 14,
+    sectionNumber: 19,
+    hidden: true,
     speakerNotes:
       "This project taught me that designing for scale means designing for the full distribution of users — from the person who wants one-tap simplicity to the power user who wants pixel-level control. The two-layer model and progressive disclosure strategy addressed both ends of that spectrum.",
     content: [

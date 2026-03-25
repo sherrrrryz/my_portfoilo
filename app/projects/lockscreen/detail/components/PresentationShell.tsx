@@ -1,7 +1,8 @@
 "use client";
 import React, { useRef, useState, useCallback, useEffect, RefObject } from "react";
 
-import { slides } from "../slideData";
+import { slides as allSlides } from "../slideData";
+const slides = allSlides.filter(s => !s.hidden);
 import { Sidebar } from "./Sidebar";
 import { SlideSection } from "./SlideSection";
 import { SlideRenderer } from "./SlideRenderer";

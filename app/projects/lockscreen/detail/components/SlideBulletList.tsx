@@ -4,7 +4,18 @@ export function SlideBulletList({ items }: { items: string[] }) {
       {items.map((item, i) => (
         <li key={i} className="flex items-start gap-3 text-[var(--nav-fg)] leading-relaxed">
           <span className="w-1.5 h-1.5 rounded-full bg-[var(--nav-dim)] flex-shrink-0 mt-[0.6em]" />
-          <span>{item}</span>
+          <span>
+            {(() => {
+              const colonIdx = item.indexOf(": ");
+              if (colonIdx === -1) return item;
+              return (
+                <>
+                  <strong>{item.slice(0, colonIdx + 1)}</strong>
+                  {item.slice(colonIdx + 1)}
+                </>
+              );
+            })()}
+          </span>
         </li>
       ))}
     </ul>

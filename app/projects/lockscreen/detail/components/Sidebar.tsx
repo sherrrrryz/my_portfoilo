@@ -56,7 +56,7 @@ export function Sidebar({ slides, activeIndex, onNavigate }: SidebarProps) {
                   : "text-[var(--nav-dim)] hover:text-[var(--nav-fg)]"
               }`}
             >
-              <span className="text-[10px] font-mono w-4 flex-shrink-0 text-[var(--nav-border)]">
+              <span className={`text-[10px] font-mono w-4 flex-shrink-0 ${activeIndex === index ? "text-[var(--nav-fg)]" : "text-[var(--nav-border)]"}`}>
                 {slide.sectionNumber.toString().padStart(2, "0")}
               </span>
               <span
