@@ -16,16 +16,19 @@ interface CharStreamProps {
 
 export default function CharStream({ chars, side, showCursor }: CharStreamProps) {
   const color = side === 'user' ? USER_TEXT_COLOR : AI_TEXT_COLOR;
-  // AI: text grows from bottom up (flex-end), User: text grows from top down (flex-start)
-  const justify = side === 'ai' ? 'flex-end' : 'flex-start';
+  const justify = 'flex-end';
 
   return (
     <div
       style={{
-        flex: '1 1 0%',
+        flex: side === 'ai' ? '2 1 0%' : '1 1 0%',
         overflow: 'hidden',
+        maxWidth: 1280,
+        width: '100%',
+        margin: '0 auto',
         paddingLeft: 'clamp(48px, 8vw, 120px)',
         paddingRight: 'clamp(48px, 8vw, 120px)',
+        paddingBottom: side === 'user' ? 120 : 0,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: justify,
@@ -34,7 +37,7 @@ export default function CharStream({ chars, side, showCursor }: CharStreamProps)
       <div
         style={{
           color,
-          fontSize: 'clamp(36px, 4vw, 48px)',
+          fontSize: 'clamp(20px, 2.5vw, 28px)',
           lineHeight: 1.7,
           letterSpacing: '0.02em',
           whiteSpace: 'pre-wrap',

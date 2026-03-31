@@ -4,11 +4,9 @@ import { useEffect, useRef, useCallback } from 'react';
 
 interface UseKeyCaptureOptions {
   onChar: (char: string) => void;
+  onDeleteWord?: () => void;
   enabled?: boolean;
 }
-
-// Keys to block entirely
-const BLOCKED_KEYS = new Set(['Backspace', 'Delete']);
 
 // Ctrl/Cmd combos to block
 const BLOCKED_COMBOS = new Set(['v', 'z', 'a', 'c', 'x']);
@@ -16,9 +14,11 @@ const BLOCKED_COMBOS = new Set(['v', 'z', 'a', 'c', 'x']);
 // Keys to let through (browser shortcuts)
 const PASSTHROUGH_KEYS = new Set(['F5', 'F11', 'F12']);
 
-export function useKeyCapture({ onChar, enabled = true }: UseKeyCaptureOptions) {
+export function useKeyCapture({ onChar, onDeleteWord, enabled = true }: UseKeyCaptureOptions) {
   const onCharRef = useRef(onChar);
   onCharRef.current = onChar;
+  const onDeleteWordRef = useRef(onDeleteWord);
+  onDeleteWordRef.current = onDeleteWord;
 
   const handler = useCallback(
     (e: KeyboardEvent) => {
@@ -35,8 +35,15 @@ export function useKeyCapture({ onChar, enabled = true }: UseKeyCaptureOptions) 
         return;
       }
 
-      // Block Backspace/Delete
-      if (BLOCKED_KEYS.has(e.key)) {
+      // Backspace = delete last word
+      if (e.key === 'Backspace') {
+        e.preventDefault();
+        onDeleteWordRef.current?.();
+        return;
+      }
+
+      // Block Delete key
+      if (e.key === 'Delete') {
         e.preventDefault();
         return;
       }

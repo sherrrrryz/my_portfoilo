@@ -7,6 +7,8 @@ import { SlideBulletList } from "./SlideBulletList";
 import { CollapsibleBlock } from "./CollapsibleBlock";
 import { TeamChart } from "./TeamChart";
 import { FlowCards } from "./FlowCards";
+import { LockscreenDemo } from "./LockscreenDemo";
+import { Target, FlaskConical, Users, List, Eye, ArrowRight, Sparkles, CheckCircle2 } from "lucide-react";
 
 interface SlideRendererProps {
   blocks: SlideContentBlock[];
@@ -14,14 +16,14 @@ interface SlideRendererProps {
 }
 
 type MediaBlock = Extract<SlideContentBlock, { type: "image" | "imageDual" | "video" }>;
-type FullWidthBlock = Extract<SlideContentBlock, { type: "teamChart" | "flowCards" | "heroText" | "infoCard" }>;
+type FullWidthBlock = Extract<SlideContentBlock, { type: "teamChart" | "flowCards" | "heroText" | "infoCard" | "lockscreenDemo" }>;
 
 function isMedia(b: SlideContentBlock): b is MediaBlock {
   return b.type === "image" || b.type === "imageDual" || b.type === "video";
 }
 
 function isFullWidth(b: SlideContentBlock): b is FullWidthBlock {
-  return b.type === "teamChart" || b.type === "flowCards" || b.type === "heroText" || b.type === "infoCard";
+  return b.type === "teamChart" || b.type === "flowCards" || b.type === "heroText" || b.type === "infoCard" || b.type === "lockscreenDemo";
 }
 
 function renderTextBlock(block: SlideContentBlock, i: number) {
@@ -102,28 +104,178 @@ export function SlideRenderer({ blocks, onEnlarge }: SlideRendererProps) {
                   </p>
                 </div>
               )}
+              {fb.type === "lockscreenDemo" && <LockscreenDemo />}
               {fb.type === "infoCard" && (() => {
                 const b = fb as Extract<SlideContentBlock, { type: "infoCard" }>;
-                const topRow = b.items.slice(0, 2);
-                const bottomRow = b.items.slice(2);
 
                 const iconMap: Record<string, React.ReactNode> = {
-                  goal: (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-                  ),
-                  method: (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 3h6l-1 7h4l-7 8 1-5H8l1-10z"/></svg>
-                  ),
-                  participants: (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                  ),
-                  scope: (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-                  ),
-                  process: (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                  ),
+                  goal: <Target className="w-4 h-4" />,
+                  method: <FlaskConical className="w-4 h-4" />,
+                  participants: <Users className="w-4 h-4" />,
+                  scope: <List className="w-4 h-4" />,
+                  process: <Eye className="w-4 h-4" />,
                 };
+
+                const stepIconMap: Record<string, React.ReactNode> = {
+                  observe: <Eye className="w-5 h-5" />,
+                  guide: <ArrowRight className="w-5 h-5" />,
+                  ask: <Users className="w-5 h-5" />,
+                  collect: <CheckCircle2 className="w-5 h-5" />,
+                };
+
+                // Bento layout
+                if (b.layout === "bento") {
+                  const goalCard = b.items.find(i => i.icon === "goal");
+                  const participantsCard = b.items.find(i => i.icon === "participants");
+                  const methodCard = b.items.find(i => i.icon === "method");
+                  const scopeCard = b.items.find(i => i.icon === "scope");
+                  const processCard = b.items.find(i => i.icon === "process");
+
+                  const renderBoldText = (text: string) => {
+                    const parts = text.split(/(\*\*[^*]+\*\*|\n)/);
+                    return parts.map((part, pi) => {
+                      if (part === "\n") return <br key={pi} />;
+                      if (part.startsWith("**") && part.endsWith("**")) {
+                        return <span key={pi} className="bg-[var(--nav-fg)] text-[var(--slide-bg,#fff)] px-1.5 py-0.5 rounded font-semibold">{part.slice(2, -2)}</span>;
+                      }
+                      return <span key={pi}>{part}</span>;
+                    });
+                  };
+
+                  const DotGrid = () => (
+                    <div className="grid grid-cols-4 gap-1.5">
+                      {Array.from({ length: 16 }).map((_, i) => (
+                        <div key={i} className="w-3 h-3 rounded bg-[var(--nav-fg)]/15" />
+                      ))}
+                    </div>
+                  );
+
+                  const Badge = ({ icon, label, dark }: { icon?: string; label: string; dark?: boolean }) => (
+                    <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${dark ? "bg-white/20 text-white" : "bg-[var(--nav-fg)]/8 text-[var(--nav-fg)]"}`}>
+                      {icon && <span className={dark ? "text-white" : "text-[var(--nav-fg)]"}>{iconMap[icon]}</span>}
+                      <span>{label}</span>
+                    </div>
+                  );
+
+                  return (
+                    <div className="pt-16 md:pt-28">
+                      {heading && (
+                        <h2 className="text-lg md:text-2xl font-bold uppercase tracking-wide text-[var(--nav-fg)] mb-8">
+                          {heading}
+                        </h2>
+                      )}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 lg:grid-rows-[repeat(4,minmax(0,1fr))] gap-3 sm:gap-4 lg:h-[700px]">
+                        {/* Research Goal - mobile: full, sm: full, lg: 7 cols 2 rows */}
+                        {goalCard && (
+                          <div className="sm:col-span-2 lg:col-span-7 lg:row-span-2 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10 bg-[var(--slide-card-bg,#f5f5f4)] relative overflow-hidden flex flex-col">
+                            <div className="flex items-center justify-between mb-4 sm:mb-6">
+                              <Badge icon="goal" label={goalCard.label} />
+                              <Sparkles className="w-6 h-6 sm:w-7 sm:h-7 text-[var(--nav-fg)] opacity-20" />
+                            </div>
+                            <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[var(--nav-fg)] leading-tight mb-4 sm:mb-6">
+                              Validate Navigation<br />Before Shipping
+                            </h3>
+                            <div className="bg-[var(--slide-bg,#fff)] rounded-xl sm:rounded-2xl p-4 sm:p-6 mt-auto">
+                              <p className="text-sm sm:text-base lg:text-lg leading-relaxed text-[var(--nav-fg)]/80">
+                                {goalCard.value && renderBoldText(goalCard.value)}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Participants - mobile: full, sm: 1 col, lg: 5 cols 1 row */}
+                        {participantsCard && (
+                          <div className="lg:col-span-5 lg:row-span-1 rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-7 bg-[var(--slide-bg,#fff)] relative overflow-hidden">
+                            <Badge icon="participants" label={participantsCard.label} />
+                            <div className="flex items-center justify-between mt-3">
+                              <div className="flex items-end gap-2">
+                                <span className="text-4xl sm:text-5xl font-black text-[var(--nav-fg)]">{participantsCard.bigNumber}</span>
+                                <span className="text-sm sm:text-base text-[var(--nav-fg)]/50 pb-1 sm:pb-1.5">people</span>
+                              </div>
+                              <DotGrid />
+                            </div>
+                            <p className="text-xs text-[var(--nav-fg)]/50 mt-2">{participantsCard.value}</p>
+                          </div>
+                        )}
+
+                        {/* Method - mobile: full, sm: 1 col, lg: 5 cols 1 row */}
+                        {methodCard && (
+                          <div className="lg:col-span-5 lg:row-span-1 rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-7 bg-[var(--nav-fg)] relative overflow-hidden">
+                            <Badge icon="method" label={methodCard.label} dark />
+                            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mt-3 sm:mt-4 mb-3 sm:mb-4">
+                              {methodCard.value}
+                            </h3>
+                            {methodCard.tags && (
+                              <div className="flex flex-wrap gap-2">
+                                {methodCard.tags.map((tag, ti) => (
+                                  <span key={ti} className="px-3 py-1.5 rounded-full bg-white/10 text-white text-xs font-medium">
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                            <Sparkles className="w-6 h-6 text-white/15 absolute bottom-4 right-4" />
+                          </div>
+                        )}
+
+                        {/* Task Scope - mobile: full, sm: 1 col, lg: 5 cols 2 rows */}
+                        {scopeCard && (
+                          <div className="lg:col-span-5 lg:row-span-2 rounded-2xl sm:rounded-3xl p-6 sm:p-7 lg:p-8 bg-[var(--nav-fg)] relative overflow-hidden">
+                            <Badge icon="scope" label={scopeCard.label} dark />
+                            <div className="flex flex-col gap-3 sm:gap-4 mt-4 sm:mt-6">
+                              {scopeCard.bullets?.map((bullet, bi) => (
+                                <div key={bi} className="flex items-start gap-3 group">
+                                  <span className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 flex items-center justify-center text-white text-xs sm:text-sm font-bold flex-shrink-0">
+                                    {bi + 1}
+                                  </span>
+                                  <span className="text-sm text-white/70 pt-1.5 sm:pt-2.5">{bullet}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Session Flow - mobile: full, sm: full, lg: 7 cols 2 rows */}
+                        {processCard && (
+                          <div className="sm:col-span-2 lg:col-span-7 lg:row-span-2 rounded-2xl sm:rounded-3xl p-6 sm:p-7 lg:p-8 bg-[var(--slide-bg,#fff)] relative overflow-hidden flex flex-col">
+                            <div className="flex items-center gap-3 mb-4 sm:mb-5">
+                              <div className="bg-[var(--nav-fg)] text-white p-2 sm:p-2.5 rounded-lg sm:rounded-xl">
+                                {iconMap.process}
+                              </div>
+                              <div>
+                                <div className="text-xs text-[var(--nav-fg)]/50 font-medium">Research Process</div>
+                                <h3 className="text-base sm:text-lg lg:text-2xl font-bold text-[var(--nav-fg)]">
+                                  {processCard.label}
+                                </h3>
+                              </div>
+                            </div>
+                            {processCard.steps && (
+                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                                {processCard.steps.map((step, si) => (
+                                  <div key={si} className="rounded-xl sm:rounded-2xl bg-[var(--slide-card-bg,#f5f5f4)] p-4 sm:p-5 flex flex-col items-start gap-1.5 sm:gap-2">
+                                    <span className="text-[var(--nav-fg)]/40">{stepIconMap[step.icon]}</span>
+                                    <span className="text-sm font-bold text-[var(--nav-fg)]">{step.title}</span>
+                                    <span className="text-xs text-[var(--nav-fg)]/50">{step.subtitle}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            {processCard.banner && (
+                              <div className="mt-4 lg:mt-auto rounded-xl sm:rounded-2xl bg-[var(--nav-fg)] px-4 sm:px-6 py-3 sm:py-4 flex items-center gap-2 sm:gap-3">
+                                <Sparkles className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-white/50 flex-shrink-0" />
+                                <span className="text-xs sm:text-sm text-white/80 font-medium">{processCard.banner}</span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                }
+
+                // Default layout (original 2+3 grid)
+                const topRow = b.items.slice(0, 2);
+                const bottomRow = b.items.slice(2);
 
                 const renderIcon = (iconName?: string, highlight?: boolean) => {
                   if (!iconName) return null;
@@ -162,7 +314,6 @@ export function SlideRenderer({ blocks, onEnlarge }: SlideRendererProps) {
                     );
                   }
 
-                  // Render value with **bold** support and \n line breaks
                   const parts = item.value?.split(/(\*\*[^*]+\*\*|\n)/) || [];
                   return (
                     <p className={`text-sm leading-relaxed ${textColor}`}>
@@ -185,7 +336,6 @@ export function SlideRenderer({ blocks, onEnlarge }: SlideRendererProps) {
                       </h2>
                     )}
                     <div className="flex flex-col gap-3">
-                      {/* Top row: 2 cards */}
                       <div className="grid grid-cols-2 gap-3">
                         {topRow.map((item, idx) => (
                           <div
@@ -214,7 +364,6 @@ export function SlideRenderer({ blocks, onEnlarge }: SlideRendererProps) {
                           </div>
                         ))}
                       </div>
-                      {/* Bottom row: 3 cards */}
                       <div className="grid grid-cols-3 gap-3">
                         {bottomRow.map((item, idx) => (
                           <div

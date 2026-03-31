@@ -22,7 +22,7 @@ export default function ChatLayout({
       style={{
         position: 'fixed',
         inset: 0,
-        background: '#080808',
+        background: '#111111',
         overflow: 'hidden',
         zIndex: 9999,
       }}

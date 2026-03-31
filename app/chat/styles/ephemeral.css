@@ -1,7 +1,8 @@
 @keyframes fadeChar {
-  0% { opacity: 1; }
-  60% { opacity: 1; }
-  100% { opacity: 0; }
+  0% { opacity: 1; visibility: visible; }
+  60% { opacity: 1; visibility: visible; }
+  99.9% { opacity: 0; visibility: visible; }
+  100% { opacity: 0; visibility: hidden; }
 }
 
 @keyframes cursorBlink {
@@ -27,14 +28,14 @@
 }
 
 .divider-line {
-  --divider-opacity: 0.15;
+  --divider-opacity: 0.08;
   opacity: var(--divider-opacity);
   transition: opacity 0.8s ease, box-shadow 0.8s ease;
   box-shadow: 0 0 6px rgba(255,255,255,0.04);
 }
 
 .divider-line.active {
-  --divider-opacity: 0.35;
+  --divider-opacity: 0.18;
   animation: breathe 3s ease-in-out infinite;
 }
 

@@ -1,6 +1,7 @@
-export const CHAR_LIFETIME = 5000;         // ms per character
+export const CHAR_LIFETIME = 10000;        // ms per character
 export const FADE_START_RATIO = 0.6;       // start fading at 60%
 export const CLEANUP_INTERVAL = 800;       // expired char cleanup interval ms
+export const DOM_REMOVAL_DELAY = 20000;    // delay before removing chars from DOM (2x fade time)
 export const PAUSE_THRESHOLD = 2200;       // pause detection threshold ms
 export const SESSION_BUDGET = 1.0;         // session budget cap $
 export const SOFT_LIMIT = 0.95;            // soft budget limit $
@@ -19,7 +20,7 @@ export const TYPING_DELAY = {
 };
 
 // visual
-export const BG_COLOR = '#080808';
+export const BG_COLOR = '#111111';
 export const USER_TEXT_COLOR = '#e8e4df';
 export const AI_TEXT_COLOR = '#c8d0d8';
 export const DIVIDER_OPACITY_IDLE = 0.15;

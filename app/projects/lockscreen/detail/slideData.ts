@@ -10,7 +10,8 @@ export type SlideContentBlock =
   | { type: "teamChart"; members: { count: number; label: string; subtitle?: string; highlight?: boolean }[] }
   | { type: "flowCards"; title?: string; cards: { number: number; label: string; highlight?: boolean }[] }
   | { type: "heroText"; text: string }
-  | { type: "infoCard"; items: { label: string; value?: string; icon?: string; highlight?: boolean; bigNumber?: string; bullets?: string[] }[] };
+  | { type: "infoCard"; layout?: "bento"; items: { label: string; value?: string; icon?: string; highlight?: boolean; bigNumber?: string; bullets?: string[]; tags?: string[]; steps?: { icon: string; title: string; subtitle: string }[]; banner?: string; span?: "large" }[] }
+  | { type: "lockscreenDemo" };
 
 export interface Slide {
   id: string;
@@ -370,6 +371,7 @@ export const slides: Slide[] = [
         src: "/lockscreen/1-18.png",
         alt: "Complete navigation flow",
       },
+      { type: "lockscreenDemo" },
     ],
   },
   {
@@ -382,12 +384,13 @@ export const slides: Slide[] = [
       { type: "heading", text: "Usability Testing" },
       {
         type: "infoCard",
+        layout: "bento",
         items: [
-          { label: "Goal", icon: "goal", value: "Two-axis navigation can feel **disorienting**. We needed to validate the overall structure for usability issues before shipping." },
-          { label: "Method", icon: "method", highlight: true, value: "Qualitative usability test\n\nModerated, task-based sessions using a near-production ProtoPie prototype. Run solo at low cost." },
-          { label: "Participants", icon: "participants", highlight: true, bigNumber: "16", value: "internal company members" },
-          { label: "Scope", icon: "scope", bullets: ["Trigger editing mode", "Browse templates", "Customize a template", "Apply a new lock screen"] },
-          { label: "Process", icon: "process", highlight: true, value: "Observed task completion, guided when needed, asked follow-ups, and collected a satisfaction survey." },
+          { label: "Research Goal", icon: "goal", span: "large", value: "Two-axis navigation can feel **disorienting**.\nWe needed to validate the overall structure for usability issues" },
+          { label: "Participants", icon: "participants", bigNumber: "16", value: "Random internal team members" },
+          { label: "Method", icon: "method", highlight: true, value: "Qualitative Usability Test", tags: ["Moderated", "Task-based", "ProtoPie"] },
+          { label: "Task Scope", icon: "scope", highlight: true, bullets: ["Trigger editing mode", "Browse templates", "Customize a template", "Apply a new lock screen"] },
+          { label: "Session Flow", icon: "process", steps: [{ icon: "observe", title: "Observed", subtitle: "Task completion" }, { icon: "guide", title: "Guided", subtitle: "When needed" }, { icon: "ask", title: "Asked", subtitle: "Follow-ups" }, { icon: "collect", title: "Collected", subtitle: "Survey data" }], banner: "Near-production prototype · Run solo · Low cost" },
         ],
       },
     ],

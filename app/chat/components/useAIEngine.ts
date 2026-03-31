@@ -28,10 +28,11 @@ function getDelay(char: string, prevChar: string): number {
 
 interface UseAIEngineOptions {
   setAiChars: React.Dispatch<React.SetStateAction<CharUnit[]>>;
+  setUserChars: React.Dispatch<React.SetStateAction<CharUnit[]>>;
   idRef: React.MutableRefObject<number>;
 }
 
-export function useAIEngine({ setAiChars, idRef }: UseAIEngineOptions) {
+export function useAIEngine({ setAiChars, setUserChars, idRef }: UseAIEngineOptions) {
   const [aiState, setAiState] = useState<AIState>('idle');
   const [budgetExhausted, setBudgetExhausted] = useState(false);
 
@@ -86,6 +87,8 @@ export function useAIEngine({ setAiChars, idRef }: UseAIEngineOptions) {
     // Record user turn
     historyRef.current.push({ role: 'user', content: userText });
     userBufferRef.current = '';
+    // Immediately add newline after user message
+    setUserChars((prev) => [...prev, { id: idRef.current++, char: '\n', time: Date.now() }]);
 
     // Trim context
     if (historyRef.current.length > MAX_CONTEXT_TURNS) {
@@ -130,6 +133,8 @@ export function useAIEngine({ setAiChars, idRef }: UseAIEngineOptions) {
       }
 
       const displayed = await typeOutText(text);
+      // Newline after AI response
+      setAiChars((prev) => [...prev, { id: idRef.current++, char: '\n', time: Date.now() }]);
 
       // Record what was actually displayed
       historyRef.current.push({ role: 'assistant', content: displayed });
@@ -141,6 +146,62 @@ export function useAIEngine({ setAiChars, idRef }: UseAIEngineOptions) {
       pendingRequestRef.current = false;
       // Error -> AI says "..."
       const displayed = await typeOutText('...');
+      setAiChars((prev) => [...prev, { id: idRef.current++, char: '\n', time: Date.now() }]);
+      historyRef.current.push({ role: 'assistant', content: displayed });
+      if (aiStateRef.current === 'speaking') {
+        updateState('idle');
+      }
+    }
+  }, [budgetExhausted, updateState, typeOutText, setUserChars]);
+
+  const sendGreeting = useCallback(async () => {
+    if (budgetExhausted || pendingRequestRef.current) return;
+
+    updateState('speaking');
+    pendingRequestRef.current = true;
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: sessionIdRef.current,
+          messages: [],
+        }),
+      });
+
+      const data = await res.json();
+      pendingRequestRef.current = false;
+
+      if (data.budgetExhausted && !data.text) {
+        setBudgetExhausted(true);
+        updateState('idle');
+        return;
+      }
+
+      if (data.budgetExhausted) {
+        setBudgetExhausted(true);
+      }
+
+      const text = data.text || '...';
+
+      if (aiAbortRef.current) {
+        aiAbortRef.current = false;
+        updateState('listening');
+        return;
+      }
+
+      const displayed = await typeOutText(text);
+      setAiChars((prev) => [...prev, { id: idRef.current++, char: '\n', time: Date.now() }]);
+      historyRef.current.push({ role: 'assistant', content: displayed });
+
+      if (aiStateRef.current === 'speaking') {
+        updateState('idle');
+      }
+    } catch {
+      pendingRequestRef.current = false;
+      const displayed = await typeOutText('...');
+      setAiChars((prev) => [...prev, { id: idRef.current++, char: '\n', time: Date.now() }]);
       historyRef.current.push({ role: 'assistant', content: displayed });
       if (aiStateRef.current === 'speaking') {
         updateState('idle');
@@ -173,9 +234,27 @@ export function useAIEngine({ setAiChars, idRef }: UseAIEngineOptions) {
     [budgetExhausted, callAI, updateState]
   );
 
+  // Delete last word + trailing punctuation from user buffer, return count removed
+  const deleteLastWord = useCallback((): number => {
+    const buf = userBufferRef.current;
+    if (!buf) return 0;
+
+    let i = buf.length;
+    // Strip trailing spaces/punctuation
+    while (i > 0 && /[\s.,!?;:'")\-]/.test(buf[i - 1])) i--;
+    // Strip the word (non-space chars)
+    while (i > 0 && !/[\s]/.test(buf[i - 1])) i--;
+
+    const removed = buf.length - i;
+    userBufferRef.current = buf.slice(0, i);
+    return removed;
+  }, []);
+
   return {
     aiState,
     budgetExhausted,
     onUserKeystroke,
+    sendGreeting,
+    deleteLastWord,
   };
 }

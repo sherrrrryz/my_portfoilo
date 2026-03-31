@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { CHAR_LIFETIME, CLEANUP_INTERVAL } from './constants';
+import { DOM_REMOVAL_DELAY, CLEANUP_INTERVAL } from './constants';
 import type { CharUnit } from './CharStream';
 
 /**
- * Periodically removes expired characters from state.
- * CSS handles the visual fade; this hook cleans up DOM/state.
+ * Periodically removes expired lines from state.
+ * A "line" = chars between \n boundaries.
+ * A line is only removed when ALL its chars have expired.
  */
 export function useFadeManager(
   setChars: React.Dispatch<React.SetStateAction<CharUnit[]>>
@@ -16,9 +17,24 @@ export function useFadeManager(
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const cutoff = Date.now() - CHAR_LIFETIME - 500; // 500ms grace after animation ends
+      const cutoff = Date.now() - DOM_REMOVAL_DELAY - 500;
       setCharsRef.current((prev) => {
-        const filtered = prev.filter((c) => c.time > cutoff);
+        // Group chars into lines (split by \n)
+        const lines: CharUnit[][] = [];
+        let cur: CharUnit[] = [];
+        for (const c of prev) {
+          cur.push(c);
+          if (c.char === '\n') {
+            lines.push(cur);
+            cur = [];
+          }
+        }
+        if (cur.length > 0) lines.push(cur);
+
+        // Keep lines where at least one char is still alive
+        const kept = lines.filter((line) => line.some((c) => c.time > cutoff));
+        const filtered = kept.flat();
+
         return filtered.length === prev.length ? prev : filtered;
       });
     }, CLEANUP_INTERVAL);
