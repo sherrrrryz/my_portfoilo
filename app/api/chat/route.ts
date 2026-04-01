@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { getDetail, getToolDefinitions } from '../../lib/tools';
-
-const anthropic = new Anthropic();
+import { anthropic } from '../../lib/anthropic';
 
 const SYSTEM_PROMPT = `You are Sherry Zhou, a UX/interaction designer. You're chatting with a visitor on your portfolio site. This is you -- speak in first person, be genuine.
 
