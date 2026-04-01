@@ -155,7 +155,7 @@ export const slides: Slide[] = [
     title: "Step 1: Research",
     sectionNumber: 7,
     speakerNotes:
-      "To better understand the problem and the possibilities, I started with a competitive product analysis.\nApple's experience is polished, but I saw opportunities:\n- New templates have low exposure — users have to tap the bottom-right \"+\" button just to browse them\n- Template thumbnails are small and hard to preview in detail\n- For users without strong customization needs, the apply process is long — at least 6 steps\n- Templates are not interoperable: bottom editing options are inconsistent across templates, making it hard to predict what's customizable — and on some templates, you can't even change the wallpaper",
+      "To better understand the problem and the possibilities, I started with a competitive product analysis. Apple's experience is polished, but I saw a few opportunities. First, new templates have low exposure. Users have to tap the bottom-right \"+\" button just to browse them. And as you can see, template thumbnails are small and hard to preview in detail. For users without strong customization needs, the apply process is long, at least 6 steps. And lastly, templates feel siloed. Each template only lets you pick from a fixed set of wallpaper styles, not freely switch to any wallpaper you want. That's why the bottom editing options are inconsistent across templates.",
     content: [
       { type: "heading", text: "Step 1: Research" },
       { type: "subheading", text: "Competitive Analysis · Apple iOS 16" },
