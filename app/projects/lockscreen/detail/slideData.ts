@@ -32,29 +32,9 @@ export const slides: Slide[] = [
     content: [],
   },
   {
-    id: "final-result",
-    title: "Final Result Demo",
-    sectionNumber: 2,
-    speakerNotes:
-      "Before we diving into the process, let me first show you the final result which is an official video posted on Xiaomi's youtube.",
-    content: [
-      { type: "heading", text: "Final Result Demo" },
-      {
-        type: "paragraph",
-        text: "Watch the official Xiaomi video — showcasing three featured lock screen themes, followed by the customization experience where users can personalize fonts, wallpapers, and styles.",
-      },
-      {
-        type: "video",
-        provider: "youtube",
-        videoId: "euAAj9Ag9bw",
-        caption: "Full walkthrough of the Xiaomi lock screen editor (Oct 2023)",
-      },
-    ],
-  },
-  {
     id: "background",
     title: "Background",
-    sectionNumber: 3,
+    sectionNumber: 1,
     speakerNotes:
       "Apple announced lock screen personalization in June 2022, so this became a \"must-have\" direction for the industry.\nAnd of course we didn't want to just catch up.",
     content: [
@@ -73,7 +53,7 @@ export const slides: Slide[] = [
   {
     id: "role",
     title: "My Role & Collaboration",
-    sectionNumber: 4,
+    sectionNumber: 2,
     speakerNotes:
       "The team included 1 design lead, 2 PMs, 6 theme visual designers, and 1 UI designer. I was the only UX / product designer responsible for the editor experience.\nI officially took ownership of the editor design around late October 2022, and delivered to engineering over the next ~10 months.",
     content: [
@@ -98,7 +78,7 @@ export const slides: Slide[] = [
   {
     id: "brainstorming",
     title: "Early Stage: Brainstorming",
-    sectionNumber: 5,
+    sectionNumber: 3,
     speakerNotes:
       "In the early ideation phase, I mainly contributed as the designer and workshop facilitator.\nWith 9 core contributors—including PMs, Designers, plus 6 design director and managers to observe and vote, about 15 people total.\nWe used moodboard, round-robin brainstorming to generate ideas fast, and group voting to prioritize the best directions.",
     content: [
@@ -122,7 +102,7 @@ export const slides: Slide[] = [
   {
     id: "problems",
     title: "Problems I Saw",
-    sectionNumber: 6,
+    sectionNumber: 4,
     speakerNotes:
       "These templates were designed by the 6 theme visual designers. Two standout effects: Multilayered and Glass.\nWhen I saw these beautiful templates, I thought — I need to do my best to make sure users can easily and fully enjoy them.\nSo before I officially started designing the editor, I already saw some challenges: How do we build one editor framework that supports all of these distinct templates? Are there too many to choose from — do we need a clear default to anchor the experience? And how do we make these templates truly easy to try and customize?",
     content: [
@@ -153,7 +133,7 @@ export const slides: Slide[] = [
   {
     id: "research",
     title: "Step 1: Research",
-    sectionNumber: 7,
+    sectionNumber: 5,
     speakerNotes:
       "To better understand the problem and the possibilities, I started with a competitive product analysis. Apple's experience is polished, but I saw a few opportunities. First, new templates have low exposure. Users have to tap the bottom-right \"+\" button just to browse them. And as you can see, template thumbnails are small and hard to preview in detail. For users without strong customization needs, the apply process is long, at least 6 steps. And lastly, templates feel siloed. Each template only lets you pick from a fixed set of wallpaper styles, not freely switch to any wallpaper you want. That's why the bottom editing options are inconsistent across templates.",
     content: [
@@ -192,7 +172,7 @@ export const slides: Slide[] = [
   {
     id: "breakdown",
     title: "Step 2: Break Down the Template",
-    sectionNumber: 8,
+    sectionNumber: 6,
     speakerNotes:
       "Then I listed all editable options across templates in a matrix, so I could see what's shared and what's unique.\nWhat I realized: even though the table looks complex, almost everything falls into just two categories: Wallpaper-related edits, like switching or cropping wallpaper. and text-related edits like changing the font and color.\nThis two-layer model became the foundation of the editor framework.",
     content: [
@@ -223,7 +203,7 @@ export const slides: Slide[] = [
   {
     id: "data-alignment",
     title: "Step 3: Data & Alignment",
-    sectionNumber: 9,
+    sectionNumber: 7,
     speakerNotes:
       "I also aligned with PM on data insights: wallpaper is one of the strongest places where users express aesthetic preference.\nSo we prioritized wallpaper editing as the core of Xiaomi's lock screen editing experience.",
     content: [
@@ -244,7 +224,7 @@ export const slides: Slide[] = [
   {
     id: "strategy",
     title: "Product Strategy & Design Goals",
-    sectionNumber: 10,
+    sectionNumber: 8,
     speakerNotes:
       "Based on the findings, we aligned on three design principles and three product strategies to guide the editor.\nFirst, Instant Temptation: the moment users open the editor, they should see something beautiful right away.\nSecond, Frictionless Apply: if someone just wants a nice lock screen, they should be able to pick one and apply it in seconds.\nThird, Scalable Framework: whatever editing model we build, it needs to work the same way across all templates, so users only learn it once.\nWith those goals in mind, and after the theme team's preference research on lock screen templates, we also defined three product strategies:\nWe'd lead with Classic and Rhombus Time as the main styles, with lots of ready-made presets.\nMagazine would be our signature line, rolled out gradually as engineering caught up.\nAnd no matter which template, users always get a baseline set of edits: font, color, wallpaper, and effects.",
     content: [
@@ -296,7 +276,7 @@ export const slides: Slide[] = [
   {
     id: "four-core-flows",
     title: "Four Core Flows",
-    sectionNumber: 11,
+    sectionNumber: 9,
     speakerNotes:
       "When we built the overall solution, I broke the experience into four core flows. But I'll mainly focus on template browsing and quick apply, because it's where we make the experience feel fun, more challenging.",
     content: [
@@ -316,7 +296,7 @@ export const slides: Slide[] = [
   {
     id: "first-impression",
     title: "Ideal First Impression",
-    sectionNumber: 12,
+    sectionNumber: 10,
     speakerNotes:
       "",
     content: [
@@ -327,7 +307,7 @@ export const slides: Slide[] = [
   {
     id: "cross-nav-detail",
     title: "My Lock Screens as Home",
-    sectionNumber: 13,
+    sectionNumber: 11,
     speakerNotes:
       "At the same time, we really agreed with Apple's decision: when you long-press the lock screen to enter editing, you land on \"My Lock Screens\" first. It helps users quickly answer, \"Where am I right now?\" and builds a stable mental model.",
     content: [
@@ -346,7 +326,7 @@ export const slides: Slide[] = [
   {
     id: "panel-switching",
     title: "The Key Question",
-    sectionNumber: 14,
+    sectionNumber: 12,
     speakerNotes:
       "",
     content: [
@@ -357,7 +337,7 @@ export const slides: Slide[] = [
   {
     id: "complete-flow",
     title: "Two-axis Gallery Navigation",
-    sectionNumber: 15,
+    sectionNumber: 13,
     speakerNotes:
       "To solve this, we chose a UX pattern that many designers consider tricky:\nJust like Apple, users land on their current lock screen template first, and when they swipe down they can immediately see other templates.\nUsers swipe left to browse presets within the same style, and swipe up/down to move between categories.\nTo keep the experience fast, a persistent Apply button stays in the top-right corner, so users can apply a look at any time.",
     content: [
@@ -366,18 +346,13 @@ export const slides: Slide[] = [
         type: "paragraph",
         text: "We chose a two-axis navigation pattern: users land on their current lock screen first, swipe down to browse other templates by category, and swipe left to explore presets within the same style. A persistent Apply button in the top-right corner lets users commit at any time.",
       },
-      {
-        type: "image",
-        src: "/lockscreen/1-18.png",
-        alt: "Complete navigation flow",
-      },
       { type: "lockscreenDemo" },
     ],
   },
   {
     id: "usability-method",
     title: "Usability Testing",
-    sectionNumber: 16,
+    sectionNumber: 14,
     speakerNotes:
       "Because two-axis navigation can feel disorienting, we needed to validate it before shipping. I built a near-production prototype in ProtoPie and invited 16 internal company members to complete a set of tasks, covering the full journey from entering editing mode to applying a new lock screen. I ran this qualitative study entirely on my own at very low cost.",
     content: [
@@ -398,7 +373,7 @@ export const slides: Slide[] = [
   {
     id: "usability-results",
     title: "Usability Testing Results",
-    sectionNumber: 17,
+    sectionNumber: 15,
     speakerNotes:
       "The usability testing was super helpful. Most people could complete all of the tasks, and many said the interaction felt cool and engaging. But we also found that some users didn't notice the page title at all. As a result, they struggled to understand the relationship between vertical swipes and horizontal swipes. Based on the findings, we made two major improvements: We moved and redesigned the title placement to make it more visible and informative. And we added subtle motion cues to teach the series concept, so when users swipe to the next row, the templates expand from the center outward, which makes the grouping easier to understand.",
     content: [
@@ -431,7 +406,7 @@ export const slides: Slide[] = [
   {
     id: "final-shots",
     title: "Final Design Shots",
-    sectionNumber: 18,
+    sectionNumber: 16,
     speakerNotes:
       "Here are the final shipped screens. The editing home page, where users browse and apply templates. The flows of customization for adjusting fonts, colors, and switching content. We also need to designed other entry points like from setting and the first-time onboarding flow. And finally, we adapted the entire experience for foldable phones and tablets.",
     content: [
@@ -476,7 +451,7 @@ export const slides: Slide[] = [
   {
     id: "closing",
     title: "Closing",
-    sectionNumber: 19,
+    sectionNumber: 17,
     hidden: true,
     speakerNotes:
       "This project taught me that designing for scale means designing for the full distribution of users — from the person who wants one-tap simplicity to the power user who wants pixel-level control. The two-layer model and progressive disclosure strategy addressed both ends of that spectrum.",
@@ -501,6 +476,26 @@ export const slides: Slide[] = [
         title: "What I'd improve next",
         content:
           "If I had more time, I would have pushed for three improvements:\n\n1. AI-powered suggestions — use the wallpaper's dominant colors to proactively suggest matching element themes, reducing the time users spend trying combinations.\n\n2. Shared templates — a community gallery where users can publish and browse lock screen setups, similar to a wallpaper marketplace but for complete configurations.\n\n3. Better conflict resolution — when a user's custom widget data source becomes unavailable (e.g., a third-party app is uninstalled), the editor currently shows a broken state. A graceful fallback and recovery flow would significantly improve the long-tail experience.",
+      },
+    ],
+  },
+  {
+    id: "post-launch-video",
+    title: "Post-Launch Video",
+    sectionNumber: 18,
+    speakerNotes:
+      "Before we wrap up, here's the official video Xiaomi posted after launch, showcasing the final lock screen experience.",
+    content: [
+      { type: "heading", text: "Post-Launch Video" },
+      {
+        type: "paragraph",
+        text: "Watch the official Xiaomi video — showcasing three featured lock screen themes, followed by the customization experience where users can personalize fonts, wallpapers, and styles.",
+      },
+      {
+        type: "video",
+        provider: "youtube",
+        videoId: "euAAj9Ag9bw",
+        caption: "Full walkthrough of the Xiaomi lock screen editor (Oct 2023)",
       },
     ],
   },
