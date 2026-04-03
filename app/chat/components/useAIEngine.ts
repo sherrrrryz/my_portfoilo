@@ -43,6 +43,7 @@ export function useAIEngine({ setAiChars, setUserChars, idRef }: UseAIEngineOpti
   const sessionIdRef = useRef(crypto.randomUUID());
   const aiStateRef = useRef<AIState>('idle');
   const pendingRequestRef = useRef(false);
+  const callAIRef = useRef<() => void>(() => {});
 
   // Keep ref in sync with state
   const updateState = useCallback((s: AIState) => {
@@ -108,6 +109,10 @@ export function useAIEngine({ setAiChars, setUserChars, idRef }: UseAIEngineOpti
         }),
       });
 
+      if (!res.ok) {
+        throw new Error(`API ${res.status}: ${await res.text().catch(() => res.statusText)}`);
+      }
+
       const data = await res.json();
       pendingRequestRef.current = false;
 
@@ -126,26 +131,34 @@ export function useAIEngine({ setAiChars, setUserChars, idRef }: UseAIEngineOpti
       // If user already started typing during API wait, abort
       if (aiAbortRef.current) {
         aiAbortRef.current = false;
-        // Don't push empty assistant content (Anthropic rejects it)
-        // The user's new input will be appended to the previous user turn
         updateState('listening');
+        // User's pause timer was swallowed by the pendingRequest guard.
+        // Re-schedule callAI for the buffered text.
+        if (userBufferRef.current.trim()) {
+          if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
+          pauseTimerRef.current = setTimeout(() => callAIRef.current(), PAUSE_THRESHOLD);
+        }
         return;
       }
 
       const displayed = await typeOutText(text);
-      // Newline after AI response
       setAiChars((prev) => [...prev, { id: idRef.current++, char: '\n', time: Date.now() }]);
 
-      // Record what was actually displayed
       historyRef.current.push({ role: 'assistant', content: displayed });
 
-      if (aiStateRef.current === 'speaking') {
+      // If user typed during typeOutText, state is already 'listening'.
+      // Re-schedule callAI for their buffered text.
+      if (aiStateRef.current === 'listening' && userBufferRef.current.trim()) {
+        if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
+        pauseTimerRef.current = setTimeout(callAI, PAUSE_THRESHOLD);
+      } else if (aiStateRef.current === 'speaking') {
         updateState('idle');
       }
-    } catch {
+    } catch (err) {
       pendingRequestRef.current = false;
-      // Error -> AI says "..."
-      const displayed = await typeOutText('...');
+      const errMsg = `[error] ${err instanceof Error ? err.message : String(err)}`;
+      console.error('[callAI]', err);
+      const displayed = await typeOutText(errMsg);
       setAiChars((prev) => [...prev, { id: idRef.current++, char: '\n', time: Date.now() }]);
       historyRef.current.push({ role: 'assistant', content: displayed });
       if (aiStateRef.current === 'speaking') {
@@ -153,6 +166,9 @@ export function useAIEngine({ setAiChars, setUserChars, idRef }: UseAIEngineOpti
       }
     }
   }, [budgetExhausted, updateState, typeOutText, setUserChars]);
+
+  // Keep ref in sync so sendGreeting can call latest callAI without a dep
+  callAIRef.current = callAI;
 
   const sendGreeting = useCallback(async () => {
     if (budgetExhausted || pendingRequestRef.current) return;
@@ -169,6 +185,10 @@ export function useAIEngine({ setAiChars, setUserChars, idRef }: UseAIEngineOpti
           messages: [],
         }),
       });
+
+      if (!res.ok) {
+        throw new Error(`API ${res.status}: ${await res.text().catch(() => res.statusText)}`);
+      }
 
       const data = await res.json();
       pendingRequestRef.current = false;
@@ -188,6 +208,10 @@ export function useAIEngine({ setAiChars, setUserChars, idRef }: UseAIEngineOpti
       if (aiAbortRef.current) {
         aiAbortRef.current = false;
         updateState('listening');
+        if (userBufferRef.current.trim()) {
+          if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
+          pauseTimerRef.current = setTimeout(() => callAIRef.current(), PAUSE_THRESHOLD);
+        }
         return;
       }
 
@@ -195,12 +219,17 @@ export function useAIEngine({ setAiChars, setUserChars, idRef }: UseAIEngineOpti
       setAiChars((prev) => [...prev, { id: idRef.current++, char: '\n', time: Date.now() }]);
       historyRef.current.push({ role: 'assistant', content: displayed });
 
-      if (aiStateRef.current === 'speaking') {
+      if (aiStateRef.current === 'listening' && userBufferRef.current.trim()) {
+        if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
+        pauseTimerRef.current = setTimeout(callAI, PAUSE_THRESHOLD);
+      } else if (aiStateRef.current === 'speaking') {
         updateState('idle');
       }
-    } catch {
+    } catch (err) {
       pendingRequestRef.current = false;
-      const displayed = await typeOutText('...');
+      const errMsg = `[error] ${err instanceof Error ? err.message : String(err)}`;
+      console.error('[sendGreeting]', err);
+      const displayed = await typeOutText(errMsg);
       setAiChars((prev) => [...prev, { id: idRef.current++, char: '\n', time: Date.now() }]);
       historyRef.current.push({ role: 'assistant', content: displayed });
       if (aiStateRef.current === 'speaking') {

@@ -19,14 +19,15 @@ export default function EphemeralChat() {
     idRef,
   });
 
-  // Auto-greet visitor 1.5s after page load
-  const greetedRef = useRef(false);
+  // Auto-greet visitor 1.5s after mount.
+  // Use a ref so the effect has zero deps and only fires on mount/unmount.
+  const sendGreetingRef = useRef(sendGreeting);
+  sendGreetingRef.current = sendGreeting;
   useEffect(() => {
-    if (greetedRef.current) return;
-    greetedRef.current = true;
-    const timer = setTimeout(() => sendGreeting(), 1500);
+    const timer = setTimeout(() => sendGreetingRef.current(), 1500);
     return () => clearTimeout(timer);
-  }, [sendGreeting]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChar = useCallback(
     (char: string) => {
