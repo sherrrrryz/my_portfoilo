@@ -64,10 +64,11 @@ function getSession(sessionId: string) {
 async function callWithTools(
   messages: Anthropic.MessageParam[],
   maxTokens: number
-): Promise<{ text: string; inputTokens: number; outputTokens: number }> {
+): Promise<{ text: string; inputTokens: number; outputTokens: number; contextId: string | null }> {
   let totalInputTokens = 0;
   let totalOutputTokens = 0;
   let currentMessages = [...messages];
+  let lastContextId: string | null = null;
   const tools = getToolDefinitions();
 
   for (let i = 0; i < MAX_TOOL_ROUNDS; i++) {
@@ -87,7 +88,7 @@ async function callWithTools(
         .filter((b): b is Anthropic.TextBlock => b.type === 'text')
         .map((b) => b.text)
         .join('');
-      return { text: text || '...', inputTokens: totalInputTokens, outputTokens: totalOutputTokens };
+      return { text: text || '...', inputTokens: totalInputTokens, outputTokens: totalOutputTokens, contextId: lastContextId };
     }
 
     if (response.stop_reason === 'tool_use') {
@@ -97,7 +98,9 @@ async function callWithTools(
 
       if (!toolUseBlock) break;
 
-      const toolResult = getDetail((toolUseBlock.input as { topic: string }).topic);
+      const topic = (toolUseBlock.input as { topic: string }).topic;
+      lastContextId = topic;
+      const toolResult = getDetail(topic);
 
       currentMessages = [
         ...currentMessages,
@@ -116,7 +119,7 @@ async function callWithTools(
     }
   }
 
-  return { text: '...', inputTokens: totalInputTokens, outputTokens: totalOutputTokens };
+  return { text: '...', inputTokens: totalInputTokens, outputTokens: totalOutputTokens, contextId: lastContextId };
 }
 
 export async function POST(req: NextRequest) {
@@ -153,7 +156,7 @@ export async function POST(req: NextRequest) {
       ? [{ role: 'user' as const, content: '[visitor just opened the page]' }]
       : messages;
 
-    const { text, inputTokens, outputTokens } = await callWithTools(apiMessages, maxTokens);
+    const { text, inputTokens, outputTokens, contextId } = await callWithTools(apiMessages, maxTokens);
 
     const callCost = inputTokens * SONNET_INPUT_RATE + outputTokens * SONNET_OUTPUT_RATE;
     session.inputTokens += inputTokens;
@@ -163,6 +166,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       text,
       budgetExhausted: session.totalCost >= SESSION_BUDGET,
+      contextId,
       usage: {
         callCost: callCost.toFixed(6),
         totalCost: session.totalCost.toFixed(6),

@@ -1,14 +1,17 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import Link from 'next/link';
 import CharStream, { type CharUnit } from './CharStream';
 import Divider from './Divider';
 import { useKeyCapture } from './useKeyCapture';
 import { useFadeManager } from './useFadeManager';
 import { useAIEngine } from './useAIEngine';
 
-export default function EphemeralChat() {
+interface EphemeralChatProps {
+  onContextChange?: (contextId: string | null) => void;
+}
+
+export default function EphemeralChat({ onContextChange }: EphemeralChatProps) {
   const [userChars, setUserChars] = useState<CharUnit[]>([]);
   const [aiChars, setAiChars] = useState<CharUnit[]>([]);
   const idRef = useRef(0);
@@ -17,6 +20,7 @@ export default function EphemeralChat() {
     setAiChars,
     setUserChars,
     idRef,
+    onContextChange,
   });
 
   // Auto-greet visitor 1.5s after mount.
@@ -66,24 +70,6 @@ export default function EphemeralChat() {
         position: 'relative',
       }}
     >
-      <Link
-        href="/"
-        style={{
-          position: 'absolute',
-          top: 24,
-          right: 32,
-          zIndex: 10,
-          color: 'rgba(255,255,255,0.5)',
-          fontSize: 24,
-          letterSpacing: '0.05em',
-          textDecoration: 'none',
-          transition: 'color 0.3s ease',
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.85)')}
-        onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.5)')}
-      >
-        EXIT
-      </Link>
       <CharStream chars={aiChars} side="ai" showCursor={showAiCursor} />
       <Divider active={isActive} dying={budgetExhausted} />
       <CharStream chars={userChars} side="user" showCursor={true} />

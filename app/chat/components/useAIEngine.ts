@@ -30,9 +30,10 @@ interface UseAIEngineOptions {
   setAiChars: React.Dispatch<React.SetStateAction<CharUnit[]>>;
   setUserChars: React.Dispatch<React.SetStateAction<CharUnit[]>>;
   idRef: React.MutableRefObject<number>;
+  onContextChange?: (contextId: string | null) => void;
 }
 
-export function useAIEngine({ setAiChars, setUserChars, idRef }: UseAIEngineOptions) {
+export function useAIEngine({ setAiChars, setUserChars, idRef, onContextChange }: UseAIEngineOptions) {
   const [aiState, setAiState] = useState<AIState>('idle');
   const [budgetExhausted, setBudgetExhausted] = useState(false);
 
@@ -116,6 +117,10 @@ export function useAIEngine({ setAiChars, setUserChars, idRef }: UseAIEngineOpti
       const data = await res.json();
       pendingRequestRef.current = false;
 
+      if (data.contextId && onContextChange) {
+        onContextChange(data.contextId);
+      }
+
       if (data.budgetExhausted && !data.text) {
         setBudgetExhausted(true);
         updateState('idle');
@@ -192,6 +197,10 @@ export function useAIEngine({ setAiChars, setUserChars, idRef }: UseAIEngineOpti
 
       const data = await res.json();
       pendingRequestRef.current = false;
+
+      if (data.contextId && onContextChange) {
+        onContextChange(data.contextId);
+      }
 
       if (data.budgetExhausted && !data.text) {
         setBudgetExhausted(true);

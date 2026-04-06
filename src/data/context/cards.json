@@ -1,0 +1,46 @@
+{
+  "xiaomi-lockscreen": {
+    "id": "xiaomi-lockscreen",
+    "title": "Xiaomi Lock Screen Editor",
+    "link": {
+      "text": "View Case Study",
+      "url": "/projects/lockscreen"
+    },
+    "tags": [
+      "Lock Screen",
+      "Xiaomi",
+      "MIUI",
+      "Personalization",
+      "Cross-axis Navigation",
+      "Usability Testing",
+      "Template System",
+      "Mobile UX"
+    ],
+    "images": [
+      {
+        "src": "/lockscreen/Cover.png",
+        "alt": "Lock screen editor final design overview"
+      },
+      {
+        "src": "/lockscreen/competitor1.png",
+        "alt": "Competitive analysis of Apple lock screen customization"
+      },
+      {
+        "src": "/lockscreen/strategy2.png",
+        "alt": "Template decomposition into wallpaper and text layers"
+      },
+      {
+        "src": "/lockscreen/1-7.png",
+        "alt": "Cross-axis navigation interaction model"
+      },
+      {
+        "src": "/lockscreen/1-20.png",
+        "alt": "ProtoPie usability testing with 16 participants"
+      },
+      {
+        "src": "/lockscreen/final1.png",
+        "alt": "Final design screens across devices"
+      }
+    ]
+  }
+}
