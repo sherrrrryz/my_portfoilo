@@ -25,7 +25,7 @@ export const CoverSection = forwardRef<HTMLElement>((_, ref) => {
       />
       <div className="mt-8 w-full">
         <p className="text-lg font-semibold text-[var(--nav-fg)] mb-3">
-          750M MAU · Launched October 2023
+          Xiaomi · 750M MAU · Launched October 2023
         </p>
         <p className="text-[var(--nav-fg)] leading-relaxed">
           This is the story of Xiaomi&apos;s lock screen editor — a product that redefined how users express themselves on their most-viewed screen.

@@ -58,7 +58,11 @@ export function SpeakerPanel({ notes }: SpeakerPanelProps) {
               onReset={reset}
             />
           </div>
-          <p className="text-white/90 text-sm leading-relaxed">{notes}</p>
+          <div className="flex flex-col gap-3 text-white/90 text-sm leading-relaxed">
+            {notes.split("\n").map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+          </div>
         </div>
       )}
     </>

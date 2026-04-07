@@ -28,7 +28,7 @@ export const slides: Slide[] = [
     title: "Lock Screen Personalization",
     sectionNumber: 0,
     speakerNotes:
-      "This project is a personalized lock screen editor I worked on at Xiaomi.\nXiaomi is a top global smartphone brand, and reaches about 750M monthly active users worldwide.\nThis project launched in October 2023.\nI was responsible for building the editing experience—like how people browse templates, customize them, and apply them.",
+      "This project is called Lock Screen Personalization Editing, which is a project I worked on at Xiaomi.\nXiaomi is a top global smartphone company, and reaches about 750M monthly active users worldwide.\nIn this project, I was responsible for building the editing experience—like how people browse templates, customize them, and apply them.",
     content: [],
   },
   {
@@ -55,10 +55,10 @@ export const slides: Slide[] = [
     title: "My Role & Collaboration",
     sectionNumber: 2,
     speakerNotes:
-      "The team included 1 design lead, 2 PMs, 6 theme visual designers, and 1 UI designer. I was the only UX / product designer responsible for the editor experience.\nI officially took ownership of the editor design around late October 2022, and delivered to engineering over the next ~10 months.",
+      "The team included 1 design lead, 2 product managers, 6 theme visual designers, and 1 UI designer. I was the only UX or product designer responsible for the editor experience.\nI officially took ownership around late October 2022, and delivered to engineering over the next 10 months.",
     content: [
       { type: "heading", text: "My Role & Collaboration" },
-      { type: "subheading", text: "October 2022 – August 2023 · Cross-functional team" },
+      { type: "subheading", text: "October 2022 – August 2023" },
       {
         type: "paragraph",
         text: "I was the only UX / product designer on the team, solely responsible for the editor experience — including the editing flow, navigation architecture, and core interaction patterns.",
@@ -69,7 +69,7 @@ export const slides: Slide[] = [
           { count: 1, label: "Design Lead" },
           { count: 2, label: "Product Managers" },
           { count: 6, label: "Theme Visual Designers" },
-          { count: 1, label: "UX / Product Designer", subtitle: "Editor Experience", highlight: true },
+          { count: 1, label: "UX / Product Designer", highlight: true },
           { count: 1, label: "UI Designer" },
         ],
       },
@@ -80,7 +80,7 @@ export const slides: Slide[] = [
     title: "Early Stage: Brainstorming",
     sectionNumber: 3,
     speakerNotes:
-      "In the early ideation phase, I mainly contributed as the designer and workshop facilitator.\nWith 9 core contributors—including PMs, Designers, plus 6 design director and managers to observe and vote, about 15 people total.\nWe used moodboard, round-robin brainstorming to generate ideas fast, and group voting to prioritize the best directions.",
+      "In the early ideation phase, I mainly contributed as the designer and workshop facilitator.\nWe used moodboard, round-robin brainstorming to generate ideas fast, and group voting to prioritize the best directions.\nAnd we aligned on two future directions:\nCreating high-quality, more artistic lock screen templates.\nSupporting real-time, contextual, and highly customizable information on the lock screen.",
     content: [
       { type: "heading", text: "Early Stage: Brainstorming" },
       { type: "subheading", text: "Moodboard · Round-robin Brainstorming · Group Voting · 15 Participants" },
@@ -104,7 +104,7 @@ export const slides: Slide[] = [
     title: "Problems I Saw",
     sectionNumber: 4,
     speakerNotes:
-      "These templates were designed by the 6 theme visual designers. Two standout effects: Multilayered and Glass.\nWhen I saw these beautiful templates, I thought — I need to do my best to make sure users can easily and fully enjoy them.\nSo before I officially started designing the editor, I already saw some challenges: How do we build one editor framework that supports all of these distinct templates? Are there too many to choose from — do we need a clear default to anchor the experience? And how do we make these templates truly easy to try and customize?",
+      "These templates were designed by the 6 theme visual designers.\nAnd they also brought out two wallpaper effects: Multilayered effect and Glass effect.\nWhen I saw these beautiful templates, I thought — I need to do my best to make sure users can easily and fully enjoy them.\nSo before I actually started designing the editor, I already saw some challenges: How do we build one editor framework that supports all of these distinct templates? Are there too many to choose from — do we need a clear default to anchor the experience? And how do we make these templates truly easy to try and customize?",
     content: [
       { type: "heading", text: "Problems I Saw" },
       {
@@ -135,7 +135,7 @@ export const slides: Slide[] = [
     title: "Step 1: Research",
     sectionNumber: 5,
     speakerNotes:
-      "To better understand the problem and the possibilities, I started with a competitive product analysis. Apple's experience is polished, but I saw a few opportunities. First, new templates have low exposure. Users have to tap the bottom-right \"+\" button just to browse them. And as you can see, template thumbnails are small and hard to preview in detail. For users without strong customization needs, the apply process is long, at least 6 steps. And lastly, templates feel siloed. Each template only lets you pick from a fixed set of wallpaper styles, not freely switch to any wallpaper you want. That's why the bottom editing options are inconsistent across templates.",
+      "To better understand the problem and the possibilities, I started with a competitive product analysis. Apple's experience is polished, but I saw a few opportunities.\nFirst, new templates have low exposure. Users have to tap the bottom-right \"+\" button just to browse them.\nAnd as you can see, template thumbnails are small and hard to preview in detail.\nFor users without strong customization needs, the apply process is long, at least 6 steps.\nAnd lastly, templates feel siloed. Each template only lets you pick from a fixed set of wallpaper, not freely switch to any wallpaper you want. That's why the bottom editing options are inconsistent across templates.",
     content: [
       { type: "heading", text: "Step 1: Research" },
       { type: "subheading", text: "Competitive Analysis · Apple iOS 16" },
@@ -174,7 +174,7 @@ export const slides: Slide[] = [
     title: "Step 2: Break Down the Template",
     sectionNumber: 6,
     speakerNotes:
-      "Then I listed all editable options across templates in a matrix, so I could see what's shared and what's unique.\nWhat I realized: even though the table looks complex, almost everything falls into just two categories: Wallpaper-related edits, like switching or cropping wallpaper. and text-related edits like changing the font and color.\nThis two-layer model became the foundation of the editor framework.",
+      "Then I listed all editable options across templates in a matrix, so I could see what's shared and what's unique.\nWhat I realized: even though the table looks complex, almost everything falls into just two categories: Wallpaper-related edits, such as switching or cropping wallpaper. and text-related edits such as changing the font and color.\nThis two-layer model became the foundation of the editor framework.",
     content: [
       { type: "heading", text: "Step 2: Break Down the Template" },
       { type: "subheading", text: "Editable options matrix · Two-layer model" },
@@ -226,7 +226,7 @@ export const slides: Slide[] = [
     title: "Product Strategy & Design Goals",
     sectionNumber: 8,
     speakerNotes:
-      "Based on the findings, we aligned on three design principles and three product strategies to guide the editor.\nFirst, Instant Temptation: the moment users open the editor, they should see something beautiful right away.\nSecond, Frictionless Apply: if someone just wants a nice lock screen, they should be able to pick one and apply it in seconds.\nThird, Scalable Framework: whatever editing model we build, it needs to work the same way across all templates, so users only learn it once.\nWith those goals in mind, and after the theme team's preference research on lock screen templates, we also defined three product strategies:\nWe'd lead with Classic and Rhombus Time as the main styles, with lots of ready-made presets.\nMagazine would be our signature line, rolled out gradually as engineering caught up.\nAnd no matter which template, users always get a baseline set of edits: font, color, wallpaper, and effects.",
+      "Based on the findings, we aligned on three design principles and three product strategies to guide the editor.\nFirst, Instant Temptation: the moment users open the editor, they should see something beautiful right away.\nSecond, Frictionless Apply: if someone just wants a nice lock screen, they should be able to pick one and apply it in seconds.\nThird, Scalable Framework: whatever editing model we build, it needs to work the same way across all templates, so users only learn it once.\nWith those goals in mind, we also defined three product strategies:\nClassic Lock Screen and Rhombus Time as the primary styles, with multiple ready-to-use presets for quick apply.\nMagazine as a signature style line, expanded over time based on engineering progress.\nAnd no matter which template, users always get a baseline set of edits: font, color, wallpaper, and effects.",
     content: [
       { type: "heading", text: "Product Strategy & Design Goals" },
       { type: "subheading", text: "Design principles" },
@@ -278,7 +278,7 @@ export const slides: Slide[] = [
     title: "Four Core Flows",
     sectionNumber: 9,
     speakerNotes:
-      "When we built the overall solution, I broke the experience into four core flows. But I'll mainly focus on template browsing and quick apply, because it's where we make the experience feel fun, more challenging.",
+      "About the overall designs, I broke the experience into four parts. But I'll mainly focus on template browsing and quick apply, because it's where we make the experience feel fun, more challenging.",
     content: [
       { type: "heading", text: "Four Core Flows" },
       {
@@ -298,7 +298,7 @@ export const slides: Slide[] = [
     title: "Ideal First Impression",
     sectionNumber: 10,
     speakerNotes:
-      "",
+      "The ideal first impression is that, the moment users enter editing, they can immediately start exploring new lock screen styles in a more immersive way.",
     content: [
       { type: "heading", text: "Ideal First Impression" },
       { type: "heroText", text: "The moment users enter editing,\nthey can immediately start exploring new lock screen styles in a more immersive way." },
@@ -328,7 +328,7 @@ export const slides: Slide[] = [
     title: "The Key Question",
     sectionNumber: 12,
     speakerNotes:
-      "",
+      "And the key question became:\nHow do we help users quickly get their bearings, without slowing down the exploration experience?",
     content: [
       { type: "heading", text: "The Key Question" },
       { type: "heroText", text: "How do we help users quickly get their bearings,\nwithout slowing down the exploration experience?" },
@@ -339,7 +339,7 @@ export const slides: Slide[] = [
     title: "Two-axis Gallery Navigation",
     sectionNumber: 13,
     speakerNotes:
-      "To solve this, we chose a UX pattern that many designers consider tricky:\nJust like Apple, users land on their current lock screen template first, and when they swipe down they can immediately see other templates.\nUsers swipe left to browse presets within the same style, and swipe up/down to move between categories.\nTo keep the experience fast, a persistent Apply button stays in the top-right corner, so users can apply a look at any time.",
+      "To solve this, we chose a UX pattern that many designers consider tricky:\nSo first, just like Apple, users land on their current lock screen template first, and when they swipe down they can immediately see other templates.\nUsers swipe left to browse presets within the same style, and swipe up or down to move between different styles.\nAnd a persistent Apply button stays in the top-right corner, so users can apply in seconds.",
     content: [
       { type: "heading", text: "Two-axis Gallery Navigation" },
       {
