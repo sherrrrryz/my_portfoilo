@@ -16,11 +16,11 @@ export interface MaskConfig {
 }
 
 export const NIGHT_CONFIG: MaskConfig = {
-  radius: 250,
-  hotspot: 30,
-  falloff: 70,
-  spillOpacity: 60,
-  glowColor: '#ffdc96',
+  radius: 920,
+  hotspot: 38,
+  falloff: 42,
+  spillOpacity: 50,
+  glowColor: '#ffffff',
   glowIntensity: 18,
   glowRadius: 300,
   textColor: '#1a1a1a',
@@ -45,10 +45,9 @@ export default function MaskControls({ config, onChange }: MaskControlsProps) {
     <div
       style={{
         position: 'fixed',
-        bottom: 20,
-        right: 20,
+        bottom: 16,
+        right: 16,
         zIndex: 200,
-        fontFamily: 'system-ui, -apple-system, sans-serif',
       }}
     >
       {collapsed ? (
@@ -56,26 +55,24 @@ export default function MaskControls({ config, onChange }: MaskControlsProps) {
           onClick={() => setCollapsed(false)}
           style={{
             background: 'rgba(255,255,255,0.08)',
-            border: '1px solid rgba(255,255,255,0.12)',
-            borderRadius: 8,
+            border: '2px solid rgba(255,255,255,0.2)',
+            borderRadius: 0,
             color: 'rgba(255,255,255,0.5)',
             padding: '8px 14px',
-            fontSize: 12,
+            fontSize: 8,
             cursor: 'pointer',
-            backdropFilter: 'blur(8px)',
           }}
         >
-          Settings
+          [SETTINGS]
         </button>
       ) : (
         <div
           style={{
-            background: 'rgba(20,20,20,0.85)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 12,
-            padding: 16,
+            background: 'rgba(10,10,10,0.95)',
+            border: '2px solid rgba(255,255,255,0.2)',
+            borderRadius: 0,
+            padding: 14,
             width: 260,
-            backdropFilter: 'blur(12px)',
           }}
         >
           {/* Header */}
@@ -87,8 +84,8 @@ export default function MaskControls({ config, onChange }: MaskControlsProps) {
               marginBottom: 14,
             }}
           >
-            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 12, fontWeight: 600 }}>
-              Flashlight Settings
+            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 8 }}>
+              {'>'} SETTINGS
             </span>
             <button
               onClick={() => setCollapsed(true)}
@@ -164,7 +161,7 @@ export default function MaskControls({ config, onChange }: MaskControlsProps) {
                   width: 28,
                   height: 20,
                   border: '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: 4,
+                  borderRadius: 0,
                   background: 'none',
                   cursor: 'pointer',
                   padding: 0,
@@ -178,7 +175,7 @@ export default function MaskControls({ config, onChange }: MaskControlsProps) {
                   style={{
                     width: 16,
                     height: 16,
-                    borderRadius: '50%',
+                    borderRadius: 0,
                     background: c,
                     border: config.glowColor === c ? '2px solid #fff' : '1px solid rgba(255,255,255,0.2)',
                     cursor: 'pointer',
@@ -223,7 +220,7 @@ export default function MaskControls({ config, onChange }: MaskControlsProps) {
                   width: 28,
                   height: 20,
                   border: '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: 4,
+                  borderRadius: 0,
                   background: 'none',
                   cursor: 'pointer',
                   padding: 0,
@@ -236,7 +233,7 @@ export default function MaskControls({ config, onChange }: MaskControlsProps) {
                   style={{
                     width: 16,
                     height: 16,
-                    borderRadius: '50%',
+                    borderRadius: 0,
                     background: c,
                     border: config.textColor === c ? '2px solid #fff' : '1px solid rgba(255,255,255,0.2)',
                     cursor: 'pointer',
@@ -259,7 +256,7 @@ export default function MaskControls({ config, onChange }: MaskControlsProps) {
                   width: 28,
                   height: 20,
                   border: '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: 4,
+                  borderRadius: 0,
                   background: 'none',
                   cursor: 'pointer',
                   padding: 0,
@@ -272,7 +269,7 @@ export default function MaskControls({ config, onChange }: MaskControlsProps) {
                   style={{
                     width: 16,
                     height: 16,
-                    borderRadius: '50%',
+                    borderRadius: 0,
                     background: c,
                     border: config.bgColor === c ? '2px solid #fff' : '1px solid rgba(255,255,255,0.2)',
                     cursor: 'pointer',
@@ -292,14 +289,14 @@ export default function MaskControls({ config, onChange }: MaskControlsProps) {
               marginTop: 10,
               padding: '6px 0',
               background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 6,
+              border: '2px solid rgba(255,255,255,0.15)',
+              borderRadius: 0,
               color: 'rgba(255,255,255,0.4)',
-              fontSize: 11,
+              fontSize: 7,
               cursor: 'pointer',
             }}
           >
-            Reset to Default
+            [RESET]
           </button>
         </div>
       )}
@@ -330,22 +327,22 @@ function GradientPreview({
           marginBottom: 4,
         }}
       >
-        <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11 }}>Light Profile</span>
-        <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: 10 }}>
-          center → edge
+        <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: 7 }}>Light Profile</span>
+        <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: 6 }}>
+          center {'>'} edge
         </span>
       </div>
       {/* Gradient bar */}
       <div
         style={{
           height: 24,
-          borderRadius: 4,
-          border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: 0,
+          border: '2px solid rgba(255,255,255,0.15)',
           background: `linear-gradient(to right, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.9) ${h}%, rgba(255,255,255,${0.9 * (1 - spillDark)}) ${(h + f) / 2}%, rgba(255,255,255,${0.15 * (1 - spillDark)}) ${f}%, rgba(255,255,255,0) 100%)`,
         }}
       />
       {/* Zone labels */}
-      <div style={{ display: 'flex', marginTop: 3, fontSize: 9, color: 'rgba(255,255,255,0.25)' }}>
+      <div style={{ display: 'flex', marginTop: 3, fontSize: 6, color: 'rgba(255,255,255,0.25)' }}>
         <span style={{ width: `${h}%`, textAlign: 'center', flexShrink: 0 }}>
           {h > 15 ? 'hotspot' : ''}
         </span>
@@ -378,8 +375,8 @@ function ControlRow({
           marginBottom: 4,
         }}
       >
-        <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11 }}>{label}</span>
-        <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11, fontFamily: 'monospace' }}>
+        <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: 7 }}>{label}</span>
+        <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 7 }}>
           {value}
         </span>
       </div>
