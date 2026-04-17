@@ -41,7 +41,7 @@ export const slides: Slide[] = [
       { type: "heading", text: "Background" },
 {
         type: "paragraph",
-        text: "In June 2022, Apple announced customizable lock screens at WWDC — the first major lock screen redesign in iPhone history.",
+        text: "Apple's June 2022 announcement made lock screen personalization a must-have direction for the industry. Our ambition was not to simply catch up.",
       },
       {
         type: "image",
@@ -83,13 +83,13 @@ export const slides: Slide[] = [
       "In the early ideation phase, I mainly contributed as the designer and workshop facilitator.\nWe used moodboard, round-robin brainstorming to generate ideas fast, and group voting to prioritize the best directions.\nAnd we aligned on two future directions:\nCreating high-quality, more artistic lock screen templates.\nSupporting real-time, contextual, and highly customizable information on the lock screen.",
     content: [
       { type: "heading", text: "Early Stage: Brainstorming" },
-      { type: "subheading", text: "Moodboard · Round-robin Brainstorming · Group Voting · 15 Participants" },
-      { type: "paragraph", text: "Aligned on two future directions:" },
+      { type: "subheading", text: "Designer and workshop facilitator in the early ideation phase" },
+      { type: "paragraph", text: "Ran moodboards to frame the space, round-robin brainstorming to generate ideas fast, and group voting to prioritize the strongest directions. Two future directions were aligned:" },
       {
         type: "bullets",
         items: [
-          "Creating high-quality, more artistic lock screen templates",
-          "Supporting real-time, contextual, and highly customizable information on the lock screen",
+          "High-quality, more artistic lock screen templates",
+          "Real-time, contextual, and highly customizable information on the lock screen",
         ],
       },
       {
@@ -123,9 +123,9 @@ export const slides: Slide[] = [
 {
         type: "bullets",
         items: [
-          "Framework scalability — every template looks distinct with different customizable properties",
-          "Choice overload — with so many template types, users can easily get stuck",
-          "Discovery gap — with so many options, passive users may never explore the full depth",
+          "Framework scalability — Every template is visually distinct, yet one editor must support them all.",
+          "Choice overload — Without a clear default, users struggle to anchor themselves among so many templates.",
+          "Discovery gap — With so many options, passive users may never explore the full depth.",
         ],
       },
     ],
@@ -151,9 +151,9 @@ export const slides: Slide[] = [
       {
         type: "bullets",
         items: [
-          "Low template discoverability — new templates are buried behind a hidden \"+\" entry point, reducing browse intent",
-          "Insufficient preview fidelity — small thumbnails make it difficult to evaluate designs before committing",
-          "High-friction apply flow — completing a template requires a minimum of 6 steps, creating unnecessary drop-off",
+          "Low template exposure — New templates are hidden behind the bottom-right \"+\" button, reducing browse intent.",
+          "Insufficient preview fidelity — Thumbnails are small and hard to preview in detail.",
+          "High-friction apply flow — For users without strong customization needs, applying a template takes at least 6 steps.",
         ],
       },
       {
@@ -164,7 +164,7 @@ export const slides: Slide[] = [
       {
         type: "bullets",
         items: [
-          "Inconsistent customization model — editing options vary by template with no clear indication of scope; some templates restrict wallpaper changes entirely",
+          "Siloed templates — Each template only allows a fixed set of wallpapers rather than free switching, which leaves the bottom editing options inconsistent across templates.",
         ],
       },
     ],
@@ -174,7 +174,7 @@ export const slides: Slide[] = [
     title: "Step 2: Break Down the Template",
     sectionNumber: 6,
     speakerNotes:
-      "Then I listed all editable options across templates in a matrix, so I could see what's shared and what's unique.\nWhat I realized: even though the table looks complex, almost everything falls into just two categories: Wallpaper-related edits, such as switching or cropping wallpaper. and text-related edits such as changing the font and color.\nThis two-layer model became the foundation of the editor framework.",
+      "Then I listed all editable options across templates in a matrix, so I could see what's shared and what's unique.\nFor example, this template allows users to change the content of each line.\nWhat I realized: even though the table looks complex, almost everything falls into just two categories: Wallpaper-related edits, such as switching or cropping wallpaper. and text-related edits such as changing the font and color.\nThis two-layer model became the foundation of the editor framework.",
     content: [
       { type: "heading", text: "Step 2: Break Down the Template" },
       { type: "subheading", text: "Editable options matrix · Two-layer model" },
@@ -205,13 +205,13 @@ export const slides: Slide[] = [
     title: "Step 3: Data & Alignment",
     sectionNumber: 7,
     speakerNotes:
-      "I also aligned with PM on data insights: wallpaper is one of the strongest places where users express aesthetic preference.\nSo we prioritized wallpaper editing as the core of Xiaomi's lock screen editing experience.",
+      "I also aligned with PM on data insights: wallpaper is one of the strongest places where users express aesthetic preference.\n53% of users use non-default wallpapers, and users change their lock screen wallpaper 5.18 times per month on average.\nSo we prioritized wallpaper editing as the core of Xiaomi's lock screen editing experience.",
     content: [
       { type: "heading", text: "Step 3: Data & Alignment" },
       { type: "subheading", text: "PM alignment · Wallpaper as core" },
       {
         type: "paragraph",
-        text: "Data showed that lock screen wallpaper ranks #1 among all personalization options. Users change it 5.18 times per month on average, and 53% actively use non-default wallpapers. Wallpaper is clearly where users express aesthetic preference most, which made it the natural core of our editing experience.",
+        text: "Data showed that lock screen wallpaper ranks #1 among all personalization options. 53% of users use non-default wallpapers, and users change their lock screen wallpaper 5.18 times per month on average. Wallpaper is clearly where users express aesthetic preference most, which made it the natural core of our editing experience.",
       },
       {
         type: "image",
@@ -226,7 +226,7 @@ export const slides: Slide[] = [
     title: "Product Strategy & Design Goals",
     sectionNumber: 8,
     speakerNotes:
-      "Based on the findings, we aligned on three design principles and three product strategies to guide the editor.\nFirst, Instant Temptation: the moment users open the editor, they should see something beautiful right away.\nSecond, Frictionless Apply: if someone just wants a nice lock screen, they should be able to pick one and apply it in seconds.\nThird, Scalable Framework: whatever editing model we build, it needs to work the same way across all templates, so users only learn it once.\nWith those goals in mind, we also defined three product strategies:\nClassic Lock Screen and Rhombus Time as the primary styles, with multiple ready-to-use presets for quick apply.\nMagazine as a signature style line, expanded over time based on engineering progress.\nAnd no matter which template, users always get a baseline set of edits: font, color, wallpaper, and effects.",
+      "Based on the findings, we first aligned on three design principles.\nFirst, Instant Temptation: the moment users open the editor, they should see something beautiful right away.\nSecond, Frictionless Apply: For users with low customization needs, it should be fast to pick a good-looking preset and apply it.\nThird, Scalable Framework: The customization framework should be universal, predictable. It needs to work the same way across all templates, so users only learn it once.\nWith those goals in mind, we also defined three product strategies:\nClassic Lock Screen and Rhombus Time as the primary styles, with multiple ready-to-use presets for quick apply.\nMagazine as a signature style line, expanded over time based on engineering progress.\nAnd no matter which template, users always get a baseline set of edits: font, color, wallpaper, and effects.",
     content: [
       { type: "heading", text: "Product Strategy & Design Goals" },
       { type: "subheading", text: "Design principles" },
@@ -387,14 +387,14 @@ export const slides: Slide[] = [
         ],
       },
       { type: "subheading", text: "Improvement 1: Redesigned Title Placement" },
-      { type: "paragraph", text: "Repositioned and redesigned the category title for greater visibility, enabling users to immediately identify which category they are browsing." },
+      { type: "paragraph", text: "Moved and redesigned the title placement to make it more visible and informative." },
       {
         type: "image",
         src: "/lockscreen/1-19.png",
         alt: "Redesigned title placement for better navigation clarity",
       },
       { type: "subheading", text: "Improvement 2: Motion Cues for Series Grouping" },
-      { type: "paragraph", text: "Introduced subtle motion cues to reinforce the series concept: when users swipe to a new category, templates expand outward from the center, visually communicating the grouping structure." },
+      { type: "paragraph", text: "Added subtle motion cues to teach the series concept. When users swipe to the next row, templates expand from the center outward, making the grouping easier to understand." },
       {
         type: "video",
         provider: "screenpal",
@@ -422,12 +422,12 @@ export const slides: Slide[] = [
           {
             src: "/lockscreen/1-20.png",
             alt: "Lock screen editing home page",
-            caption: "Lock screen editing home",
+            caption: "The editing home page, where users browse and apply templates.",
           },
           {
             src: "/lockscreen/1-21.png",
             alt: "Customization editing page",
-            caption: "Customization editing",
+            caption: "The flows of customization for adjusting fonts, colors, and switching content.",
           },
         ],
       },
@@ -437,12 +437,12 @@ export const slides: Slide[] = [
           {
             src: "/lockscreen/1-22.png",
             alt: "Additional entry points and first-time onboarding",
-            caption: "Other entry points and first-time onboarding",
+            caption: "Additional entry points from settings, and the first-time onboarding flow.",
           },
           {
             src: "/lockscreen/1-23.png",
             alt: "Foldable phone and tablet adaptation",
-            caption: "Foldable and tablet adaptation",
+            caption: "Adapted the entire experience for foldable phones and tablets.",
           },
         ],
       },
@@ -484,7 +484,7 @@ export const slides: Slide[] = [
     title: "Post-Launch Video",
     sectionNumber: 18,
     speakerNotes:
-      "Before we wrap up, here's the official video Xiaomi posted after launch, showcasing the final lock screen experience.",
+      "Here's the official video Xiaomi posted after launch.",
     content: [
       { type: "heading", text: "Post-Launch Video" },
       {

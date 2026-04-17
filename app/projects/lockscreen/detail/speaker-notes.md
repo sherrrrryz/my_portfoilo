@@ -44,20 +44,22 @@ And lastly, templates feel siloed. Each template only lets you pick from a fixed
 ## Section 6: Step 2: Break Down the Template
 
 Then I listed all editable options across templates in a matrix, so I could see what's shared and what's unique.
+For example, this template allows users to change the content of each line.
 What I realized: even though the table looks complex, almost everything falls into just two categories: Wallpaper-related edits, such as switching or cropping wallpaper. and text-related edits such as changing the font and color.
 This two-layer model became the foundation of the editor framework.
 
 ## Section 7: Step 3: Data & Alignment
 
 I also aligned with PM on data insights: wallpaper is one of the strongest places where users express aesthetic preference.
+53% of users use non-default wallpapers, and users change their lock screen wallpaper 5.18 times per month on average.
 So we prioritized wallpaper editing as the core of Xiaomi's lock screen editing experience.
 
 ## Section 8: Product Strategy & Design Goals
 
-Based on the findings, we aligned on three design principles and three product strategies to guide the editor.
+Based on the findings, we first aligned on three design principles.
 First, Instant Temptation: the moment users open the editor, they should see something beautiful right away.
-Second, Frictionless Apply: if someone just wants a nice lock screen, they should be able to pick one and apply it in seconds.
-Third, Scalable Framework: whatever editing model we build, it needs to work the same way across all templates, so users only learn it once.
+Second, Frictionless Apply: For users with low customization needs, it should be fast to pick a good-looking preset and apply it.
+Third, Scalable Framework: The customization framework should be universal, predictable. It needs to work the same way across all templates, so users only learn it once.
 With those goals in mind, we also defined three product strategies:
 Classic Lock Screen and Rhombus Time as the primary styles, with multiple ready-to-use presets for quick apply.
 Magazine as a signature style line, expanded over time based on engineering progress.
@@ -105,4 +107,4 @@ This project taught me that designing for scale means designing for the full dis
 
 ## Section 18: Post-Launch Video
 
-Before we wrap up, here's the official video Xiaomi posted after launch, showcasing the final lock screen experience.
+Here's the official video Xiaomi posted after launch.
