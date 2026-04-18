@@ -14,6 +14,9 @@ export default function LenisProvider() {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
 
+    // Expose globally so other components (e.g. ScrollSnap) can drive smooth scrollTo.
+    (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
+
     // Feed every Lenis scroll tick into ScrollTrigger so scrub animations stay in sync.
     lenis.on('scroll', ScrollTrigger.update);
 
@@ -28,6 +31,7 @@ export default function LenisProvider() {
 
     return () => {
       cancelAnimationFrame(rafId);
+      delete (window as unknown as { __lenis?: Lenis }).__lenis;
       lenis.destroy();
     };
   }, []);

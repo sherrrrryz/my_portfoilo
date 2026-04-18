@@ -5,6 +5,8 @@ import { useState } from 'react';
 import PortfolioScene, { type FlashlightMode } from './components/PortfolioScene';
 import PillNav from './components/PillNav';
 import ScrollFloat from './components/ScrollFloat';
+import ScrollReveal from './components/ScrollReveal';
+import LockscreenPile from './components/LockscreenPile';
 import LenisProvider from './components/LenisProvider';
 import { DEFAULT_CONFIG } from './components/MaskControls';
 
@@ -88,6 +90,7 @@ export default function FlashlightPage() {
       </Link>
 
       <section
+        id="section-opening"
         style={{
           position: 'relative',
           width: '100%',
@@ -114,7 +117,7 @@ export default function FlashlightPage() {
           fontFamily: "'Switzer-Variable', 'Switzer', 'Inter', system-ui, sans-serif",
         }}
       >
-        <div style={{ maxWidth: 1100, width: '100%' }}>
+        <div style={{ maxWidth: 2200, width: '100%' }}>
           <div
             style={{
               fontSize: 14,
@@ -128,15 +131,57 @@ export default function FlashlightPage() {
           >
             I design for millions.
           </div>
-          <ScrollFloat
-            animationDuration={0.6}
-            ease="power3.out"
-            scrollStart="top 75%"
-            stagger={0.025}
-            scrub={false}
+          <div id="section-millions-question" data-snap-align="center">
+            <ScrollFloat
+              animationDuration={0.6}
+              ease="power3.out"
+              scrollStart="top 75%"
+              stagger={0.025}
+              scrub={false}
+            >
+              What does it mean to design for 700 million people?
+            </ScrollFloat>
+          </div>
+
+          <div
+            id="section-millions-answer"
+            data-snap-align="center"
+            style={{ marginTop: '80vh' }}
           >
-            What does it mean to design for 700 million people?
-          </ScrollFloat>
+            <ScrollReveal
+              baseOpacity={0.1}
+              baseRotation={2}
+              blurStrength={4}
+            >
+              It means making something personal — at a scale where nothing feels personal.
+            </ScrollReveal>
+          </div>
+
+          <div style={{ marginTop: '14vh' }}>
+            <LockscreenPile />
+          </div>
+
+          <div
+            style={{
+              marginTop: '18vh',
+              textAlign: 'center',
+              fontSize: 13,
+              letterSpacing: '0.08em',
+              color: 'rgba(26,26,26,0.45)',
+            }}
+          >
+            Xiaomi Lock Screen · 2023 ·{' '}
+            <a
+              href="#"
+              style={{
+                color: 'inherit',
+                textDecoration: 'underline',
+                textUnderlineOffset: 4,
+              }}
+            >
+              View project →
+            </a>
+          </div>
         </div>
       </section>
     </>
