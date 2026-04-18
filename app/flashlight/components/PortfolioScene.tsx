@@ -20,7 +20,15 @@ function lerpColor(
   return `rgb(${Math.round(r1 + (r2 - r1) * t)},${Math.round(g1 + (g2 - g1) * t)},${Math.round(b1 + (b2 - b1) * t)})`;
 }
 
-export default function PortfolioScene({ config }: { config: MaskConfig }) {
+export type FlashlightMode = 'glow' | 'flat';
+
+export default function PortfolioScene({
+  config,
+  mode = 'glow',
+}: {
+  config: MaskConfig;
+  mode?: FlashlightMode;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -30,33 +38,21 @@ export default function PortfolioScene({ config }: { config: MaskConfig }) {
   const displayRef = useRef({ x: 0, y: 0 });
   const rafRef = useRef<number>(0);
   const textEls = useRef<Element[]>([]);
-  const imageEls = useRef<Element[]>([]);
-  const borderEls = useRef<Element[]>([]);
   const configRef = useRef(config);
   configRef.current = config;
+  const modeRef = useRef(mode);
+  modeRef.current = mode;
 
-  // Collect data-fl-* elements after mount
   useEffect(() => {
     const w = wrapperRef.current;
     if (!w) return;
     textEls.current = Array.from(w.querySelectorAll('[data-fl-text]'));
-    imageEls.current = Array.from(w.querySelectorAll('[data-fl-image]'));
-    borderEls.current = Array.from(w.querySelectorAll('[data-fl-border]'));
   }, []);
 
-  // Reset ALL element styles when config changes
   useEffect(() => {
     for (const el of textEls.current) {
       (el as HTMLElement).style.color = config.textColor;
       (el as HTMLElement).style.textShadow = 'none';
-    }
-    for (const el of imageEls.current) {
-      (el as HTMLElement).style.filter = 'brightness(0.08)';
-      (el as HTMLElement).style.opacity = '0.3';
-    }
-    for (const el of borderEls.current) {
-      (el as HTMLElement).style.borderColor = config.textColor;
-      (el as HTMLElement).style.setProperty('--fl-border-color', config.textColor);
     }
   }, [config.textColor, config.bgColor]);
 
@@ -97,31 +93,40 @@ export default function PortfolioScene({ config }: { config: MaskConfig }) {
     const falloffPx = cfg.radius * (f / 100);
     const spillDark = 1 - cfg.spillOpacity / 100; // 0 = fully transparent (bright), 1 = fully opaque (dark)
 
+    const isFlat = modeRef.current === 'flat';
+    // Flat mode uses a tighter circle so the lit area feels closer to a real flashlight beam.
+    const flatRadius = Math.round(cfg.radius * 0.32);
+
     // Update overlay mask
     if (overlay) {
-      const grad = `radial-gradient(circle ${cfg.radius}px at ${x}px ${y}px, transparent ${hotspotPx}px, rgba(0,0,0,${spillDark}) ${falloffPx}px, black ${cfg.radius}px)`;
+      const grad = isFlat
+        ? `radial-gradient(circle ${flatRadius}px at ${x}px ${y}px, transparent ${flatRadius - 1}px, black ${flatRadius}px)`
+        : `radial-gradient(circle ${cfg.radius}px at ${x}px ${y}px, transparent ${hotspotPx}px, rgba(0,0,0,${spillDark}) ${falloffPx}px, black ${cfg.radius}px)`;
       overlay.style.maskImage = grad;
       overlay.style.webkitMaskImage = grad;
     }
 
     // Update glow
     if (glow) {
-      const intensity = cfg.glowIntensity / 100;
-      glow.style.background = `radial-gradient(circle ${cfg.glowRadius}px at ${x}px ${y}px, rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},${intensity}), rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},${intensity * 0.33}) 50%, transparent 100%)`;
-      glow.style.mixBlendMode = 'screen';
+      if (isFlat) {
+        glow.style.background = 'none';
+        glow.style.mixBlendMode = 'normal';
+      } else {
+        const intensity = cfg.glowIntensity / 100;
+        glow.style.background = `radial-gradient(circle ${cfg.glowRadius}px at ${x}px ${y}px, rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},${intensity}), rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},${intensity * 0.33}) 50%, transparent 100%)`;
+        glow.style.mixBlendMode = 'screen';
+      }
     }
 
-    // Viewport cull bounds
     const cRect = container.getBoundingClientRect();
     const viewTop = cRect.top - 200;
     const viewBottom = cRect.bottom + 200;
     const fadeZone = cfg.radius + 100;
+    const flatCutoff = flatRadius;
 
-    // Text illumination (no viewport cull - ensures config changes apply everywhere)
     for (let i = 0; i < textEls.current.length; i++) {
       const el = textEls.current[i] as HTMLElement;
       const r = el.getBoundingClientRect();
-      // Skip distance calc for off-screen, just keep base color
       if (r.bottom < viewTop || r.top > viewBottom) {
         el.style.color = cfg.textColor;
         el.style.textShadow = 'none';
@@ -131,54 +136,19 @@ export default function PortfolioScene({ config }: { config: MaskConfig }) {
       const cx = r.left + r.width / 2 - cRect.left;
       const cy = r.top + r.height / 2 - cRect.top + scrollTop;
       const dist = Math.hypot(x - cx, y - cy);
-      const t = Math.max(0, Math.min(1, 1 - dist / fadeZone));
+      const t = isFlat
+        ? (dist < flatCutoff ? 1 : 0)
+        : Math.max(0, Math.min(1, 1 - dist / fadeZone));
 
       if (t > 0.01) {
         el.style.color = lerpColor(textRgb.r, textRgb.g, textRgb.b, litR, litG, litB, t);
-        el.style.textShadow = `0 0 ${20 * t}px rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},${t * 0.5}), 0 0 ${40 * t}px rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},${t * 0.2})`;
+        el.style.textShadow = isFlat
+          ? 'none'
+          : `0 0 ${20 * t}px rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},${t * 0.5}), 0 0 ${40 * t}px rgba(${glowRgb.r},${glowRgb.g},${glowRgb.b},${t * 0.2})`;
       } else {
         el.style.color = cfg.textColor;
         el.style.textShadow = 'none';
       }
-    }
-
-    // Image illumination
-    for (let i = 0; i < imageEls.current.length; i++) {
-      const el = imageEls.current[i] as HTMLElement;
-      const r = el.getBoundingClientRect();
-      if (r.bottom < viewTop || r.top > viewBottom) {
-        el.style.filter = 'brightness(0.08)';
-        el.style.opacity = '0.3';
-        continue;
-      }
-
-      const cx = r.left + r.width / 2 - cRect.left;
-      const cy = r.top + r.height / 2 - cRect.top + scrollTop;
-      const dist = Math.hypot(x - cx, y - cy);
-      const t = Math.max(0, Math.min(1, 1 - dist / fadeZone));
-
-      el.style.filter = `brightness(${0.08 + t * 1.12}) sepia(${t * 0.15})`;
-      el.style.opacity = `${0.3 + t * 0.7}`;
-    }
-
-    // Border illumination
-    for (let i = 0; i < borderEls.current.length; i++) {
-      const el = borderEls.current[i] as HTMLElement;
-      const r = el.getBoundingClientRect();
-      if (r.bottom < viewTop || r.top > viewBottom) {
-        el.style.borderColor = cfg.textColor;
-        el.style.setProperty('--fl-border-color', cfg.textColor);
-        continue;
-      }
-
-      const cx = r.left + r.width / 2 - cRect.left;
-      const cy = r.top + r.height / 2 - cRect.top + scrollTop;
-      const dist = Math.hypot(x - cx, y - cy);
-      const t = Math.max(0, Math.min(1, 1 - dist / fadeZone));
-
-      const borderColor = lerpColor(textRgb.r, textRgb.g, textRgb.b, litR, litG, litB, t);
-      el.style.borderColor = borderColor;
-      el.style.setProperty('--fl-border-color', borderColor);
     }
 
     rafRef.current = requestAnimationFrame(animate);

@@ -12,12 +12,14 @@ export default function FlashlightLayout({
 }) {
   return (
     <div
+      className="fl-root"
       style={{
-        position: 'fixed',
-        inset: 0,
+        position: 'relative',
+        width: '100%',
+        minHeight: '100vh',
         background: '#0a0a0a',
-        overflow: 'hidden',
-        zIndex: 9999,
+        color: '#fff',
+        overflowX: 'hidden',
       }}
     >
       {children}

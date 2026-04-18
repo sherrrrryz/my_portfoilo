@@ -1,0 +1,24 @@
+.scroll-float {
+  overflow: hidden;
+  margin: 0;
+  font-family: 'Switzer-Variable', 'Switzer', 'Inter', system-ui, sans-serif;
+}
+
+.scroll-float-text {
+  display: inline-block;
+  font-size: clamp(2.75rem, 8vw, 8rem);
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.scroll-float .word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.scroll-float .char {
+  display: inline-block;
+  opacity: 0;
+}

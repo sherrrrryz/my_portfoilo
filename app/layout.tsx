@@ -1,11 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Navbar } from "./components/nav";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import Footer from "./components/footer";
 import { ThemeProvider } from "./components/theme-switch";
+import LayoutChrome from "./components/LayoutChrome";
 import { metaData } from "./lib/config";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -75,20 +74,16 @@ export default function RootLayout({
           title="JSON Feed"
         />
       </head>
-      <body className="antialiased flex flex-col items-center justify-center mx-auto mb-12">
+      <body className="antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <main className="flex-auto min-w-0 flex flex-col px-6 md:px-16 max-w-[1600px] w-full">
-            <Navbar />
-            {children}
-            <Footer />
-            <Analytics />
-            <SpeedInsights />
-          </main>
+          <LayoutChrome>{children}</LayoutChrome>
+          <Analytics />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>
