@@ -17,7 +17,7 @@
 
 **原则**
 
-- 单栈。不引入 framer-motion / motion one / locomotive-scroll，避免双重 rAF / 双重滚动劫持。
+- **Scroll 动画单栈。** 不在 scroll-driven 场景引入 framer-motion / motion one / locomotive-scroll —— 具体是禁用 framer-motion 的 `useScroll` / `useTransform` / `useSpring` / `whileInView`，因为它们读的是 `window.scrollY`，和 Lenis 平滑后的位置对不上，会出现肉眼可见的 drift。非 scroll 的 UI 状态动画（modal、menu、tooltip、`whileHover` 等）framer-motion **可以用**，详见 CLAUDE.md。
 - Lenis 在 rAF 里自己跑，不绑 `gsap.ticker`（gsap ticker 在没有活跃 tween 时会休眠，会把 Lenis 饿死）。参见 [LenisContext.tsx](../app/_story/lib/LenisContext.tsx)。
 - 所有 ScrollTrigger 通过 `lenis.on('scroll', ScrollTrigger.update)` 和 Lenis 同步。
 - 默认**连续叙事**，不做全屏 snap。snap 只在整屏幻灯片场景才考虑。
