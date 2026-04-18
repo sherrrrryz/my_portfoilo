@@ -40,3 +40,8 @@ next-env.d.ts
 
 # claude code agent worktrees (temporary session sandboxes)
 .claude/worktrees/
+
+# skills (installed via `skills add`; re-fetched from skills-lock.json)
+.agents/
+.claude/skills/
+.kiro/
