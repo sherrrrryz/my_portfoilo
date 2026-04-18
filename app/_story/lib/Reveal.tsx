@@ -6,6 +6,7 @@ import {
   useRef,
   type CSSProperties,
   type ReactElement,
+  type ReactNode,
 } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -18,7 +19,10 @@ export type RevealEffect = 'float' | 'blur' | 'slide' | 'fade';
 export type RevealTrigger = 'once' | 'scrub' | 'toggle';
 
 export type RevealProps = {
-  children: string;
+  // mode='chars' | 'words' | 'lines' requires a string child to split.
+  // mode='element' accepts any ReactNode — image, card, arbitrary JSX.
+  // If you pass JSX with a split mode, Reveal silently falls back to element mode.
+  children: ReactNode;
   mode?: RevealMode;
   effect?: RevealEffect;
   trigger?: RevealTrigger;
@@ -69,11 +73,16 @@ export function Reveal({
     return { effect, trigger, stagger, duration, initialY, initialBlur };
   }, [motion, effect, trigger, stagger, duration, initialY, initialBlur]);
 
+  // Split modes need string content. If caller passes JSX with mode='words',
+  // silently treat it as 'element' — whole wrapper animates as one.
+  const effectiveMode: RevealMode =
+    mode !== 'element' && typeof children !== 'string' ? 'element' : mode;
+
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
 
-    const targets = buildTargets(root, mode);
+    const targets = buildTargets(root, effectiveMode);
     if (!targets.length) return;
 
     const fromVars = buildFromVars(
@@ -110,13 +119,13 @@ export function Reveal({
     return () => {
       tween.scrollTrigger?.kill();
       tween.kill();
-      if (mode === 'lines') {
+      if (effectiveMode === 'lines') {
         unwrapLines(root);
       }
     };
   }, [
     children,
-    mode,
+    effectiveMode,
     ease,
     start,
     end,
@@ -132,13 +141,18 @@ export function Reveal({
 
   return (
     <div ref={rootRef} className={className} style={style}>
-      {renderSplit(children, mode)}
+      {renderSplit(children, effectiveMode)}
     </div>
   );
 }
 
-function renderSplit(text: string, mode: RevealMode) {
-  if (mode === 'element') return text;
+function renderSplit(children: ReactNode, mode: RevealMode) {
+  // element mode — render whatever the caller passed (string, JSX, element).
+  if (mode === 'element') return children;
+  // Split modes need a string. The caller guarantees this via effectiveMode
+  // fallback, but defend anyway.
+  const text = typeof children === 'string' ? children : '';
+  if (!text) return children;
 
   if (mode === 'chars') {
     return Array.from(text).map((c, i) => (

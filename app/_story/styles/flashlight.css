@@ -1,5 +1,128 @@
 @import url("https://api.fontshare.com/v2/css?f[]=switzer@100,400,500,600,700,800,900&display=swap");
 
+/* ===== MIUI 3-column grid (Section 2) ===== */
+.miui-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+@media (max-width: 840px) {
+  .miui-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+
+/* ===== Foldable A/B voting carousel (Section 3, Swiper) =====
+   Keyboard + Mousewheel + Navigation + Pagination + A11y modules.
+   Centered slide gets .swiper-slide-active; siblings dim + scale down.
+   Wrap bleeds to 100vw; swiper softens the viewport edges with a mask. */
+.foldable-wrap {
+  position: relative;
+  /* Bleed past the parent section's 8vw padding so the carousel uses
+     full viewport width. Ensures adjacent groups peek on every breakpoint. */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+.foldable-hint {
+  max-width: 640px;
+  margin: 0 auto 18px;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: rgba(26, 26, 26, 0.55);
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+
+.foldable-wrap .foldable-swiper {
+  padding: 32px 0 56px;
+  overflow-x: clip;
+  overflow-y: visible;
+  /* Soft fade on the viewport edges so peeking neighbor slides don't
+     end in a hard cut. Narrow enough not to clip centered text. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+}
+
+.foldable-swiper .foldable-slide {
+  width: clamp(320px, 88vw, 1100px);
+  margin-right: clamp(24px, 4vw, 64px);
+  opacity: 0.35;
+  transform: scale(0.94);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.foldable-swiper .foldable-slide.swiper-slide-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ----- Navigation arrows ----- */
+.foldable-swiper .swiper-button-prev,
+.foldable-swiper .swiper-button-next {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(26, 26, 26, 0.12);
+  color: #1a1a1a;
+  transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+  backdrop-filter: blur(6px);
+  top: 50%;
+  margin-top: -20px;
+}
+
+.foldable-swiper .swiper-button-prev {
+  left: clamp(12px, 3vw, 32px);
+}
+
+.foldable-swiper .swiper-button-next {
+  right: clamp(12px, 3vw, 32px);
+}
+
+.foldable-swiper .swiper-button-prev:hover,
+.foldable-swiper .swiper-button-next:hover {
+  background: #fff;
+  border-color: rgba(26, 26, 26, 0.3);
+}
+
+.foldable-swiper .swiper-button-prev.swiper-button-disabled,
+.foldable-swiper .swiper-button-next.swiper-button-disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.foldable-swiper .swiper-button-prev::after,
+.foldable-swiper .swiper-button-next::after {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ----- Pagination dots ----- */
+.foldable-swiper .swiper-pagination {
+  position: relative;
+  margin-top: 16px;
+  bottom: auto;
+}
+
+.foldable-swiper .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: rgba(26, 26, 26, 0.2);
+  opacity: 1;
+  transition: background 0.25s ease, width 0.25s ease;
+}
+
+.foldable-swiper .swiper-pagination-bullet-active {
+  background: #1a1a1a;
+  width: 22px;
+  border-radius: 4px;
+}
+
 /* ===== GPU layer promotion =====
    Apply via `className={GPU}` (app/_story/lib/gpu.ts) on any element driving
    heavy transform animation. Forces a compositor layer so scroll-scrubbed
