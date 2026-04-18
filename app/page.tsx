@@ -1,106 +1,180 @@
-import Image from "next/image";
-import Link from "next/link";
-import { FadeInWhenVisible } from "./components/fadeIn";
-import { ProjectsSection } from "./components/project/projectSection";
-import { ArrowRight } from "lucide-react";
+'use client';
 
-function HeroSection() {
+import './_story/styles/flashlight.css';
+
+import Link from 'next/link';
+import { useState } from 'react';
+import PortfolioScene, { type FlashlightMode } from './_story/components/PortfolioScene';
+import PillNav from './_story/components/PillNav';
+import ScrollFloat from './_story/components/ScrollFloat';
+import ScrollReveal from './_story/components/ScrollReveal';
+import LockscreenPile from './_story/components/LockscreenPile';
+import LenisProvider from './_story/components/LenisProvider';
+import { DEFAULT_CONFIG } from './_story/components/MaskControls';
+
+export default function StoryPage() {
+  const [mode, setMode] = useState<FlashlightMode>('glow');
+
   return (
-    <section className="w-full">
-      <div className="mx-auto px-6 md:px-16 py-12">
-        <div className="flex flex-col gap-2 items-start">
-          {/* Name and title */}
-          <div className="flex gap-1 items-center flex-wrap">
-            <span className="text-lg md:text-xl text-[var(--greytext)] font-light capitalize">
-              xueyi(Sherry) Zhou
-            </span>
-            <div className="flex items-center justify-center h-[23px]">
-              <div className="w-[16px] h-[1px] bg-[var(--greytext)] rotate-90"></div>
-            </div>
-            <span className="text-lg md:text-xl text-[var(--greytext)] font-light capitalize">
-              Product & UX designer
-            </span>
-          </div>
+    <div
+      className="fl-root"
+      style={{
+        position: 'relative',
+        width: '100%',
+        minHeight: '100vh',
+        background: '#0a0a0a',
+        color: '#fff',
+        overflowX: 'hidden',
+      }}
+    >
+      <LenisProvider />
+      <PillNav
+        logo="/logo.png"
+        logoAlt="Sherry"
+        items={[{ label: 'Story', href: '/' }]}
+        activeHref="/"
+        baseColor="#ffffff"
+        pillColor="#0a0a0a"
+        hoveredPillTextColor="#0a0a0a"
+        pillTextColor="#ffffff"
+      />
 
-          {/* Main heading - responsive text size */}
-          <h2 className="text-2xl md:text-5xl font-bold text-[var(--sh-identifier)] capitalize leading-[1.5] max-w-full">
-            Hi 👋 nice to meet you!
-          </h2>
+      <button
+        type="button"
+        onClick={() => setMode((m) => (m === 'glow' ? 'flat' : 'glow'))}
+        aria-label="Toggle flashlight style"
+        style={{
+          position: 'fixed',
+          top: 24,
+          right: 32,
+          zIndex: 200,
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
+          padding: '6px 12px',
+          borderRadius: 9999,
+          border: '1px solid rgba(255,255,255,0.25)',
+          background: 'rgba(0,0,0,0.4)',
+          color: 'rgba(255,255,255,0.85)',
+          fontSize: 10,
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          cursor: 'pointer',
+          backdropFilter: 'blur(6px)',
+        }}
+      >
+        <span
+          aria-hidden="true"
+          style={{
+            width: 8,
+            height: 8,
+            borderRadius: '50%',
+            background: mode === 'glow' ? '#ffd27a' : '#ffffff',
+            boxShadow:
+              mode === 'glow'
+                ? '0 0 8px rgba(255,210,122,0.9)'
+                : '0 0 0 1px rgba(255,255,255,0.4)',
+            transition: 'all 0.25s ease',
+          }}
+        />
+        {mode === 'glow' ? 'Glow' : 'Flat'}
+      </button>
 
-          {/* Description */}
-          <div className="flex flex-col gap-2 text-base text-[var(--nav-fg)] font-normal leading-[1.5] tracking-[0.48px] capitalize max-w-[1000px]">
-            <p>
-              I'm a UX/Product Designer with 5 years experience at Huawei, Xiaomi, and AppLovin.</p>
-            <p className="hidden md:block">Recently, I've been excited about the new opportunities AI brings and I'm actively learning coding to expand my skills. <br></br>This fall, I’ll also be beginning new journeys with BrainStation and Designlab to continue growing.</p>
-            <p className="hidden md:block">Always cheerful and open-minded, I love collaborating with others, sharing ideas, and building meaningful connections along the way.  🌟</p>
-          </div>
-        </div>
-        <br></br>
-        <button className="bg-[var(--sh-identifier)] px-6 py-3 rounded-[12px] text-[var(--sh-btn)] font-semibold text-[16px] capitalize hover:opacity-80 transition-colors">
-            👉 Let's Connect!
-          </button>
-      </div>
-    </section>
-  );
-}
+      <section
+        id="section-opening"
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '100vh',
+          overflow: 'hidden',
+          background: '#0a0a0a',
+        }}
+      >
+        <PortfolioScene config={DEFAULT_CONFIG} mode={mode} />
+      </section>
 
-
-function EphemeralChatEntry() {
-  return (
-    <section className="w-full">
-      <div className="mx-auto px-6 md:px-16 py-16 md:py-24">
-        <div className="border border-[var(--border)] rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="flex flex-col gap-2">
-            <span className="text-xs uppercase tracking-widest text-[var(--greytext)] font-medium">
-              Side experiment
-            </span>
-            <h3 className="text-xl md:text-2xl font-semibold text-[var(--sh-identifier)]">
-              Ephemeral Chat
-            </h3>
-            <p className="text-sm text-[var(--nav-fg)] max-w-md leading-relaxed">
-              A chat interface where words dissolve like sound. No input box, no send button. Type freely, interrupt anytime.
-            </p>
-          </div>
-          <Link
-            href="/chat"
-            className="flex items-center gap-2 bg-[var(--sh-identifier)] text-[var(--sh-btn)] px-5 py-2.5 rounded-xl text-sm font-semibold hover:opacity-80 transition-opacity whitespace-nowrap flex-shrink-0"
+      <section
+        style={{
+          position: 'relative',
+          width: '100%',
+          minHeight: '100vh',
+          background: '#f5f1ea',
+          color: '#1a1a1a',
+          padding: '22vh 8vw',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          fontFamily: "'Switzer-Variable', 'Switzer', 'Inter', system-ui, sans-serif",
+        }}
+      >
+        <div style={{ maxWidth: 2200, width: '100%' }}>
+          <div
+            style={{
+              fontSize: 14,
+              letterSpacing: '0.22em',
+              textTransform: 'uppercase',
+              color: 'rgba(26,26,26,0.55)',
+              marginBottom: 36,
+              textAlign: 'center',
+              fontWeight: 500,
+            }}
           >
-            Enter the space
-            <ArrowRight size={15} />
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
+            I design for millions.
+          </div>
+          <div id="section-millions-question" data-snap-align="center">
+            <ScrollFloat
+              animationDuration={0.6}
+              ease="power3.out"
+              scrollStart="top 75%"
+              stagger={0.025}
+              scrub={false}
+            >
+              What does it mean to design for 700 million people?
+            </ScrollFloat>
+          </div>
 
-function LearnMore() {
-  return (
-    <section className="w-full">
-      <div className="max-w-7xl mx-auto px-6 py-32">
-        <div className="text-xl font-medium text-[var(--nav-fg)] capitalize text-center">
-          <Link href="/about" className="flex flex-col items-center justify-center hover:text-[var(--accent)] underline">
-          learn more about me
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
+          <div
+            id="section-millions-answer"
+            data-snap-align="center"
+            style={{ marginTop: '80vh' }}
+          >
+            <ScrollReveal
+              baseOpacity={0.1}
+              baseRotation={2}
+              blurStrength={4}
+            >
+              It means making something personal — at a scale where nothing feels personal.
+            </ScrollReveal>
+          </div>
 
-export default function Page() {
-  return (
-    <section className="w-full flex flex-col gap-6 md:gap-16">
-      <FadeInWhenVisible>
-        <HeroSection />
-      </FadeInWhenVisible>
-      <FadeInWhenVisible delay={0.2}>
-        <ProjectsSection />
-      </FadeInWhenVisible>
-      <FadeInWhenVisible delay={0.3}>
-        <EphemeralChatEntry />
-      </FadeInWhenVisible>
-        <LearnMore />
-    </section>
+          <div style={{ marginTop: '14vh' }}>
+            <LockscreenPile />
+          </div>
+
+          <div
+            style={{
+              marginTop: '18vh',
+              textAlign: 'center',
+              fontSize: 13,
+              letterSpacing: '0.08em',
+              color: 'rgba(26,26,26,0.45)',
+            }}
+          >
+            Xiaomi Lock Screen · 2023 ·{' '}
+            <Link
+              href="/projects/lockscreen"
+              style={{
+                color: 'inherit',
+                textDecoration: 'underline',
+                textUnderlineOffset: 4,
+              }}
+            >
+              View project →
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

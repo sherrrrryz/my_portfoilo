@@ -3,13 +3,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { ThemeProvider } from "./components/theme-switch";
-import LayoutChrome from "./components/LayoutChrome";
 import { metaData } from "./lib/config";
 
 const inter = Inter({ subsets: ["latin"] });
 
-{/* metadata 配置，用于设置网站的 SEO（搜索引擎优化）和社交媒体分享信息 自动从 app/lib/config.ts 读取数据*/}
 export const metadata: Metadata = {
   metadataBase: new URL(metaData.baseUrl),
   title: {
@@ -52,39 +49,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.className}`}>
-      {/* RSS 和 Feed 链接声明 */}
-      <head>
-        <link
-          rel="alternate"
-          type="application/rss+xml"
-          href="/rss.xml"
-          title="RSS Feed"
-        />
-        <link
-          rel="alternate"
-          type="application/atom+xml"
-          href="/atom.xml"
-          title="Atom Feed"
-        />
-        <link
-          rel="alternate"
-          type="application/feed+json"
-          href="/feed.json"
-          title="JSON Feed"
-        />
-      </head>
+    <html lang="en" className={inter.className}>
       <body className="antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <LayoutChrome>{children}</LayoutChrome>
-          <Analytics />
-          <SpeedInsights />
-        </ThemeProvider>
+        {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

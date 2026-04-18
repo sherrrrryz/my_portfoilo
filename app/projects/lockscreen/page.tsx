@@ -98,10 +98,10 @@ export default function ProjectLockScreen() {
     <SeeDetailProvider>
     <main className="w-full py-4 md:py-8">
       <Link
-          href="/projects"
+          href="/"
           className="inline-flex items-center text-[var(--nav-fg)] hover:text-[var(--accent)] mb-8 transition-colors"
         >
-          ← See All Projects
+          ← Back to Story
         </Link>
 
       <ResponsiveImg
