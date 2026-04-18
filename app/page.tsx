@@ -1,6 +1,7 @@
 'use client';
 
 import './_story/styles/flashlight.css';
+import './_story/styles/for-business.css';
 
 import Link from 'next/link';
 import { useState } from 'react';
@@ -12,6 +13,8 @@ import LockscreenPile from './_story/components/LockscreenPile';
 import BeforeAfterSlider from './_story/components/BeforeAfterSlider';
 import ABVote from './_story/components/ABVote';
 import FoldableCarousel from './_story/components/FoldableCarousel';
+import MonoCornerLabel from './_story/components/MonoCornerLabel';
+import ComparisonCard from './_story/components/ComparisonCard';
 import { Reveal } from './_story/lib/Reveal';
 import { LenisProvider } from './_story/lib/LenisContext';
 import { DEFAULT_CONFIG } from './_story/components/MaskControls';
@@ -339,6 +342,216 @@ export default function StoryPage() {
             }}
           >
             Foldable Screen Framework · 2022 · View project →
+          </div>
+        </div>
+      </section>
+
+      {/* Section 1 → 2 bridge */}
+      <section className="fb-bridge" aria-hidden={false}>
+        <Reveal
+          mode="words"
+          effect="blur"
+          trigger="once"
+          duration={1}
+          stagger={0.04}
+          initialBlur={4}
+          start="top 70%"
+          className="fb-bridge__copy"
+        >
+          At Xiaomi, I designed for scale. Then I joined a company where design was measured differently.
+        </Reveal>
+      </section>
+
+      {/* Section 02.A — Opening */}
+      <section id="section-business-opening" className="fb-section">
+        <MonoCornerLabel id="02.A" title="Opening" />
+        <div className="fb-section__inner">
+          <div className="fb-opening__grid">
+            <div>
+              <div className="fb-opening__eyebrow">Section 02 · For Business</div>
+              <Reveal
+                mode="element"
+                effect="slide"
+                trigger="once"
+                duration={1}
+                initialY={32}
+                start="top 75%"
+              >
+                <h2 className="fb-opening__headline">
+                  At AppLovin,
+                  <br />
+                  design was measured in{' '}
+                  <span className="accent">dollars.</span>
+                </h2>
+              </Reveal>
+            </div>
+            <Reveal
+              mode="element"
+              effect="fade"
+              trigger="once"
+              duration={1}
+              start="top 78%"
+              className="fb-opening__body"
+            >
+              <p>
+                The OOBE app-recommendation flow ships with{' '}
+                <strong>Samsung</strong>, <strong>T-Mobile</strong>, and a dozen
+                other OEMs. It reaches tens of millions of newly unboxed phones
+                each quarter and contributes{' '}
+                <strong>seven figures of revenue</strong>.
+              </p>
+              <p>Every pixel is A/B tested. Taste has to defend itself.</p>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 02.B — Three Design Tenets */}
+      <section id="section-business-tenets" className="fb-section">
+        <MonoCornerLabel
+          id="02.B"
+          title="Three Design Tenets"
+          meta="no data yet — pure suspense"
+        />
+        <div className="fb-section__inner">
+          <div className="fb-tenets">
+            <Reveal
+              mode="element"
+              effect="fade"
+              trigger="once"
+              duration={0.6}
+              start="top 80%"
+            >
+              <span className="fb-tenets__label">Design Common Sense</span>
+            </Reveal>
+            <div className="fb-tenets__rule" aria-hidden="true" />
+            <Reveal
+              mode="element"
+              effect="slide"
+              trigger="once"
+              duration={0.9}
+              initialY={20}
+              start="top 80%"
+            >
+              <p className="fb-tenets__quote">
+                &ldquo;Fewer steps is always better.&rdquo;
+              </p>
+            </Reveal>
+            <Reveal
+              mode="element"
+              effect="slide"
+              trigger="once"
+              duration={0.9}
+              initialY={20}
+              start="top 78%"
+            >
+              <p className="fb-tenets__quote">
+                &ldquo;Cleaner UI converts more.&rdquo;
+              </p>
+            </Reveal>
+            <Reveal
+              mode="element"
+              effect="slide"
+              trigger="once"
+              duration={0.9}
+              initialY={20}
+              start="top 76%"
+            >
+              <p className="fb-tenets__quote">
+                &ldquo;Users hate being forced.&rdquo;
+              </p>
+            </Reveal>
+            <div
+              className="fb-tenets__rule fb-tenets__rule--short"
+              aria-hidden="true"
+            />
+            <Reveal
+              mode="element"
+              effect="fade"
+              trigger="once"
+              duration={0.6}
+              start="top 75%"
+            >
+              <p className="fb-tenets__punch">We tested all three.</p>
+            </Reveal>
+            <Reveal
+              mode="element"
+              effect="slide"
+              trigger="once"
+              duration={0.8}
+              initialY={12}
+              start="top 73%"
+            >
+              <p className="fb-tenets__punch fb-tenets__punch--accent">
+                All three were wrong.
+              </p>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 02.C — The Data Flip */}
+      <section id="section-business-data-flip" className="fb-section">
+        <MonoCornerLabel
+          id="02.C"
+          title="The Data Flip"
+          hint="← expected / actual →"
+        />
+        <div className="fb-section__inner">
+          <div className="fb-flip">
+            <div className="fb-flip__row">
+              <Reveal
+                mode="element"
+                effect="slide"
+                trigger="once"
+                duration={0.9}
+                initialY={40}
+                start="top 80%"
+              >
+                <ComparisonCard
+                  expected="1-step survey should win."
+                  actual="5-step survey drove 18% install growth vs. 14% for 1-step."
+                  loserLabel="1 step"
+                  winnerLabel="5 steps"
+                />
+              </Reveal>
+              <Reveal
+                mode="element"
+                effect="slide"
+                trigger="once"
+                duration={0.9}
+                initialY={40}
+                start="top 78%"
+              >
+                <ComparisonCard
+                  expected="Clean, collapsed bundle should win."
+                  actual="Transparent bundle: 0.47 net lift vs. 0.37 for collapsed."
+                  loserLabel="Collapsed"
+                  winnerLabel="Transparent"
+                />
+              </Reveal>
+              <Reveal
+                mode="element"
+                effect="slide"
+                trigger="once"
+                duration={0.9}
+                initialY={40}
+                start="top 76%"
+              >
+                <ComparisonCard
+                  expected="Free browsing should win."
+                  actual="Forced swipe (10 cards): 15.65% CTR."
+                  loserLabel="List"
+                  winnerLabel="Swipe deck"
+                />
+              </Reveal>
+            </div>
+          </div>
+          <div className="fb-footer">
+            AppLovin OOBE · 2025 ·{' '}
+            <a href="#" title="Case study coming soon">
+              View project →
+            </a>
           </div>
         </div>
       </section>

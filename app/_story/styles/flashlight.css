@@ -1,4 +1,10 @@
-@import url("https://api.fontshare.com/v2/css?f[]=switzer@100,400,500,600,700,800,900&display=swap");
+@import url("https://api.fontshare.com/v2/css?f[]=switzer@100,400,500,600,700,800,900,400i,500i,600i,700i,800i&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+
+:root {
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --for-business-accent: #b14224;
+}
 
 /* ===== MIUI 3-column grid (Section 2) ===== */
 .miui-grid {
