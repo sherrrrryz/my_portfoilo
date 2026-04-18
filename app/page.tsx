@@ -9,13 +9,14 @@ import PillNav from './_story/components/PillNav';
 import ScrollFloat from './_story/components/ScrollFloat';
 import ScrollReveal from './_story/components/ScrollReveal';
 import LockscreenPile from './_story/components/LockscreenPile';
-import LenisProvider from './_story/components/LenisProvider';
+import { LenisProvider } from './_story/lib/LenisContext';
 import { DEFAULT_CONFIG } from './_story/components/MaskControls';
 
 export default function StoryPage() {
   const [mode, setMode] = useState<FlashlightMode>('glow');
 
   return (
+    <LenisProvider>
     <div
       className="fl-root"
       style={{
@@ -27,7 +28,6 @@ export default function StoryPage() {
         overflowX: 'hidden',
       }}
     >
-      <LenisProvider />
       <PillNav
         logo="/logo.png"
         logoAlt="Sherry"
@@ -176,5 +176,6 @@ export default function StoryPage() {
         </div>
       </section>
     </div>
+    </LenisProvider>
   );
 }

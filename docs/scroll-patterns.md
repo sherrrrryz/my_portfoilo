@@ -18,7 +18,7 @@
 **原则**
 
 - 单栈。不引入 framer-motion / motion one / locomotive-scroll，避免双重 rAF / 双重滚动劫持。
-- Lenis 在 rAF 里自己跑，不绑 `gsap.ticker`（gsap ticker 在没有活跃 tween 时会休眠，会把 Lenis 饿死）。参见 [LenisProvider.tsx:23-30](../app/flashlight/components/LenisProvider.tsx)。
+- Lenis 在 rAF 里自己跑，不绑 `gsap.ticker`（gsap ticker 在没有活跃 tween 时会休眠，会把 Lenis 饿死）。参见 [LenisContext.tsx](../app/_story/lib/LenisContext.tsx)。
 - 所有 ScrollTrigger 通过 `lenis.on('scroll', ScrollTrigger.update)` 和 Lenis 同步。
 - 默认**连续叙事**，不做全屏 snap。snap 只在整屏幻灯片场景才考虑。
 
@@ -28,13 +28,15 @@
 
 | 组件 | 文件 | 用途 | 触发模式 | 属于 |
 |---|---|---|---|---|
-| `LenisProvider` | [LenisProvider.tsx](../app/flashlight/components/LenisProvider.tsx) | 全站平滑滚动 | rAF 持续 | Lenis 官方 pattern |
-| `ScrollFloat` | [ScrollFloat.tsx](../app/flashlight/components/ScrollFloat.tsx) | 逐字入场（两种模式）| scrub / toggleActions | GSAP 官方 API |
-| `ScrollReveal` | [ScrollReveal.tsx](../app/flashlight/components/ScrollReveal.tsx) | 逐词 rotate + opacity + blur | 三个 scrub tween | GSAP 官方，**拆三份是自写决定** |
-| `LockscreenPile` | [LockscreenPile.tsx](../app/flashlight/components/LockscreenPile.tsx) | 图片堆一次性 stagger reveal | `once: true` | GSAP 官方 |
-| `ScrollSnap` | [ScrollSnap.tsx](../app/flashlight/components/ScrollSnap.tsx) | section-level 吸附（当前未挂载）| `lenis/snap` proximity | 官方库 |
-| `FlowingRows` | [FlowingRows.tsx](../app/flashlight/components/FlowingRows.tsx) | 水平 marquee | CSS keyframes | 纯 CSS |
-| `PortfolioScene` | [PortfolioScene.tsx](../app/flashlight/components/PortfolioScene.tsx) | 鼠标 flashlight mask | rAF + mouse 事件 | 全自写（无库可替）|
+| `LenisProvider` + `useLenis()` | [LenisContext.tsx](../app/_story/lib/LenisContext.tsx) | 全站平滑滚动 + context 暴露 Lenis 实例 | rAF 持续 | Lenis 官方 pattern + React Context |
+| `useMotion()` | [useMotion.ts](../app/_story/lib/useMotion.ts) | 读 `prefers-reduced-motion`，返回 `'full' \| 'reduced'` | matchMedia | 自写 hook |
+| `.gpu` / `GPU` | [gpu.ts](../app/_story/lib/gpu.ts) + [flashlight.css](../app/_story/styles/flashlight.css) | 促使重变换元素上独立合成层，修 iOS/Safari scrub 卡顿 | CSS class | 自写 helper |
+| `ScrollFloat` | [ScrollFloat.tsx](../app/_story/components/ScrollFloat.tsx) | 逐字入场（两种模式）| scrub / toggleActions | GSAP 官方 API |
+| `ScrollReveal` | [ScrollReveal.tsx](../app/_story/components/ScrollReveal.tsx) | 逐词 rotate + opacity + blur | 三个 scrub tween | GSAP 官方，**拆三份是自写决定** |
+| `LockscreenPile` | [LockscreenPile.tsx](../app/_story/components/LockscreenPile.tsx) | 图片堆一次性 stagger reveal | `once: true` | GSAP 官方 |
+| `ScrollSnap` | [ScrollSnap.tsx](../app/_story/components/ScrollSnap.tsx) | section-level 吸附（当前未挂载）| `lenis/snap` proximity | 官方库 |
+| `FlowingRows` | [FlowingRows.tsx](../app/_story/components/FlowingRows.tsx) | 水平 marquee | CSS keyframes | 纯 CSS |
+| `PortfolioScene` | [PortfolioScene.tsx](../app/_story/components/PortfolioScene.tsx) | 鼠标 flashlight mask | rAF + mouse 事件 | 全自写（无库可替）|
 
 自写判定：
 
@@ -306,7 +308,8 @@ return () => { tl.scrollTrigger?.kill(); tl.kill(); };
 |---|---|---|
 | `ScrollTrigger.getAll().forEach(t => t.kill())` 放 cleanup | 杀掉别的组件的 trigger，图片 pile 永不入场 | 每个 tween 留引用，`return () => { tween.scrollTrigger?.kill(); tween.kill(); }` |
 | `invalidateOnRefresh: true` + `toggleActions` | 别的 ScrollTrigger 触发 refresh 时可能重播已播的动画 | 改成 `once: true` 或去掉 invalidateOnRefresh |
-| `window.scrollTo(y)` 没有 Lenis 平滑 | 瞬移而非滑动 | 用 `lenis.scrollTo(y, { duration, easing })`，lenis 实例全局可在 `window.__lenis` 拿到（见 [LenisProvider.tsx:18](../app/flashlight/components/LenisProvider.tsx)）|
+| `window.scrollTo(y)` 没有 Lenis 平滑 | 瞬移而非滑动 | 用 `lenis.scrollTo(y, { duration, easing })`，新代码用 `useLenis()` 拿实例（见 [LenisContext.tsx](../app/_story/lib/LenisContext.tsx)）。`window.__lenis` 仍保留做 back-compat，**已弃用，新代码不要再写 `window.__lenis`** |
+| 不读 `prefers-reduced-motion` 就上动画 | 有运动敏感症的用户看到 scrub / parallax 会眩晕。skill 里 HIGH severity a11y 项 | 任何新动画前先调 `useMotion()`；`reduced` 时：取消 stagger、停用 transform、改成 ≤ 0.2s opacity-only fade（见 [useMotion.ts](../app/_story/lib/useMotion.ts)）|
 | `lenis/snap` 不响应 programmatic scroll | 自动测试时 snap 不吸附 | snap 只听 `virtualScroll`（真实 wheel / touch）。测试用 `window.dispatchEvent(new WheelEvent('wheel', { deltaY, bubbles: true, cancelable: true }))` 模拟 |
 | 字体加载前算 ScrollTrigger 位置 | start / end 偏移，最后一句永远不 reveal | 包一层 `document.fonts.ready.then(setup)`，见 §5 |
 | `scrub` + `toggleActions` 同时配 | 行为冲突，scrub 优先 | 选一个。要一次性 reveal 用 `once: true` |

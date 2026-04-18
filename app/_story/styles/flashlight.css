@@ -1,5 +1,15 @@
 @import url("https://api.fontshare.com/v2/css?f[]=switzer@100,400,500,600,700,800,900&display=swap");
 
+/* ===== GPU layer promotion =====
+   Apply via `className={GPU}` (app/_story/lib/gpu.ts) on any element driving
+   heavy transform animation. Forces a compositor layer so scroll-scrubbed
+   transforms don't thrash on iOS/Safari. */
+.gpu {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
 /* ===== Scene container ===== */
 .flashlight-scene {
   position: relative;
