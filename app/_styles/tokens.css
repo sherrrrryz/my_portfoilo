@@ -25,17 +25,22 @@
    through a semantic or component token so changes cascade predictably.
 ============================================================================ */
 :root {
-  /* ------ Colors: neutrals (true-neutral, 12 steps) ------ */
-  --neutral-50:  #fafafa;
-  --neutral-100: #f5f5f5;
-  --neutral-200: #e5e5e5;
-  --neutral-300: #d4d4d4;
-  --neutral-400: #a3a3a3;
-  --neutral-500: #737373;
-  --neutral-600: #525252;
-  --neutral-700: #404040;
-  --neutral-800: #262626;
-  --neutral-900: #171717;
+  /* ------ Colors: neutrals (true-neutral, 12 steps) ------
+     0 is the brightest step — pure #fafafa. Sits ABOVE the default paper
+     (neutral-50, a warm-tinted #f8f7f7) and is used for:
+       - white text on dark stage (ink-on-dark-primary)
+       - raised white cards on the default paper background */
+  --neutral-0:   #fafafa;
+  --neutral-50:  #f8f8f7;
+  --neutral-100: #f1f1f1;
+  --neutral-200: #e4e4e4;
+  --neutral-300: #d2d2d2;
+  --neutral-400: #a1a1a1;
+  --neutral-500: #717171;
+  --neutral-600: #505050;
+  --neutral-700: #3f3f3f;
+  --neutral-800: #252525;
+  --neutral-900: #161616;
   --neutral-950: #0a0a0a;
 
   /* ------ Colors: greens (hand-picked custom ramp) ------
@@ -98,18 +103,24 @@
   --tracking-wider:      0.12em;   /* mono corner label */
   --tracking-widest:     0.22em;   /* mono eyebrow */
 
-  /* ------ Spacing — geometric scale with dramatic jumps ------
-     8 steps only. Deliberately skips fine-grained intermediates so
-     compositions breathe. Big type + big whitespace + big radii. */
-  --space-0:  0;
-  --space-1:  4px;     /* hairline tweaks only */
-  --space-2:  8px;     /* tight internal (button padding-y) */
-  --space-3:  16px;    /* inline grouping */
-  --space-4:  24px;    /* component padding */
-  --space-5:  40px;    /* between related blocks */
-  --space-6:  64px;    /* between sections within a panel */
-  --space-7:  96px;    /* between major story beats */
-  --space-8:  144px;   /* hero-level separation */
+  /* ------ Spacing — geometric scale with three half-step fills ------
+     Integer steps are the default vocabulary — compositions breathe
+     by preferring those. The three half-steps below (`-5`) are escape
+     hatches for the gaps the integer scale can't reach cleanly
+     (12 / 32 / 48). Reach for them only when the integer neighbor
+     visibly drifts; above 64px the integer stops are enough. */
+  --space-0:    0;
+  --space-1:    4px;     /* hairline tweaks only */
+  --space-2:    8px;     /* tight internal (button padding-y) */
+  --space-2-5:  12px;    /* chip gap, winner-tag offset */
+  --space-3:    16px;    /* inline grouping */
+  --space-4:    24px;    /* component padding */
+  --space-4-5:  32px;    /* card padding sweet spot, mobile gap */
+  --space-5:    40px;    /* between related blocks */
+  --space-5-5:  48px;    /* between 40 and 64 */
+  --space-6:    64px;    /* between sections within a panel */
+  --space-7:    96px;    /* between major story beats */
+  --space-8:    144px;   /* hero-level separation */
 
   /* ------ Viewport-scaled spacing (page frames) ------ */
   --vspace-xs:  3vh;     /* corner label vertical offset */
@@ -117,6 +128,7 @@
   --vspace-md:  12vh;    /* tenets top margin */
   --vspace-lg:  18vh;    /* footer top margin */
   --vspace-xl:  22vh;    /* full-section padding-y */
+  --vspace-2xl: 60vh;    /* scroll-reveal gap between question and answer */
 
   --hspace-xs:  4vw;     /* corner label horizontal offset */
   --hspace-sm:  8vw;     /* section padding-x */
@@ -166,15 +178,16 @@
 ============================================================================ */
 :root {
   /* ------ Stage backgrounds ------ */
-  --stage-light:  var(--neutral-50);    /* #fafafa — story default */
+  --stage-light:  var(--neutral-50);    /* #f8f8f7 — story default (warm-tinted) */
   --stage-dark:   var(--neutral-950);   /* #0a0a0a — Section 0 Opening */
 
   /* ------ Surfaces (separation via fill, not border) ------
      This is the primary grammar for distinguishing blocks. Prefer a
      surface shift over a border whenever possible. Borders only for
      focus rings, input boundaries, and tiny chip accents. */
-  --surface-0:    var(--stage-light);   /* paper — page bg */
-  --surface-1:    var(--neutral-100);   /* default card, subtle lift */
+  --surface-0:    var(--stage-light);   /* paper — page bg (#f8f8f7) */
+  --surface-raised: var(--neutral-0);   /* raised white card on paper (#fafafa) */
+  --surface-1:    var(--neutral-100);   /* default card, subtle lift downward */
   --surface-2:    var(--neutral-200);   /* higher contrast block */
   --surface-ink:  var(--ink-primary);   /* inverted — black slab */
 
@@ -186,7 +199,7 @@
   --ink-disabled:  var(--neutral-300);
 
   /* ------ Ink on dark stage ------ */
-  --ink-on-dark-primary:   var(--neutral-50);   /* role line */
+  --ink-on-dark-primary:   var(--neutral-0);    /* white text on dark stage (#fafafa) */
   --ink-on-dark-secondary: var(--neutral-300);
   --ink-on-dark-muted:     var(--neutral-500);
   --ink-on-dark-faint:     var(--neutral-700);
@@ -243,21 +256,18 @@
   --bridge-padding-y:   var(--vspace-sm);
   --bridge-min-height:  70vh;
   --bridge-max-width:   960px;
-  --bridge-copy-size:   clamp(1.5rem, 3vw, 2.25rem);
+  --bridge-copy-size:   var(--text-2xl);
   --bridge-copy-weight: var(--font-medium);
-  --bridge-copy-color:  rgba(10, 10, 10, 0.6);
+  --bridge-copy-color:  var(--ink-primary);
 
   /* ------ Corner label (top-left of panel) ------
-     Pure typography — NO border. The tracking + mono face alone
-     signals "label". Dropping the outline removes visual noise. */
+     Pure typography — no border, no padding, no fill. The mono face
+     plus tracking alone signals "label". Keeps the frame quiet. */
   --corner-font:       var(--font-mono);
   --corner-size:       var(--text-micro);
   --corner-weight:     var(--font-medium);
   --corner-tracking:   var(--tracking-wider);
   --corner-color:      var(--ink-muted);
-  --corner-border:     none;
-  --corner-padding:    0;
-  --corner-radius:     0;
   --corner-offset-y:   var(--vspace-xs);
   --corner-offset-x:   var(--hspace-xs);
 
@@ -310,34 +320,6 @@
   /* ------ Rule / divider ------ */
   --rule-color:   var(--border-hairline);
   --rule-height:  1px;
-
-  /* ------ Comparison card (Section 02.C) ------
-     Surface-based, no outer border. Loser is a muted gray fill, winner
-     is an inverted black slab — contrast via value shift, not outline. */
-  --card-bg:                 var(--surface-1);
-  --card-border:             none;
-  --card-radius:             var(--radius-lg);
-  --card-padding:            var(--space-5);
-  --card-expected-color:     var(--ink-faint);
-  --card-expected-size:      clamp(0.95rem, 1.05vw, 1.05rem);
-  --card-actual-color:       var(--ink-primary);
-  --card-actual-size:        var(--text-lg);
-  --card-actual-weight:      var(--font-semibold);
-  --card-actual-leading:     var(--leading-base);
-  --card-box-radius:         var(--radius-md);
-  --card-box-aspect:         3 / 4;
-  --card-box-font:           var(--font-mono);
-  --card-box-size:           var(--text-micro);
-  --card-box-tracking:       0.14em;
-  --card-loser-border:       none;
-  --card-loser-color:        var(--ink-faint);
-  --card-loser-bg:           var(--surface-2);
-  --card-winner-border:      none;
-  --card-winner-color:       var(--stage-light);
-  --card-winner-bg:          var(--surface-ink);
-  --card-winner-tag-color:   var(--accent);           /* tiny colored dot on black */
-  --card-winner-tag-size:    10px;
-  --card-winner-tag-weight:  var(--font-semibold);
 
   /* ------ Footer link (small tracked micro + underline) ------ */
   --link-font:             var(--font-sans);
@@ -402,6 +384,7 @@
   --color-highlight:       var(--highlight);
   --color-highlight-pale:  var(--highlight-pale);
   --color-highlight-ink:   var(--highlight-ink);
+  --color-surface-raised: var(--surface-raised);
   --color-surface-1:     var(--surface-1);
   --color-surface-2:     var(--surface-2);
   --color-surface-ink:   var(--surface-ink);

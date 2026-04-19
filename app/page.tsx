@@ -1,5 +1,6 @@
 'use client';
 
+import './_styles/tokens.css';
 import './_story/styles/flashlight.css';
 import './_story/styles/for-business.css';
 
@@ -13,7 +14,6 @@ import LockscreenPile from './_story/components/LockscreenPile';
 import BeforeAfterSlider from './_story/components/BeforeAfterSlider';
 import ABVote from './_story/components/ABVote';
 import FoldableCarousel from './_story/components/FoldableCarousel';
-import MonoCornerLabel from './_story/components/MonoCornerLabel';
 import ComparisonCard from './_story/components/ComparisonCard';
 import { Reveal } from './_story/lib/Reveal';
 import { LenisProvider } from './_story/lib/LenisContext';
@@ -38,54 +38,17 @@ export default function StoryPage() {
       <PillNav
         logo="/logo.png"
         logoAlt="Sherry"
-        items={[{ label: 'Story', href: '/' }]}
+        items={[
+          { label: 'Story', href: '/' },
+          { label: 'Overview', href: '/overview' },
+          { label: 'Projects', href: '/projects' },
+        ]}
         activeHref="/"
         baseColor="#ffffff"
         pillColor="#0a0a0a"
         hoveredPillTextColor="#0a0a0a"
         pillTextColor="#ffffff"
       />
-
-      <button
-        type="button"
-        onClick={() => setMode((m) => (m === 'glow' ? 'flat' : 'glow'))}
-        aria-label="Toggle flashlight style"
-        style={{
-          position: 'fixed',
-          top: 24,
-          right: 32,
-          zIndex: 200,
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 8,
-          padding: '6px 12px',
-          borderRadius: 9999,
-          border: '1px solid rgba(255,255,255,0.25)',
-          background: 'rgba(0,0,0,0.4)',
-          color: 'rgba(255,255,255,0.85)',
-          fontSize: 10,
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          cursor: 'pointer',
-          backdropFilter: 'blur(6px)',
-        }}
-      >
-        <span
-          aria-hidden="true"
-          style={{
-            width: 8,
-            height: 8,
-            borderRadius: '50%',
-            background: mode === 'glow' ? '#ffd27a' : '#ffffff',
-            boxShadow:
-              mode === 'glow'
-                ? '0 0 8px rgba(255,210,122,0.9)'
-                : '0 0 0 1px rgba(255,255,255,0.4)',
-            transition: 'all 0.25s ease',
-          }}
-        />
-        {mode === 'glow' ? 'Glow' : 'Flat'}
-      </button>
 
       <section
         id="section-opening"
@@ -98,6 +61,49 @@ export default function StoryPage() {
         }}
       >
         <PortfolioScene config={DEFAULT_CONFIG} mode={mode} />
+
+        {/* Glow/Flat toggle — scoped to the opening section so it
+            scrolls away with the rest of Section 0. */}
+        <button
+          type="button"
+          onClick={() => setMode((m) => (m === 'glow' ? 'flat' : 'glow'))}
+          aria-label="Toggle flashlight style"
+          style={{
+            position: 'absolute',
+            top: 24,
+            right: 32,
+            zIndex: 3,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            padding: '6px 12px',
+            borderRadius: 9999,
+            border: '1px solid rgba(255,255,255,0.25)',
+            background: 'rgba(0,0,0,0.4)',
+            color: 'rgba(255,255,255,0.85)',
+            fontSize: 10,
+            letterSpacing: 'var(--tracking-wide)',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+            backdropFilter: 'blur(6px)',
+          }}
+        >
+          <span
+            aria-hidden="true"
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              background: mode === 'glow' ? '#ffd27a' : '#ffffff',
+              boxShadow:
+                mode === 'glow'
+                  ? '0 0 8px rgba(255,210,122,0.9)'
+                  : '0 0 0 1px rgba(255,255,255,0.4)',
+              transition: 'all 0.25s ease',
+            }}
+          />
+          {mode === 'glow' ? 'Glow' : 'Flat'}
+        </button>
       </section>
 
       <section
@@ -105,9 +111,9 @@ export default function StoryPage() {
           position: 'relative',
           width: '100%',
           minHeight: '100vh',
-          background: '#f5f1ea',
+          background: 'var(--stage-light)',
           color: '#1a1a1a',
-          padding: '22vh 8vw',
+          padding: 'var(--vspace-xl) var(--hspace-sm)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -118,13 +124,13 @@ export default function StoryPage() {
         <div style={{ maxWidth: 2200, width: '100%' }}>
           <div
             style={{
-              fontSize: 14,
-              letterSpacing: '0.22em',
+              fontSize: 'var(--text-sm)',
+              letterSpacing: 'var(--tracking-widest)',
               textTransform: 'uppercase',
-              color: 'rgba(26,26,26,0.55)',
-              marginBottom: 36,
+              color: 'var(--ink-muted)',
+              marginBottom: 'var(--space-4-5)',
               textAlign: 'center',
-              fontWeight: 500,
+              fontWeight: 'var(--font-medium)' as never,
             }}
           >
             I design for millions.
@@ -136,6 +142,7 @@ export default function StoryPage() {
               scrollStart="top 75%"
               stagger={0.025}
               scrub={false}
+              highlight="700 million"
             >
               What does it mean to design for 700 million people?
             </ScrollFloat>
@@ -144,7 +151,7 @@ export default function StoryPage() {
           <div
             id="section-millions-answer"
             data-snap-align="center"
-            style={{ marginTop: '80vh' }}
+            style={{ marginTop: 'var(--vspace-2xl)' }}
           >
             <ScrollReveal
               baseOpacity={0.1}
@@ -155,16 +162,16 @@ export default function StoryPage() {
             </ScrollReveal>
           </div>
 
-          <div style={{ marginTop: '14vh' }}>
+          <div style={{ marginTop: 'var(--vspace-md)' }}>
             <LockscreenPile />
           </div>
 
           <div
             style={{
-              marginTop: '18vh',
+              marginTop: 'var(--vspace-lg)',
               textAlign: 'center',
-              fontSize: 13,
-              letterSpacing: '0.08em',
+              fontSize: 'var(--text-sm)',
+              letterSpacing: 'var(--tracking-wide)',
               color: 'rgba(26,26,26,0.45)',
             }}
           >
@@ -189,9 +196,9 @@ export default function StoryPage() {
           position: 'relative',
           width: '100%',
           minHeight: '100vh',
-          background: '#f5f1ea',
+          background: 'var(--stage-light)',
           color: '#1a1a1a',
-          padding: '22vh 8vw',
+          padding: 'var(--vspace-xl) var(--hspace-sm)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -200,7 +207,7 @@ export default function StoryPage() {
         }}
       >
         <div style={{ maxWidth: 2200, width: '100%' }}>
-          <div style={{ maxWidth: 1400, margin: '0 auto', marginBottom: '14vh' }}>
+          <div style={{ maxWidth: 1400, margin: '0 auto', marginBottom: 'var(--vspace-md)' }}>
             <Reveal
               mode="words"
               effect="blur"
@@ -210,12 +217,11 @@ export default function StoryPage() {
               initialBlur={6}
               start="top 75%"
               style={{
-                fontFamily:
-                  "'Switzer-Variable', 'Switzer', 'Inter', system-ui, sans-serif",
-                fontSize: 'clamp(2.75rem, 8vw, 8rem)',
-                lineHeight: 1.05,
-                fontWeight: 800,
-                letterSpacing: '-0.02em',
+                fontFamily: 'var(--font-sans)',
+                fontSize: 'var(--text-3xl)',
+                lineHeight: 'var(--leading-tight)',
+                fontWeight: 'var(--font-extrabold)',
+                letterSpacing: 'var(--tracking-tightest)',
                 textAlign: 'center',
               }}
             >
@@ -246,10 +252,10 @@ export default function StoryPage() {
 
           <div
             style={{
-              marginTop: '18vh',
+              marginTop: 'var(--vspace-lg)',
               textAlign: 'center',
-              fontSize: 13,
-              letterSpacing: '0.08em',
+              fontSize: 'var(--text-sm)',
+              letterSpacing: 'var(--tracking-wide)',
               color: 'rgba(26,26,26,0.45)',
             }}
           >
@@ -264,9 +270,9 @@ export default function StoryPage() {
           position: 'relative',
           width: '100%',
           minHeight: '100vh',
-          background: '#f5f1ea',
+          background: 'var(--stage-light)',
           color: '#1a1a1a',
-          padding: '22vh 8vw',
+          padding: 'var(--vspace-xl) var(--hspace-sm)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -275,7 +281,7 @@ export default function StoryPage() {
         }}
       >
         <div style={{ maxWidth: 2200, width: '100%' }}>
-          <div style={{ maxWidth: 1400, margin: '0 auto', marginBottom: '14vh' }}>
+          <div style={{ maxWidth: 1400, margin: '0 auto', marginBottom: 'var(--vspace-md)' }}>
             <Reveal
               mode="words"
               effect="blur"
@@ -285,12 +291,11 @@ export default function StoryPage() {
               initialBlur={6}
               start="top 75%"
               style={{
-                fontFamily:
-                  "'Switzer-Variable', 'Switzer', 'Inter', system-ui, sans-serif",
-                fontSize: 'clamp(2.75rem, 8vw, 8rem)',
-                lineHeight: 1.05,
-                fontWeight: 800,
-                letterSpacing: '-0.02em',
+                fontFamily: 'var(--font-sans)',
+                fontSize: 'var(--text-3xl)',
+                lineHeight: 'var(--leading-tight)',
+                fontWeight: 'var(--font-extrabold)',
+                letterSpacing: 'var(--tracking-tightest)',
                 textAlign: 'center',
               }}
             >
@@ -334,10 +339,10 @@ export default function StoryPage() {
 
           <div
             style={{
-              marginTop: '18vh',
+              marginTop: 'var(--vspace-lg)',
               textAlign: 'center',
-              fontSize: 13,
-              letterSpacing: '0.08em',
+              fontSize: 'var(--text-sm)',
+              letterSpacing: 'var(--tracking-wide)',
               color: 'rgba(26,26,26,0.45)',
             }}
           >
@@ -364,11 +369,10 @@ export default function StoryPage() {
 
       {/* Section 02.A — Opening */}
       <section id="section-business-opening" className="fb-section">
-        <MonoCornerLabel id="02.A" title="Opening" />
         <div className="fb-section__inner">
           <div className="fb-opening__grid">
             <div>
-              <div className="fb-opening__eyebrow">Section 02 · For Business</div>
+              <div className="fb-opening__eyebrow">I design for business</div>
               <Reveal
                 mode="element"
                 effect="slide"
@@ -400,7 +404,6 @@ export default function StoryPage() {
                 each quarter and contributes{' '}
                 <strong>seven figures of revenue</strong>.
               </p>
-              <p>Every pixel is A/B tested. Taste has to defend itself.</p>
             </Reveal>
           </div>
         </div>
@@ -408,11 +411,6 @@ export default function StoryPage() {
 
       {/* Section 02.B — Three Design Tenets */}
       <section id="section-business-tenets" className="fb-section">
-        <MonoCornerLabel
-          id="02.B"
-          title="Three Design Tenets"
-          meta="no data yet — pure suspense"
-        />
         <div className="fb-section__inner">
           <div className="fb-tenets">
             <Reveal
@@ -434,7 +432,7 @@ export default function StoryPage() {
               start="top 80%"
             >
               <p className="fb-tenets__quote">
-                &ldquo;Fewer steps is always better.&rdquo;
+                &ldquo;<span className="fb-tenets__quote-mark">Fewer steps</span> is always better.&rdquo;
               </p>
             </Reveal>
             <Reveal
@@ -446,7 +444,7 @@ export default function StoryPage() {
               start="top 78%"
             >
               <p className="fb-tenets__quote">
-                &ldquo;Cleaner UI converts more.&rdquo;
+                &ldquo;<span className="fb-tenets__quote-mark">Cleaner UI</span> converts more.&rdquo;
               </p>
             </Reveal>
             <Reveal
@@ -458,47 +456,44 @@ export default function StoryPage() {
               start="top 76%"
             >
               <p className="fb-tenets__quote">
-                &ldquo;Users hate being forced.&rdquo;
+                &ldquo;Users hate <span className="fb-tenets__quote-mark">being forced</span>.&rdquo;
               </p>
             </Reveal>
             <div
               className="fb-tenets__rule fb-tenets__rule--short"
               aria-hidden="true"
             />
-            <Reveal
-              mode="element"
-              effect="fade"
-              trigger="once"
-              duration={0.6}
-              start="top 75%"
-            >
-              <p className="fb-tenets__punch">We tested all three.</p>
-            </Reveal>
-            <Reveal
-              mode="element"
-              effect="slide"
-              trigger="once"
-              duration={0.8}
-              initialY={12}
-              start="top 73%"
-            >
-              <p className="fb-tenets__punch fb-tenets__punch--accent">
-                All three were wrong.
-              </p>
-            </Reveal>
           </div>
         </div>
       </section>
 
       {/* Section 02.C — The Data Flip */}
       <section id="section-business-data-flip" className="fb-section">
-        <MonoCornerLabel
-          id="02.C"
-          title="The Data Flip"
-          hint="← expected / actual →"
-        />
         <div className="fb-section__inner">
           <div className="fb-flip">
+            <div className="fb-flip__lead">
+              <Reveal
+                mode="element"
+                effect="fade"
+                trigger="once"
+                duration={0.6}
+                start="top 75%"
+              >
+                <p className="fb-tenets__punch">We tested all three.</p>
+              </Reveal>
+              <Reveal
+                mode="element"
+                effect="slide"
+                trigger="once"
+                duration={0.8}
+                initialY={12}
+                start="top 73%"
+              >
+                <p className="fb-tenets__punch fb-tenets__punch--accent">
+                  All three were wrong.
+                </p>
+              </Reveal>
+            </div>
             <div className="fb-flip__row">
               <Reveal
                 mode="element"
@@ -509,10 +504,12 @@ export default function StoryPage() {
                 start="top 80%"
               >
                 <ComparisonCard
-                  expected="1-step survey should win."
-                  actual="5-step survey drove 18% install growth vs. 14% for 1-step."
-                  loserLabel="1 step"
-                  winnerLabel="5 steps"
+                  title="Onboarding survey"
+                  data="5-step survey drove 18% install growth. 1-step only drove 14%."
+                  optionA={{ label: '1-step' }}
+                  optionB={{ label: '5-step' }}
+                  winner="B"
+                  insight="Longer engagement built stronger intent."
                 />
               </Reveal>
               <Reveal
@@ -524,10 +521,12 @@ export default function StoryPage() {
                 start="top 78%"
               >
                 <ComparisonCard
-                  expected="Clean, collapsed bundle should win."
-                  actual="Transparent bundle: 0.47 net lift vs. 0.37 for collapsed."
-                  loserLabel="Collapsed"
-                  winnerLabel="Transparent"
+                  title="App bundle"
+                  data="Showing all app icons lifted installs by 0.47 per user. Collapsed view only lifted 0.37."
+                  optionA={{ label: 'Collapsed' }}
+                  optionB={{ label: 'Transparent' }}
+                  winner="B"
+                  insight="Transparency beat minimalism."
                 />
               </Reveal>
               <Reveal
@@ -539,10 +538,12 @@ export default function StoryPage() {
                 start="top 76%"
               >
                 <ComparisonCard
-                  expected="Free browsing should win."
-                  actual="Forced swipe (10 cards): 15.65% CTR."
-                  loserLabel="List"
-                  winnerLabel="Swipe deck"
+                  title="Recommendation browsing"
+                  data="Swipe cards reached 15.65% CTR. Free-scroll list stayed much lower."
+                  optionA={{ label: 'Free-scroll' }}
+                  optionB={{ label: 'Swipe' }}
+                  winner="B"
+                  insight="Forced focus beat open browsing."
                 />
               </Reveal>
             </div>

@@ -5,12 +5,12 @@
 }
 
 .scroll-reveal-text {
-  font-family: 'Switzer-Variable', 'Switzer', 'Inter', system-ui, sans-serif;
-  font-size: clamp(2.25rem, 6vw, 6rem);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: #1a1a1a;
+  font-family: var(--font-sans);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  line-height: 1.1; /* TODO: between leading-tight (1.08) and leading-snug (1.2) */
+  letter-spacing: var(--tracking-tightest);
+  color: var(--ink-primary);
   margin: 0 auto;
 }
 

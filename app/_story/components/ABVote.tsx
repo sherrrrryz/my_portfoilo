@@ -243,7 +243,7 @@ const foldBadgeTint: CSSProperties = {
 
 const optionBadgeTint: CSSProperties = {
   background: 'rgba(26,26,26,0.82)',
-  color: '#f5f1ea',
+  color: 'var(--stage-light)',
 };
 
 const card: CSSProperties = {

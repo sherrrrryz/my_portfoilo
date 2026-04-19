@@ -20,10 +20,10 @@
 
 .ls-item {
   aspect-ratio: 9 / 19.5;
-  border-radius: 18px;
+  border-radius: 18px; /* TODO: between radius-md (12) and radius-lg (20) */
   overflow: hidden;
-  box-shadow: 0 18px 50px -20px rgba(0, 0, 0, 0.25);
-  background: #e9e4db;
+  box-shadow: 0 18px 50px -20px rgba(0, 0, 0, 0.25); /* TODO: bigger than shadow-raised — no token */
+  background: #e9e4db; /* TODO: warm beige placeholder — no token match */
   will-change: transform, opacity, filter;
 }
 

@@ -16,6 +16,7 @@ interface ScrollFloatProps {
   scrollEnd?: string;
   stagger?: number;
   scrub?: boolean;
+  highlight?: string;
 }
 
 const ScrollFloat: React.FC<ScrollFloatProps> = ({
@@ -26,26 +27,37 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
   scrollEnd = 'bottom bottom-=40%',
   stagger = 0.03,
   scrub = true,
+  highlight,
 }) => {
   const containerRef = useRef<HTMLHeadingElement>(null);
 
   const splitText = useMemo(() => {
     const text = typeof children === 'string' ? children : '';
+    const hlStart = highlight ? text.indexOf(highlight) : -1;
+    const hlEnd = hlStart >= 0 ? hlStart + highlight!.length : -1;
+
+    let cursor = 0;
     const segments = text.split(/(\s+)/);
     return segments.map((segment, i) => {
+      const start = cursor;
+      cursor += segment.length;
       if (segment === '') return null;
       if (/^\s+$/.test(segment)) return <span key={`sp-${i}`}>{segment}</span>;
       return (
         <span className="word" key={`w-${i}`}>
-          {segment.split('').map((ch, j) => (
-            <span className="char" key={j}>
-              {ch}
-            </span>
-          ))}
+          {segment.split('').map((ch, j) => {
+            const absIdx = start + j;
+            const isHl = absIdx >= hlStart && absIdx < hlEnd;
+            return (
+              <span className={isHl ? 'char char--accent' : 'char'} key={j}>
+                {ch}
+              </span>
+            );
+          })}
         </span>
       );
     });
-  }, [children]);
+  }, [children, highlight]);
 
   useEffect(() => {
     const el = containerRef.current;

@@ -1,22 +1,17 @@
 @import url("https://api.fontshare.com/v2/css?f[]=switzer@100,400,500,600,700,800,900,400i,500i,600i,700i,800i&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap");
 
-:root {
-  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --for-business-accent: #b14224;
-}
-
 /* ===== MIUI 3-column grid (Section 2) ===== */
 .miui-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+  gap: var(--space-4-5);
 }
 
 @media (max-width: 840px) {
   .miui-grid {
     grid-template-columns: 1fr;
-    gap: 36px;
+    gap: var(--space-4-5);
   }
 }
 
@@ -35,28 +30,28 @@
 
 .foldable-hint {
   max-width: 640px;
-  margin: 0 auto 18px;
+  margin: 0 auto var(--space-3);
   text-align: center;
-  font-size: 13px;
-  letter-spacing: 0.02em;
-  color: rgba(26, 26, 26, 0.55);
+  font-size: var(--foldable-hint-size);
+  letter-spacing: var(--foldable-hint-tracking);
+  color: var(--foldable-hint-color);
   transition: opacity 0.45s ease;
   pointer-events: none;
 }
 
 .foldable-wrap .foldable-swiper {
-  padding: 32px 0 56px;
+  padding: var(--space-4-5) 0 var(--space-5-5);
   overflow-x: clip;
   overflow-y: visible;
   /* Soft fade on the viewport edges so peeking neighbor slides don't
      end in a hard cut. Narrow enough not to clip centered text. */
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
-          mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--space-4), #000 calc(100% - var(--space-4)), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 var(--space-4), #000 calc(100% - var(--space-4)), transparent 100%);
 }
 
 .foldable-swiper .foldable-slide {
   width: clamp(320px, 88vw, 1100px);
-  margin-right: clamp(24px, 4vw, 64px);
+  margin-right: clamp(var(--space-4), 4vw, var(--space-6));
   opacity: 0.35;
   transform: scale(0.94);
   transition: opacity 0.5s ease, transform 0.5s ease;
@@ -70,30 +65,30 @@
 /* ----- Navigation arrows ----- */
 .foldable-swiper .swiper-button-prev,
 .foldable-swiper .swiper-button-next {
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(26, 26, 26, 0.12);
-  color: #1a1a1a;
-  transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
-  backdrop-filter: blur(6px);
+  width: var(--swiper-nav-size);
+  height: var(--swiper-nav-size);
+  border-radius: var(--swiper-nav-radius);
+  background: var(--swiper-nav-bg);
+  border: var(--swiper-nav-border);
+  color: var(--swiper-nav-color);
+  transition: background var(--duration-base) ease, border-color var(--duration-base) ease, opacity var(--duration-base) ease;
+  backdrop-filter: blur(var(--swiper-nav-blur));
   top: 50%;
-  margin-top: -20px;
+  margin-top: calc(var(--swiper-nav-size) / -2);
 }
 
 .foldable-swiper .swiper-button-prev {
-  left: clamp(12px, 3vw, 32px);
+  left: clamp(var(--space-2-5), 3vw, var(--space-4-5));
 }
 
 .foldable-swiper .swiper-button-next {
-  right: clamp(12px, 3vw, 32px);
+  right: clamp(var(--space-2-5), 3vw, var(--space-4-5));
 }
 
 .foldable-swiper .swiper-button-prev:hover,
 .foldable-swiper .swiper-button-next:hover {
   background: #fff;
-  border-color: rgba(26, 26, 26, 0.3);
+  border-color: var(--border-strong);
 }
 
 .foldable-swiper .swiper-button-prev.swiper-button-disabled,
@@ -104,29 +99,29 @@
 
 .foldable-swiper .swiper-button-prev::after,
 .foldable-swiper .swiper-button-next::after {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
 }
 
 /* ----- Pagination dots ----- */
 .foldable-swiper .swiper-pagination {
   position: relative;
-  margin-top: 16px;
+  margin-top: var(--space-3);
   bottom: auto;
 }
 
 .foldable-swiper .swiper-pagination-bullet {
-  width: 8px;
-  height: 8px;
-  background: rgba(26, 26, 26, 0.2);
+  width: var(--pagination-dot-size);
+  height: var(--pagination-dot-size);
+  background: var(--pagination-dot-color);
   opacity: 1;
-  transition: background 0.25s ease, width 0.25s ease;
+  transition: background var(--duration-slow) ease, width var(--duration-slow) ease;
 }
 
 .foldable-swiper .swiper-pagination-bullet-active {
-  background: #1a1a1a;
-  width: 22px;
-  border-radius: 4px;
+  background: var(--pagination-active-bg);
+  width: var(--pagination-active-width);
+  border-radius: var(--pagination-active-radius);
 }
 
 /* ===== GPU layer promotion =====
@@ -155,7 +150,7 @@
 
 /* ===== Role line ===== */
 .fl-role-wrap {
-  --flow-gap: clamp(3px, 1.3vh, 16px);
+  --flow-gap: clamp(var(--space-1), 1.3vh, var(--space-3));
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -166,14 +161,14 @@
 }
 
 .fl-role-line {
-  font-family: 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 700;
-  font-size: clamp(32px, min(6.5vh, 9vw), 88px);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-family: var(--font-sans);
+  font-weight: var(--font-bold);
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tightest);
   text-align: center;
   margin: calc(var(--flow-gap) * 4) 0;
-  padding: 0 24px;
+  padding: 0 var(--space-4);
   white-space: nowrap;
   align-self: center;
   flex-shrink: 0;
@@ -198,7 +193,7 @@
 .fl-flow-inner {
   display: inline-flex;
   align-items: center;
-  gap: clamp(12px, 1.5vw, 24px);
+  gap: clamp(var(--space-2-5), 1.5vw, var(--space-4));
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   will-change: transform;
@@ -224,20 +219,22 @@
 
 .fl-flow-word,
 .fl-flow-sep {
-  font-family: 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 100;
-  font-size: clamp(48px, min(12vh, 14vw), 150px);
-  line-height: 1;
-  letter-spacing: -0.02em;
+  font-family: var(--font-sans);
+  font-weight: var(--font-thin);
+  font-size: var(--text-marquee);
+  line-height: var(--leading-none);
+  letter-spacing: var(--tracking-tightest);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .fl-flow-word {
-  opacity: 0.45;
+  color: var(--marquee-word-color);
+  opacity: var(--marquee-word-opacity);
   text-transform: uppercase;
 }
 
 .fl-flow-sep {
-  opacity: 0.25;
+  color: var(--marquee-word-color);
+  opacity: var(--marquee-sep-opacity);
 }

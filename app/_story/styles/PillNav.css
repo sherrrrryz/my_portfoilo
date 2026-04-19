@@ -1,6 +1,8 @@
 .pill-nav-container {
-  position: absolute;
+  position: fixed;
   top: 1em;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 99;
 }
 
@@ -8,6 +10,7 @@
   .pill-nav-container {
     width: 100%;
     left: 0;
+    transform: none;
   }
 }
 

@@ -1,16 +1,16 @@
 .scroll-float {
   overflow: hidden;
   margin: 0;
-  font-family: 'Switzer-Variable', 'Switzer', 'Inter', system-ui, sans-serif;
+  font-family: var(--font-sans);
 }
 
 .scroll-float-text {
   display: inline-block;
-  font-size: clamp(2.75rem, 8vw, 8rem);
-  font-weight: 800;
+  font-size: var(--text-3xl);
+  font-weight: var(--font-extrabold);
   text-align: center;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  line-height: 1.05; /* TODO: between leading-none (1) and leading-tight (1.08) */
+  letter-spacing: var(--tracking-tightest);
 }
 
 .scroll-float .word {
@@ -21,4 +21,8 @@
 .scroll-float .char {
   display: inline-block;
   opacity: 0;
+}
+
+.scroll-float .char--accent {
+  color: var(--highlight);
 }

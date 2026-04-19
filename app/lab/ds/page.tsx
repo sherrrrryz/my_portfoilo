@@ -1,6 +1,7 @@
 'use client';
 
 import '../../_styles/tokens.css';
+import '../../_story/styles/for-business.css';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button } from '../../_lab/ui/button';
 import { Badge } from '../../_lab/ui/badge';
@@ -12,7 +13,7 @@ import { Input, Label } from '../../_lab/ui/input';
 /*  Token registries — names + roles, used to drive the spec sections */
 /* ------------------------------------------------------------------ */
 
-const NEUTRAL_RAMP = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+const NEUTRAL_RAMP = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 const GREEN_RAMP = [50, 300, 500, 700, 900];
 const TERRACOTTA_RAMP = [100, 500, 700];
 
@@ -31,8 +32,9 @@ const SEMANTIC_COLORS: Array<{ token: string; role: string }> = [
   { token: '--highlight-pale', role: 'Highlight wash · <mark> background behind text' },
   { token: '--highlight', role: 'Highlight surface · standalone statistic / number' },
   { token: '--highlight-ink', role: 'Highlight text · inside <mark> (paired w/ pale)' },
-  { token: '--surface-0', role: 'Paper — page background' },
-  { token: '--surface-1', role: 'Subtle lift — default card, input fill' },
+  { token: '--surface-0', role: 'Paper — page background (#f8f8f7)' },
+  { token: '--surface-raised', role: 'Raised white card on paper (#fafafa)' },
+  { token: '--surface-1', role: 'Subtle lift down — default card, input fill' },
   { token: '--surface-2', role: 'Higher contrast block — loser box, chip bg' },
   { token: '--surface-ink', role: 'Inverted — black slab, winner box' },
   { token: '--border-hairline', role: 'Hairline divider (rare; prefer surface shift)' },
@@ -193,7 +195,7 @@ export default function DesignSystemLab() {
         <section id="colors" style={styles.section}>
           <SectionHead num="02" title="Colors" />
 
-          <SubHead>Neutrals · 11 steps</SubHead>
+          <SubHead>Neutrals · 12 steps</SubHead>
           <div style={styles.ramp}>
             {NEUTRAL_RAMP.map((n) => (
               <Swatch
@@ -450,9 +452,6 @@ export default function DesignSystemLab() {
                     fontWeight: 'var(--corner-weight)' as never,
                     letterSpacing: 'var(--corner-tracking)',
                     textTransform: 'uppercase',
-                    padding: 'var(--corner-padding)',
-                    border: 'var(--corner-border)',
-                    borderRadius: 'var(--corner-radius)',
                   }}
                 >
                   02.B · THREE DESIGN TENETS
@@ -483,100 +482,34 @@ export default function DesignSystemLab() {
             </div>
           </Specimen>
 
-          <Specimen title="Comparison card (expected vs actual)">
-            <article
-              style={{
-                padding: 'var(--card-padding)',
-                border: 'var(--card-border)',
-                borderRadius: 'var(--card-radius)',
-                background: 'var(--card-bg)',
-                display: 'flex',
-                flexDirection: 'column',
-                maxWidth: 360,
-              }}
-            >
-              <p
-                style={{
-                  fontSize: 'var(--card-expected-size)',
-                  color: 'var(--card-expected-color)',
-                  textDecoration: 'line-through',
-                  marginBottom: 14,
-                }}
-              >
-                1-step survey should win.
-              </p>
-              <p
-                style={{
-                  fontSize: 'var(--card-actual-size)',
-                  fontWeight: 'var(--card-actual-weight)' as never,
-                  lineHeight: 'var(--card-actual-leading)',
-                  color: 'var(--card-actual-color)',
-                  margin: '0 0 28px',
-                }}
-              >
-                5-step survey drove 18% install growth vs. 14% for 1-step.
-              </p>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: 14,
-                  marginTop: 'auto',
-                }}
-              >
-                <div
-                  style={{
-                    position: 'relative',
-                    aspectRatio: '3 / 4',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: 'var(--card-loser-border)',
-                    borderRadius: 'var(--card-box-radius)',
-                    color: 'var(--card-loser-color)',
-                    background: 'var(--card-loser-bg)',
-                    fontFamily: 'var(--card-box-font)',
-                    fontSize: 'var(--card-box-size)',
-                    letterSpacing: 'var(--card-box-tracking)',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  1 STEP
-                </div>
-                <div
-                  style={{
-                    position: 'relative',
-                    aspectRatio: '3 / 4',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: 'var(--card-winner-border)',
-                    borderRadius: 'var(--card-box-radius)',
-                    color: 'var(--card-winner-color)',
-                    background: 'var(--card-winner-bg)',
-                    fontFamily: 'var(--card-box-font)',
-                    fontSize: 'var(--card-box-size)',
-                    letterSpacing: 'var(--card-box-tracking)',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  <span
-                    style={{
-                      position: 'absolute',
-                      top: 10,
-                      right: 12,
-                      fontSize: 'var(--card-winner-tag-size)',
-                      fontWeight: 'var(--card-winner-tag-weight)' as never,
-                      color: 'var(--card-winner-tag-color)',
-                      letterSpacing: '0.14em',
-                    }}
-                  >
-                    WINNER
-                  </span>
-                  5 STEPS
-                </div>
+          <Specimen title="Comparison card (Section 02.C) · new spec">
+            <div style={{ maxWidth: 420 }}>
+              <div className="fb-card-group">
+                <article className="fb-card">
+                  <header>
+                    <h3 className="fb-card__title">Onboarding survey</h3>
+                    <p className="fb-card__data">
+                      5-step survey drove 18% install growth. 1-step only drove 14%.
+                    </p>
+                  </header>
+                  <div className="fb-card__pair">
+                    <div className="fb-mini">
+                      <div className="fb-mini__label">1-step</div>
+                      <div className="fb-mini__wire" aria-hidden="true">
+                        <div className="fb-mini__wire-placeholder" />
+                      </div>
+                    </div>
+                    <div className="fb-mini fb-mini--winner">
+                      <span className="fb-mini__tag">WINNER</span>
+                      <div className="fb-mini__label">5-step</div>
+                      <div className="fb-mini__wire" aria-hidden="true">
+                        <div className="fb-mini__wire-placeholder" />
+                      </div>
+                    </div>
+                  </div>
+                </article>
               </div>
-            </article>
+            </div>
           </Specimen>
 
           <Specimen title="Marker highlight · <mark> over body copy">
