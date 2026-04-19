@@ -179,7 +179,7 @@ export default function DesignSystemLab() {
           </div>
           <div style={{ marginTop: 16 }}>
             <Button
-              variant="outline"
+              variant="ghost"
               size="sm"
               onClick={() => {
                 clearRootToken(editable.map((e) => e.token));
