@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useMotionValue, type MotionProps } from 'framer-motion';
-import { useRef, type CSSProperties, type ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
 
 type Props = {
   id: string;
@@ -56,7 +56,7 @@ export default function DraggableScatter({
     };
   }
 
-  const style: CSSProperties & Record<string, unknown> = {
+  const style: MotionProps['style'] = {
     position: 'absolute',
     left: `${x}%`,
     top: `${y}%`,

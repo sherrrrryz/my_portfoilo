@@ -47,7 +47,7 @@ export default function QuoteHover() {
 
   /* Per-mount random hover jitter for each of the 4 phrases.
      scale 1.05–1.10, rotate ±4°. Stable across re-renders via useRef. */
-  const jitterRef = useRef<Record<PhraseKey, { scale: number; rot: number }>>();
+  const jitterRef = useRef<Record<PhraseKey, { scale: number; rot: number }> | null>(null);
   if (!jitterRef.current) {
     const make = () => ({
       scale: 1.05 + Math.random() * 0.05,
