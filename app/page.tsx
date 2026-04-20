@@ -17,6 +17,7 @@ import ABVote from './_story/components/ABVote';
 import FoldableCarousel from './_story/components/FoldableCarousel';
 import ComparisonCard from './_story/components/ComparisonCard';
 import QuoteHover from './_story/components/s3/QuoteHover';
+import WorkshopWall from './_story/components/s3/WorkshopWall';
 import FadeOnExit from './_story/components/FadeOnExit';
 import { Reveal } from './_story/lib/Reveal';
 import { LenisProvider } from './_story/lib/LenisContext';
@@ -639,6 +640,37 @@ export default function StoryPage() {
 
           <div className="ft-footer">MIUI Design System 2.0 · 2023</div>
         </div>
+      </section>
+
+      {/* ── S3 第一层 → 第二层 过渡句 ── */}
+      <section className="fb-bridge" aria-hidden={false}>
+        <Reveal
+          mode="words"
+          effect="blur"
+          trigger="once"
+          duration={1}
+          stagger={0.04}
+          initialBlur={4}
+          start="top 70%"
+          className="fb-bridge__copy"
+        >
+          Building a team was one thing. Getting different departments to think together was another.
+        </Reveal>
+      </section>
+
+      {/* ── S3 第二层：Workshop 照片墙 ──
+           overflow visible：让 tooltip 溢出到 section 外而不被裁切。
+           横向溢出由 fl-root (overflow-x: hidden) 兜底。 */}
+      <section
+        className="ft-section"
+        style={{
+          minHeight: 'unset',
+          paddingTop: 0,
+          paddingBottom: 'var(--vspace-xl)',
+          overflow: 'visible',
+        }}
+      >
+        <WorkshopWall />
       </section>
     </div>
     </LenisProvider>

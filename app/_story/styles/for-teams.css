@@ -20,9 +20,7 @@
   max-width: var(--container-xl);
 }
 
-/* ---- S2→S3 bridge（复用 fb-bridge 类，无需重写） ---- */
-
-/* ---- 引出句（quote 前的小 intro 行，不能抢大字） ---- */
+/* ---- 引出句（quote 前的小 intro 行） ---- */
 .ft-lead {
   max-width: var(--container-md);
   margin: 0 auto;
@@ -35,14 +33,11 @@
 }
 
 /* ---- QuoteHover 根容器 ----
-   改成 block 布局（不是 flex），避免 flex align-items: center 在子元素
-   宽于父级时 Chromium 降级为 "safe start" 导致左偏。子元素各自用
-   margin: 0 auto 居中，允许溢出时对称溢出而不是靠左。 */
+   block 布局（不是 flex），子元素各自用 margin: 0 auto 居中。 */
 .ft-quote-root {
   width: 100%;
   max-width: var(--container-xl);
   margin: 0 auto;
-  min-height: 100vh;
   padding: var(--space-5) 0 var(--vspace-xl);
   text-align: center;
 }
@@ -51,10 +46,9 @@
    "整张图缩放" 模式：
    - 固定 font-size / line-height / letter-spacing（不重排、不适应）
    - width: max-content 让 quote 自动贴合最宽的 nowrap 行
-   - zoom: clamp(0.48, 100vw / 1600px, 1) 对整个 quote（含高亮条）
-     做整体视觉 + layout 占位的等比缩放
-   - margin: 0 auto 保持居中
-   视口 ≥ 1600px 时 zoom = 1（原尺寸），向下线性压缩到 768px ≈ 0.48
+   - zoom: clamp(0.48, 100vw / 1500px, 1) 对整个 quote 整张图等比缩放
+   - left: 50% + translateX(-50%) 强制居中（margin: 0 auto 在溢出时靠左）
+   - 滚动驱动 --q-scroll-scale 叠加在 translateX 后面做 "镜头 zoom"
 ------------------------------------------------------------------------ */
 .ft-quote {
   --q-scroll-scale: 1;
@@ -68,18 +62,11 @@
   text-align: center;
   cursor: default;
 
-  /* 自然宽度 = 最宽一行的 nowrap 内容（约 1413px）。
-     宽于 parent 时，margin: 0 auto / align-items: center 在 Chromium 下
-     会降级成左对齐。用 left: 50% + translateX(-50%) 强制对称溢出居中。
-     zoom 保证在窄视口下视觉缩放到适配宽度。 */
   width: max-content;
   position: relative;
   left: 50%;
   zoom: clamp(0.48, calc(100vw / 1500px), 1);
 
-  /* 滚动驱动的 "镜头 zoom" — GSAP ScrollTrigger scrub 写入 --q-scroll-scale。
-     和居中用的 translateX(-50%) 合并在一个 transform 里，transform-origin
-     center 保证 scale 不偏移中心。 */
   transform: translateX(-50%) scale(var(--q-scroll-scale));
   transform-origin: center center;
   will-change: transform;
@@ -91,14 +78,13 @@
 }
 
 /* ---- 高亮短语 base ----
-   inline-block 让 transform 生效；每个 phrase 的 hover 抖动目标作为 CSS
-   自定义属性由 JSX 注入（random once on mount），hover 用 var() 触发。 */
+   每个 phrase 的 hover 抖动目标作为 CSS 自定义属性由 JSX 注入
+   （random once on mount），hover 用 var() 触发。纯装饰，无点击交互。 */
 .ft-phrase {
   --jitter-scale: 1.06;
   --jitter-rot: 0;
 
   display: inline-block;
-  cursor: pointer;
   border-radius: var(--radius-sm);
   padding: 0 0.25em;
   /* 压缩 phrase 自己的 line-height，让 bg 高度 ≈ 父级 line-height × 0.8
@@ -116,7 +102,7 @@
     rotate(calc(var(--jitter-rot) * 1deg));
 }
 
-/* ---- 4 种 marker 颜色（纯身份标识，不随交互变化） ---- */
+/* ---- 4 种 marker 颜色（纯身份标识） ---- */
 .ft-phrase--1 {
   background: var(--accent-pale);
   color: var(--accent-ink);
@@ -134,29 +120,30 @@
   color: var(--phrase-4-ink);
 }
 
-/* ---- 面板容器 ---- */
+/* ---- ScatteredTags 面板容器（永远展示，不需要切换） ---- */
 .ft-panel {
   width: 100%;
   max-width: var(--container-xl);
   margin: var(--space-6) auto 0;
-  min-height: 360px;
 }
 
-/* ---- 面板1：ScatteredTags ----
+/* ---- ScatteredTags 布景 ----
    "整张图缩放"：固定 1200px 自然宽度，zoom 区间 0.8 → 1.0。
-   960px 以下 zoom 锁定 0.8（clamp lower bound），保证 card/pill 不过小。
-   pill / emoji / card 全部用固定 px 内部尺寸，不再各自 clamp 自适应。 */
+   960px 以下 zoom 锁定 0.8（clamp 下限），保证 pill/emoji 不过小。
+   当 .ft-panel 窄于 1200 时（中小桌面），margin: 0 auto 会被 Chromium
+   降级为左对齐。用 left: 50% + translateX(-50%) 强制对称溢出居中，
+   和 quote 同一套路。 */
 .ft-scattered {
   position: relative;
   width: 1200px;
   height: 560px;
-  margin: 0 auto;
-  zoom: clamp(0.8, calc(100vw / 1200), 1);
+  left: 50%;
+  transform: translateX(-50%);
+  zoom: clamp(0.8, calc(100vw / 1200px), 1);
 }
 
 /* ---- 散落 tag 专用样式 ------------------------------------------------
-   Chunky pill with bold body + emoji as a circular badge on the corner.
-   Text wraps into 2–3 lines; max-width forces a consistent chunky shape.
+   Chunky pill: 文字换行成 2-3 行，max-width 强制一致的方块感。
 --------------------------------------------------------------------- */
 .ft-scatter-tag {
   --tag-glow: rgba(0, 0, 0, 0.08);
@@ -180,7 +167,7 @@
   user-select: none;
 }
 
-/* ---- 独立 emoji 徽章（scatter 里和 tag 同级、单独拖拽） ---- */
+/* ---- 独立 emoji 徽章 ---- */
 .ft-emoji-badge {
   width: 64px;
   height: 64px;
@@ -197,7 +184,7 @@
     0 10px 24px rgba(0, 0, 0, 0.12);
 }
 
-/* ---- Colored pastel variants (Panel 1 editorial) ---- */
+/* ---- Colored pastel variants ---- */
 .ft-scatter-tag--rose {
   background: var(--tag-rose-bg);
   color: var(--tag-rose-ink);
@@ -229,83 +216,7 @@
   --tag-glow: rgba(194, 65, 12, 0.18);
 }
 
-/* ---- 拖拽模式调试面板（仅 DESIGN_MODE） ---- */
-.ft-drag-debug {
-  position: fixed;
-  bottom: var(--space-5);
-  right: var(--space-5);
-  z-index: var(--z-overlay);
-  background: var(--neutral-950);
-  color: var(--neutral-0);
-  border-radius: var(--radius-md);
-  padding: var(--space-4);
-  font-family: var(--font-mono);
-  font-size: var(--text-micro);
-  max-width: 380px;
-  max-height: 320px;
-  overflow: auto;
-}
-
-.ft-drag-copy-btn {
-  display: block;
-  margin-top: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  background: var(--accent);
-  color: var(--neutral-0);
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-family: var(--font-mono);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-}
-
-/* ---- 面板2/3：TiltedCard 容器 ----
-   同 .ft-scattered：固定 1200px + zoom 0.8→1.0 整张图缩放。 */
-.ft-tilted-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-5);
-  justify-content: center;
-  align-items: flex-start;
-  position: relative;
-  width: 1200px;
-  min-height: 480px;
-  margin: 0 auto;
-  padding: var(--space-4);
-  zoom: clamp(0.8, calc(100vw / 1200), 1);
-}
-
-/* 拖拽锁定：每个可拖拽 wrapper ---- */
-.ft-draggable-wrap {
-  position: absolute;
-  cursor: grab;
-}
-.ft-draggable-wrap:active {
-  cursor: grabbing;
-}
-.ft-draggable-wrap--locked {
-  cursor: default;
-}
-
-/* ---- 面板4：Masonry 容器 ---- */
-.ft-masonry-wrap {
-  width: 100%;
-  height: 600px;
-  position: relative;
-}
-
-/* ---- 面板4：成果标签行 ---- */
-.ft-results-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2-5);
-  justify-content: center;
-  margin-bottom: var(--space-5);
-}
-
-/* ---- S3 footer（底部项目链接） ---- */
+/* ---- S3 footer ---- */
 .ft-footer {
   margin-top: var(--vspace-lg);
   text-align: center;
@@ -320,50 +231,344 @@
   text-underline-offset: 4px;
 }
 
-/* ---- 反转句 ---- */
-.ft-twist {
-  margin-top: var(--space-6);
+/* ============================================================
+   Step-by-step Grid (sg-*)
+   FigJam sticky-note treatment: folded corner, small radius, soft drop-shadow.
+   No rotation — fold + shadow create the physical-paper feel.
+   ============================================================ */
+
+/* ---- Section wrapper ---- */
+.sg-section {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin: var(--space-8) auto 0;
+}
+
+/* ---- Title: "Step by step" ---- */
+.sg-header {
+  font-family: var(--font-sans);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tightest);
+  color: var(--ink-primary);
   text-align: center;
-  font-size: var(--text-xl);
-  font-weight: var(--font-semibold);
-  font-style: italic;
-  color: var(--ink-secondary);
-  letter-spacing: var(--tracking-tight);
+  margin-bottom: var(--space-6);
 }
 
-/* ---- 手机模式专用标记容器 ----
-   Desktop 模式下 .ft-panels-mobile 隐藏；手机模式下 .ft-panel（桌面切换容器）
-   隐藏。TSX 根据 useMatchMedia 判断不挂相应分支，但为了 SSR / hydration 一致，
-   也用 CSS display 兜底。 */
-.ft-panels-mobile {
-  display: none;
-  width: 100%;
-  flex-direction: column;
-  gap: var(--space-6);
-  margin-top: var(--space-6);
+/* ---- 3-column grid ---- */
+.sg-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  align-items: stretch;
 }
 
-.ft-panels-mobile > .ft-panel-mobile {
-  width: 100%;
+/* ---- Outer wrapper: GSAP target + drop-shadow host ----
+   filter:drop-shadow follows the card's clip-path polygon outline,
+   so the shadow respects the folded-corner cut. box-shadow would be
+   clipped by clip-path and would not show. */
+.sg-card-outer {
+  position: relative;
+  filter:
+    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.10))
+    drop-shadow(0 8px 20px rgba(0, 0, 0, 0.07));
+  will-change: transform, opacity, filter;
+}
+
+/* ---- Card body ---- */
+.sg-card {
+  position: relative;
+  z-index: 1;
+  border-radius: var(--radius-sm);
+  /* FigJam-style fold: clip bottom-right corner diagonally */
+  clip-path: polygon(
+    0 0, 100% 0,
+    100% calc(100% - 28px),
+    calc(100% - 28px) 100%,
+    0 100%
+  );
+  min-height: 320px;
   display: flex;
   flex-direction: column;
+}
+
+/* ---- Fold shadow triangle ----
+   Sibling of .sg-card, sits behind (z-index: 0).
+   Its dark bottom-right triangle shows through the clip-path cut corner,
+   simulating the crease of a folded sticky note. */
+.sg-card__fold {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  z-index: 0;
+  background: linear-gradient(
+    to top left,
+    rgba(0, 0, 0, 0.10) 50%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+/* ---- ImageCard variant ---- */
+.sg-card--image {
+  background: var(--noteColor, var(--tag-amber-bg));
+}
+
+.sg-card__media {
+  position: relative;
+  flex: 1;
+  min-height: 220px;
+  overflow: hidden;
+}
+
+.sg-card__img {
+  object-fit: cover;
+  transition: transform var(--duration-slower) var(--ease-out);
+}
+
+.sg-card--image:hover .sg-card__img {
+  transform: scale(1.03);
+}
+
+/* ---- TextCard variant ---- */
+.sg-card--text {
+  background: var(--surface-ink);
+  color: var(--ink-on-dark-primary);
+  justify-content: space-between;
+  padding: var(--space-4-5);
+}
+
+.sg-card__body {
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--font-extrabold);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tightest);
+  color: var(--ink-on-dark-primary);
+  margin: 0;
+  flex: 1;
+  display: flex;
   align-items: center;
-  gap: var(--space-4);
+}
+
+/* ---- Footer: label pill (shared) ---- */
+.sg-card__footer {
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-3);
+}
+
+.sg-card--text .sg-card__footer {
+  padding: var(--space-4) 0 0;
+}
+
+/* Label pill size overrides — smaller than the large scatter-tag pills */
+.sg-card .ft-scatter-tag {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--font-normal);
+  padding: 6px 14px;
+  max-width: none;
+}
+
+/* On dark cards: frosted semi-transparent pill */
+.sg-card--text .ft-scatter-tag {
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--ink-on-dark-secondary);
+  box-shadow: none;
+}
+
+/* ---- Floating emoji badge ---- */
+.sg-card__emoji {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: var(--z-raised);
+}
+
+/* Scale down from the default 64px scatter badge */
+.sg-card__emoji .ft-emoji-badge {
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+}
+
+/* ---- Tablet: 2 columns ---- */
+@media (max-width: 1023px) {
+  .sg-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* ============================================================
-   手机断点（< 768px）：collage 拆成线性堆叠 + 全部 panel 一起渲染
-   ------------------------------------------------------------
-   - Quote 去 zoom、字号 clamp、允许自然换行
-   - Phrase 去 hover 抖动 / cursor pointer（点击仍可 toggle 但用户通常不会）
-   - 桌面 AnimatePresence panel 容器隐藏，改显示 .ft-panels-mobile
-   - 每个 mobile panel 内部：绝对定位 / 固定宽度 / zoom / 绝对定位 item 全部重置
-   - Scatter 子元素去 position:absolute + left/top（!important 盖住内联）
-   - 保留 inline `rotate` 做手工感
-   - Emoji 独立徽章在堆叠里没上下文，隐藏
+   Workshop Wall (ww-*) — 两行横向无限滚动 + tooltip card
+   ============================================================ */
+
+.ww-wall {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  /* overflow visible：让 tooltip 可以溢出 wall 垂直方向。
+     横向裁切交给 fl-root 的 overflow-x: hidden 处理（它是滚动容器）。 */
+  overflow: visible;
+  /* 给第一行 tooltip 向上展开留出空间（避免被上方过渡句遮挡）。 */
+  padding-top: 120px;
+}
+
+.ww-row {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  /* 每行保留 padding 让 tooltip 不被相邻 row 遮挡 */
+  padding: var(--space-3) 0;
+}
+
+.ww-track {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: max-content;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  will-change: transform;
+}
+
+.ww-track--left {
+  animation-name: ww-marquee-left;
+}
+
+.ww-track--right {
+  animation-name: ww-marquee-right;
+}
+
+/* 行 hover 整行暂停，方便读 tooltip */
+.ww-row:hover .ww-track {
+  animation-play-state: paused;
+}
+
+@keyframes ww-marquee-left {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes ww-marquee-right {
+  from { transform: translate3d(-50%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+
+/* ---- Card ---- */
+.ww-card {
+  position: relative;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  overflow: visible;
+  background: var(--surface-raised);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    0 12px 32px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform var(--duration-base) var(--ease-out);
+  outline: none;
+}
+
+.ww-card:hover,
+.ww-card:focus-visible {
+  transform: translateY(-4px);
+  z-index: var(--z-raised);
+}
+
+.ww-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--radius-md);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ---- Tooltip card ----
+   Aceternity-style: 悬浮在卡片正上方，带小尾巴。 */
+.ww-tooltip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: center bottom;
+  width: max-content;
+  max-width: 280px;
+  padding: 12px 16px 14px;
+  background: var(--surface-ink);
+  color: var(--ink-on-dark-primary);
+  border-radius: var(--radius-md);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.22),
+    0 2px 6px rgba(0, 0, 0, 0.14);
+  pointer-events: none;
+  z-index: var(--z-raised);
+  text-align: left;
+}
+
+/* Tail pointer */
+.ww-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid var(--surface-ink);
+}
+
+.ww-tooltip__tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  font-weight: var(--font-medium);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink-on-dark-muted);
+  margin-bottom: 6px;
+}
+
+.ww-tooltip__title {
+  margin: 0 0 4px;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--font-extrabold);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink-on-dark-primary);
+}
+
+.ww-tooltip__desc {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--font-normal);
+  line-height: var(--leading-normal);
+  color: var(--ink-on-dark-secondary);
+}
+
+/* ============================================================
+   手机断点（< 768px）：
+   - Quote 去 zoom / 去 transform / 字号 clamp / 允许自然换行
+   - Phrase 去 hover 抖动
+   - Scattered 绝对定位画布改成 flex column 堆叠，隐藏 emoji 徽章
    ============================================================ */
 @media (max-width: 767px) {
-  /* Quote */
   .ft-quote {
     width: 100%;
     max-width: none;
@@ -371,34 +576,21 @@
     font-size: clamp(1.25rem, 5.5vw, 1.75rem);
     line-height: 1.5;
     letter-spacing: var(--tracking-tight);
-    position: static;             /* 关掉桌面的 left:50% + translateX 居中 */
+    position: static;
     left: auto;
-    transform: none;              /* 关掉桌面的 scroll-scale */
+    transform: none;
     --q-scroll-scale: 1;
   }
   .ft-quote__line {
     display: inline;
     white-space: normal;
   }
-  .ft-phrase {
-    cursor: default;
-  }
   .ft-phrase:hover,
   .ft-phrase:focus-visible {
     transform: none;
   }
 
-  /* Desktop panel 容器隐藏；mobile panel 容器显示 */
-  .ft-panel {
-    display: none !important;
-  }
-  .ft-panels-mobile {
-    display: flex;
-  }
-
-  /* Scattered / Tilted 容器：去 zoom / 去固定宽度 / 去绝对定位布景 */
-  .ft-scattered,
-  .ft-tilted-grid {
+  .ft-scattered {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -409,12 +601,12 @@
     height: auto !important;
     min-height: 0;
     padding: 0 var(--space-4);
+    left: auto;
+    transform: none;
     zoom: 1;
   }
 
-  /* 所有 scatter / tilted 直接子元素：取消绝对定位（覆盖 framer-motion inline style）*/
-  .ft-scattered > *,
-  .ft-tilted-grid > * {
+  .ft-scattered > * {
     position: static !important;
     left: auto !important;
     top: auto !important;
@@ -422,21 +614,58 @@
     cursor: default !important;
   }
 
-  /* Emoji 独立徽章在堆叠里没上下文，隐藏 */
   .ft-scattered .ft-scatter-item--emoji {
     display: none;
   }
 
-  /* pill 在手机上窄一点：字小一档、padding 收紧 */
   .ft-scatter-tag {
     max-width: min(320px, calc(100vw - var(--space-5) * 2));
     font-size: 17px;
     padding: 16px 24px;
   }
 
-  /* Panel 4 Masonry：高度由内容决定，ResizeObserver 自动降级为 1 列 */
-  .ft-masonry-wrap {
-    height: auto;
-    min-height: 400px;
+  /* Step grid mobile overrides */
+  .sg-section {
+    margin-top: var(--space-7);
+  }
+
+  .sg-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .sg-card {
+    min-height: 240px;
+  }
+
+  .sg-card__media {
+    min-height: 160px;
+  }
+
+  .sg-card__body {
+    font-size: var(--text-lg);
+  }
+
+  .sg-card__emoji {
+    display: none;
+  }
+
+  /* Workshop wall — smaller cards, faster marquee, smaller tooltip */
+  .ww-wall {
+    margin-top: var(--space-6);
+    gap: var(--space-3);
+  }
+
+  .ww-tooltip {
+    max-width: 220px;
+    padding: 10px 12px 12px;
+  }
+
+  .ww-tooltip__title {
+    font-size: 13px;
+  }
+
+  .ww-tooltip__desc {
+    font-size: 11px;
   }
 }
