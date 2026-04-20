@@ -4,6 +4,8 @@ import './_styles/tokens.css';
 import './_story/styles/flashlight.css';
 import './_story/styles/for-business.css';
 import './_story/styles/for-teams.css';
+import './_story/styles/for-evidence.css';
+import './_story/styles/curiosity.css';
 
 import Link from 'next/link';
 import { useState } from 'react';
@@ -18,6 +20,11 @@ import FoldableCarousel from './_story/components/FoldableCarousel';
 import ComparisonCard from './_story/components/ComparisonCard';
 import QuoteHover from './_story/components/s3/QuoteHover';
 import WorkshopWall from './_story/components/s3/WorkshopWall';
+import MethodGrid from './_story/components/s4/MethodGrid';
+import FeSection from './_story/components/s4/FeSection';
+import FtIntroSection from './_story/components/s4/FtIntroSection';
+import BioRow from './_story/components/s5/BioRow';
+import PhotoStackGrid from './_story/components/s5/PhotoStackGrid';
 import FadeOnExit from './_story/components/FadeOnExit';
 import { Reveal } from './_story/lib/Reveal';
 import { LenisProvider } from './_story/lib/LenisContext';
@@ -115,9 +122,9 @@ export default function StoryPage() {
           position: 'relative',
           width: '100%',
           minHeight: '100vh',
-          background: 'var(--stage-light)',
+          background: 'var(--stage-cream)',
           color: '#1a1a1a',
-          padding: 'var(--vspace-xl) var(--hspace-sm)',
+          padding: 'var(--vspace-2xl) var(--hspace-sm) var(--vspace-xl)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -200,7 +207,7 @@ export default function StoryPage() {
           position: 'relative',
           width: '100%',
           minHeight: '100vh',
-          background: 'var(--stage-light)',
+          background: 'var(--stage-cream)',
           color: '#1a1a1a',
           padding: 'var(--vspace-xl) var(--hspace-sm)',
           display: 'flex',
@@ -274,7 +281,7 @@ export default function StoryPage() {
           position: 'relative',
           width: '100%',
           minHeight: '100vh',
-          background: 'var(--stage-light)',
+          background: 'var(--stage-cream)',
           color: '#1a1a1a',
           padding: 'var(--vspace-xl) var(--hspace-sm)',
           display: 'flex',
@@ -356,7 +363,11 @@ export default function StoryPage() {
       </section>
 
       {/* Section 1 → 2 bridge */}
-      <section className="fb-bridge" aria-hidden={false}>
+      <section
+        className="fb-bridge"
+        aria-hidden={false}
+        style={{ background: 'var(--stage-cream)' }}
+      >
         <Reveal
           mode="words"
           effect="blur"
@@ -562,7 +573,11 @@ export default function StoryPage() {
       </section>
 
       {/* ── S2 → S3 bridge ── */}
-      <section className="fb-bridge" aria-hidden={false}>
+      <section
+        className="fb-bridge"
+        aria-hidden={false}
+        style={{ background: 'var(--stage-cream)' }}
+      >
         <Reveal
           mode="words"
           effect="blur"
@@ -578,15 +593,11 @@ export default function StoryPage() {
       </section>
 
       {/* ── S3 eyebrow + 引出句（合并一个 ft-section，控制内部节奏）
-           外层用 FadeOnExit 做"快到顶端时渐变消失"，对应入场的 blur 效果。 ── */}
-      <section
-        className="ft-section"
-        style={{
-          minHeight: 'unset',
-          paddingTop: 'var(--vspace-xl)',
-          paddingBottom: 0,
-        }}
-      >
+           外层用 FadeOnExit 做"快到顶端时渐变消失"，对应入场的 blur 效果。
+           FtIntroSection wraps the section with a GSAP scrub that flips
+           the bg from --stage-cream → --stage-light during the widened
+           top padding. Finishes before the eyebrow is in view. ── */}
+      <FtIntroSection>
         <FadeOnExit
           style={{
             display: 'flex',
@@ -628,7 +639,7 @@ export default function StoryPage() {
             My manager said this when he put me in charge of the design system:
           </Reveal>
         </FadeOnExit>
-      </section>
+      </FtIntroSection>
 
       {/* ── S3 QuoteHover ── */}
       <section
@@ -671,6 +682,58 @@ export default function StoryPage() {
         }}
       >
         <WorkshopWall />
+      </section>
+
+      {/* Section 4 — For Evidence */}
+      <FeSection>
+        <div className="fe-section__inner">
+          <div className="fe-eyebrow">I design for evidence.</div>
+
+          <Reveal
+            mode="words"
+            effect="blur"
+            trigger="once"
+            duration={1}
+            stagger={0.04}
+            initialBlur={5}
+            start="top 75%"
+            className="fe-lead"
+          >
+            Every project I&rsquo;ve worked on started with a question I couldn&rsquo;t answer from my desk.
+          </Reveal>
+
+          <MethodGrid />
+        </div>
+      </FeSection>
+
+      {/* Section 5 — Curiosity */}
+      <section className="cu-section" id="section-curiosity">
+        <div className="cu-section__inner">
+          <div>
+            <div className="cu-eyebrow">I am curious.</div>
+            <Reveal
+              mode="words"
+              effect="blur"
+              trigger="once"
+              duration={1}
+              stagger={0.03}
+              initialBlur={5}
+              start="top 80%"
+              className="cu-lead"
+            >
+              Curiosity doesn&rsquo;t stop at the office door.
+            </Reveal>
+          </div>
+
+          <BioRow />
+
+          <div>
+            <p className="cu-grid-lead">
+              Photos from things I keep chasing off the clock.
+            </p>
+            <PhotoStackGrid />
+          </div>
+        </div>
       </section>
     </div>
     </LenisProvider>

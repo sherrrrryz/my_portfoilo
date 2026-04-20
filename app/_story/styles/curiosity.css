@@ -1,0 +1,298 @@
+/* ============================================================================
+   Section 5 — Curiosity
+   Dark-stage moodboard block. Two beats:
+     1. BioRow  — yellow sticky-note bio + one pinned polaroid portrait
+     2. PhotoStackGrid — 2×2 polaroid stacks; each hovers into a fan-out
+                         of photos from behind the front card
+   Continues the dark background from S4. Uses Switzer throughout — the
+   "handwritten" quality comes from italic + warmth, not a script font.
+============================================================================ */
+
+.cu-section {
+  position: relative;
+  width: 100%;
+  background: var(--stage-dark);
+  color: var(--ink-on-dark-primary);
+  padding: var(--vspace-xl) var(--hspace-sm);
+  font-family: var(--font-sans);
+  isolation: isolate;
+  overflow: hidden;                          /* safety for fanned polaroids */
+}
+
+.cu-section__inner {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--vspace-md);
+}
+
+.cu-eyebrow {
+  font-family: var(--eyebrow-font);
+  font-size: var(--eyebrow-size);
+  font-weight: var(--eyebrow-weight);
+  letter-spacing: var(--eyebrow-tracking);
+  text-transform: uppercase;
+  text-align: center;
+  color: color-mix(in oklab, var(--ink-on-dark-primary) 55%, transparent);
+  margin-bottom: var(--space-4);
+}
+
+.cu-lead {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  text-align: center;
+  max-width: 1100px;
+  margin: 0 auto var(--vspace-md);
+  color: var(--ink-on-dark-primary);
+  font-style: italic;
+}
+
+/* ============================================================================
+   BLOCK 1 — Bio row: sticky note + polaroid portrait
+============================================================================ */
+
+.cu-bio-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-5) 0;
+}
+
+/* ---- Sticky note (ruled yellow pad) ---- */
+
+.cu-sticky {
+  position: relative;
+  max-width: 620px;
+  padding: 64px 56px 56px 72px;             /* extra left for red margin line */
+  background: #fcf5b8;
+  background-image:
+    /* ruled horizontal lines */
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 31px,
+      rgba(80, 130, 190, 0.25) 31px 32px
+    );
+  color: #2b2a1f;
+  box-shadow:
+    0 2px 2px rgba(0, 0, 0, 0.15),
+    0 14px 28px rgba(0, 0, 0, 0.35),
+    0 32px 48px rgba(0, 0, 0, 0.25);
+  transform: rotate(-1.3deg);
+  font-family: var(--font-sans);
+  line-height: 32px;                         /* aligns to rule grid */
+}
+
+/* red left margin rule (legal-pad line) */
+.cu-sticky::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 48px;
+  width: 1.5px;
+  background: rgba(210, 70, 70, 0.55);
+}
+
+/* Tape across the top */
+.cu-sticky__tape {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 110px;
+  height: 28px;
+  background: rgba(255, 190, 140, 0.55);
+  box-shadow: inset 0 0 12px rgba(255, 200, 160, 0.4);
+  mix-blend-mode: multiply;
+}
+
+.cu-sticky__title {
+  font-size: 44px;
+  font-weight: var(--font-extrabold);
+  font-style: italic;
+  letter-spacing: var(--tracking-tight);
+  line-height: 32px;                         /* stay on rule grid */
+  color: var(--highlight);                   /* terracotta */
+  margin: 0 0 32px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.cu-sticky__title .cu-sparkle {
+  font-size: 28px;
+  color: var(--highlight);
+}
+
+.cu-sticky__body p {
+  font-size: 18px;
+  line-height: 32px;
+  margin: 0 0 32px;
+  color: #2b2a1f;
+}
+.cu-sticky__body p:last-child { margin-bottom: 0; }
+
+.cu-sticky__body strong {
+  font-weight: var(--font-bold);
+  color: #1a1a14;
+}
+
+/* ---- Polaroid portrait (right column of bio row) ---- */
+
+.cu-portrait {
+  justify-self: center;
+}
+
+/* ============================================================================
+   POLAROID — shared primitive used in bio row and photo grid
+============================================================================ */
+
+.cu-polaroid {
+  position: relative;
+  background: #fafafa;
+  padding: 14px 14px 56px;
+  box-shadow:
+    0 2px 2px rgba(0, 0, 0, 0.15),
+    0 18px 30px rgba(0, 0, 0, 0.4),
+    0 36px 60px rgba(0, 0, 0, 0.25);
+  color: #222;
+  transform: rotate(var(--rot, 2deg));
+  will-change: transform;
+}
+
+/* Pin (orange dot) */
+.cu-polaroid__pin {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ef8a6a, #b14224);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+.cu-polaroid__frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #0a0a0a;                        /* seen briefly on image load */
+  aspect-ratio: var(--ar, 3 / 4);
+}
+
+.cu-polaroid__frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+.cu-polaroid__caption {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 18px;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1;
+  color: rgba(20, 20, 20, 0.55);
+  padding: 0 12px;
+}
+
+/* Bio-row portrait is big. Use flex so the polaroid has a concrete
+   containing width — `justify-self: center` collapses to content
+   width, which makes `90%` resolve to 0 and the card disappears. */
+.cu-portrait {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.cu-portrait .cu-polaroid {
+  width: min(420px, 100%);
+}
+
+/* ============================================================================
+   BLOCK 2 — Photo stack grid (2×2, hover fans out)
+============================================================================ */
+
+.cu-grid-lead {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto var(--space-5);
+  font-size: var(--text-md);
+  font-style: italic;
+  color: color-mix(in oklab, var(--ink-on-dark-primary) 70%, transparent);
+}
+
+.cu-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-7);                        /* generous so fan has room */
+  padding: var(--space-6) 0 var(--space-7);
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.cu-stack {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;                        /* square cell gives room
+                                                 for the fan in x & y */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Each card is absolutely positioned at the stack center and animated
+   by framer-motion. Fixed px width so the fan math is predictable;
+   cards all shrink uniformly on hover so the whole fan fits the cell. */
+.cu-stack__card {
+  position: absolute;
+  width: 260px;
+  will-change: transform;
+}
+
+@media (max-width: 900px) {
+  .cu-stack__card { width: 190px; }
+}
+
+/* ============================================================================
+   RESPONSIVE
+============================================================================ */
+
+@media (max-width: 900px) {
+  .cu-bio-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .cu-sticky {
+    max-width: 100%;
+    padding: 48px 32px 40px 56px;
+    line-height: 28px;
+  }
+  .cu-sticky::before { left: 32px; }
+  .cu-sticky__title { font-size: 36px; line-height: 28px; margin-bottom: 28px; }
+  .cu-sticky__body p { font-size: 16px; line-height: 28px; margin-bottom: 28px; }
+
+  .cu-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}
