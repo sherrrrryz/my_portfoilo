@@ -1,0 +1,442 @@
+/* ===== Section 3 — For Teams ===== */
+
+/* ---- 共用 section 容器 ---- */
+.ft-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--stage-light);
+  color: var(--ink-primary);
+  padding: var(--vspace-xl) var(--hspace-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+
+.ft-section__inner {
+  width: 100%;
+  max-width: var(--container-xl);
+}
+
+/* ---- S2→S3 bridge（复用 fb-bridge 类，无需重写） ---- */
+
+/* ---- 引出句（quote 前的小 intro 行，不能抢大字） ---- */
+.ft-lead {
+  max-width: var(--container-md);
+  margin: 0 auto;
+  text-align: center;
+  font-size: var(--text-md);
+  font-weight: var(--font-normal);
+  line-height: var(--leading-relaxed);
+  letter-spacing: var(--tracking-normal);
+  color: var(--ink-muted);
+}
+
+/* ---- QuoteHover 根容器 ----
+   改成 block 布局（不是 flex），避免 flex align-items: center 在子元素
+   宽于父级时 Chromium 降级为 "safe start" 导致左偏。子元素各自用
+   margin: 0 auto 居中，允许溢出时对称溢出而不是靠左。 */
+.ft-quote-root {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: var(--space-5) 0 var(--vspace-xl);
+  text-align: center;
+}
+
+/* ---- 引用大字 ----------------------------------------------------------
+   "整张图缩放" 模式：
+   - 固定 font-size / line-height / letter-spacing（不重排、不适应）
+   - width: max-content 让 quote 自动贴合最宽的 nowrap 行
+   - zoom: clamp(0.48, 100vw / 1600px, 1) 对整个 quote（含高亮条）
+     做整体视觉 + layout 占位的等比缩放
+   - margin: 0 auto 保持居中
+   视口 ≥ 1600px 时 zoom = 1（原尺寸），向下线性压缩到 768px ≈ 0.48
+------------------------------------------------------------------------ */
+.ft-quote {
+  --q-scroll-scale: 1;
+
+  font-family: var(--font-sans);
+  font-size: 3.5rem;
+  font-weight: var(--font-extrabold);
+  line-height: 1.85;
+  letter-spacing: var(--tracking-tightest);
+  color: var(--ink-primary);
+  text-align: center;
+  cursor: default;
+
+  /* 自然宽度 = 最宽一行的 nowrap 内容（约 1413px）。
+     宽于 parent 时，margin: 0 auto / align-items: center 在 Chromium 下
+     会降级成左对齐。用 left: 50% + translateX(-50%) 强制对称溢出居中。
+     zoom 保证在窄视口下视觉缩放到适配宽度。 */
+  width: max-content;
+  position: relative;
+  left: 50%;
+  zoom: clamp(0.48, calc(100vw / 1500px), 1);
+
+  /* 滚动驱动的 "镜头 zoom" — GSAP ScrollTrigger scrub 写入 --q-scroll-scale。
+     和居中用的 translateX(-50%) 合并在一个 transform 里，transform-origin
+     center 保证 scale 不偏移中心。 */
+  transform: translateX(-50%) scale(var(--q-scroll-scale));
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.ft-quote__line {
+  display: block;
+  white-space: nowrap;
+}
+
+/* ---- 高亮短语 base ----
+   inline-block 让 transform 生效；每个 phrase 的 hover 抖动目标作为 CSS
+   自定义属性由 JSX 注入（random once on mount），hover 用 var() 触发。 */
+.ft-phrase {
+  --jitter-scale: 1.06;
+  --jitter-rot: 0;
+
+  display: inline-block;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  padding: 0 0.25em;
+  /* 压缩 phrase 自己的 line-height，让 bg 高度 ≈ 父级 line-height × 0.8
+     （父级 1.85 × 0.8 ≈ 1.48），相邻行的 phrase marker 不再相撞。 */
+  line-height: 1.48;
+  vertical-align: baseline;
+  transform-origin: center center;
+  transition: transform var(--duration-base) var(--ease-spring);
+  will-change: transform;
+}
+
+.ft-phrase:hover,
+.ft-phrase:focus-visible {
+  transform: scale(var(--jitter-scale))
+    rotate(calc(var(--jitter-rot) * 1deg));
+}
+
+/* ---- 4 种 marker 颜色（纯身份标识，不随交互变化） ---- */
+.ft-phrase--1 {
+  background: var(--accent-pale);
+  color: var(--accent-ink);
+}
+.ft-phrase--2 {
+  background: var(--highlight-pale);
+  color: var(--highlight-ink);
+}
+.ft-phrase--3 {
+  background: var(--phrase-3-pale);
+  color: var(--phrase-3-ink);
+}
+.ft-phrase--4 {
+  background: var(--phrase-4-pale);
+  color: var(--phrase-4-ink);
+}
+
+/* ---- 面板容器 ---- */
+.ft-panel {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin: var(--space-6) auto 0;
+  min-height: 360px;
+}
+
+/* ---- 面板1：ScatteredTags ----
+   "整张图缩放"：固定 1200px 自然宽度，zoom 区间 0.8 → 1.0。
+   960px 以下 zoom 锁定 0.8（clamp lower bound），保证 card/pill 不过小。
+   pill / emoji / card 全部用固定 px 内部尺寸，不再各自 clamp 自适应。 */
+.ft-scattered {
+  position: relative;
+  width: 1200px;
+  height: 560px;
+  margin: 0 auto;
+  zoom: clamp(0.8, calc(100vw / 1200), 1);
+}
+
+/* ---- 散落 tag 专用样式 ------------------------------------------------
+   Chunky pill with bold body + emoji as a circular badge on the corner.
+   Text wraps into 2–3 lines; max-width forces a consistent chunky shape.
+--------------------------------------------------------------------- */
+.ft-scatter-tag {
+  --tag-glow: rgba(0, 0, 0, 0.08);
+
+  position: relative;
+  display: inline-block;
+  max-width: 320px;
+  padding: 22px 36px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+  text-align: center;
+  color: var(--ink-primary);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.05),
+    0 14px 36px var(--tag-glow);
+  user-select: none;
+}
+
+/* ---- 独立 emoji 徽章（scatter 里和 tag 同级、单独拖拽） ---- */
+.ft-emoji-badge {
+  width: 64px;
+  height: 64px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-raised);
+  border-radius: 50%;
+  font-size: 32px;
+  line-height: 1;
+  user-select: none;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.05),
+    0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* ---- Colored pastel variants (Panel 1 editorial) ---- */
+.ft-scatter-tag--rose {
+  background: var(--tag-rose-bg);
+  color: var(--tag-rose-ink);
+  --tag-glow: rgba(190, 18, 60, 0.18);
+}
+.ft-scatter-tag--amber {
+  background: var(--tag-amber-bg);
+  color: var(--tag-amber-ink);
+  --tag-glow: rgba(180, 83, 9, 0.18);
+}
+.ft-scatter-tag--mint {
+  background: var(--tag-mint-bg);
+  color: var(--tag-mint-ink);
+  --tag-glow: rgba(4, 120, 87, 0.18);
+}
+.ft-scatter-tag--sky {
+  background: var(--tag-sky-bg);
+  color: var(--tag-sky-ink);
+  --tag-glow: rgba(29, 78, 216, 0.18);
+}
+.ft-scatter-tag--lavender {
+  background: var(--tag-lavender-bg);
+  color: var(--tag-lavender-ink);
+  --tag-glow: rgba(109, 40, 217, 0.2);
+}
+.ft-scatter-tag--peach {
+  background: var(--tag-peach-bg);
+  color: var(--tag-peach-ink);
+  --tag-glow: rgba(194, 65, 12, 0.18);
+}
+
+/* ---- 拖拽模式调试面板（仅 DESIGN_MODE） ---- */
+.ft-drag-debug {
+  position: fixed;
+  bottom: var(--space-5);
+  right: var(--space-5);
+  z-index: var(--z-overlay);
+  background: var(--neutral-950);
+  color: var(--neutral-0);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  max-width: 380px;
+  max-height: 320px;
+  overflow: auto;
+}
+
+.ft-drag-copy-btn {
+  display: block;
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--accent);
+  color: var(--neutral-0);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+/* ---- 面板2/3：TiltedCard 容器 ----
+   同 .ft-scattered：固定 1200px + zoom 0.8→1.0 整张图缩放。 */
+.ft-tilted-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  width: 1200px;
+  min-height: 480px;
+  margin: 0 auto;
+  padding: var(--space-4);
+  zoom: clamp(0.8, calc(100vw / 1200), 1);
+}
+
+/* 拖拽锁定：每个可拖拽 wrapper ---- */
+.ft-draggable-wrap {
+  position: absolute;
+  cursor: grab;
+}
+.ft-draggable-wrap:active {
+  cursor: grabbing;
+}
+.ft-draggable-wrap--locked {
+  cursor: default;
+}
+
+/* ---- 面板4：Masonry 容器 ---- */
+.ft-masonry-wrap {
+  width: 100%;
+  height: 600px;
+  position: relative;
+}
+
+/* ---- 面板4：成果标签行 ---- */
+.ft-results-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2-5);
+  justify-content: center;
+  margin-bottom: var(--space-5);
+}
+
+/* ---- S3 footer（底部项目链接） ---- */
+.ft-footer {
+  margin-top: var(--vspace-lg);
+  text-align: center;
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  color: var(--ink-faint);
+  font-family: var(--font-sans);
+}
+.ft-footer a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ---- 反转句 ---- */
+.ft-twist {
+  margin-top: var(--space-6);
+  text-align: center;
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  font-style: italic;
+  color: var(--ink-secondary);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* ---- 手机模式专用标记容器 ----
+   Desktop 模式下 .ft-panels-mobile 隐藏；手机模式下 .ft-panel（桌面切换容器）
+   隐藏。TSX 根据 useMatchMedia 判断不挂相应分支，但为了 SSR / hydration 一致，
+   也用 CSS display 兜底。 */
+.ft-panels-mobile {
+  display: none;
+  width: 100%;
+  flex-direction: column;
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+}
+
+.ft-panels-mobile > .ft-panel-mobile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* ============================================================
+   手机断点（< 768px）：collage 拆成线性堆叠 + 全部 panel 一起渲染
+   ------------------------------------------------------------
+   - Quote 去 zoom、字号 clamp、允许自然换行
+   - Phrase 去 hover 抖动 / cursor pointer（点击仍可 toggle 但用户通常不会）
+   - 桌面 AnimatePresence panel 容器隐藏，改显示 .ft-panels-mobile
+   - 每个 mobile panel 内部：绝对定位 / 固定宽度 / zoom / 绝对定位 item 全部重置
+   - Scatter 子元素去 position:absolute + left/top（!important 盖住内联）
+   - 保留 inline `rotate` 做手工感
+   - Emoji 独立徽章在堆叠里没上下文，隐藏
+   ============================================================ */
+@media (max-width: 767px) {
+  /* Quote */
+  .ft-quote {
+    width: 100%;
+    max-width: none;
+    zoom: 1;
+    font-size: clamp(1.25rem, 5.5vw, 1.75rem);
+    line-height: 1.5;
+    letter-spacing: var(--tracking-tight);
+    position: static;             /* 关掉桌面的 left:50% + translateX 居中 */
+    left: auto;
+    transform: none;              /* 关掉桌面的 scroll-scale */
+    --q-scroll-scale: 1;
+  }
+  .ft-quote__line {
+    display: inline;
+    white-space: normal;
+  }
+  .ft-phrase {
+    cursor: default;
+  }
+  .ft-phrase:hover,
+  .ft-phrase:focus-visible {
+    transform: none;
+  }
+
+  /* Desktop panel 容器隐藏；mobile panel 容器显示 */
+  .ft-panel {
+    display: none !important;
+  }
+  .ft-panels-mobile {
+    display: flex;
+  }
+
+  /* Scattered / Tilted 容器：去 zoom / 去固定宽度 / 去绝对定位布景 */
+  .ft-scattered,
+  .ft-tilted-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: var(--space-4);
+    width: 100%;
+    height: auto !important;
+    min-height: 0;
+    padding: 0 var(--space-4);
+    zoom: 1;
+  }
+
+  /* 所有 scatter / tilted 直接子元素：取消绝对定位（覆盖 framer-motion inline style）*/
+  .ft-scattered > *,
+  .ft-tilted-grid > * {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    z-index: auto !important;
+    cursor: default !important;
+  }
+
+  /* Emoji 独立徽章在堆叠里没上下文，隐藏 */
+  .ft-scattered .ft-scatter-item--emoji {
+    display: none;
+  }
+
+  /* pill 在手机上窄一点：字小一档、padding 收紧 */
+  .ft-scatter-tag {
+    max-width: min(320px, calc(100vw - var(--space-5) * 2));
+    font-size: 17px;
+    padding: 16px 24px;
+  }
+
+  /* Panel 4 Masonry：高度由内容决定，ResizeObserver 自动降级为 1 列 */
+  .ft-masonry-wrap {
+    height: auto;
+    min-height: 400px;
+  }
+}

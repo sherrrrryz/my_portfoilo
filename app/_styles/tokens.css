@@ -59,6 +59,34 @@
   --terracotta-500: #b14224;
   --terracotta-700: #7d2914;
 
+  /* ------ Colors: lavender (S3 phrase-4 marker) ------
+     Soft blue-purple for the fourth hover phrase in Section 3.
+     Intentionally desaturated to stay monochrome-adjacent. */
+  --lavender-100: #eceaff;
+  --lavender-700: #4338ca;
+  --lavender-900: #312e81;
+
+  /* ------ Colors: sage (S3 phrase-3 marker) ------
+     Cool gray-green, distinct from the green accent family. */
+  --sage-100: #e6ede8;
+  --sage-700: #3a5c44;
+
+  /* ------ Colors: pastel tag palette (S3 scattered tags) ------
+     Soft-bg / saturated-ink pairs for playful pill tags.
+     Used ONLY in Section 3 Panel 1 scattered-tag editorial moment. */
+  --tag-rose-bg:     #ffe4e6;
+  --tag-rose-ink:    #be123c;
+  --tag-amber-bg:    #fef3c7;
+  --tag-amber-ink:   #b45309;
+  --tag-mint-bg:     #d1fae5;
+  --tag-mint-ink:    #047857;
+  --tag-sky-bg:      #dbeafe;
+  --tag-sky-ink:     #1d4ed8;
+  --tag-lavender-bg: #ede9fe;
+  --tag-lavender-ink:#6d28d9;
+  --tag-peach-bg:    #ffedd5;
+  --tag-peach-ink:   #c2410c;
+
   /* ------ Typography: families ------ */
   --font-sans: 'Switzer', 'Switzer-Variable', -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -220,6 +248,15 @@
   --highlight-pale: var(--terracotta-100);  /* marker bg behind text */
   --highlight:      var(--terracotta-500);  /* primary highlight color */
   --highlight-ink:  var(--terracotta-700);  /* deep emphasis text */
+
+  /* ------ S3 phrase marker colors ------
+     Used only in Section 3 QuoteHover phrase highlights.
+     phrase-1 = accent (reuse), phrase-2 = highlight (reuse),
+     phrase-3 = sage, phrase-4 = lavender. */
+  --phrase-3-pale: var(--sage-100);
+  --phrase-3-ink:  var(--sage-700);
+  --phrase-4-pale: var(--lavender-100);
+  --phrase-4-ink:  var(--lavender-700);
 
   /* ------ Borders — minimized by design ------
      Use only when a fill shift cannot replace them: focus rings, input

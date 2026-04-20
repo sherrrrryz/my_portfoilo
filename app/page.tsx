@@ -3,6 +3,7 @@
 import './_styles/tokens.css';
 import './_story/styles/flashlight.css';
 import './_story/styles/for-business.css';
+import './_story/styles/for-teams.css';
 
 import Link from 'next/link';
 import { useState } from 'react';
@@ -15,6 +16,8 @@ import BeforeAfterSlider from './_story/components/BeforeAfterSlider';
 import ABVote from './_story/components/ABVote';
 import FoldableCarousel from './_story/components/FoldableCarousel';
 import ComparisonCard from './_story/components/ComparisonCard';
+import QuoteHover from './_story/components/s3/QuoteHover';
+import FadeOnExit from './_story/components/FadeOnExit';
 import { Reveal } from './_story/lib/Reveal';
 import { LenisProvider } from './_story/lib/LenisContext';
 import { DEFAULT_CONFIG } from './_story/components/MaskControls';
@@ -554,6 +557,87 @@ export default function StoryPage() {
               View project →
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* ── S2 → S3 bridge ── */}
+      <section className="fb-bridge" aria-hidden={false}>
+        <Reveal
+          mode="words"
+          effect="blur"
+          trigger="once"
+          duration={1}
+          stagger={0.04}
+          initialBlur={4}
+          start="top 70%"
+          className="fb-bridge__copy"
+        >
+          Experiments need one hypothesis. Teams need one direction.
+        </Reveal>
+      </section>
+
+      {/* ── S3 eyebrow + 引出句（合并一个 ft-section，控制内部节奏）
+           外层用 FadeOnExit 做"快到顶端时渐变消失"，对应入场的 blur 效果。 ── */}
+      <section
+        className="ft-section"
+        style={{
+          minHeight: 'unset',
+          paddingTop: 'var(--vspace-xl)',
+          paddingBottom: 0,
+        }}
+      >
+        <FadeOnExit
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 'var(--space-4)',
+            width: '100%',
+          }}
+        >
+          <Reveal
+            mode="words"
+            effect="blur"
+            trigger="once"
+            duration={0.9}
+            stagger={0.03}
+            start="top 75%"
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: 'var(--eyebrow-size)',
+              fontWeight: 'var(--eyebrow-weight)',
+              letterSpacing: 'var(--eyebrow-tracking)',
+              textTransform: 'uppercase',
+              color: 'var(--eyebrow-color)',
+              textAlign: 'center',
+            }}
+          >
+            I design for teams.
+          </Reveal>
+          <Reveal
+            mode="words"
+            effect="blur"
+            trigger="once"
+            duration={1}
+            stagger={0.04}
+            initialBlur={5}
+            start="top 72%"
+            className="ft-lead"
+          >
+            My manager said this when he put me in charge of the design system:
+          </Reveal>
+        </FadeOnExit>
+      </section>
+
+      {/* ── S3 QuoteHover ── */}
+      <section
+        className="ft-section"
+        style={{ paddingTop: 0 }}
+      >
+        <div className="ft-section__inner">
+          <QuoteHover />
+
+          <div className="ft-footer">MIUI Design System 2.0 · 2023</div>
         </div>
       </section>
     </div>
