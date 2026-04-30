@@ -13,7 +13,7 @@
 ============================================================================ */
 
 .fe-section {
-  --fe-bg: var(--stage-light);
+  --fe-bg: var(--theme-surface-1);
   --fe-ink: var(--ink-primary);
 
   position: relative;
@@ -29,6 +29,7 @@
   align-items: center;
   font-family: var(--font-sans);
   isolation: isolate;
+  transition: background-color 0.4s ease;
 }
 
 .fe-section__inner {

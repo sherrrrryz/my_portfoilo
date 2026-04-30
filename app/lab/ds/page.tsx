@@ -67,6 +67,28 @@ const RADIUS_SCALE: Array<{ token: string; label: string }> = [
   { token: '--radius-pill', label: 'pill' },
 ];
 
+const THEMES: Array<{ id: string; label: string; basis: string }> = [
+  { id: 'opening',   label: 'S0 · Opening',   basis: 'Pure black neutral' },
+  { id: 'millions',  label: 'S1 · Millions',  basis: 'Charcoal neutral' },
+  { id: 'business',  label: 'S2 · Business',  basis: 'Cool deep blue-gray (hue ~261)' },
+  { id: 'teams',     label: 'S3 · Teams',     basis: 'Olive green (hue ~125)' },
+  { id: 'evidence',  label: 'S4 · Evidence',  basis: 'Warm cream (hue ~85)' },
+  { id: 'curiosity', label: 'S5 · Curiosity', basis: 'Pure white neutral' },
+];
+
+const PALETTE_TOKENS: Array<{ token: string; short: string }> = [
+  { token: '--theme-surface-1', short: 'surface-1' },
+  { token: '--theme-surface-2', short: 'surface-2' },
+  { token: '--theme-text-1',    short: 'text-1' },
+  { token: '--theme-text-2',    short: 'text-2' },
+  { token: '--theme-text-3',    short: 'text-3' },
+  { token: '--theme-accent-1',  short: 'accent-1' },
+  { token: '--theme-accent-2',  short: 'accent-2' },
+  { token: '--theme-btn-1',     short: 'btn-1' },
+  { token: '--theme-btn-2',     short: 'btn-2' },
+  { token: '--theme-btn-3',     short: 'btn-3' },
+];
+
 const TOC: Array<{ id: string; label: string }> = [
   { id: 'controls', label: '01 · Live controls' },
   { id: 'colors', label: '02 · Colors' },
@@ -76,6 +98,7 @@ const TOC: Array<{ id: string; label: string }> = [
   { id: 'story', label: '06 · Story components' },
   { id: 'shadcn', label: '07 · Shadcn primitives' },
   { id: 'stages', label: '08 · Stages' },
+  { id: 'themes', label: '09 · Themes' },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -113,6 +136,23 @@ export default function DesignSystemLab() {
      (Swatch, TypeRow) to re-read computed values. */
   const [tick, setTick] = useState(0);
   const bump = useCallback(() => setTick((t) => t + 1), []);
+
+  /* Globally-applied theme. Mirrors to <html data-theme="..."> so future
+     components consuming var(--theme-*) re-tint. Cleared on unmount so
+     navigating away from /lab/ds doesn't strand the attribute. */
+  const [appliedTheme, setAppliedTheme] = useState<string | null>(null);
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const el = document.documentElement;
+    if (appliedTheme) {
+      el.setAttribute('data-theme', appliedTheme);
+    } else {
+      el.removeAttribute('data-theme');
+    }
+    return () => {
+      el.removeAttribute('data-theme');
+    };
+  }, [appliedTheme]);
 
   const editable = useMemo(
     () => [
@@ -653,6 +693,54 @@ export default function DesignSystemLab() {
           </div>
         </section>
 
+        {/* ------------------------- 09 Themes ------------------------- */}
+        <section id="themes" style={styles.section}>
+          <SectionHead num="09" title="Themes" />
+          <p style={styles.sectionNote}>
+            Six per-section palettes (PRD §2.4). Each card scopes its own{' '}
+            <code style={styles.code}>data-theme</code>, so the swatches and
+            mini-preview always show that theme's values. Click{' '}
+            <strong>Apply globally</strong> to set{' '}
+            <code style={styles.code}>{'<html data-theme="X">'}</code> — components
+            reading <code style={styles.code}>var(--theme-*)</code> tokens will
+            re-tint live. Single source of truth lives in{' '}
+            <code style={styles.code}>app/_styles/tokens.css</code>.
+          </p>
+          <div style={styles.themeGrid}>
+            {THEMES.map((t) => (
+              <ThemeCard
+                key={t.id}
+                theme={t}
+                applied={appliedTheme === t.id}
+                onApply={() =>
+                  setAppliedTheme((cur) => (cur === t.id ? null : t.id))
+                }
+                tick={tick}
+              />
+            ))}
+          </div>
+          <div style={styles.themeAppliedBar}>
+            {appliedTheme ? (
+              <>
+                Globally applied:{' '}
+                <strong style={{ color: 'var(--ink-primary)' }}>
+                  {appliedTheme}
+                </strong>{' '}
+                ·{' '}
+                <button
+                  type="button"
+                  onClick={() => setAppliedTheme(null)}
+                  style={styles.themeClearBtn}
+                >
+                  clear
+                </button>
+              </>
+            ) : (
+              <>No theme globally applied · default palette in effect.</>
+            )}
+          </div>
+        </section>
+
         <footer style={styles.footer}>
           <span>tokens.css · v0.1</span>
           <span>·</span>
@@ -818,6 +906,96 @@ function SpacingBar({ n }: { n: number }) {
         }}
       />
       <div style={styles.spacingPx}>{resolveSpace(n)}</div>
+    </div>
+  );
+}
+
+function ThemeCard({
+  theme,
+  applied,
+  onApply,
+  tick,
+}: {
+  theme: { id: string; label: string; basis: string };
+  applied: boolean;
+  onApply: () => void;
+  tick: number;
+}) {
+  return (
+    <div
+      data-theme={theme.id}
+      style={{
+        ...styles.themeCard,
+        borderColor: applied
+          ? 'var(--accent)'
+          : 'var(--border-hairline)',
+        boxShadow: applied ? '0 0 0 1px var(--accent)' : 'none',
+      }}
+    >
+      <div>
+        <div style={styles.themeCardLabel}>{theme.label}</div>
+        <div style={styles.themeCardBasis}>{theme.basis}</div>
+      </div>
+
+      {/* Mini preview — uses --theme-* tokens scoped to this card's data-theme */}
+      <div style={styles.themePreview}>
+        <div style={styles.themePreviewHead}>Taste has to defend itself.</div>
+        <div style={styles.themePreviewBody}>
+          Body tone preview · text-3 muted line.
+        </div>
+        <div style={styles.themePreviewChips}>
+          <span style={styles.themeChipAccent}>accent-1</span>
+          <span style={styles.themeChipBtn}>btn-2</span>
+        </div>
+      </div>
+
+      {/* Palette swatches */}
+      <div style={styles.themePalette}>
+        {PALETTE_TOKENS.map((p) => (
+          <ThemeSwatch
+            key={p.token}
+            token={p.token}
+            short={p.short}
+            tick={tick}
+          />
+        ))}
+      </div>
+
+      <Button
+        size="sm"
+        variant={applied ? 'secondary' : 'ghost'}
+        onClick={onApply}
+        style={{ alignSelf: 'flex-start' }}
+      >
+        {applied ? 'Applied · click to clear' : 'Apply globally'}
+      </Button>
+    </div>
+  );
+}
+
+function ThemeSwatch({
+  token,
+  short,
+  tick,
+}: {
+  token: string;
+  short: string;
+  tick: number;
+}) {
+  const v = useResolvedToken(token, tick);
+  return (
+    <div
+      style={styles.themeSwatch}
+      title={`${token} · ${v}`}
+      aria-label={`${short} ${v}`}
+    >
+      <div
+        style={{
+          ...styles.themeSwatchChip,
+          background: `var(${token})`,
+        }}
+      />
+      <div style={styles.themeSwatchLabel}>{short}</div>
     </div>
   );
 }
@@ -1167,6 +1345,125 @@ const styles: Record<string, React.CSSProperties> = {
   },
   row: { display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' },
   stageRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 },
+
+  /* ----- 09 Themes ----- */
+  themeGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+    gap: 20,
+  },
+  themeCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 14,
+    padding: 18,
+    background: 'var(--surface-raised)',
+    border: '1px solid',
+    borderRadius: 'var(--radius-lg)',
+    transition: 'border-color 150ms, box-shadow 150ms',
+  },
+  themeCardLabel: {
+    fontFamily: 'var(--font-mono)',
+    fontSize: 12,
+    letterSpacing: '0.14em',
+    textTransform: 'uppercase',
+    color: 'var(--ink-primary)',
+    fontWeight: 600,
+  },
+  themeCardBasis: {
+    fontSize: 12,
+    color: 'var(--ink-muted)',
+    marginTop: 4,
+  },
+  themePreview: {
+    background: 'var(--theme-surface-1)',
+    color: 'var(--theme-text-1)',
+    padding: 16,
+    borderRadius: 'var(--radius-md)',
+    fontFamily: 'var(--font-sans)',
+    minHeight: 96,
+  },
+  themePreviewHead: {
+    fontSize: 17,
+    fontWeight: 700,
+    lineHeight: 1.2,
+    letterSpacing: '-0.01em',
+  },
+  themePreviewBody: {
+    fontSize: 12,
+    color: 'var(--theme-text-3)',
+    marginTop: 6,
+  },
+  themePreviewChips: {
+    marginTop: 12,
+    display: 'flex',
+    gap: 6,
+  },
+  themeChipAccent: {
+    background: 'var(--theme-accent-1)',
+    color: 'var(--theme-surface-1)',
+    padding: '3px 10px',
+    borderRadius: 'var(--radius-pill)',
+    fontSize: 11,
+    fontFamily: 'var(--font-mono)',
+    letterSpacing: '0.04em',
+    fontWeight: 600,
+  },
+  themeChipBtn: {
+    background: 'var(--theme-btn-2)',
+    color: 'var(--theme-text-1)',
+    padding: '3px 10px',
+    borderRadius: 'var(--radius-pill)',
+    fontSize: 11,
+    fontFamily: 'var(--font-mono)',
+    letterSpacing: '0.04em',
+  },
+  themePalette: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(5, 1fr)',
+    gap: 6,
+  },
+  themeSwatch: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 3,
+    minWidth: 0,
+  },
+  themeSwatchChip: {
+    height: 28,
+    borderRadius: 4,
+    border: '1px solid var(--border-hairline)',
+  },
+  themeSwatchLabel: {
+    fontFamily: 'var(--font-mono)',
+    fontSize: 9,
+    letterSpacing: '0.04em',
+    color: 'var(--ink-faint)',
+    textAlign: 'center',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+  themeAppliedBar: {
+    marginTop: 24,
+    padding: '12px 16px',
+    background: 'var(--surface-1)',
+    border: '1px solid var(--border-hairline)',
+    borderRadius: 'var(--radius-md)',
+    fontFamily: 'var(--font-mono)',
+    fontSize: 12,
+    color: 'var(--ink-secondary)',
+  },
+  themeClearBtn: {
+    background: 'transparent',
+    border: 'none',
+    padding: 0,
+    color: 'var(--accent-hover)',
+    cursor: 'pointer',
+    textDecoration: 'underline',
+    fontFamily: 'inherit',
+    fontSize: 'inherit',
+  },
   footer: {
     display: 'flex',
     gap: 10,

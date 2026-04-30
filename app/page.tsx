@@ -8,9 +8,10 @@ import './_story/styles/for-evidence.css';
 import './_story/styles/curiosity.css';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PortfolioScene, { type FlashlightMode } from './_story/components/PortfolioScene';
-import PillNav from './_story/components/PillNav';
+import StoryNav from './_story/components/StoryNav';
 import ScrollFloat from './_story/components/ScrollFloat';
 import ScrollReveal from './_story/components/ScrollReveal';
 import LockscreenPile from './_story/components/LockscreenPile';
@@ -33,6 +34,46 @@ import { DEFAULT_CONFIG } from './_story/components/MaskControls';
 export default function StoryPage() {
   const [mode, setMode] = useState<FlashlightMode>('glow');
 
+  /* PRD §2.3 — body[data-theme] flips at each section's bottom 55%. CSS
+     0.4s transition on each section's background-color smooths the swap.
+     The wrapper for S1 covers Lockscreen + MIUI + Foldable + S1→S2 bridge,
+     so its bottom is the natural switch point — same for the other
+     wrappers, which already group their sub-sections. */
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    document.body.dataset.theme = 'opening';
+
+    const transitions: Array<{ sel: string; prev: string; next: string }> = [
+      { sel: '[data-section="opening"]',  prev: 'opening',   next: 'millions' },
+      { sel: '[data-section="millions"]', prev: 'millions',  next: 'business' },
+      { sel: '[data-section="business"]', prev: 'business',  next: 'teams' },
+      { sel: '[data-section="teams"]',    prev: 'teams',     next: 'evidence' },
+      { sel: '[data-section="evidence"]', prev: 'evidence',  next: 'curiosity' },
+    ];
+
+    const sts = transitions
+      .map(({ sel, prev, next }) => {
+        const trigger = document.querySelector<HTMLElement>(sel);
+        if (!trigger) return null;
+        return ScrollTrigger.create({
+          trigger,
+          start: 'bottom 55%',
+          onEnter: () => {
+            document.body.dataset.theme = next;
+          },
+          onLeaveBack: () => {
+            document.body.dataset.theme = prev;
+          },
+        });
+      })
+      .filter(Boolean) as ScrollTrigger[];
+
+    return () => {
+      sts.forEach((st) => st.kill());
+      delete document.body.dataset.theme;
+    };
+  }, []);
+
   return (
     <LenisProvider>
     <div
@@ -46,29 +87,18 @@ export default function StoryPage() {
         overflowX: 'hidden',
       }}
     >
-      <PillNav
-        logo="/logo.png"
-        logoAlt="Sherry"
-        items={[
-          { label: 'Story', href: '/' },
-          { label: 'Overview', href: '/overview' },
-          { label: 'Projects', href: '/projects' },
-        ]}
-        activeHref="/"
-        baseColor="#ffffff"
-        pillColor="#0a0a0a"
-        hoveredPillTextColor="#0a0a0a"
-        pillTextColor="#ffffff"
-      />
+      <StoryNav variant="story" />
 
       <section
         id="section-opening"
+        data-section="opening"
         style={{
           position: 'relative',
           width: '100%',
           height: '100vh',
           overflow: 'hidden',
-          background: '#0a0a0a',
+          background: 'var(--theme-surface-1)',
+          transition: 'background-color 0.4s ease',
         }}
       >
         <PortfolioScene config={DEFAULT_CONFIG} mode={mode} />
@@ -117,14 +147,16 @@ export default function StoryPage() {
         </button>
       </section>
 
+      <div data-section="millions">
       <section
         style={{
           position: 'relative',
           width: '100%',
           minHeight: '100vh',
-          background: 'var(--stage-cream)',
-          color: '#1a1a1a',
+          background: 'var(--theme-surface-1)',
+          color: 'var(--theme-text-1)',
           padding: 'var(--vspace-2xl) var(--hspace-sm) var(--vspace-xl)',
+          transition: 'background-color 0.4s ease',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -138,7 +170,7 @@ export default function StoryPage() {
               fontSize: 'var(--text-sm)',
               letterSpacing: 'var(--tracking-widest)',
               textTransform: 'uppercase',
-              color: 'var(--ink-muted)',
+              color: 'var(--theme-text-3)',
               marginBottom: 'var(--space-4-5)',
               textAlign: 'center',
               fontWeight: 'var(--font-medium)' as never,
@@ -183,7 +215,7 @@ export default function StoryPage() {
               textAlign: 'center',
               fontSize: 'var(--text-sm)',
               letterSpacing: 'var(--tracking-wide)',
-              color: 'rgba(26,26,26,0.45)',
+              color: 'var(--theme-text-3)',
             }}
           >
             Xiaomi Lock Screen · 2023 ·{' '}
@@ -207,9 +239,10 @@ export default function StoryPage() {
           position: 'relative',
           width: '100%',
           minHeight: '100vh',
-          background: 'var(--stage-cream)',
-          color: '#1a1a1a',
+          background: 'var(--theme-surface-1)',
+          color: 'var(--theme-text-1)',
           padding: 'var(--vspace-xl) var(--hspace-sm)',
+          transition: 'background-color 0.4s ease',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -267,7 +300,7 @@ export default function StoryPage() {
               textAlign: 'center',
               fontSize: 'var(--text-sm)',
               letterSpacing: 'var(--tracking-wide)',
-              color: 'rgba(26,26,26,0.45)',
+              color: 'var(--theme-text-3)',
             }}
           >
             MIUI Design System 2.0 · 2024 · View project →
@@ -281,9 +314,10 @@ export default function StoryPage() {
           position: 'relative',
           width: '100%',
           minHeight: '100vh',
-          background: 'var(--stage-cream)',
-          color: '#1a1a1a',
+          background: 'var(--theme-surface-1)',
+          color: 'var(--theme-text-1)',
           padding: 'var(--vspace-xl) var(--hspace-sm)',
+          transition: 'background-color 0.4s ease',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -354,7 +388,7 @@ export default function StoryPage() {
               textAlign: 'center',
               fontSize: 'var(--text-sm)',
               letterSpacing: 'var(--tracking-wide)',
-              color: 'rgba(26,26,26,0.45)',
+              color: 'var(--theme-text-3)',
             }}
           >
             Foldable Screen Framework · 2022 · View project →
@@ -362,26 +396,9 @@ export default function StoryPage() {
         </div>
       </section>
 
-      {/* Section 1 → 2 bridge */}
-      <section
-        className="fb-bridge"
-        aria-hidden={false}
-        style={{ background: 'var(--stage-cream)' }}
-      >
-        <Reveal
-          mode="words"
-          effect="blur"
-          trigger="once"
-          duration={1}
-          stagger={0.04}
-          initialBlur={4}
-          start="top 70%"
-          className="fb-bridge__copy"
-        >
-          At Xiaomi, I designed for scale. Then I joined a company where design was measured differently.
-        </Reveal>
-      </section>
+      </div>
 
+      <div data-section="business">
       {/* Section 02.A — Opening */}
       <section id="section-business-opening" className="fb-section">
         <div className="fb-section__inner">
@@ -572,26 +589,9 @@ export default function StoryPage() {
         </div>
       </section>
 
-      {/* ── S2 → S3 bridge ── */}
-      <section
-        className="fb-bridge"
-        aria-hidden={false}
-        style={{ background: 'var(--stage-cream)' }}
-      >
-        <Reveal
-          mode="words"
-          effect="blur"
-          trigger="once"
-          duration={1}
-          stagger={0.04}
-          initialBlur={4}
-          start="top 70%"
-          className="fb-bridge__copy"
-        >
-          Experiments need one hypothesis. Teams need one direction.
-        </Reveal>
-      </section>
+      </div>
 
+      <div data-section="teams">
       {/* ── S3 eyebrow + 引出句（合并一个 ft-section，控制内部节奏）
            外层用 FadeOnExit 做"快到顶端时渐变消失"，对应入场的 blur 效果。
            FtIntroSection wraps the section with a GSAP scrub that flips
@@ -653,22 +653,6 @@ export default function StoryPage() {
         </div>
       </section>
 
-      {/* ── S3 第一层 → 第二层 过渡句 ── */}
-      <section className="fb-bridge" aria-hidden={false}>
-        <Reveal
-          mode="words"
-          effect="blur"
-          trigger="once"
-          duration={1}
-          stagger={0.04}
-          initialBlur={4}
-          start="top 70%"
-          className="fb-bridge__copy"
-        >
-          Building a team was one thing. Getting different departments to think together was another.
-        </Reveal>
-      </section>
-
       {/* ── S3 第二层：Workshop 照片墙 ──
            overflow visible：让 tooltip 溢出到 section 外而不被裁切。
            横向溢出由 fl-root (overflow-x: hidden) 兜底。 */}
@@ -683,7 +667,9 @@ export default function StoryPage() {
       >
         <WorkshopWall />
       </section>
+      </div>
 
+      <div data-section="evidence">
       {/* Section 4 — For Evidence */}
       <FeSection>
         <div className="fe-section__inner">
@@ -705,7 +691,9 @@ export default function StoryPage() {
           <MethodGrid />
         </div>
       </FeSection>
+      </div>
 
+      <div data-section="curiosity">
       {/* Section 5 — Curiosity */}
       <section className="cu-section" id="section-curiosity">
         <div className="cu-section__inner">
@@ -735,6 +723,7 @@ export default function StoryPage() {
           </div>
         </div>
       </section>
+      </div>
     </div>
     </LenisProvider>
   );

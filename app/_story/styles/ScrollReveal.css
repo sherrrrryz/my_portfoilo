@@ -10,7 +10,7 @@
   font-weight: var(--font-bold);
   line-height: 1.1; /* TODO: between leading-tight (1.08) and leading-snug (1.2) */
   letter-spacing: var(--tracking-tightest);
-  color: var(--ink-primary);
+  color: inherit;
   margin: 0 auto;
 }
 

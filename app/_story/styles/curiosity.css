@@ -11,12 +11,13 @@
 .cu-section {
   position: relative;
   width: 100%;
-  background: var(--stage-dark);
+  background: var(--theme-surface-1);
   color: var(--ink-on-dark-primary);
   padding: var(--vspace-xl) var(--hspace-sm);
   font-family: var(--font-sans);
   isolation: isolate;
   overflow: hidden;                          /* safety for fanned polaroids */
+  transition: background-color 0.4s ease;
 }
 
 .cu-section__inner {

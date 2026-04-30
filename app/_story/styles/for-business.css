@@ -4,7 +4,7 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background: var(--stage-cream);
+  background: var(--theme-surface-1);
   color: var(--ink-primary);
   padding: var(--vspace-xl) var(--hspace-sm);
   display: flex;
@@ -12,6 +12,7 @@
   align-items: center;
   font-family: var(--font-sans);
   overflow: hidden;
+  transition: background-color 0.4s ease;
 }
 
 .fb-section__inner {
@@ -24,13 +25,14 @@
   position: relative;
   width: 100%;
   min-height: var(--bridge-min-height);
-  background: var(--stage-light);
+  background: var(--theme-surface-1);
   color: var(--ink-primary);
   padding: var(--bridge-padding-y) var(--hspace-sm);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-sans);
+  transition: background-color 0.4s ease;
 }
 
 .fb-bridge__copy {

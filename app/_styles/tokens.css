@@ -287,6 +287,114 @@
 
 
 /* ============================================================================
+   LAYER 2.5 — THEMES (per-section palettes)
+   ----------------------------------------------------------------------------
+   Each Story-page section gets a 10-token palette: surface-1/2, text-1/2/3,
+   accent-1/2, btn-1/2/3. Components opt-in by reading var(--theme-*) tokens.
+   Default values below match S5 Curiosity (paper); applying [data-theme="X"]
+   on <html> swaps the whole palette. Spec: docs/prd.md §2.4. Live-tune in
+   /lab/ds → 09 · Themes; commit final values back here.
+============================================================================ */
+:root {
+  /* default = S5 Curiosity (paper) */
+  --theme-surface-1: #ffffff;
+  --theme-surface-2: #f4f4f4;
+  --theme-text-1:    #1f1f1f;
+  --theme-text-2:    #5c5c5c;
+  --theme-text-3:    #9c9c9c;
+  --theme-accent-1:  #d96846;
+  --theme-accent-2:  #a84d2f;
+  --theme-btn-1:     #f0f0f0;
+  --theme-btn-2:     #dadada;
+  --theme-btn-3:     #bfbfbf;
+}
+
+[data-theme="opening"] {
+  /* S0 Opening · pure black neutral */
+  --theme-surface-1: #000000;
+  --theme-surface-2: #1f1f1f;
+  --theme-text-1:    #fafafa;
+  --theme-text-2:    #c2c2c2;
+  --theme-text-3:    #777777;
+  --theme-accent-1:  #ffd27a;
+  --theme-accent-2:  #d4a55c;
+  --theme-btn-1:     #2e2e2e;
+  --theme-btn-2:     #404040;
+  --theme-btn-3:     #262626;
+}
+
+[data-theme="millions"] {
+  /* S1 Millions · charcoal neutral */
+  --theme-surface-1: #222222;
+  --theme-surface-2: #363636;
+  --theme-text-1:    #fafafa;
+  --theme-text-2:    #bababa;
+  --theme-text-3:    #777777;
+  --theme-accent-1:  #c5b9a3;
+  --theme-accent-2:  #988a73;
+  --theme-btn-1:     #404040;
+  --theme-btn-2:     #5a5a5a;
+  --theme-btn-3:     #363636;
+}
+
+[data-theme="business"] {
+  /* S2 Business · cool deep blue-gray (hue ~261) */
+  --theme-surface-1: #454f68;
+  --theme-surface-2: #555f79;
+  --theme-text-1:    #fafafa;
+  --theme-text-2:    #b7bcc8;
+  --theme-text-3:    #818691;
+  --theme-accent-1:  #d6a06a;
+  --theme-accent-2:  #a07849;
+  --theme-btn-1:     #4f5974;
+  --theme-btn-2:     #606a85;
+  --theme-btn-3:     #353e54;
+}
+
+[data-theme="teams"] {
+  /* S3 Teams · olive green (hue ~125) */
+  --theme-surface-1: #92a761;
+  --theme-surface-2: #7a8e4f;
+  --theme-text-1:    #fafafa;
+  --theme-text-2:    #d8dcc8;
+  --theme-text-3:    #a8b196;
+  --theme-accent-1:  #f4e9b8;
+  --theme-accent-2:  #d6c890;
+  --theme-btn-1:     #7a8e4f;
+  --theme-btn-2:     #677944;
+  --theme-btn-3:     #586a3a;
+}
+
+[data-theme="evidence"] {
+  /* S4 Evidence · warm cream (hue ~85) */
+  --theme-surface-1: #ede9de;
+  --theme-surface-2: #f6f3eb;
+  --theme-text-1:    #332e22;
+  --theme-text-2:    #615b4d;
+  --theme-text-3:    #928b7c;
+  --theme-accent-1:  #c46b4d;
+  --theme-accent-2:  #9c5238;
+  --theme-btn-1:     #d4d0c5;
+  --theme-btn-2:     #beb9ac;
+  --theme-btn-3:     #a39e91;
+}
+
+[data-theme="curiosity"] {
+  /* S5 Curiosity · pure white neutral (matches default) */
+  --theme-surface-1: #ffffff;
+  --theme-surface-2: #f4f4f4;
+  --theme-text-1:    #1f1f1f;
+  --theme-text-2:    #5c5c5c;
+  --theme-text-3:    #9c9c9c;
+  --theme-accent-1:  #d96846;
+  --theme-accent-2:  #a84d2f;
+  --theme-btn-1:     #f0f0f0;
+  --theme-btn-2:     #dadada;
+  --theme-btn-3:     #bfbfbf;
+}
+
+
+/* ============================================================================
    LAYER 3 — COMPONENT
    Component-specific tokens. Override locally to tweak one component without
    leaking into others.
