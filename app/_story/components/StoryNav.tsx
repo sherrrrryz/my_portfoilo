@@ -56,7 +56,7 @@ const UNREVEALED_GLYPH = '？？？';
 export default function StoryNav({ variant = 'story' }: StoryNavProps) {
   const [active, setActive] = useState<StoryNavSectionId>('opening');
   const [revealed, setRevealed] = useState<Set<StoryNavSectionId>>(
-    new Set(['opening']),
+    () => new Set<StoryNavSectionId>(['opening']),
   );
   const [sheetOpen, setSheetOpen] = useState(false);
 
