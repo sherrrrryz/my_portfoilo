@@ -2,22 +2,17 @@
 
 import './_styles/tokens.css';
 import './_story/styles/flashlight.css';
+import './_story/styles/for-millions.css';
 import './_story/styles/for-business.css';
 import './_story/styles/for-teams.css';
 import './_story/styles/for-evidence.css';
 import './_story/styles/curiosity.css';
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PortfolioScene, { type FlashlightMode } from './_story/components/PortfolioScene';
 import StoryNav from './_story/components/StoryNav';
-import ScrollFloat from './_story/components/ScrollFloat';
-import ScrollReveal from './_story/components/ScrollReveal';
-import LockscreenPile from './_story/components/LockscreenPile';
-import BeforeAfterSlider from './_story/components/BeforeAfterSlider';
-import ABVote from './_story/components/ABVote';
-import FoldableCarousel from './_story/components/FoldableCarousel';
+import MillionsSection from './_story/components/s1/MillionsSection';
 import ComparisonCard from './_story/components/ComparisonCard';
 import QuoteHover from './_story/components/s3/QuoteHover';
 import WorkshopWall from './_story/components/s3/WorkshopWall';
@@ -84,7 +79,10 @@ export default function StoryPage() {
         minHeight: '100vh',
         background: '#0a0a0a',
         color: '#fff',
-        overflowX: 'hidden',
+        // Use `clip` (not `hidden`) so we don't create a scroll container
+        // that breaks `position: sticky` on descendants (e.g. S1's central
+        // text island in fm-body).
+        overflowX: 'clip',
       }}
     >
       <StoryNav variant="story" />
@@ -147,256 +145,7 @@ export default function StoryPage() {
         </button>
       </section>
 
-      <div data-section="millions">
-      <section
-        style={{
-          position: 'relative',
-          width: '100%',
-          minHeight: '100vh',
-          background: 'var(--theme-surface-1)',
-          color: 'var(--theme-text-1)',
-          padding: 'var(--vspace-2xl) var(--hspace-sm) var(--vspace-xl)',
-          transition: 'background-color 0.4s ease',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          fontFamily: "'Switzer-Variable', 'Switzer', 'Inter', system-ui, sans-serif",
-        }}
-      >
-        <div style={{ maxWidth: 2200, width: '100%' }}>
-          <div
-            style={{
-              fontSize: 'var(--text-sm)',
-              letterSpacing: 'var(--tracking-widest)',
-              textTransform: 'uppercase',
-              color: 'var(--theme-text-3)',
-              marginBottom: 'var(--space-4-5)',
-              textAlign: 'center',
-              fontWeight: 'var(--font-medium)' as never,
-            }}
-          >
-            I design for millions.
-          </div>
-          <div id="section-millions-question" data-snap-align="center">
-            <ScrollFloat
-              animationDuration={0.6}
-              ease="power3.out"
-              scrollStart="top 75%"
-              stagger={0.025}
-              scrub={false}
-              highlight="700 million"
-            >
-              What does it mean to design for 700 million people?
-            </ScrollFloat>
-          </div>
-
-          <div
-            id="section-millions-answer"
-            data-snap-align="center"
-            style={{ marginTop: 'var(--vspace-2xl)' }}
-          >
-            <ScrollReveal
-              baseOpacity={0.1}
-              baseRotation={2}
-              blurStrength={4}
-            >
-              It means making something personal — at a scale where nothing feels personal.
-            </ScrollReveal>
-          </div>
-
-          <div style={{ marginTop: 'var(--vspace-md)' }}>
-            <LockscreenPile />
-          </div>
-
-          <div
-            style={{
-              marginTop: 'var(--vspace-lg)',
-              textAlign: 'center',
-              fontSize: 'var(--text-sm)',
-              letterSpacing: 'var(--tracking-wide)',
-              color: 'var(--theme-text-3)',
-            }}
-          >
-            Xiaomi Lock Screen · 2023 ·{' '}
-            <Link
-              href="/projects/lockscreen"
-              style={{
-                color: 'inherit',
-                textDecoration: 'underline',
-                textUnderlineOffset: 4,
-              }}
-            >
-              View project →
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 2 — MIUI Design System 2.0 */}
-      <section
-        style={{
-          position: 'relative',
-          width: '100%',
-          minHeight: '100vh',
-          background: 'var(--theme-surface-1)',
-          color: 'var(--theme-text-1)',
-          padding: 'var(--vspace-xl) var(--hspace-sm)',
-          transition: 'background-color 0.4s ease',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          fontFamily:
-            "'Switzer-Variable', 'Switzer', 'Inter', system-ui, sans-serif",
-        }}
-      >
-        <div style={{ maxWidth: 2200, width: '100%' }}>
-          <div style={{ maxWidth: 1400, margin: '0 auto', marginBottom: 'var(--vspace-md)' }}>
-            <Reveal
-              mode="words"
-              effect="blur"
-              trigger="once"
-              duration={1}
-              stagger={0.06}
-              initialBlur={6}
-              start="top 75%"
-              style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: 'var(--text-3xl)',
-                lineHeight: 'var(--leading-tight)',
-                fontWeight: 'var(--font-extrabold)',
-                letterSpacing: 'var(--tracking-tightest)',
-                textAlign: 'center',
-              }}
-            >
-              It means building the system that other designers build on.
-            </Reveal>
-          </div>
-
-          <div className="miui-grid">
-            <BeforeAfterSlider
-              title="Components"
-              beforeSrc="/miui/components-before.png"
-              afterSrc="/miui/components-after.png"
-              aspectRatio="464 / 512"
-            />
-            <BeforeAfterSlider
-              title="Design Tokens"
-              beforeSrc="/miui/designtoken-before.png"
-              afterSrc="/miui/designtoken-after.png"
-              aspectRatio="464 / 512"
-            />
-            <BeforeAfterSlider
-              title="Localization"
-              beforeSrc="/miui/localization-before.png"
-              afterSrc="/miui/localization-after.png"
-              aspectRatio="464 / 512"
-            />
-          </div>
-
-          <div
-            style={{
-              marginTop: 'var(--vspace-lg)',
-              textAlign: 'center',
-              fontSize: 'var(--text-sm)',
-              letterSpacing: 'var(--tracking-wide)',
-              color: 'var(--theme-text-3)',
-            }}
-          >
-            MIUI Design System 2.0 · 2024 · View project →
-          </div>
-        </div>
-      </section>
-
-      {/* Section 3 — Foldable Screen Framework */}
-      <section
-        style={{
-          position: 'relative',
-          width: '100%',
-          minHeight: '100vh',
-          background: 'var(--theme-surface-1)',
-          color: 'var(--theme-text-1)',
-          padding: 'var(--vspace-xl) var(--hspace-sm)',
-          transition: 'background-color 0.4s ease',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          fontFamily:
-            "'Switzer-Variable', 'Switzer', 'Inter', system-ui, sans-serif",
-        }}
-      >
-        <div style={{ maxWidth: 2200, width: '100%' }}>
-          <div style={{ maxWidth: 1400, margin: '0 auto', marginBottom: 'var(--vspace-md)' }}>
-            <Reveal
-              mode="words"
-              effect="blur"
-              trigger="once"
-              duration={1}
-              stagger={0.06}
-              initialBlur={6}
-              start="top 75%"
-              style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: 'var(--text-3xl)',
-                lineHeight: 'var(--leading-tight)',
-                fontWeight: 'var(--font-extrabold)',
-                letterSpacing: 'var(--tracking-tightest)',
-                textAlign: 'center',
-              }}
-            >
-              It means &lsquo;just make it bigger&rsquo; is never the answer.
-            </Reveal>
-          </div>
-
-          <FoldableCarousel>
-            <ABVote
-              labelA="Calendar unfolded — option A: scaled-up day list"
-              labelB="Calendar unfolded — option B: week grid"
-              foldSrc="/foldable/calender-fold.png"
-              srcA="/foldable/calender-unfold-a.png"
-              srcB="/foldable/calender-unfold-b.png"
-              premise="The user was checking today's schedule on the folded screen. When it unfolds, what deserves the extra canvas?"
-              percentA={27}
-              takeaway="B's week grid surfaces cross-day conflicts without switching views. Just scaling the day list bigger doesn't add information — it only adds pixels."
-            />
-            <ABVote
-              labelA="Home unfolded — option A: scaled icon grid"
-              labelB="Home unfolded — option B: icons plus widget dashboard"
-              foldSrc="/foldable/desktop-fold.png"
-              srcA="/foldable/desktop-unfold-a.png"
-              srcB="/foldable/desktop-unfold-b.png"
-              premise="The user was glancing at the home screen. Unfolded: should the same icons just get bigger, or should the new space become something else?"
-              percentA={58}
-              takeaway="A preserves the mental model from folded mode — muscle memory still works. B adds a widget grid the user didn't ask for. Extra space doesn't mean extra content."
-            />
-            <ABVote
-              labelA="Note unfolded — option A: single-column wider canvas"
-              labelB="Note unfolded — option B: notes list plus editor"
-              foldSrc="/foldable/note-fold.png"
-              srcA="/foldable/note-unfold-a.png"
-              srcB="/foldable/note-unfold-b.png"
-              premise="The user was writing a single note. Unfolded: keep one column of uninterrupted space, or split into a list-plus-editor like iPadOS?"
-              percentA={50}
-              takeaway="Honestly depends on the task. Long-form writers want A — a bigger, quieter canvas. Note-browsers want B — see context while editing. I'd A/B test this one in production."
-              open
-            />
-          </FoldableCarousel>
-
-          <div
-            style={{
-              marginTop: 'var(--vspace-lg)',
-              textAlign: 'center',
-              fontSize: 'var(--text-sm)',
-              letterSpacing: 'var(--tracking-wide)',
-              color: 'var(--theme-text-3)',
-            }}
-          >
-            Foldable Screen Framework · 2022 · View project →
-          </div>
-        </div>
-      </section>
-
-      </div>
+      <MillionsSection />
 
       <div data-section="business">
       {/* Section 02.A — Opening */}
