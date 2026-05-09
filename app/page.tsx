@@ -21,7 +21,6 @@ import FeSection from './_story/components/s4/FeSection';
 import FtIntroSection from './_story/components/s4/FtIntroSection';
 import BioRow from './_story/components/s5/BioRow';
 import PhotoStackGrid from './_story/components/s5/PhotoStackGrid';
-import FadeOnExit from './_story/components/FadeOnExit';
 import { Reveal } from './_story/lib/Reveal';
 import { LenisProvider } from './_story/lib/LenisContext';
 import { DEFAULT_CONFIG } from './_story/components/MaskControls';
@@ -338,13 +337,9 @@ export default function StoryPage() {
       </div>
 
       <div data-section="teams">
-      {/* ── S3 eyebrow + 引出句（合并一个 ft-section，控制内部节奏）
-           外层用 FadeOnExit 做"快到顶端时渐变消失"，对应入场的 blur 效果。
-           FtIntroSection wraps the section with a GSAP scrub that flips
-           the bg from --stage-cream → --stage-light during the widened
-           top padding. Finishes before the eyebrow is in view. ── */}
+      {/* ── S3 eyebrow + 引出句（合并一个 ft-section，控制内部节奏） ── */}
       <FtIntroSection>
-        <FadeOnExit
+        <div
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -366,7 +361,7 @@ export default function StoryPage() {
               fontWeight: 'var(--eyebrow-weight)',
               letterSpacing: 'var(--eyebrow-tracking)',
               textTransform: 'uppercase',
-              color: 'var(--theme-text-2)',
+              color: 'var(--theme-text-1)',
               textAlign: 'center',
             }}
           >
@@ -384,7 +379,7 @@ export default function StoryPage() {
           >
             My manager said this when he put me in charge of the design system:
           </Reveal>
-        </FadeOnExit>
+        </div>
       </FtIntroSection>
 
       {/* ── S3 QuoteHover ── */}
