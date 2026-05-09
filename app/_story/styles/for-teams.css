@@ -6,7 +6,7 @@
   width: 100%;
   min-height: 100vh;
   background: var(--theme-surface-1);
-  color: var(--ink-primary);
+  color: var(--theme-text-1);
   padding: var(--vspace-xl) var(--hspace-sm);
   display: flex;
   flex-direction: column;
@@ -30,7 +30,7 @@
   font-weight: var(--font-normal);
   line-height: var(--leading-relaxed);
   letter-spacing: var(--tracking-normal);
-  color: var(--ink-muted);
+  color: var(--theme-text-2);
 }
 
 /* ---- QuoteHover 根容器 ----
@@ -59,7 +59,7 @@
   font-weight: var(--font-extrabold);
   line-height: 1.85;
   letter-spacing: var(--tracking-tightest);
-  color: var(--ink-primary);
+  color: var(--theme-text-1);
   text-align: center;
   cursor: default;
 
@@ -105,12 +105,12 @@
 
 /* ---- 4 种 marker 颜色（纯身份标识） ---- */
 .ft-phrase--1 {
-  background: var(--accent-pale);
-  color: var(--accent-ink);
+  background: color-mix(in srgb, var(--theme-accent-1) 18%, transparent);
+  color: var(--theme-accent-2);
 }
 .ft-phrase--2 {
-  background: var(--highlight-pale);
-  color: var(--highlight-ink);
+  background: color-mix(in srgb, var(--theme-accent-1) 22%, transparent);
+  color: var(--theme-accent-2);
 }
 .ft-phrase--3 {
   background: var(--phrase-3-pale);
@@ -147,13 +147,13 @@
    Chunky pill: 文字换行成 2-3 行，max-width 强制一致的方块感。
 --------------------------------------------------------------------- */
 .ft-scatter-tag {
-  --tag-glow: rgba(0, 0, 0, 0.08);
+  --tag-glow: rgb(var(--theme-shadow-rgb) / 0.08);
 
   position: relative;
   display: inline-block;
   max-width: 320px;
   padding: 22px 36px;
-  background: var(--surface-raised);
+  background: var(--theme-surface-2);
   border-radius: var(--radius-pill);
   font-family: var(--font-sans);
   font-size: 20px;
@@ -161,9 +161,9 @@
   line-height: 1.25;
   letter-spacing: -0.005em;
   text-align: center;
-  color: var(--ink-primary);
+  color: var(--theme-text-1);
   box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.05),
+    0 2px 6px rgb(var(--theme-shadow-rgb) / 0.05),
     0 14px 36px var(--tag-glow);
   user-select: none;
 }
@@ -175,14 +175,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--surface-raised);
+  background: var(--theme-surface-2);
   border-radius: 50%;
   font-size: 32px;
   line-height: 1;
   user-select: none;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.05),
-    0 10px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-tag-emoji);
 }
 
 /* ---- Colored pastel variants ---- */
@@ -223,7 +221,7 @@
   text-align: center;
   font-size: var(--text-sm);
   letter-spacing: var(--tracking-wide);
-  color: var(--ink-faint);
+  color: var(--theme-text-3);
   font-family: var(--font-sans);
 }
 .ft-footer a {
@@ -252,7 +250,7 @@
   font-weight: var(--font-extrabold);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tightest);
-  color: var(--ink-primary);
+  color: var(--theme-text-1);
   text-align: center;
   margin-bottom: var(--space-6);
 }
@@ -272,8 +270,8 @@
 .sg-card-outer {
   position: relative;
   filter:
-    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.10))
-    drop-shadow(0 8px 20px rgba(0, 0, 0, 0.07));
+    drop-shadow(0 2px 6px rgb(var(--theme-shadow-rgb) / 0.10))
+    drop-shadow(0 8px 20px rgb(var(--theme-shadow-rgb) / 0.07));
   will-change: transform, opacity, filter;
 }
 
@@ -307,7 +305,7 @@
   z-index: 0;
   background: linear-gradient(
     to top left,
-    rgba(0, 0, 0, 0.10) 50%,
+    rgb(var(--theme-shadow-rgb) / 0.10) 50%,
     transparent 50%
   );
   pointer-events: none;
@@ -334,12 +332,19 @@
   transform: scale(1.03);
 }
 
-/* ---- TextCard variant ---- */
+/* ---- TextCard variant — inverted slab (bg = theme-text-1, ink reversed) ----
+   Body ink stays neutral so theme hue (olive/blue/etc.) doesn't bleed
+   into copy on the white slab. Theme accent is reserved for occasional
+   highlight only. */
 .sg-card--text {
-  background: var(--surface-ink);
-  color: var(--ink-on-dark-primary);
+  background: var(--theme-text-1);
+  color: var(--theme-ink-inverted);
   justify-content: space-between;
   padding: var(--space-4-5);
+}
+
+.sg-card--text .sg-card__body {
+  color: var(--theme-ink-inverted);
 }
 
 .sg-card__body {
@@ -348,7 +353,7 @@
   font-weight: var(--font-extrabold);
   line-height: var(--leading-snug);
   letter-spacing: var(--tracking-tightest);
-  color: var(--ink-on-dark-primary);
+  color: var(--theme-text-1);
   margin: 0;
   flex: 1;
   display: flex;
@@ -375,11 +380,12 @@
   max-width: none;
 }
 
-/* On dark cards: frosted semi-transparent pill */
+/* On inverted slab cards: pill stays neutral. Outlined low-emphasis
+   look so the slab body copy reads first; green only as accent text. */
 .sg-card--text .ft-scatter-tag {
-  background: rgba(255, 255, 255, 0.10);
-  color: var(--ink-on-dark-secondary);
-  box-shadow: none;
+  background: transparent;
+  color: var(--theme-ink-inverted-dim);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--theme-ink-inverted) 18%, transparent);
 }
 
 /* ---- Floating emoji badge ---- */
@@ -472,10 +478,8 @@
   flex-shrink: 0;
   border-radius: var(--radius-md);
   overflow: visible;
-  background: var(--surface-raised);
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.05),
-    0 12px 32px rgba(0, 0, 0, 0.08);
+  background: var(--theme-surface-2);
+  box-shadow: var(--shadow-tag-flat);
   cursor: pointer;
   transition: transform var(--duration-base) var(--ease-out);
   outline: none;
@@ -508,12 +512,10 @@
   width: max-content;
   max-width: 280px;
   padding: 12px 16px 14px;
-  background: var(--surface-ink);
-  color: var(--ink-on-dark-primary);
+  background: var(--theme-text-1);
+  color: var(--theme-ink-inverted);
   border-radius: var(--radius-md);
-  box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.22),
-    0 2px 6px rgba(0, 0, 0, 0.14);
+  box-shadow: var(--shadow-card-on-dark);
   pointer-events: none;
   z-index: var(--z-raised);
   text-align: left;
@@ -530,7 +532,7 @@
   height: 0;
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
-  border-top: 7px solid var(--surface-ink);
+  border-top: 7px solid var(--theme-text-1);
 }
 
 .ww-tooltip__tag {
@@ -540,7 +542,7 @@
   font-weight: var(--font-medium);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  color: var(--ink-on-dark-muted);
+  color: var(--theme-ink-inverted-dim);
   margin-bottom: 6px;
 }
 
@@ -551,7 +553,7 @@
   font-weight: var(--font-extrabold);
   line-height: var(--leading-snug);
   letter-spacing: var(--tracking-tight);
-  color: var(--ink-on-dark-primary);
+  color: var(--theme-ink-inverted);
 }
 
 .ww-tooltip__desc {
@@ -560,7 +562,7 @@
   font-size: var(--text-xs);
   font-weight: var(--font-normal);
   line-height: var(--leading-normal);
-  color: var(--ink-on-dark-secondary);
+  color: var(--theme-ink-inverted);
 }
 
 /* ============================================================

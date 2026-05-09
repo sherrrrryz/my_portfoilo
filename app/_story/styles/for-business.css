@@ -5,7 +5,7 @@
   width: 100%;
   min-height: 100vh;
   background: var(--theme-surface-1);
-  color: var(--ink-primary);
+  color: var(--theme-text-1);
   padding: var(--vspace-xl) var(--hspace-sm);
   display: flex;
   flex-direction: column;
@@ -26,7 +26,7 @@
   width: 100%;
   min-height: var(--bridge-min-height);
   background: var(--theme-surface-1);
-  color: var(--ink-primary);
+  color: var(--theme-text-1);
   padding: var(--bridge-padding-y) var(--hspace-sm);
   display: flex;
   align-items: center;
@@ -75,7 +75,7 @@
 }
 
 .fb-corner__meta {
-  color: var(--highlight);
+  color: var(--theme-accent-1);
 }
 
 .fb-corner__meta::before {
@@ -118,24 +118,24 @@
 }
 
 .fb-opening__headline span.accent {
-  color: var(--highlight);
+  color: var(--theme-accent-1);
 }
 
 .fb-opening__body {
   font-size: var(--body-size);
   line-height: var(--body-leading);
-  color: rgba(26, 26, 26, 0.72);
+  color: var(--theme-text-2);
   max-width: 52ch;
   margin: 0 auto;
 }
 
 .fb-opening__body p + p {
   margin-top: 1.5em;
-  color: rgba(26, 26, 26, 0.55);
+  color: var(--theme-text-3);
 }
 
 .fb-opening__body strong {
-  color: rgba(26, 26, 26, 0.92);
+  color: var(--theme-text-1);
   font-weight: var(--font-semibold);
 }
 
@@ -156,13 +156,13 @@
   font-weight: var(--font-medium);
   letter-spacing: 0.18em; /* TODO: between tracking-wider (0.12) and tracking-widest (0.22) */
   text-transform: uppercase;
-  color: var(--ink-muted);
+  color: var(--theme-text-3);
 }
 
 .fb-tenets__rule {
   width: min(80%, 640px);
   height: var(--rule-height);
-  background: var(--border-strong);
+  background: color-mix(in srgb, var(--theme-text-1) 30%, transparent);
   margin: var(--space-4) 0 var(--space-5);
   transform-origin: left center;
 }
@@ -184,7 +184,7 @@
 }
 
 .fb-tenets__quote-mark {
-  color: var(--accent-hover);
+  color: var(--theme-accent-2);
 }
 
 .fb-tenets__punch {
@@ -196,7 +196,7 @@
 }
 
 .fb-tenets__punch--accent {
-  color: var(--highlight);
+  color: var(--theme-accent-1);
   margin-top: 6px; /* TODO: between space-1 (4) and space-2 (8) */
 }
 
@@ -261,10 +261,8 @@
   position: relative;
   padding: clamp(24px, 2.2vw, 36px);   /* scales from mobile to desktop */
   border-radius: var(--radius-lg);     /* 20 */
-  background: var(--surface-raised);
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 8px 28px rgba(0, 0, 0, 0.055);
+  background: var(--theme-surface-2);
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -276,9 +274,7 @@
 
 .fb-card-group:hover .fb-card {
   /* shadow-xl-ish, tuned to our light paper (less saturated than tailwind). */
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.05),
-    0 24px 48px -8px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-card-hover);
   transform: translateY(-3px);
 }
 
@@ -287,14 +283,14 @@
   font-weight: var(--font-bold);
   letter-spacing: var(--tracking-tight);
   line-height: var(--leading-tight);
-  color: var(--ink-primary);
+  color: var(--theme-text-1);
   margin: 0 0 var(--space-2-5);      /* 12 */
 }
 
 .fb-card__data {
   font-size: var(--text-md);         /* clamp 16 → 18.4 */
   line-height: var(--leading-normal);
-  color: var(--ink-secondary);
+  color: var(--theme-text-2);
   margin: 0;
 }
 
@@ -312,8 +308,8 @@
   /* Extra top padding keeps the label clear of the WINNER tag. */
   padding: clamp(52px, 14%, 72px) 8% 10%;
   border-radius: var(--radius-md);
-  background: var(--surface-1);
-  color: var(--ink-primary);
+  background: var(--theme-btn-3);
+  color: var(--theme-text-1);
   aspect-ratio: 1 / 1;
   display: flex;
   flex-direction: column;
@@ -324,8 +320,8 @@
 }
 
 .fb-mini--winner {
-  background: var(--surface-ink);
-  color: var(--ink-on-dark-primary);
+  background: var(--theme-text-1);
+  color: var(--theme-ink-inverted);
 }
 
 .fb-mini__label {
@@ -372,7 +368,7 @@
   font-size: var(--text-micro);      /* 11 */
   font-weight: var(--font-semibold);
   letter-spacing: var(--tracking-widest);
-  color: var(--accent);
+  color: var(--theme-accent-1);
   white-space: nowrap;
 }
 

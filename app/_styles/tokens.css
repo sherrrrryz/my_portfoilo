@@ -307,6 +307,12 @@
   --theme-btn-1:     #f0f0f0;
   --theme-btn-2:     #dadada;
   --theme-btn-3:     #bfbfbf;
+  /* Ink to use on inverted slabs (cards whose bg = --theme-text-1).
+     Stays neutral so dark themes don't bleed their hue (olive/blue/etc.)
+     into body copy on the white slab. Light themes need a light ink
+     since the slab itself becomes dark text-1. */
+  --theme-ink-inverted:     #1a1a1a;
+  --theme-ink-inverted-dim: #5c5c5c;
 }
 
 [data-theme="opening"] {
@@ -321,6 +327,8 @@
   --theme-btn-1:     #2e2e2e;
   --theme-btn-2:     #404040;
   --theme-btn-3:     #262626;
+  --theme-ink-inverted:     #1a1a1a;
+  --theme-ink-inverted-dim: #5c5c5c;
 }
 
 [data-theme="millions"] {
@@ -335,6 +343,8 @@
   --theme-btn-1:     #404040;
   --theme-btn-2:     #5a5a5a;
   --theme-btn-3:     #363636;
+  --theme-ink-inverted:     #1a1a1a;
+  --theme-ink-inverted-dim: #5c5c5c;
 }
 
 [data-theme="business"] {
@@ -349,6 +359,8 @@
   --theme-btn-1:     #4f5974;
   --theme-btn-2:     #606a85;
   --theme-btn-3:     #353e54;
+  --theme-ink-inverted:     #1a1a1a;
+  --theme-ink-inverted-dim: #5c5c5c;
 }
 
 [data-theme="teams"] {
@@ -363,6 +375,8 @@
   --theme-btn-1:     #7a8e4f;
   --theme-btn-2:     #677944;
   --theme-btn-3:     #586a3a;
+  --theme-ink-inverted:     #1a1a1a;
+  --theme-ink-inverted-dim: #5c5c5c;
 }
 
 [data-theme="evidence"] {
@@ -377,6 +391,9 @@
   --theme-btn-1:     #d4d0c5;
   --theme-btn-2:     #beb9ac;
   --theme-btn-3:     #a39e91;
+  /* Light theme — slab is dark text-1, ink should be light. */
+  --theme-ink-inverted:     #fafafa;
+  --theme-ink-inverted-dim: #c2c2c2;
 }
 
 [data-theme="curiosity"] {
@@ -391,6 +408,8 @@
   --theme-btn-1:     #f0f0f0;
   --theme-btn-2:     #dadada;
   --theme-btn-3:     #bfbfbf;
+  --theme-ink-inverted:     #fafafa;
+  --theme-ink-inverted-dim: #c2c2c2;
 }
 
 
@@ -411,7 +430,7 @@
   --bridge-max-width:   960px;
   --bridge-copy-size:   var(--text-2xl);
   --bridge-copy-weight: var(--font-medium);
-  --bridge-copy-color:  var(--ink-primary);
+  --bridge-copy-color:  var(--theme-text-1);
 
   /* ------ Corner label (top-left of panel) ------
      Pure typography — no border, no padding, no fill. The mono face
@@ -420,19 +439,19 @@
   --corner-size:       var(--text-micro);
   --corner-weight:     var(--font-medium);
   --corner-tracking:   var(--tracking-wider);
-  --corner-color:      var(--ink-muted);
+  --corner-color:      var(--theme-text-3);
   --corner-offset-y:   var(--vspace-xs);
   --corner-offset-x:   var(--hspace-xs);
 
-  --corner-meta-color: var(--accent-hover);   /* "● no data yet" */
-  --corner-hint-color: var(--ink-faint);      /* "← EXPECTED / ACTUAL →" */
+  --corner-meta-color: var(--theme-accent-1);   /* "● no data yet" */
+  --corner-hint-color: var(--theme-text-3);     /* "← EXPECTED / ACTUAL →" */
 
   /* ------ Eyebrow (mono tracked caps, inline above headline) ------ */
   --eyebrow-font:     var(--font-mono);
   --eyebrow-size:     var(--text-xs);
   --eyebrow-weight:   var(--font-medium);
   --eyebrow-tracking: var(--tracking-widest);
-  --eyebrow-color:    var(--ink-muted);
+  --eyebrow-color:    var(--theme-text-3);
 
   /* ------ Display headline (section hero) ------ */
   --headline-font:      var(--font-sans);
@@ -440,17 +459,17 @@
   --headline-weight:    var(--font-extrabold);
   --headline-leading:   var(--leading-tight);
   --headline-tracking:  var(--tracking-tightest);
-  --headline-color:     var(--ink-primary);
-  --headline-accent:    var(--accent-ink);     /* e.g. "dollars." */
+  --headline-color:     var(--theme-text-1);
+  --headline-accent:    var(--theme-accent-1);  /* e.g. "dollars." */
 
   /* ------ Body copy ------ */
   --body-font:          var(--font-sans);
   --body-size:          var(--text-md);
   --body-weight:        var(--font-normal);
   --body-leading:       var(--leading-relaxed);
-  --body-color:         var(--ink-secondary);
-  --body-dim-color:     var(--ink-muted);
-  --body-strong-color:  var(--ink-primary);
+  --body-color:         var(--theme-text-2);
+  --body-dim-color:     var(--theme-text-3);
+  --body-strong-color:  var(--theme-text-1);
 
   /* ------ Pull quote (italic display, Section 02.B tenets) ------ */
   --pullquote-font:      var(--font-sans);
@@ -459,7 +478,7 @@
   --pullquote-weight:    var(--font-medium);
   --pullquote-leading:   1.3;
   --pullquote-tracking:  var(--tracking-tight);
-  --pullquote-color:     var(--ink-primary);
+  --pullquote-color:     var(--theme-text-1);
 
   /* ------ Punch block (short 2-line emphasis, one line accent) ------ */
   --punch-font:         var(--font-sans);
@@ -467,8 +486,8 @@
   --punch-weight:       var(--font-bold);
   --punch-leading:      var(--leading-snug);
   --punch-tracking:     var(--tracking-tight);
-  --punch-color:        var(--ink-primary);
-  --punch-accent-color: var(--accent-ink);
+  --punch-color:        var(--theme-text-1);
+  --punch-accent-color: var(--theme-accent-1);
 
   /* ------ Rule / divider ------ */
   --rule-color:   var(--border-hairline);
@@ -478,9 +497,9 @@
   --link-font:             var(--font-sans);
   --link-size:             var(--text-sm);
   --link-tracking:         var(--tracking-wide);
-  --link-color:            var(--ink-faint);
+  --link-color:            var(--theme-text-3);
   --link-underline-offset: 4px;
-  --link-hover-color:      var(--accent-hover);
+  --link-hover-color:      var(--theme-accent-1);
 
   /* ------ Pill nav (top nav / CTA buttons) ------ */
   --pill-radius:       var(--radius-pill);
@@ -495,25 +514,156 @@
   --swiper-nav-radius:  var(--radius-pill);
   --swiper-nav-bg:      rgba(255, 255, 255, 0.9);
   --swiper-nav-border:  1px solid var(--border-hairline);
-  --swiper-nav-color:   var(--ink-primary);
+  --swiper-nav-color:   var(--theme-text-1);
   --swiper-nav-blur:    6px;
 
   /* ------ Swiper pagination dots ------ */
   --pagination-dot-size:      8px;
   --pagination-dot-color:     rgba(10, 10, 10, 0.2);
-  --pagination-active-bg:     var(--ink-primary);
+  --pagination-active-bg:     var(--theme-text-1);
   --pagination-active-width:  22px;
   --pagination-active-radius: var(--radius-md);
 
   /* ------ Section 0 marquee (flashlight flow rows) ------ */
-  --marquee-word-color:   var(--ink-on-dark-primary);
+  --marquee-word-color:   var(--theme-text-1);
   --marquee-word-opacity: 0.45;
   --marquee-sep-opacity:  0.25;
 
   /* ------ Foldable carousel hint text ------ */
-  --foldable-hint-color:    rgba(10, 10, 10, 0.55);
+  --foldable-hint-color:    color-mix(in srgb, var(--theme-text-1) 55%, transparent);
   --foldable-hint-size:     var(--text-sm);
   --foldable-hint-tracking: 0.02em;
+
+  /* ------ Themed shadows ------
+     Per-theme depth shadow color; defaults to pure black so existing
+     light themes are unchanged. Dark themes can override the rgb to
+     tint shadows toward their own base. Stock shadow shapes below all
+     read this token via `rgb(var(--theme-shadow-rgb) / alpha)`. */
+  --theme-shadow-rgb: 0 0 0;
+
+  --shadow-card:        0 1px 2px rgb(var(--theme-shadow-rgb) / 0.04),
+                        0 8px 28px rgb(var(--theme-shadow-rgb) / 0.055);
+  --shadow-card-hover:  0 2px 4px rgb(var(--theme-shadow-rgb) / 0.05),
+                        0 24px 48px -8px rgb(var(--theme-shadow-rgb) / 0.12);
+  --shadow-image-low:   0 14px 40px -16px rgb(var(--theme-shadow-rgb) / 0.45);
+  --shadow-image-mid:   0 18px 50px -20px rgb(var(--theme-shadow-rgb) / 0.5);
+  --shadow-image-high:  0 24px 48px -8px rgb(var(--theme-shadow-rgb) / 0.5);
+  --shadow-tag-flat:    0 1px 2px rgb(var(--theme-shadow-rgb) / 0.05),
+                        0 12px 32px rgb(var(--theme-shadow-rgb) / 0.08);
+  --shadow-tag-emoji:   0 2px 4px rgb(var(--theme-shadow-rgb) / 0.05),
+                        0 10px 24px rgb(var(--theme-shadow-rgb) / 0.12);
+  --shadow-card-on-dark: 0 8px 24px rgb(var(--theme-shadow-rgb) / 0.22),
+                         0 2px 6px rgb(var(--theme-shadow-rgb) / 0.14);
+  --shadow-dropdown:    0 12px 32px rgb(var(--theme-shadow-rgb) / 0.18);
+  --shadow-paper-stack: 0 2px 2px rgb(var(--theme-shadow-rgb) / 0.15),
+                        0 18px 30px rgb(var(--theme-shadow-rgb) / 0.4),
+                        0 36px 60px rgb(var(--theme-shadow-rgb) / 0.25);
+}
+
+
+/* ============================================================================
+   LAYER 3.5 — THEME RE-SUBSTITUTION
+   ----------------------------------------------------------------------------
+   CSS custom properties resolve var() at the DECLARATION site, not at the
+   usage site. So `--headline-color: var(--theme-text-1)` declared in :root
+   captures the DEFAULT --theme-text-1 value (#1f1f1f) and that literal
+   cascades down — overriding --theme-text-1 inside [data-theme="X"] does
+   NOT re-trigger Layer 3 alias substitution.
+   This block re-declares the theme-bound aliases on any [data-theme]
+   element. The body has data-theme set, so substitution happens at body
+   with the active theme's --theme-text-* / --theme-accent-* / shadow-rgb
+   values, then those literal values cascade down to all section content.
+============================================================================ */
+[data-theme] {
+  --bridge-copy-color:  var(--theme-text-1);
+  --corner-color:       var(--theme-text-3);
+  --corner-meta-color:  var(--theme-accent-1);
+  --corner-hint-color:  var(--theme-text-3);
+  --eyebrow-color:      var(--theme-text-3);
+  --headline-color:     var(--theme-text-1);
+  --headline-accent:    var(--theme-accent-1);
+  --body-color:         var(--theme-text-2);
+  --body-dim-color:     var(--theme-text-3);
+  --body-strong-color:  var(--theme-text-1);
+  --pullquote-color:    var(--theme-text-1);
+  --punch-color:        var(--theme-text-1);
+  --punch-accent-color: var(--theme-accent-1);
+  --link-color:         var(--theme-text-3);
+  --link-hover-color:   var(--theme-accent-1);
+  --swiper-nav-color:   var(--theme-text-1);
+  --marquee-word-color: var(--theme-text-1);
+  --foldable-hint-color: color-mix(in srgb, var(--theme-text-1) 55%, transparent);
+  --pagination-active-bg: var(--theme-text-1);
+  --pagination-dot-color: color-mix(in srgb, var(--theme-text-1) 20%, transparent);
+
+  /* Layer 2 semantic ink/surface/accent re-substituted to theme tokens.
+     Story page consumers (cards, dividers, links, marker text) inherit
+     theme colors instead of the global neutral defaults. */
+  --ink-primary:        var(--theme-text-1);
+  --ink-secondary:      var(--theme-text-2);
+  --ink-muted:          var(--theme-text-3);
+  --ink-faint:          var(--theme-text-3);
+  --ink-disabled:       color-mix(in srgb, var(--theme-text-1) 25%, transparent);
+  --ink-on-dark-primary:   var(--theme-text-1);
+  --ink-on-dark-secondary: var(--theme-text-2);
+  --ink-on-dark-muted:     var(--theme-text-3);
+  --ink-on-dark-faint:     var(--theme-text-3);
+
+  /* 3-tier surface hierarchy maintained via different theme slots so
+     nested cards don't collapse into the outer card's color:
+       surface-raised = primary lifted card (above stage)
+       surface-1      = nested / dimmer card inside surface-raised
+       surface-2      = highest-elevation block
+       surface-ink    = inverted slab (high-contrast against stage) */
+  --surface-raised:     var(--theme-surface-2);
+  --surface-1:          var(--theme-btn-3);
+  --surface-2:          var(--theme-btn-1);
+  --surface-ink:        var(--theme-text-1);
+
+  --border-hairline:    color-mix(in srgb, var(--theme-text-1) 12%, transparent);
+  --border-strong:      color-mix(in srgb, var(--theme-text-1) 30%, transparent);
+  --border-ink:         var(--theme-text-1);
+
+  --accent:             var(--theme-accent-1);
+  --accent-hover:       var(--theme-accent-2);
+  --accent-ink:         var(--theme-accent-2);
+  --accent-muted:       var(--theme-accent-2);
+  --accent-pale:        color-mix(in srgb, var(--theme-accent-1) 18%, transparent);
+
+  --highlight:          var(--theme-accent-1);
+  --highlight-ink:      var(--theme-accent-2);
+  --highlight-pale:     color-mix(in srgb, var(--theme-accent-1) 22%, transparent);
+
+  --ring:               var(--theme-accent-1);
+
+  --border-on-dark-default: color-mix(in srgb, var(--theme-text-1) 12%, transparent);
+  --border-on-dark-strong:  color-mix(in srgb, var(--theme-text-1) 30%, transparent);
+
+  --pill-bg:        color-mix(in srgb, var(--theme-surface-1) 90%, transparent);
+  --pill-bg-dark:   color-mix(in srgb, var(--theme-surface-1) 80%, transparent);
+  --swiper-nav-bg:  color-mix(in srgb, var(--theme-surface-1) 90%, transparent);
+
+  /* Shadow shapes re-substitute too so --theme-shadow-rgb tints propagate. */
+  --shadow-pill:    0 1px 2px rgb(var(--theme-shadow-rgb) / 0.06);
+  --shadow-raised:  0 4px 12px rgb(var(--theme-shadow-rgb) / 0.08);
+
+  --shadow-card:        0 1px 2px rgb(var(--theme-shadow-rgb) / 0.04),
+                        0 8px 28px rgb(var(--theme-shadow-rgb) / 0.055);
+  --shadow-card-hover:  0 2px 4px rgb(var(--theme-shadow-rgb) / 0.05),
+                        0 24px 48px -8px rgb(var(--theme-shadow-rgb) / 0.12);
+  --shadow-image-low:   0 14px 40px -16px rgb(var(--theme-shadow-rgb) / 0.45);
+  --shadow-image-mid:   0 18px 50px -20px rgb(var(--theme-shadow-rgb) / 0.5);
+  --shadow-image-high:  0 24px 48px -8px rgb(var(--theme-shadow-rgb) / 0.5);
+  --shadow-tag-flat:    0 1px 2px rgb(var(--theme-shadow-rgb) / 0.05),
+                        0 12px 32px rgb(var(--theme-shadow-rgb) / 0.08);
+  --shadow-tag-emoji:   0 2px 4px rgb(var(--theme-shadow-rgb) / 0.05),
+                        0 10px 24px rgb(var(--theme-shadow-rgb) / 0.12);
+  --shadow-card-on-dark: 0 8px 24px rgb(var(--theme-shadow-rgb) / 0.22),
+                         0 2px 6px rgb(var(--theme-shadow-rgb) / 0.14);
+  --shadow-dropdown:    0 12px 32px rgb(var(--theme-shadow-rgb) / 0.18);
+  --shadow-paper-stack: 0 2px 2px rgb(var(--theme-shadow-rgb) / 0.15),
+                        0 18px 30px rgb(var(--theme-shadow-rgb) / 0.4),
+                        0 36px 60px rgb(var(--theme-shadow-rgb) / 0.25);
 }
 
 

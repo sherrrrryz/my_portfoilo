@@ -14,7 +14,7 @@
 
 .fe-section {
   --fe-bg: var(--theme-surface-1);
-  --fe-ink: var(--ink-primary);
+  --fe-ink: var(--theme-text-1);
 
   position: relative;
   width: 100%;
@@ -147,7 +147,7 @@
   font-size: var(--text-micro);
   font-weight: var(--font-bold);
   line-height: 1.25;
-  color: var(--ink-on-dark-primary);
+  color: var(--theme-text-1);
   white-space: pre-wrap;
   word-break: break-all;
   overflow-wrap: anywhere;
@@ -174,9 +174,9 @@
   border-radius: var(--radius-pill);
   background: radial-gradient(
     circle at center,
-    rgba(0, 0, 0, 0.85) 0%,
-    rgba(0, 0, 0, 0.5) 45%,
-    rgba(0, 0, 0, 0) 75%
+    rgb(var(--theme-shadow-rgb) / 0.85) 0%,
+    rgb(var(--theme-shadow-rgb) / 0.5) 45%,
+    rgb(var(--theme-shadow-rgb) / 0) 75%
   );
   filter: blur(2px);
   opacity: 0;
@@ -202,7 +202,7 @@
 /* While hovering, the label sits over an image — force it white against
    the halo so it doesn't invert-read with a light --fe-ink. */
 .fe-tile__card:hover .fe-tile__text {
-  color: var(--ink-on-dark-primary);
+  color: var(--theme-text-1);
 }
 
 /* ---- Mobile ---- */
