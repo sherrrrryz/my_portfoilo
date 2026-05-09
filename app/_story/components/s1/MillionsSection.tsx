@@ -55,7 +55,7 @@ function MillionsSectionInner() {
     let refreshTimer: number | undefined;
 
     const setup = () => {
-      mm = gsap.matchMedia(undefined, root);
+      mm = gsap.matchMedia(root);
 
       // === Desktop / normal motion ============================================
       mm.add(
