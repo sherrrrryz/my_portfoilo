@@ -26,6 +26,7 @@
 .fm-section {
   position: relative;
   width: 100%;
+  padding: var(--vspace-xl) 0;
   background: var(--theme-surface-1);
   color: var(--theme-text-1);
   transition:
@@ -67,14 +68,6 @@
   /* central text vertical offset rules */
   --fm-island-center-top: 40vh;          /* G1/G2 — slightly above center for stronger optical balance */
   --fm-island-top-top: calc(64px + 24px); /* G3 — under nav (~64) + 24 */
-}
-
-/* ============================================================================
-   Buffer band — 50vh blank between S0 flashlight and the big question.
-============================================================================ */
-.fm-buffer {
-  width: 100%;
-  height: 30vh;
 }
 
 /* ============================================================================

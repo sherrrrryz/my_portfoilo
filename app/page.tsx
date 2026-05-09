@@ -148,52 +148,51 @@ export default function StoryPage() {
       <MillionsSection />
 
       <div data-section="business">
-      {/* Section 02.A — Opening */}
-      <section id="section-business-opening" className="fb-section">
+      <section id="section-business" className="fb-section">
         <div className="fb-section__inner">
-          <div className="fb-opening__grid">
-            <div>
-              <div className="fb-opening__eyebrow">I design for business</div>
+          {/* Section 02.A — Opening */}
+          <div className="fb-block" id="section-business-opening">
+            <div className="fb-opening__grid">
+              <div>
+                <div className="fb-opening__eyebrow">I design for business</div>
+                <Reveal
+                  mode="element"
+                  effect="slide"
+                  trigger="once"
+                  duration={1}
+                  initialY={32}
+                  start="top 75%"
+                >
+                  <h2 className="fb-opening__headline">
+                    At AppLovin,
+                    <br />
+                    design was measured in{' '}
+                    <span className="accent">dollars.</span>
+                  </h2>
+                </Reveal>
+              </div>
               <Reveal
                 mode="element"
-                effect="slide"
+                effect="fade"
                 trigger="once"
                 duration={1}
-                initialY={32}
-                start="top 75%"
+                start="top 78%"
+                className="fb-opening__body"
               >
-                <h2 className="fb-opening__headline">
-                  At AppLovin,
-                  <br />
-                  design was measured in{' '}
-                  <span className="accent">dollars.</span>
-                </h2>
+                <p>
+                  The OOBE app-recommendation flow ships with{' '}
+                  <strong>Samsung</strong>, <strong>T-Mobile</strong>, and a dozen
+                  other OEMs. It reaches tens of millions of newly unboxed phones
+                  each quarter and contributes{' '}
+                  <strong>seven figures of revenue</strong>.
+                </p>
               </Reveal>
             </div>
-            <Reveal
-              mode="element"
-              effect="fade"
-              trigger="once"
-              duration={1}
-              start="top 78%"
-              className="fb-opening__body"
-            >
-              <p>
-                The OOBE app-recommendation flow ships with{' '}
-                <strong>Samsung</strong>, <strong>T-Mobile</strong>, and a dozen
-                other OEMs. It reaches tens of millions of newly unboxed phones
-                each quarter and contributes{' '}
-                <strong>seven figures of revenue</strong>.
-              </p>
-            </Reveal>
           </div>
-        </div>
-      </section>
 
-      {/* Section 02.B — Three Design Tenets */}
-      <section id="section-business-tenets" className="fb-section">
-        <div className="fb-section__inner">
-          <div className="fb-tenets">
+          {/* Section 02.B — Three Design Tenets */}
+          <div className="fb-block" id="section-business-tenets">
+            <div className="fb-tenets">
             <Reveal
               mode="element"
               effect="fade"
@@ -244,14 +243,12 @@ export default function StoryPage() {
               className="fb-tenets__rule fb-tenets__rule--short"
               aria-hidden="true"
             />
+            </div>
           </div>
-        </div>
-      </section>
 
-      {/* Section 02.C — The Data Flip */}
-      <section id="section-business-data-flip" className="fb-section">
-        <div className="fb-section__inner">
-          <div className="fb-flip">
+          {/* Section 02.C — The Data Flip */}
+          <div className="fb-block" id="section-business-data-flip">
+            <div className="fb-flip">
             <div className="fb-flip__lead">
               <Reveal
                 mode="element"
@@ -329,15 +326,15 @@ export default function StoryPage() {
               </Reveal>
             </div>
           </div>
-          <div className="fb-footer">
-            AppLovin OOBE · 2025 ·{' '}
-            <a href="#" title="Case study coming soon">
-              View project →
-            </a>
+            <div className="fb-footer">
+              AppLovin OOBE · 2025 ·{' '}
+              <a href="#" title="Case study coming soon">
+                View project →
+              </a>
+            </div>
           </div>
         </div>
       </section>
-
       </div>
 
       <div data-section="teams">

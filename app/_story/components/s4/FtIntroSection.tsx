@@ -45,15 +45,7 @@ export default function FtIntroSection({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <section
-      ref={ref}
-      className="ft-section"
-      style={{
-        minHeight: 'unset',
-        paddingTop: 'var(--vspace-2xl)',
-        paddingBottom: 0,
-      }}
-    >
+    <section ref={ref} className="ft-section">
       {children}
     </section>
   );

@@ -20,6 +20,12 @@
   max-width: var(--container-xl);
 }
 
+/* Internal blocks within the merged Section 2 — gap between blocks
+   matches the section-to-section gap baseline (22vh). */
+.fb-block + .fb-block {
+  margin-top: var(--vspace-xl);
+}
+
 /* ===== Section 1 -> 2 bridge ===== */
 .fb-bridge {
   position: relative;
@@ -95,7 +101,6 @@
   text-align: center;
   max-width: var(--container-md);
   margin: 0 auto;
-  min-height: 60vh;
 }
 
 .fb-opening__eyebrow {
@@ -146,7 +151,7 @@
   align-items: center;
   width: 100%;
   max-width: var(--container-md);
-  margin: var(--vspace-md) auto 0;
+  margin: 0 auto;
   text-align: center;
 }
 
@@ -203,7 +208,6 @@
 /* ===== 02.C — The Data Flip ===== */
 .fb-flip {
   width: 100%;
-  margin-top: var(--vspace-md);
 }
 
 .fb-flip__lead {
@@ -379,7 +383,7 @@
 /* ===== Footer link (shared) ===== */
 .fb-footer {
   width: 100%;
-  margin-top: var(--vspace-lg);
+  margin-top: 0;
   text-align: center;
   font-size: var(--link-size);
   letter-spacing: var(--tracking-wide);

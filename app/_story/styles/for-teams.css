@@ -4,7 +4,6 @@
 .ft-section {
   position: relative;
   width: 100%;
-  min-height: 100vh;
   background: var(--theme-surface-1);
   color: var(--ink-primary);
   padding: var(--vspace-xl) var(--hspace-sm);
@@ -39,7 +38,7 @@
   width: 100%;
   max-width: var(--container-xl);
   margin: 0 auto;
-  padding: var(--space-5) 0 var(--vspace-xl);
+  padding: 0;
   text-align: center;
 }
 
@@ -219,7 +218,7 @@
 
 /* ---- S3 footer ---- */
 .ft-footer {
-  margin-top: var(--vspace-lg);
+  margin-top: 0;
   text-align: center;
   font-size: var(--text-sm);
   letter-spacing: var(--tracking-wide);
@@ -421,8 +420,7 @@
   /* overflow visible：让 tooltip 可以溢出 wall 垂直方向。
      横向裁切交给 fl-root 的 overflow-x: hidden 处理（它是滚动容器）。 */
   overflow: visible;
-  /* 给第一行 tooltip 向上展开留出空间（避免被上方过渡句遮挡）。 */
-  padding-top: 120px;
+  padding-top: 0;
 }
 
 .ww-row {

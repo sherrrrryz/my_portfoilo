@@ -337,7 +337,6 @@ function MillionsSectionInner() {
 
   return (
     <section ref={rootRef} data-section="millions" className="fm-section">
-      <div className="fm-buffer" aria-hidden="true" />
       <OpeningPin />
       <div className="fm-body">
         <CentralIsland />

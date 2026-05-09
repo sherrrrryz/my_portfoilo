@@ -20,10 +20,7 @@
   width: 100%;
   background: var(--fe-bg);
   color: var(--fe-ink);
-  /* Generous top padding pushes the eyebrow ~60vh below the section's
-     top edge. This gives the scroll-scrubbed bg flip enough runway to
-     fully settle before any S4 content is actually in view. */
-  padding: var(--vspace-2xl) var(--hspace-sm) var(--vspace-xl);
+  padding: var(--vspace-xl) var(--hspace-sm);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,7 +54,7 @@
   letter-spacing: var(--tracking-tightest);
   text-align: center;
   max-width: 1400px;
-  margin: 0 auto var(--vspace-md);
+  margin: 0 auto var(--vspace-xl);
   color: var(--fe-ink);
 }
 
