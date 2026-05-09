@@ -87,8 +87,8 @@
 
 .foldable-swiper .swiper-button-prev:hover,
 .foldable-swiper .swiper-button-next:hover {
-  background: #fff;
-  border-color: var(--border-strong);
+  background: var(--theme-surface-2);
+  border-color: color-mix(in srgb, var(--theme-text-1) 30%, transparent);
 }
 
 .foldable-swiper .swiper-button-prev.swiper-button-disabled,

@@ -77,8 +77,8 @@ export default function StoryPage() {
         position: 'relative',
         width: '100%',
         minHeight: '100vh',
-        background: '#0a0a0a',
-        color: '#fff',
+        background: 'var(--theme-surface-1)',
+        color: 'var(--theme-text-1)',
         // Use `clip` (not `hidden`) so we don't create a scroll container
         // that breaks `position: sticky` on descendants (e.g. S1's central
         // text island in fm-body).
@@ -117,9 +117,9 @@ export default function StoryPage() {
             gap: 8,
             padding: '6px 12px',
             borderRadius: 9999,
-            border: '1px solid rgba(255,255,255,0.25)',
-            background: 'rgba(0,0,0,0.4)',
-            color: 'rgba(255,255,255,0.85)',
+            border: '1px solid color-mix(in srgb, var(--theme-text-1) 30%, transparent)',
+            background: 'color-mix(in srgb, var(--theme-surface-1) 60%, transparent)',
+            color: 'color-mix(in srgb, var(--theme-text-1) 85%, transparent)',
             fontSize: 10,
             letterSpacing: 'var(--tracking-wide)',
             textTransform: 'uppercase',
@@ -133,11 +133,11 @@ export default function StoryPage() {
               width: 8,
               height: 8,
               borderRadius: '50%',
-              background: mode === 'glow' ? '#ffd27a' : '#ffffff',
+              background: mode === 'glow' ? 'var(--theme-accent-1)' : 'var(--theme-text-1)',
               boxShadow:
                 mode === 'glow'
-                  ? '0 0 8px rgba(255,210,122,0.9)'
-                  : '0 0 0 1px rgba(255,255,255,0.4)',
+                  ? '0 0 8px color-mix(in srgb, var(--theme-accent-1) 90%, transparent)'
+                  : '0 0 0 1px color-mix(in srgb, var(--theme-text-1) 40%, transparent)',
               transition: 'all 0.25s ease',
             }}
           />
@@ -366,7 +366,7 @@ export default function StoryPage() {
               fontWeight: 'var(--eyebrow-weight)',
               letterSpacing: 'var(--eyebrow-tracking)',
               textTransform: 'uppercase',
-              color: 'var(--eyebrow-color)',
+              color: 'var(--theme-text-2)',
               textAlign: 'center',
             }}
           >

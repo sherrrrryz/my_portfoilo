@@ -97,7 +97,7 @@ function FollowPointer({
         xmlns="http://www.w3.org/2000/svg"
         style={{
           transform: 'translate(-2px, -2px) rotate(-70deg)',
-          color: 'var(--accent-hover)',
+          color: 'var(--theme-accent-2)',
           fill: 'currentColor',
           stroke: 'currentColor',
           strokeWidth: 1,
@@ -114,8 +114,8 @@ function FollowPointer({
           position: 'absolute',
           top: 18,
           left: 16,
-          background: 'var(--ink-primary)',
-          color: 'var(--ink-on-dark-primary)',
+          background: 'var(--theme-text-1)',
+          color: 'var(--theme-ink-inverted)',
           fontFamily: 'var(--font-sans)',
           fontSize: 13,
           fontWeight: 500,
@@ -124,7 +124,7 @@ function FollowPointer({
           padding: '8px 12px',
           borderRadius: 'var(--radius-pill)',
           whiteSpace: 'nowrap',
-          boxShadow: '0 6px 20px rgba(0, 0, 0, 0.18)',
+          boxShadow: '0 6px 20px rgb(var(--theme-shadow-rgb) / 0.18)',
         }}
       >
         {title}
