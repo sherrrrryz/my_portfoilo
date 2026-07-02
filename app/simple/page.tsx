@@ -17,7 +17,7 @@ import './simple.css';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -72,6 +72,16 @@ const MEANS = [
     text: "It means ‘just make it bigger’ is never the answer.",
     meta: 'Foldable Screen Framework · 2022',
     project: 'Foldable Screen Framework',
+  },
+  {
+    text: 'It means designing what your finger feels, not what your eye sees.',
+    meta: 'Touch Hot Zone · 2024',
+    project: 'Touch Hot Zone',
+  },
+  {
+    text: "It means there's always another kind of design waiting to be made.",
+    meta: '',
+    project: '',
   },
 ];
 
@@ -210,83 +220,20 @@ const FOLDABLE_PHOTOS = [
   '/section1-3/note-fold.png',
 ];
 
-const MIUI_PAIRS = [
-  { before: '/miui/components-before.png', after: '/miui/components-after.png', label: 'Components' },
-  { before: '/miui/designtoken-before.png', after: '/miui/designtoken-after.png', label: 'Design Tokens' },
-  { before: '/miui/localization-before.png', after: '/miui/localization-after.png', label: 'Localization' },
-];
+const TOUCH_PHOTOS = Array.from(
+  { length: 11 },
+  (_, i) => `/section1-4/touch-${String(i + 1).padStart(2, '0')}.png`,
+);
 
-/* Drag-to-compare before/after slider (non-scroll UI motion). */
-function BeforeAfter({
-  before,
-  after,
-  label,
-}: {
-  before: string;
-  after: string;
-  label: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const dragging = useRef(false);
-  const [pos, setPos] = useState(50);
+const MISC_PHOTOS = Array.from(
+  { length: 12 },
+  (_, i) => `/section1-5/s5-${String(i + 1).padStart(2, '0')}.png`,
+);
 
-  const update = (clientX: number) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    setPos(Math.max(0, Math.min(100, ((clientX - r.left) / r.width) * 100)));
-  };
-
-  return (
-    <div className="sm-ba">
-      <div
-        ref={ref}
-        className="sm-ba__stage"
-        onPointerDown={(e) => {
-          dragging.current = true;
-          e.currentTarget.setPointerCapture(e.pointerId);
-          update(e.clientX);
-        }}
-        onPointerMove={(e) => {
-          if (dragging.current) update(e.clientX);
-        }}
-        onPointerUp={() => {
-          dragging.current = false;
-        }}
-        role="slider"
-        aria-label={`${label} before and after`}
-        aria-valuenow={Math.round(pos)}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === 'ArrowLeft') setPos((p) => Math.max(0, p - 4));
-          if (e.key === 'ArrowRight') setPos((p) => Math.min(100, p + 4));
-        }}
-      >
-        <span className="sm-ba__tag sm-ba__tag--after">After</span>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="sm-ba__after" src={after} alt={`${label} after`} draggable={false} />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={before}
-          alt={`${label} before`}
-          draggable={false}
-          style={{ zIndex: 1, clipPath: `inset(0 ${100 - pos}% 0 0)` }}
-        />
-        <span className="sm-ba__tag sm-ba__tag--before" style={{ zIndex: 1 }}>
-          Before
-        </span>
-        <div className="sm-ba__handle" style={{ left: `${pos}%` }}>
-          <span className="sm-ba__grip" aria-hidden="true">
-            ⇄
-          </span>
-        </div>
-      </div>
-      <span className="sm-ba__label">{label}</span>
-    </div>
-  );
-}
+const DS_PHOTOS = Array.from(
+  { length: 10 },
+  (_, i) => `/section1-2/ds-${String(i + 1).padStart(2, '0')}.png`,
+);
 
 const WORKSHOP = [
   { src: '/section3-3/1-1.png', kind: 'wide' },
@@ -307,11 +254,53 @@ const WORKSHOP = [
 function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
   const [open, setOpen] = useState(false);
 
+  const className = `sm-mean${idx === 0 ? ' sm-mean--ls' : ''}${
+    idx === 1 ? ' sm-mean--ds' : ''
+  }${idx === 2 ? ' sm-mean--fold' : ''}${idx === 3 ? ' sm-mean--touch' : ''}${
+    idx === 4 ? ' sm-mean--misc' : ''
+  }${open ? ' sm-open' : ''}`;
+
+  const head = (
+    <div className="sm-mean__head">
+      <span className="sm-means__idx">{String(idx + 1).padStart(2, '0')}</span>
+      <div>
+        <p className="sm-means__text">{m.text}</p>
+        {m.meta && (
+          <div className="sm-means__meta">
+            {m.meta} &middot;{' '}
+            <a href="#" title="Case study coming soon">
+              View project &rarr;
+            </a>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  /* Row 5 is a grab-bag of side / older work: no project name, no jump link,
+     no cursor follower. Plain hover-to-reveal wrapper. */
+  if (idx === 4) {
+    return (
+      <div
+        className={className}
+        onMouseEnter={() => setOpen(true)}
+      >
+        {head}
+        <div className="sm-ls-strip" aria-hidden="true">
+          <div className="sm-ls-track">
+            {[...MISC_PHOTOS, ...MISC_PHOTOS].map((src, i) => (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img key={i} src={src} alt="" loading="lazy" draggable={false} />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <FollowPointer
-      className={`sm-mean${idx === 0 ? ' sm-mean--ls' : ''}${
-        idx === 1 ? ' sm-mean--ba' : ''
-      }${idx === 2 ? ' sm-mean--fold' : ''}${open ? ' sm-open' : ''}`}
+      className={className}
       title={
         <>
           {m.project} <span aria-hidden="true">&rarr;</span>
@@ -319,18 +308,7 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
       }
       onOpen={() => setOpen(true)}
     >
-      <div className="sm-mean__head">
-        <span className="sm-means__idx">{String(idx + 1).padStart(2, '0')}</span>
-        <div>
-          <p className="sm-means__text">{m.text}</p>
-          <div className="sm-means__meta">
-            {m.meta} &middot;{' '}
-            <a href="#" title="Case study coming soon">
-              View project &rarr;
-            </a>
-          </div>
-        </div>
-      </div>
+      {head}
 
       {idx === 0 && (
         <div className="sm-ls-strip" aria-hidden="true">
@@ -355,15 +333,22 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
       )}
 
       {idx === 1 && (
-        <div className="sm-ba-reveal" data-no-follower>
-          <div className="sm-ba-row">
-            {MIUI_PAIRS.map((p) => (
-              <BeforeAfter
-                key={p.label}
-                before={p.before}
-                after={p.after}
-                label={p.label}
-              />
+        <div className="sm-ls-strip" aria-hidden="true">
+          <div className="sm-ls-track">
+            {[...DS_PHOTOS, ...DS_PHOTOS].map((src, i) => (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img key={i} src={src} alt="" loading="lazy" draggable={false} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {idx === 3 && (
+        <div className="sm-ls-strip" aria-hidden="true">
+          <div className="sm-ls-track">
+            {[...TOUCH_PHOTOS, ...TOUCH_PHOTOS].map((src, i) => (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img key={i} src={src} alt="" loading="lazy" draggable={false} />
             ))}
           </div>
         </div>
@@ -504,8 +489,11 @@ export default function SimplePage() {
           </h1>
           <p className="sm-hero__sub">
             A UX/Product Designer with experience at Huawei, Xiaomi, and
-            AppLovin. Designing for millions, for business, for teams, for
-            evidence, and out of plain curiosity.
+            AppLovin.
+          </p>
+          <p className="sm-hero__sub">
+            Designing for millions, for business, for teams, for evidence, and
+            out of plain curiosity.
           </p>
           <span className="sm-hero__scroll">Scroll to read &darr;</span>
         </div>
