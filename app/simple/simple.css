@@ -685,50 +685,173 @@
 
 /* ── Teams ─────────────────────────────────────────────────────── */
 .sm-quote-intro {
+  margin-top: clamp(60px, 10vh, 140px);
   font-size: var(--text-md);
   color: var(--sm-ink-3);
-  margin-bottom: clamp(20px, 4vh, 36px);
+  margin-bottom: clamp(12px, 2vh, 20px);
 }
 .sm-quote {
-  font-size: clamp(1.6rem, 4vw, 3rem);
+  font-size: clamp(2.1rem, 5.4vw, 4.2rem);
   font-weight: var(--font-semibold);
-  line-height: var(--leading-snug);
+  line-height: var(--leading-relaxed);
   letter-spacing: var(--tracking-tight);
   color: var(--sm-ink);
-  margin: 0;
-  max-width: 24ch;
+  margin: 0 0 clamp(160px, 28vh, 360px);
+  max-width: 42ch;
   text-wrap: balance;
 }
-.sm-quote em { font-style: normal; border-bottom: 2px solid var(--sm-line-2); }
-
-.sm-phrases {
-  margin-top: clamp(48px, 8vh, 88px);
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(20px, 2.4vw, 40px);
-}
-.sm-phrase__head {
-  font-size: var(--text-md);
-  font-weight: var(--font-bold);
-  color: var(--sm-ink);
-  padding-bottom: 12px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid var(--sm-line-2);
-}
-.sm-phrase ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.sm-phrase li {
-  font-size: var(--text-sm);
-  line-height: var(--leading-base);
-  color: var(--sm-ink-2);
-  padding-left: 16px;
+/* ── Hoverable phrases inside the quote ─────────────────────────
+   Each underlined phrase reveals a large card of bullets on hover.
+   The card is a descendant of the phrase span, so moving the cursor
+   between them (via the invisible bridge below the card) doesn't fire
+   mouseleave on the phrase — the popup stays open reliably. */
+.sm-phrase-hover {
   position: relative;
+  display: inline;
+  font-style: normal;
+  border-bottom: 2px solid var(--sm-line-2);
+  cursor: help;
+  transition: border-color 200ms var(--ease-out), color 200ms var(--ease-out);
+  outline: none;
 }
-.sm-phrase li::before {
+.sm-phrase-hover:hover,
+.sm-phrase-hover:focus-visible {
+  border-bottom-color: var(--sm-ink);
+}
+
+/* Per-phrase emoji cursor is set inline from React (see HoverPhrase's
+   `emoji` prop → emojiCursor()); no static CSS class needed. */
+
+/* Single-word crossfade for the "a terrible → brilliant idea" reveal.
+   Both words stack in the same inline-grid cell, so the container's width
+   locks to the wider word ("brilliant") and the surrounding text never
+   shifts between states. */
+.sm-phrase-swap {
+  display: inline-grid;
+  vertical-align: baseline;
+}
+.sm-phrase-swap__slot {
+  grid-column: 1;
+  grid-row: 1;
+  transition:
+    opacity 260ms var(--ease-out),
+    transform 260ms var(--ease-out);
+}
+.sm-phrase-swap__from { opacity: 1; transform: none; }
+.sm-phrase-swap__to   { opacity: 0; transform: translateY(0.12em); }
+.sm-phrase-hover[data-open="true"] .sm-phrase-swap__from {
+  opacity: 0;
+  transform: translateY(-0.12em);
+}
+.sm-phrase-hover[data-open="true"] .sm-phrase-swap__to {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sm-phrase-swap__slot { transition: opacity 120ms linear; transform: none !important; }
+}
+
+/* Pulsing "hover" hint anchored to the top-right of "a newcomer". */
+.sm-phrase-hint {
+  position: absolute;
+  top: -0.65em;
+  right: -0.4em;
+  transform: translateX(100%);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px 3px 7px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--sm-ink);
+  background: var(--sm-paper);
+  border: 1px solid var(--sm-line-2);
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 12px -6px rgba(17, 17, 17, 0.25);
+}
+.sm-phrase-hint__dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sm-ink);
+  animation: sm-hint-pulse 1.6s ease-in-out infinite;
+}
+@keyframes sm-hint-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.35; transform: scale(0.6); }
+}
+.sm-phrase-hover:hover .sm-phrase-hint,
+.sm-phrase-hover:focus-visible .sm-phrase-hint {
+  opacity: 0;
+  transition: opacity 200ms var(--ease-out);
+}
+
+/* Big popup card. Reset the blockquote's semibold/tight-tracking so
+   the list reads as body copy, not display copy. */
+.sm-phrase-card {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: center bottom;
+  margin-bottom: 14px;
+  width: max-content;
+  max-width: min(440px, calc(100vw - 40px));
+  padding: 16px 22px 18px;
+  background: var(--sm-ink);
+  color: var(--sm-paper);
+  border: 1px solid var(--sm-ink);
+  border-radius: var(--radius-md);
+  box-shadow:
+    0 4px 12px rgba(17, 17, 17, 0.10),
+    0 24px 48px -20px rgba(17, 17, 17, 0.42);
+  z-index: 30;
+  text-align: left;
+  font-style: normal;
+  font-weight: var(--font-normal);
+  letter-spacing: 0;
+  display: block;
+}
+/* Invisible bridge across the 14px margin — keeps the card's hitbox
+   continuous with the phrase so mouseleave doesn't fire mid-move. */
+.sm-phrase-card::before {
   content: "";
   position: absolute;
-  left: 0; top: 0.62em;
-  width: 5px; height: 5px;
-  background: var(--sm-ink-3);
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 18px;
+}
+.sm-phrase-card__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.sm-phrase-card__list li {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-normal);
+  line-height: var(--leading-base);
+  color: var(--sm-paper);
+  padding-left: 20px;
+  position: relative;
+}
+.sm-phrase-card__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.62);
   border-radius: 50%;
 }
 /* Teams — workshop image wall */
@@ -752,34 +875,99 @@
 }
 .sm-ww {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: clamp(10px, 1.4vw, 18px);
-  grid-auto-flow: dense;
+  /* Let tooltips escape vertically without clipping. */
+  overflow: visible;
 }
 .sm-ww__cell {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   border-radius: var(--radius-md);
   background: var(--sm-fill);
   aspect-ratio: 16 / 9;
+  cursor: pointer;
+  transition: transform var(--duration-base) var(--ease-out),
+              box-shadow var(--duration-base) var(--ease-out);
+  outline: none;
+  box-shadow: 0 1px 2px rgba(17, 17, 17, 0.04);
 }
-.sm-ww__cell--tall { aspect-ratio: 4 / 5; }
-.sm-ww__cell--wide { grid-column: span 2; }
 .sm-ww__cell img {
   width: 100%; height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: var(--radius-md);
   transition: transform 600ms var(--ease-out);
+  pointer-events: none;
+  user-select: none;
+}
+.sm-ww__cell:hover,
+.sm-ww__cell:focus-visible {
+  transform: translateY(-4px);
+  z-index: 5;
+  box-shadow:
+    0 2px 4px rgba(17, 17, 17, 0.08),
+    0 18px 40px -18px rgba(17, 17, 17, 0.35);
 }
 .sm-ww__cell:hover img { transform: scale(1.04); }
 
-.sm-turn {
-  margin-top: clamp(40px, 7vh, 72px);
-  font-size: clamp(1.3rem, 3vw, 2rem);
-  font-weight: var(--font-bold);
-  font-style: italic;
+/* Tooltip card — matches home page's WorkshopWall recipe, restyled B/W.
+   Floats above the image with a small tail; framer-motion drives fade/scale. */
+.sm-ww__tooltip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: center bottom;
+  width: max-content;
+  max-width: 280px;
+  padding: 12px 16px 14px;
+  background: var(--sm-ink);
+  color: var(--sm-paper);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.32);
+  pointer-events: none;
+  z-index: 10;
+  text-align: left;
+}
+.sm-ww__tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid var(--sm-ink);
+}
+.sm-ww__tt-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: var(--font-medium);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+  margin-bottom: 6px;
+}
+.sm-ww__tt-title {
+  margin: 0 0 4px;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--font-extrabold);
+  line-height: var(--leading-snug);
   letter-spacing: var(--tracking-tight);
-  color: var(--sm-ink);
+  color: var(--sm-paper);
+}
+.sm-ww__tt-desc {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--font-normal);
+  line-height: var(--leading-normal);
+  color: var(--sm-paper);
 }
 
 /* ── Evidence: tag field ───────────────────────────────────────── */
@@ -891,13 +1079,14 @@
 /* ── responsive ────────────────────────────────────────────────── */
 @media (max-width: 860px) {
   .sm-flip { grid-template-columns: 1fr; }
-  .sm-phrases { grid-template-columns: repeat(2, 1fr); }
   .sm-bio { grid-template-columns: 1fr; }
   .sm-photos { grid-template-columns: repeat(2, 1fr); }
-  .sm-ww__cell--wide { grid-column: span 1; }
+  .sm-ww { grid-template-columns: repeat(2, 1fr); }
+  /* Tight quarters: hint badge would collide with neighboring words; hide. */
+  .sm-phrase-hint { display: none; }
+  .sm-phrase-card { width: min(360px, calc(100vw - 32px)); }
 }
 @media (max-width: 520px) {
-  .sm-phrases { grid-template-columns: 1fr; }
   .sm-means__head { grid-template-columns: 1fr; gap: 8px; }
   .sm-means__idx { padding-top: 0; }
   .sm-ls-grid { grid-template-columns: repeat(3, 1fr); }

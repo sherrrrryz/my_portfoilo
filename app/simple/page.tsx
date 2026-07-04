@@ -236,17 +236,127 @@ const DS_PHOTOS = Array.from(
 );
 
 const WORKSHOP = [
-  { src: '/section3-3/1-1.png', kind: 'wide' },
-  { src: '/section3-3/2-1.png', kind: 'wide' },
-  { src: '/section3-3/1-3.png', kind: '' },
-  { src: '/section3-3/2-2.png', kind: '' },
-  { src: '/section3-3/1-2.png', kind: 'wide' },
-  { src: '/section3-3/2-5.png', kind: 'tall' },
-  { src: '/section3-3/1-4.png', kind: '' },
-  { src: '/section3-3/2-3.png', kind: '' },
-  { src: '/section3-3/1-5.png', kind: 'wide' },
-  { src: '/section3-3/2-4.png', kind: '' },
+  {
+    src: '/section3-3/1-1.png',
+    workshop: 'Design system workshop',
+    title: 'Opener: "How might we"',
+    desc: 'Setting the frame before 40 people split into breakout groups.',
+  },
+  {
+    src: '/section3-3/2-1.png',
+    workshop: 'Design system workshop',
+    title: 'Small-group sketching',
+    desc: 'Senior engineers drew their own components. Nobody stayed quiet.',
+  },
+  {
+    src: '/section3-3/1-3.png',
+    workshop: 'Desktop feature workshop',
+    title: 'Clustered user needs',
+    desc: 'Two days of sticky notes collapsed into five opportunity areas.',
+  },
+  {
+    src: '/section3-3/2-2.png',
+    workshop: 'Design system workshop',
+    title: 'Cross-team critique',
+    desc: 'Three roles reviewed the same screen. Disagreements surfaced fast.',
+  },
+  {
+    src: '/section3-3/1-2.png',
+    workshop: 'Design system workshop',
+    title: 'Redefining the problem',
+    desc: 'Madlib template forcing each team to name the real user friction.',
+  },
+  {
+    src: '/section3-3/2-5.png',
+    workshop: 'Lock screen brainstorm',
+    title: 'Card-sorting the catalog',
+    desc: 'Every lock-screen style on the wall. One afternoon to re-group them all.',
+  },
+  {
+    src: '/section3-3/1-4.png',
+    workshop: 'Desktop feature workshop',
+    title: 'Impact × effort matrix',
+    desc: 'PMs, engineers, designers scored the same list side by side.',
+  },
+  {
+    src: '/section3-3/2-3.png',
+    workshop: 'Desktop feature workshop',
+    title: 'Dot-vote round',
+    desc: 'Five dots each. Loudest voice in the room suddenly had to choose.',
+  },
+  {
+    src: '/section3-3/1-5.png',
+    workshop: 'Lock screen brainstorm',
+    title: 'Final recap',
+    desc: 'One deck to carry the decisions back to each department.',
+  },
+  {
+    src: '/section3-3/2-4.png',
+    workshop: 'Desktop feature workshop',
+    title: 'Pair focus block',
+    desc: 'Designer + PM working through one flow end to end, together.',
+  },
+  {
+    src: '/section3-3/new1.png',
+    workshop: 'Desktop feature workshop',
+    title: 'Cross-team working session',
+    desc: 'Designers, PMs, and engineers heads-down at the same table.',
+  },
+  {
+    src: '/section3-3/new2.png',
+    workshop: 'Design system workshop',
+    title: '40-person plenary',
+    desc: 'Whole-room debrief before the tables broke into their own tracks.',
+  },
+  {
+    src: '/section3-3/new3.png',
+    workshop: 'Design system workshop',
+    title: 'Pain-point wall + dot vote',
+    desc: 'Every gap in the old system called out. Dots picked what to fix first.',
+  },
+  {
+    src: '/section3-3/new4.png',
+    workshop: 'Design system workshop',
+    title: 'Team-by-team critique board',
+    desc: "Every designer's work reviewed side by side by the whole team.",
+  },
 ] as const;
+
+/* One image in the workshops grid. Hover lifts the card and floats a small
+   tooltip above it (workshop tag · title · description) — same recipe as the
+   home page's WorkshopWall, restyled black/white. */
+function WorkshopCell({ w }: { w: (typeof WORKSHOP)[number] }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      className="sm-ww__cell"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
+      tabIndex={0}
+      aria-label={`${w.workshop}: ${w.title}`}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={w.src} alt="" loading="lazy" draggable={false} />
+      <AnimatePresence>
+        {hovered && (
+          <motion.div
+            className="sm-ww__tooltip"
+            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.96 }}
+            transition={{ type: 'spring', stiffness: 340, damping: 26 }}
+          >
+            <span className="sm-ww__tt-tag">{w.workshop}</span>
+            <p className="sm-ww__tt-title">{w.title}</p>
+            <p className="sm-ww__tt-desc">{w.desc}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 /* One "It means" row. Its visual (lockscreen / before-after / foldable strip)
    opens on first hover and STAYS open — it only resets on a page refresh.
@@ -391,12 +501,9 @@ const PHRASES = [
   {
     head: 'a newcomer',
     items: [
-      'Only 1 year of experience',
+      'Only 1 year of working experience',
       'Already leading another key project',
       "Started with 2 teammates who weren't sure about me",
-      'The entire dev team got reshuffled midway',
-      'Constantly playing "customer service" for other designers',
-      'Organizing rules that were scattered, incomplete, sometimes wrong',
     ],
   },
   {
@@ -459,6 +566,94 @@ const PHOTOS = [
   '/photos/photo1.jpg',
   '/photos/photo3.jpg',
 ];
+
+/* Underlined phrase inside the For-Teams quote. Hover (or focus for keyboard
+   users) opens a large card above the phrase with the bullet points that used
+   to sit in the 4-column grid below. A small pulsing "hover" badge on the first
+   phrase (`showHint`) advertises the interaction. */
+/* Build a `cursor:` value that renders an emoji as the mouse cursor via a
+   32×32 SVG data URI. Emoji is URL-encoded so codepoints outside ASCII
+   travel cleanly through the URL parser. Hotspot centered at 16/16;
+   falls back to `help` on browsers that drop custom cursors. */
+function emojiCursor(emoji: string): string {
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><text x='0' y='26' font-size='26'>${emoji}</text></svg>`;
+  return `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}") 16 16, help`;
+}
+
+function HoverPhrase({
+  phrase,
+  showHint,
+  reveal,
+  emoji,
+}: {
+  phrase: (typeof PHRASES)[number];
+  showHint?: boolean;
+  /* Optional: swap a single word on hover. E.g. "a terrible idea" → "a
+     brilliant idea". The phrase's `.head` still drives the popup id/aria,
+     but the visible text renders via this template. */
+  reveal?: { before: string; from: string; to: string; after: string };
+  /* Optional: emoji to render as the mouse cursor while hovering this
+     phrase. When set, overrides the default `cursor: help`. */
+  emoji?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <span
+      className="sm-phrase-hover"
+      style={emoji ? { cursor: emojiCursor(emoji) } : undefined}
+      data-open={open ? 'true' : undefined}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+      onFocus={() => setOpen(true)}
+      onBlur={() => setOpen(false)}
+      tabIndex={0}
+      aria-describedby={open ? `phrase-${phrase.head}` : undefined}
+      aria-label={reveal ? `${reveal.before}${reveal.from}${reveal.after}` : undefined}
+    >
+      {reveal ? (
+        <>
+          {reveal.before}
+          <span className="sm-phrase-swap">
+            <span className="sm-phrase-swap__slot sm-phrase-swap__from" aria-hidden="true">
+              {reveal.from}
+            </span>
+            <span className="sm-phrase-swap__slot sm-phrase-swap__to" aria-hidden="true">
+              {reveal.to}
+            </span>
+          </span>
+          {reveal.after}
+        </>
+      ) : (
+        phrase.head
+      )}
+      {showHint && (
+        <span className="sm-phrase-hint" aria-hidden="true">
+          <span className="sm-phrase-hint__dot" />
+          hover
+        </span>
+      )}
+      <AnimatePresence>
+        {open && (
+          <motion.span
+            className="sm-phrase-card"
+            id={`phrase-${phrase.head}`}
+            role="tooltip"
+            initial={{ opacity: 0, y: 14, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.96 }}
+            transition={{ type: 'spring', stiffness: 320, damping: 26 }}
+          >
+            <ul className="sm-phrase-card__list">
+              {phrase.items.map((it) => (
+                <li key={it}>{it}</li>
+              ))}
+            </ul>
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </span>
+  );
+}
 
 /* Design-common-sense tenets. Once the group's bottom scrolls above the top
    ~35% of the viewport (user is leaving the section going down), each line
@@ -675,40 +870,28 @@ export default function SimplePage() {
             My manager said this when he put me in charge of the design system:
           </p>
           <blockquote className="sm-quote">
-            &ldquo;We just put <em>a newcomer</em> in charge, leading{' '}
-            <em>a team of senior people</em>, across{' '}
-            <em>multiple departments</em>. Honestly? It sounded like{' '}
-            <em>a terrible idea</em>.&rdquo;
+            &ldquo;We just put{' '}
+            <HoverPhrase phrase={PHRASES[0]} showHint emoji="😳" />
+            {' '}in charge, leading{' '}
+            <HoverPhrase phrase={PHRASES[1]} emoji="🤨" />
+            , across{' '}
+            <HoverPhrase phrase={PHRASES[2]} emoji="🤯" />
+            . Honestly? It sounded like{' '}
+            <HoverPhrase
+              phrase={PHRASES[3]}
+              reveal={{ before: 'a ', from: 'terrible', to: 'brilliant', after: ' idea' }}
+              emoji="🤩"
+            />
+            .&rdquo;
           </blockquote>
-
-          <div className="sm-phrases">
-            {PHRASES.map((p) => (
-              <div className="sm-phrase" key={p.head}>
-                <div className="sm-phrase__head">{p.head}</div>
-                <ul>
-                  {p.items.map((it) => (
-                    <li key={it}>{it}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
 
           <div className="sm-sublabel">Workshops · aligning across departments</div>
           <div className="sm-ww">
             {WORKSHOP.map((w, i) => (
-              <div
-                className={`sm-ww__cell${w.kind ? ` sm-ww__cell--${w.kind}` : ''}`}
-                key={i}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={w.src} alt="" loading="lazy" draggable={false} />
-              </div>
+              <WorkshopCell w={w} key={i} />
             ))}
           </div>
 
-          <p className="sm-turn">Turns out it wasn&rsquo;t a terrible idea.</p>
-          <p className="sm-footer-link">MIUI Design System 2.0 &middot; 2023</p>
         </div>
       </section>
 
