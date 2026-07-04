@@ -417,69 +417,263 @@
 }
 
 /* ── Business ──────────────────────────────────────────────────── */
+/* Three groups on the Business section — headline+context, common-sense
+   tenets, and verdict+cards. Groups sit ~1 screen apart so each reads as its
+   own beat. */
+/* Match the top breathing room the For Millions section gets from
+   `.sm-question`'s 120px margin, so both sections' headlines start at the
+   same vertical rhythm below their marker.
+   Adjacent-sibling selector because `.sm-group:first-of-type` would count
+   the .sm-marker div ahead of it and never match. */
+.sm-marker + .sm-group {
+  margin-top: clamp(80px, 15vh, 120px);
+}
+.sm-group + .sm-group {
+  margin-top: clamp(180px, 32vh, 360px);
+}
+.sm-group__body {
+  margin-top: clamp(20px, 3vh, 32px);
+}
+
+/* Small OEM / carrier logos under the OOBE paragraph. Kept full-color as
+   little rounded chips — the brand hits register at a glance. Slight lift on
+   hover for interaction. */
+.sm-oems {
+  margin: clamp(28px, 4vh, 44px) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(12px, 1.4vw, 20px);
+}
+.sm-oem {
+  /* Fixed height; width is driven by each logo's natural aspect ratio, so
+     wide logos (Samsung / T-Mobile / realme) become wide chips and square
+     logos (Bouygues / Metro / MTN) become square chips. */
+  height: clamp(44px, 5vh, 60px);
+  border-radius: 12px;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: stretch;
+  box-shadow:
+    0 1px 2px rgba(17, 17, 17, 0.06),
+    0 6px 18px -10px rgba(17, 17, 17, 0.18);
+  transition:
+    transform 240ms var(--ease-out),
+    box-shadow 240ms var(--ease-out);
+}
+.sm-oem img {
+  height: 100%;
+  width: auto;
+  display: block;
+  object-fit: cover;
+}
+.sm-oem:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 2px 4px rgba(17, 17, 17, 0.08),
+    0 12px 26px -12px rgba(17, 17, 17, 0.28);
+}
+/* Inside a group, tighten the headline's own margins — the group provides
+   the outer spacing now. */
+.sm-group > .sm-h { margin: 0; }
+.sm-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--sm-ink-3);
+  margin-bottom: clamp(40px, 7vh, 72px);
+  text-align: right;
+}
+.sm-group--tenets { text-align: right; }
 .sm-tenets {
-  margin-top: clamp(40px, 7vh, 72px);
   display: grid;
-  gap: 4px;
+  gap: clamp(24px, 4vh, 48px);
+  justify-items: end;
 }
 .sm-tenet {
-  font-size: clamp(1.3rem, 3vw, 2.1rem);
-  font-weight: var(--font-medium);
-  font-style: italic;
+  position: relative;
+  font-size: clamp(1.9rem, 4.6vw, 3.4rem);
+  font-weight: var(--font-semibold);
   line-height: var(--leading-snug);
-  color: var(--sm-ink-3);
-  margin: 0;
-  padding-block: 6px;
-}
-.sm-tenet s { text-decoration-color: var(--sm-line-2); }
-.sm-verdict {
-  margin-top: clamp(24px, 4vh, 40px);
-  font-size: clamp(1.4rem, 3.2vw, 2.2rem);
-  font-weight: var(--font-bold);
   letter-spacing: var(--tracking-tight);
   color: var(--sm-ink);
+  margin: 0;
+  transition: color 600ms var(--ease-out);
+}
+.sm-tenet s { text-decoration-color: var(--sm-line-2); }
+
+/* Strikethrough — an absolutely-positioned line that grows from left to right.
+   Each tenet is right-aligned via `justify-self: end` on the grid so its box
+   already hugs the text, so the line spans exactly the sentence width. */
+.sm-tenet::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 55%;
+  height: clamp(3px, 0.3vw, 5px);
+  background: var(--sm-ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 720ms cubic-bezier(0.7, 0.02, 0.24, 0.99);
+  pointer-events: none;
+}
+.sm-group--struck .sm-tenet { color: var(--sm-ink-3); }
+.sm-group--struck .sm-tenet::after { transform: scaleX(1); }
+.sm-group--struck .sm-tenet:nth-child(2)::after { transition-delay: 180ms; }
+.sm-group--struck .sm-tenet:nth-child(3)::after { transition-delay: 360ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sm-tenet, .sm-tenet::after { transition: none; }
+}
+.sm-verdict {
+  /* Same typographic voice as the tenets above (semibold, tight tracking,
+     same font-family), scaled bigger so it lands as the punch line. */
+  font-size: clamp(2.4rem, 5.8vw, 4.4rem);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--sm-ink);
+  margin: 0 0 clamp(48px, 8vh, 88px);
+  text-wrap: balance;
 }
 
 .sm-flip {
   margin-top: clamp(48px, 8vh, 88px);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(16px, 2vw, 28px);
+  gap: clamp(20px, 2.4vw, 36px);
+}
+.sm-flip__col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.6vh, 20px);
 }
 .sm-card {
-  border: 1px solid var(--sm-line-2);
-  border-radius: var(--radius-md);
+  border: none;
+  border-radius: var(--radius-lg, 16px);
   padding: clamp(20px, 2.4vw, 32px);
   display: flex;
   flex-direction: column;
   gap: 14px;
   background: var(--sm-paper);
+  flex: 1;
+  box-shadow:
+    0 1px 2px rgba(17, 17, 17, 0.04),
+    0 12px 32px -18px rgba(17, 17, 17, 0.22);
+  /* Same hover recipe as Home's `.fb-card`: 200ms lift + deeper shadow when
+     the wrapping column is hovered, so the card visibly floats above its
+     neighbors while the pointer tooltip follows the cursor. */
+  transition:
+    box-shadow 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+  will-change: transform, box-shadow;
 }
-.sm-card__label {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--sm-ink-3);
+.sm-flip__col:hover .sm-card {
+  transform: translateY(-3px);
+  box-shadow:
+    0 2px 4px rgba(17, 17, 17, 0.06),
+    0 24px 56px -24px rgba(17, 17, 17, 0.35);
 }
-.sm-card__expected {
-  font-size: var(--text-md);
-  color: var(--sm-ink-3);
-}
-.sm-card__expected s { text-decoration-color: var(--sm-ink-3); }
-.sm-card__actual {
-  font-size: var(--text-md);
-  line-height: var(--leading-base);
+.sm-card__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 2vw, 2.1rem);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
   color: var(--sm-ink);
-  font-weight: var(--font-medium);
+  letter-spacing: var(--tracking-tight);
 }
-.sm-card__insight {
-  margin-top: auto;
-  padding-top: 14px;
-  border-top: 1px solid var(--sm-line);
+.sm-card__desc {
+  margin: 0;
+  margin-top: clamp(8px, 1vh, 14px);
   font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
   color: var(--sm-ink-2);
 }
+.sm-card__pair {
+  margin-top: clamp(12px, 1.6vh, 20px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(10px, 1.4vw, 16px);
+}
+.sm-card__insight {
+  margin: 0;
+  padding-left: 2px;
+  font-size: var(--text-sm);
+  font-style: italic;
+  color: var(--sm-ink-3);
+}
+
+/* Two option boxes — loser is paper on paper, winner flips to ink on ink.
+   The Mockup component paints from --mock-ink on --mock-bg, so swapping just
+   those two tokens inverts the phone illustration without duplicated SVGs. */
+.sm-opt {
+  position: relative;
+  border-radius: var(--radius-md, 12px);
+  padding: clamp(14px, 1.6vw, 20px) clamp(12px, 1.4vw, 18px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(10px, 1.6vh, 18px);
+  aspect-ratio: 1 / 1.28;
+  overflow: hidden;
+}
+.sm-opt--loser {
+  background: var(--sm-paper);
+  border: 1px solid var(--sm-line-2);
+  --mock-ink: var(--sm-ink);
+  --mock-bg:  var(--sm-paper);
+  color: var(--sm-ink);
+}
+.sm-opt--winner {
+  background: var(--sm-ink);
+  border: 1px solid var(--sm-ink);
+  --mock-ink: var(--sm-paper);
+  --mock-bg:  var(--sm-ink);
+  color: var(--sm-paper);
+}
+.sm-opt__tag {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--sm-paper);
+  opacity: 0.72;
+}
+.sm-opt__label {
+  align-self: flex-start;
+  font-size: var(--text-md);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-tight);
+}
+.sm-opt__art {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+.sm-mock {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+/* The mockup PNGs are light-gray on transparent — they read naturally on the
+   black winner card. On the white loser card, drop them a shade darker so the
+   contrast holds. */
+.sm-opt--loser .sm-mock { filter: brightness(0.85); }
 
 .sm-footer-link {
   margin-top: clamp(32px, 5vh, 56px);

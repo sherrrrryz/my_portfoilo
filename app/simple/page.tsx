@@ -17,7 +17,7 @@ import './simple.css';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -360,23 +360,32 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
 const FLIP = [
   {
     label: 'Onboarding survey',
-    expected: '1-step survey should win',
     actual: '5-step survey drove 18% install growth. 1-step only drove 14%.',
     insight: 'Longer engagement built stronger intent.',
+    loser: '1 step',
+    winner: '5 step',
+    loserImg: '/section2/1-step.png',
+    winnerImg: '/section2/5-step.png',
   },
   {
     label: 'App bundle',
-    expected: 'Clean collapsed bundle should win',
     actual: 'Showing all app icons lifted installs by 0.47 per user. Collapsed view only lifted 0.37.',
     insight: 'Transparency beat minimalism.',
+    loser: 'Collapsed',
+    winner: 'Transparent',
+    loserImg: '/section2/collapsed.png',
+    winnerImg: '/section2/transparent.png',
   },
   {
     label: 'Recommendation browsing',
-    expected: 'Free browsing should win',
     actual: 'Swipe cards reached 15.65% CTR. Free-scroll list stayed much lower.',
     insight: 'Forced focus beat open browsing.',
+    loser: 'Free-scroll',
+    winner: 'Swipe',
+    loserImg: '/section2/free-scroll.png',
+    winnerImg: '/section2/swipe.png',
   },
-];
+] as const;
 
 const PHRASES = [
   {
@@ -451,6 +460,59 @@ const PHOTOS = [
   '/photos/photo3.jpg',
 ];
 
+/* Design-common-sense tenets. Once the group's bottom scrolls above the top
+   ~35% of the viewport (user is leaving the section going down), each line
+   gets struck through in a staggered left-to-right sweep. One-way: doesn't
+   un-strike on scroll back — the "we were wrong" reveal shouldn't rewind. */
+function Tenets() {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [struck, setStruck] = useState(false);
+
+  useEffect(() => {
+    if (struck) return;
+    if (typeof window === 'undefined') return;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      setStruck(true);
+      return;
+    }
+
+    /* Fire while the group is still on-screen so the user actually sees the
+       animation. Trigger: group's top crosses the top ~5% of the viewport —
+       user has clearly read past it, top is right at the ceiling but the
+       rest of the group is still visible below. */
+    const check = () => {
+      const el = ref.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.05 && rect.bottom > 0) {
+        setStruck(true);
+      }
+    };
+    window.addEventListener('scroll', check, { passive: true });
+    /* Don't fire an initial check() here — browsers restore scroll position on
+       reload, so if a returning user lands with the tenets already past the
+       trigger line, an immediate setStruck(true) fires so fast the transition
+       never paints. Deferring to real scroll events guarantees an animation. */
+    return () => window.removeEventListener('scroll', check);
+  }, [struck]);
+
+  return (
+    <div
+      ref={ref}
+      className={`sm-group sm-group--tenets${struck ? ' sm-group--struck' : ''}`}
+    >
+      <div className="sm-eyebrow">Design common sense</div>
+      <div className="sm-tenets">
+        <p className="sm-tenet">&ldquo;Fewer steps is always better.&rdquo;</p>
+        <p className="sm-tenet">&ldquo;Cleaner UI converts more.&rdquo;</p>
+        <p className="sm-tenet">&ldquo;Users hate being forced.&rdquo;</p>
+      </div>
+    </div>
+  );
+}
+
 function Marker({ num, label }: { num: string; label: string }) {
   return (
     <div className="sm-marker">
@@ -518,39 +580,90 @@ export default function SimplePage() {
       <section className="sm-section">
         <div className="sm-wrap">
           <Marker num="02" label="For Business" />
-          <h2 className="sm-h">
-            At AppLovin, design was measured in dollars.
-          </h2>
-          <p className="sm-body" style={{ marginTop: '24px' }}>
-            The OOBE app-recommendation flow ships with <strong>Samsung</strong>,{' '}
-            <strong>T-Mobile</strong>, and a dozen other OEMs. It reaches tens of
-            millions of newly unboxed phones each quarter and contributes{' '}
-            <strong>seven figures of revenue</strong>.
-          </p>
 
-          <div className="sm-tenets">
-            <p className="sm-tenet">&ldquo;Fewer steps is always better.&rdquo;</p>
-            <p className="sm-tenet">&ldquo;Cleaner UI converts more.&rdquo;</p>
-            <p className="sm-tenet">&ldquo;Users hate being forced.&rdquo;</p>
+          {/* Group 1 — headline + context */}
+          <div className="sm-group">
+            <h2 className="sm-h">
+              At AppLovin, design was measured in dollars.
+            </h2>
+            <p className="sm-body sm-group__body">
+              The OOBE app-recommendation flow ships with <strong>Samsung</strong>,{' '}
+              <strong>T-Mobile</strong>, and a dozen other OEMs. It reaches tens
+              of millions of newly unboxed phones each quarter and contributes{' '}
+              <strong>seven figures of revenue</strong>.
+            </p>
+            <ul className="sm-oems" aria-label="OEM & carrier partners">
+              {[
+                { src: '/section2/oem-tmobile.png',  name: 'T-Mobile' },
+                { src: '/section2/oem-realme.png',   name: 'realme' },
+                { src: '/section2/oem-samsung.png',  name: 'Samsung' },
+                { src: '/section2/oem-bouygues.png', name: 'Bouygues Telecom' },
+                { src: '/section2/oem-metro.png',    name: 'Metro' },
+                { src: '/section2/oem-mtn.png',      name: 'MTN' },
+              ].map((o) => (
+                <li className="sm-oem" key={o.name} title={o.name}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={o.src} alt={o.name} loading="lazy" draggable={false} />
+                </li>
+              ))}
+            </ul>
           </div>
-          <p className="sm-verdict">
-            We tested all three. All three were wrong.
-          </p>
+
+          {/* Group 2 — the design-common-sense we walked in with */}
+          <Tenets />
+
+          {/* Group 3 — the verdict + the three tests */}
+          <div className="sm-group">
+            <p className="sm-verdict">
+              We tested all three. All three were wrong.
+            </p>
 
           <div className="sm-flip">
             {FLIP.map((c) => (
-              <article className="sm-card" key={c.label}>
-                <span className="sm-card__label">{c.label}</span>
-                <p className="sm-card__expected">
-                  Expected: <s>{c.expected}</s>
-                </p>
-                <p className="sm-card__actual">{c.actual}</p>
-                <p className="sm-card__insight">{c.insight}</p>
-              </article>
+              <FollowPointer
+                key={c.label}
+                className="sm-flip__col"
+                title={c.insight}
+              >
+                <article className="sm-card">
+                  <h3 className="sm-card__title">{c.label}</h3>
+                  <p className="sm-card__desc">{c.actual}</p>
+                  <div className="sm-card__pair">
+                    <div className="sm-opt sm-opt--loser">
+                      <span className="sm-opt__label">{c.loser}</span>
+                      <div className="sm-opt__art">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={c.loserImg}
+                          alt=""
+                          className="sm-mock"
+                          draggable={false}
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                    <div className="sm-opt sm-opt--winner">
+                      <span className="sm-opt__tag">WINNER</span>
+                      <span className="sm-opt__label">{c.winner}</span>
+                      <div className="sm-opt__art">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={c.winnerImg}
+                          alt=""
+                          className="sm-mock"
+                          draggable={false}
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </FollowPointer>
             ))}
           </div>
 
-          <p className="sm-footer-link">AppLovin OOBE &middot; 2025 &middot; View project &rarr;</p>
+            <p className="sm-footer-link">AppLovin OOBE &middot; 2025 &middot; View project &rarr;</p>
+          </div>
         </div>
       </section>
 
