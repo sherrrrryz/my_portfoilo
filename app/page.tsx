@@ -151,9 +151,10 @@ const MEANS = [
 ];
 
 /* Same following-cursor effect as the Story page's Business cards
-   (app/_lab/ui/following-pointer.tsx), restyled black/white for /simple.
-   Re-implemented locally because that component paints with var(--theme-*)
-   tokens and portals to <body>, so it can't pick up this page's overrides. */
+   (following-pointer.tsx, now only in git tag archive/story-page), restyled
+   black/white for /simple. Re-implemented locally because that component
+   painted with the archived theme tokens and portaled to <body>, so it
+   couldn't pick up this page's overrides. */
 function FollowPointer({
   title,
   className,
@@ -518,8 +519,7 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
     </div>
   );
 
-  /* Row 5 is a grab-bag of side / older work: no project name, no jump link,
-     no cursor follower. */
+  /* Row 5 is a grab-bag of side / older work: no project name, no jump link. */
   if (idx === 4) {
     return (
       <div className={className}>
@@ -539,14 +539,7 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
   }
 
   return (
-    <FollowPointer
-      className={className}
-      title={
-        <>
-          {m.project} <span aria-hidden="true">&rarr;</span>
-        </>
-      }
-    >
+    <div className={className}>
       {head}
 
       {idx === 0 && (
@@ -600,7 +593,7 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
           </div>
         </div>
       )}
-    </FollowPointer>
+    </div>
   );
 }
 
