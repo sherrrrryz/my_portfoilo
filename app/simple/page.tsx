@@ -1005,10 +1005,6 @@ function OffClock() {
             </span>
             <span className="sm-oc-card__title">{p.title}</span>
             <span className="sm-oc-card__tag">{p.tagline}</span>
-            <span className="sm-oc-card__meta">
-              {p.media.some((m) => m.kind === 'video') ? 'images + video' : `${p.media.length} images`}
-              {' · click to open'}
-            </span>
           </button>
         ))}
       </div>
