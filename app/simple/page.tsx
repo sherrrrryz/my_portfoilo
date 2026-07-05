@@ -3,8 +3,11 @@
 /* ============================================================================
    /simple — a plain, monochrome edition of the Story page.
 
-   Same structure and copy as `/`, but black-on-white, no scroll choreography
-   and no per-section theme swaps. The hero keeps only the "I, as a ___"
+   Same structure and copy as `/`, but black-on-white and almost no scroll
+   choreography. The one exception is the page background: like the home
+   page's body[data-theme] flip, a ScrollTrigger toggles data-bg on .sm-root
+   at section boundaries (02–03 sit on a lighter paper than the rest), and a
+   0.4s CSS transition smooths the swap. The hero keeps only the "I, as a ___"
    rotating role; the flashlight word-wall and floating text are dropped.
 
    Self-contained: no imports from the Story component tree, so the two pages
@@ -20,6 +23,10 @@ import Image from 'next/image';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ROLES = [
   'UX Designer',
@@ -1026,8 +1033,45 @@ function Marker({ num, label }: { num: string; label: string }) {
 }
 
 export default function SimplePage() {
+  const rootRef = useRef<HTMLDivElement | null>(null);
+
+  /* Page-bg swap at section boundaries — same recipe as the home page's
+     body[data-theme] flip (bottom 55% of the outgoing section), only here
+     it toggles data-bg on .sm-root. Sections 02–03 sit on --sm-bg-lift,
+     everything else on --sm-bg-base; simple.css transitions the color. */
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
+    const transitions: Array<{ sel: string; prev: string; next: string }> = [
+      { sel: '[data-section="millions"]', prev: 'base', next: 'lift' },
+      { sel: '[data-section="teams"]',    prev: 'lift', next: 'base' },
+    ];
+
+    const sts = transitions
+      .map(({ sel, prev, next }) => {
+        const trigger = root.querySelector<HTMLElement>(sel);
+        if (!trigger) return null;
+        return ScrollTrigger.create({
+          trigger,
+          start: 'bottom 55%',
+          onEnter: () => {
+            root.dataset.bg = next;
+          },
+          onLeaveBack: () => {
+            root.dataset.bg = prev;
+          },
+        });
+      })
+      .filter(Boolean) as ScrollTrigger[];
+
+    return () => {
+      sts.forEach((st) => st.kill());
+    };
+  }, []);
+
   return (
-    <div className="sm-root">
+    <div className="sm-root" ref={rootRef}>
       <nav className="sm-nav" aria-label="Primary">
         <Link href="/simple" className="sm-nav__mark">
           Xueyi Zhou
@@ -1064,7 +1108,7 @@ export default function SimplePage() {
       </header>
 
       {/* ── 01 · For Millions ────────────────────────────────── */}
-      <section className="sm-section">
+      <section className="sm-section" data-section="millions">
         <div className="sm-wrap">
           <Marker num="01" label="For Millions" />
           <h2 className="sm-question">
@@ -1170,7 +1214,7 @@ export default function SimplePage() {
       </section>
 
       {/* ── 03 · For Teams ───────────────────────────────────── */}
-      <section className="sm-section">
+      <section className="sm-section" data-section="teams">
         <div className="sm-wrap">
           <Marker num="03" label="For Teams" />
           <p className="sm-quote-intro">

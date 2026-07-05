@@ -1,6 +1,7 @@
 /* ============================================================================
    /simple — a plain, monochrome cut of the Story page.
-   No scroll choreography, no theme swaps. Black ink on white paper,
+   No scroll choreography beyond a section-boundary page-bg swap (see
+   .sm-root[data-bg] below). Black ink on near-white paper,
    Swiss-editorial typography, hairline rules. Same structure + copy as `/`.
    Leans on the shared token scale (font, type, spacing) from _styles/tokens.css
    but hard-locks to a neutral grayscale so nothing tints.
@@ -16,10 +17,16 @@
   --sm-line:    #e6e6e6;   /* hairline */
   --sm-line-2:  #d2d2d2;   /* stronger hairline */
   --sm-fill:    #f4f4f4;   /* faint block fill */
+  --sm-bg-base: #efeeea;   /* page bg — hero, 01, 04, contact */
+  --sm-bg-lift: #f8f8f7;   /* page bg while inside 02–03 */
 }
 
+/* Page background swaps at section boundaries (same recipe as the home
+   page's body[data-theme] flip): a ScrollTrigger in page.tsx toggles
+   data-bg on .sm-root; this 0.4s transition smooths the swap. */
 .sm-root {
-  background: var(--sm-paper);
+  background: var(--sm-bg-base);
+  transition: background-color 0.4s ease;
   color: var(--sm-ink);
   font-family: var(--font-sans);
   font-size: var(--text-base);
@@ -27,6 +34,10 @@
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   min-height: 100vh;
+}
+
+.sm-root[data-bg='lift'] {
+  background: var(--sm-bg-lift);
 }
 
 .sm-root ::selection {
