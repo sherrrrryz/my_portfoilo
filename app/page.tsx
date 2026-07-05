@@ -63,6 +63,60 @@ function RotatingRole() {
   );
 }
 
+/* Hero: the three employers, ordered by importance. Hover (or focus)
+   floats a small card with a scale fact, so visitors outside the industry
+   get a sense of how big each company is. */
+const COMPANIES = [
+  {
+    name: 'Xiaomi',
+    tag: 'Fortune Global 500',
+    desc: 'One of the world’s top 3 smartphone makers. Its OS runs on 700M+ monthly active devices.',
+  },
+  {
+    name: 'AppLovin',
+    tag: 'NASDAQ: APP',
+    desc: 'A leading mobile ad-tech platform, reaching over 1 billion devices every day.',
+  },
+  {
+    name: 'Huawei',
+    tag: '170+ countries',
+    desc: 'A global ICT giant with 200,000+ employees, serving over 3 billion people.',
+  },
+];
+
+function CompanyHover({ c }: { c: (typeof COMPANIES)[number] }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <span
+      className="sm-co"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+      onFocus={() => setOpen(true)}
+      onBlur={() => setOpen(false)}
+      tabIndex={0}
+      aria-describedby={open ? `co-${c.name}` : undefined}
+    >
+      {c.name}
+      <AnimatePresence>
+        {open && (
+          <motion.span
+            className="sm-co-card"
+            id={`co-${c.name}`}
+            role="tooltip"
+            initial={{ opacity: 0, y: 10, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 6, scale: 0.96 }}
+            transition={{ type: 'spring', stiffness: 340, damping: 26 }}
+          >
+            <span className="sm-co-card__tag">{c.tag}</span>
+            <span className="sm-co-card__desc">{c.desc}</span>
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </span>
+  );
+}
+
 const MEANS = [
   {
     text: 'It means making something personal — at a scale where nothing feels personal.',
@@ -1168,8 +1222,10 @@ export default function SimplePage() {
             </span>
           </h1>
           <p className="sm-hero__sub">
-            A UX/Product Designer with experience at Huawei, Xiaomi, and
-            AppLovin.
+            A UX/Product Designer with experience at{' '}
+            <CompanyHover c={COMPANIES[0]} />,{' '}
+            <CompanyHover c={COMPANIES[1]} />, and{' '}
+            <CompanyHover c={COMPANIES[2]} />.
           </p>
           <p className="sm-hero__sub">
             Designing for millions, for business, for teams, and out of plain
