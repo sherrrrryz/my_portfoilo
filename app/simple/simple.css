@@ -1056,9 +1056,13 @@
   line-height: var(--leading-relaxed);
   -webkit-font-smoothing: antialiased;
 }
+/* Flex column so the figure shrinks to fit the viewport and the nav row
+   stays visible without scrolling; overflow-y is only a tiny-screen fallback. */
 .sm-oc-lb__panel {
   width: min(1000px, 100%);
   max-height: 100%;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
   background: var(--sm-paper);
   border: 1px solid var(--sm-line-2);
@@ -1066,6 +1070,9 @@
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
   padding: clamp(18px, 3vw, 32px);
 }
+.sm-oc-lb__head,
+.sm-oc-lb__blurb,
+.sm-oc-lb__nav { flex-shrink: 0; }
 .sm-oc-lb__head {
   display: flex;
   align-items: baseline;
@@ -1096,17 +1103,25 @@
   line-height: var(--leading-relaxed);
   color: var(--sm-ink-2);
 }
-.sm-oc-lb__fig { margin: clamp(16px, 2.5vh, 24px) 0 0; }
+.sm-oc-lb__fig {
+  margin: clamp(16px, 2.5vh, 24px) 0 0;
+  flex: 1 1 auto;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+}
 .sm-oc-lb__fig img,
 .sm-oc-lb__fig video {
   display: block;
   width: 100%;
-  max-height: 62vh;
+  flex: 0 1 auto;
+  min-height: 0;
   object-fit: contain;
   background: var(--sm-fill);
   border-radius: var(--radius-sm);
 }
 .sm-oc-lb__cap {
+  flex: 0 0 auto;
   margin-top: 10px;
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
