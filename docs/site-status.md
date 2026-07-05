@@ -10,9 +10,10 @@ The Story page (7-section scroll-driven experience, `app/_story/**`) and the two
 
 Still in the tree and shared:
 
-- `app/_styles/tokens.css` — imported by `app/page.tsx`. The LAYER 2.5 `[data-theme]` palettes are currently unused (kept for future pages).
-- `app/_lab/ui/` — copy-paste primitives (Button, Card, Badge, Input, Separator, Sheet, Dropdown). No current importers; step 1 of the component sourcing ladder in CLAUDE.md.
+- `app/_styles/tokens.css` — imported by `app/page.tsx` and `app/projects/lockscreen/page.tsx`. Pruned in the 2026-07-04 redundancy cleanup: the LAYER 2.5 `[data-theme]` palettes, LAYER 3 component tokens, LAYER 3.5 re-substitution block, and `.stage-*` utilities were deleted (Story-page exclusive, zero consumers); Layer 1 primitives + Layer 2 semantics + the Tailwind `@theme` block remain as the design-system base.
 - All `public/` assets — the plain homepage reuses the Story page's imagery (`lockscreen-web/`, `section1-*/`, `section2/`, `section3-3/`, `simple/off-clock/`).
+
+Removed in the 2026-07-04 redundancy cleanup (recover from git history if needed): `app/_lab/` (ui stash + `cn()` util), `app/components/{project3col,projectimg,sectionDivider,twocol}.tsx`, and the npm deps `lenis`, `swiper`, `@radix-ui/react-dialog`, `@radix-ui/react-dropdown-menu`, `class-variance-authority`, `clsx`, `tailwind-merge`. Kept: `app/components/fadeIn.tsx` + `pageheader.tsx` (imported by the off-limits detail deck) and `lucide-react` (same).
 
 ## Pages
 
@@ -31,6 +32,9 @@ Design work to scope: Overview page · Projects index · Case-study detail templ
 
 Homepage follow-ups:
 - Footer links to `/overview` and `/projects` currently 404 (pages not built yet, links kept intentionally per PRD).
-- Optional: prune the unused `[data-theme]` LAYER 2.5 block from `tokens.css` if no future page adopts it.
+
+Known issues (found in the 2026-07-04 redundancy scan, deliberately not fixed yet):
+- `/api/send-email` route does not exist, but the lockscreen SeeDetail modal's contact form POSTs to it, so sending always fails. Either implement the route (e.g. Resend) or drop the form.
+- ~57MB of `public/` assets have zero code references and can be deleted in a follow-up pass: whole dirs `story-lockscreens/` (14MB), `photos/` (20MB), `miui/` (2.3MB), `toucharea/`, `s4/`; orphans `lockscreen/1-14.png`, `1-15.png`, `1-17.png`, `1-18.png`; root-level `projectimg1-4.png`, `myimg.png`, `dark/light-mode-demo.png`, `huawei/xiaomi/applovin.png`, `avatar.png`, `logo.png`, `profile.png`. Re-verify each with a repo-wide grep before deleting.
 
 Content: S6-style closing copy was folded into the plain contact section; no pending copy.

@@ -28,16 +28,12 @@ app/projects/lockscreen/detail/hooks/**         (presentation hooks)
 
 **No longer off-limits (redesigned 2026-07-04):** the case-study landing (`app/projects/lockscreen/page.tsx`, `SeeDetailButton/Context/Modal.tsx`) was restyled to match the homepage's monochrome editorial look. It now imports `_styles/tokens.css` and styles itself via `app/projects/lockscreen/lockscreen.css` (`lsx-` prefix). The SeeDetail password gate and contact form logic are unchanged.
 
-**Orphaned legacy primitives — kept in the tree, still don't edit or import them:**
+**Legacy primitives the detail deck still imports — off-limits with it:**
 ```
-app/components/fadeIn.tsx
-app/components/pageheader.tsx
-app/components/project3col.tsx
-app/components/projectimg.tsx
-app/components/sectionDivider.tsx
-app/components/twocol.tsx
+app/components/fadeIn.tsx       (used by detail/components/SlideSection.tsx)
+app/components/pageheader.tsx   (used by detail/components/CoverSection.tsx)
 ```
-The redesigned landing page dropped these; nothing imports them anymore. Delete only with explicit user approval.
+The other four legacy primitives (project3col, projectimg, sectionDivider, twocol) were deleted in the 2026-07-04 redundancy cleanup after verifying zero importers. Note the earlier claim that all six were orphaned was wrong; when grepping for importers, never filter out path segments (`grep -v components` hid `detail/components/`).
 
 **Shared `app/globals.css`** — read-only for us. It declares legacy CSS variables (`--accent: #2EA82C`, `.prose`, `.dark` mode ramp, MDX typography) that the detail deck consumes. The new design system in `app/_styles/tokens.css` is **separate** — imported from `app/page.tsx` and `app/projects/lockscreen/page.tsx`. Don't merge the two, don't collapse variables across them, don't add `@import` from one file to the other.
 
@@ -58,8 +54,8 @@ The redesigned landing page dropped these; nothing imports them anymore. Delete 
 
 Before writing a new component, walk this ladder in order. Stop at the first step that can cover the need.
 
-1. **Existing primitives in this repo.** Check:
-   - `app/_lab/ui/` — `Button`, `Card`, `Badge`, `Input`, `Separator`
+1. **Existing primitives in this repo / git history.** Check:
+   - The former `app/_lab/ui/` stash (`Button`, `Card`, `Badge`, `Input`, `Separator`, `Sheet`, `Dropdown`, `following-pointer`) was deleted in the 2026-07-04 redundancy cleanup (zero importers); recover from git history if needed.
    - The former Story-page scroll primitives (`LenisContext`, `Reveal`, `ScrollFloat`, `FlowingRows`, `PortfolioScene`, etc.) were deleted with the Story page; recover them from git tag `archive/story-page` if a future page needs one.
 
 2. **Preferred free copy-paste libraries** (in this order):

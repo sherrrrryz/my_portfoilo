@@ -33,12 +33,6 @@ const project = {
   team: ["Design lead 1", "UX Designer (Me)", "Graphic Designer 4", "Product Manager 2"],
   background:
     "The project was initiated by lock screen visual designers who provided 7 new lock screen designs and 2 new technical capability requirements. As the interaction designer, I joined after the initial pitch succeeded to design the editing flows and framework for lock screen personalization.",
-  potentialIssues: [
-    "A wide variety of packages with unique characteristics makes it difficult to ensure framework universality;",
-    "Lack of mainstream styles may confuse users among many options;",
-    "Large differences in personalization capabilities make it hard for users to set expectations;",
-    "Too many customization functions could overload a single page, leading to increased page hierarchy.",
-  ],
   competitorFindings: [
     "New templates have low exposure, requiring users to click the bottom-right add button to view;",
     "Template images are small and details are difficult to preview;",
