@@ -2,6 +2,8 @@
 
 /flashlight 这一轮迭代攒下的 scroll 动效、官方接口对照、未来 recipe、已踩过的坑。新 section 写之前先扫一遍这份。
 
+> **归档说明（2026-07-04）**：本文 §2 描述的已建原语（`LenisContext`、`Reveal`、`ScrollFloat`、`FlowingRows`、`PortfolioScene` 等）随 Story 主页一并删除，代码存于 git tag `archive/story-page`，文内指向 `app/_story/**` 的链接已失效。技术栈原则（§1）与踩坑记录（§7）对未来页面仍然适用。当前主页只用 GSAP ScrollTrigger 做 section 背景切换，未使用 Lenis。
+
 参考设计路子：[directionless.webflow.io](https://directionless.webflow.io)（连续叙事 + 分层渐进 reveal，不做 snap）。
 
 ---

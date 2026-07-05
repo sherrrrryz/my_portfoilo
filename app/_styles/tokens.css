@@ -292,8 +292,8 @@
    Each Story-page section gets a 10-token palette: surface-1/2, text-1/2/3,
    accent-1/2, btn-1/2/3. Components opt-in by reading var(--theme-*) tokens.
    Default values below match S5 Curiosity (paper); applying [data-theme="X"]
-   on <html> swaps the whole palette. Spec: docs/prd.md §2.4. Live-tune in
-   /lab/ds → 09 · Themes; commit final values back here.
+   on <html> swaps the whole palette. Spec: docs/prd.md §2.4. Unused since the
+   Story page was archived (git tag archive/story-page); kept for future pages.
 ============================================================================ */
 :root {
   /* default = S5 Curiosity (paper) */

@@ -1,8 +1,8 @@
 # Design System
 
-Source of truth: [`app/_styles/tokens.css`](../app/_styles/tokens.css). Loaded only on `/` and `/lab/ds` (lockscreen routes keep `globals.css`).
+Source of truth: [`app/_styles/tokens.css`](../app/_styles/tokens.css). Loaded only on `/` (lockscreen routes keep `globals.css`).
 
-Playground: http://localhost:3000/lab/ds — every swatch + specimen reads tokens live. Color pickers override `document.documentElement.style`, dependents re-tint with zero React re-render.
+Playground: removed 2026-07-04 along with the Story homepage. The `/lab/ds` token playground (live-edit swatches + Themes tab) is archived at git tag `archive/story-page`; restore from there if token work resumes.
 
 ## Three layers
 

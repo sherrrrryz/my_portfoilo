@@ -15,7 +15,7 @@ Optional skill (for Claude sessions that install it): `~/.claude/skills/scroll-e
 
 ## Legacy isolation · OFF-LIMITS paths
 
-The Xiaomi lockscreen case study is an **older artifact kept intact** to be reused in the future once the new Projects page is built. It must stay isolated from the new Story-driven homepage codebase. **Do not edit, rename, move, refactor, reformat, or import from any of the following.** If a task tempts you to touch them, stop and ask the user.
+The Xiaomi lockscreen case study is an **older artifact kept intact** to be reused in the future once the new Projects page is built. It must stay isolated from the new homepage codebase. **Do not edit, rename, move, refactor, reformat, or import from any of the following.** If a task tempts you to touch them, stop and ask the user.
 
 **Lockscreen page + modal:**
 ```
@@ -44,9 +44,9 @@ app/components/sectionDivider.tsx
 app/components/twocol.tsx
 ```
 
-**Shared `app/globals.css`** — read-only for us. It declares legacy CSS variables (`--accent: #2EA82C`, `.prose`, `.dark` mode ramp, MDX typography) that lockscreen consumes. The new design system in `app/_styles/tokens.css` is **separate** — imported only from `app/page.tsx` and `/lab/*` routes. Don't merge the two, don't collapse variables across them, don't add `@import` from one file to the other.
+**Shared `app/globals.css`** — read-only for us. It declares legacy CSS variables (`--accent: #2EA82C`, `.prose`, `.dark` mode ramp, MDX typography) that lockscreen consumes. The new design system in `app/_styles/tokens.css` is **separate** — imported only from `app/page.tsx`. Don't merge the two, don't collapse variables across them, don't add `@import` from one file to the other.
 
-**Isolation rule in one line:** the new Story page (`/`) and the lockscreen route (`/projects/lockscreen/**`) must never share a TSX import, and their styling lives in two separate files. The only shared file is `globals.css`, which neither side rewrites.
+**Isolation rule in one line:** the homepage (`/`) and the lockscreen route (`/projects/lockscreen/**`) must never share a TSX import, and their styling lives in two separate files. The only shared file is `globals.css`, which neither side rewrites.
 
 ## Other hard constraints
 
@@ -64,16 +64,15 @@ app/components/twocol.tsx
 Before writing a new component, walk this ladder in order. Stop at the first step that can cover the need.
 
 1. **Existing primitives in this repo.** Check:
-   - `app/_story/lib/` — `LenisContext`, `Reveal`, `useMotion`, `gpu`
-   - `app/_story/components/` — `ScrollFloat`, `ScrollReveal`, `LockscreenPile`, `FlowingRows`, `PortfolioScene`, `MonoCornerLabel`, `ComparisonCard`
    - `app/_lab/ui/` — `Button`, `Card`, `Badge`, `Input`, `Separator`
+   - The former Story-page scroll primitives (`LenisContext`, `Reveal`, `ScrollFloat`, `FlowingRows`, `PortfolioScene`, etc.) were deleted with the Story page; recover them from git tag `archive/story-page` if a future page needs one.
 
 2. **Preferred free copy-paste libraries** (in this order):
    - https://ui.aceternity.com/components
    - https://magicui.design/docs/components
    - https://www.reactbits.dev/
 
-   Workflow: WebFetch the component source. If the fetch is blocked (Cloudflare / JS-rendered / rate-limited), **ask the user to paste the source manually** rather than giving up. Land the source under `app/_lab/ui/` or `app/_story/components/` and rewrite it to consume our tokens (`var(--accent)`, `--ink-primary`, `--surface-1`, etc.) instead of whatever colors the original shipped with.
+   Workflow: WebFetch the component source. If the fetch is blocked (Cloudflare / JS-rendered / rate-limited), **ask the user to paste the source manually** rather than giving up. Land the source under `app/_lab/ui/` and rewrite it to consume our tokens (`var(--accent)`, `--ink-primary`, `--surface-1`, etc.) instead of whatever colors the original shipped with.
 
    **Motion rewrite requirement (conditional):** these libraries often use framer-motion.
    - If the framer-motion code is **scroll-coupled** (`useScroll`, `useTransform`, `useSpring` driven by scrollY, `whileInView`) → **must rewrite** in GSAP + Lenis before landing. See the animation stack rule above.
@@ -88,20 +87,19 @@ Before writing a new component, walk this ladder in order. Stop at the first ste
 
 ## Live routes
 
-- `/` — Story page (`app/page.tsx` → `app/_story/components/*`)
-- `/lab/ds` — design-system playground (bound to `app/_styles/tokens.css`, live-edit color tokens)
-- `/lab/reveal` — Reveal primitive playground
+- `/` — homepage, plain monochrome edition (`app/page.tsx` + `app/simple.css`)
+- `/simple` — 308 permanent redirect to `/` (the page used to live there; see `next.config.ts`)
 - `/projects/lockscreen` — case study landing (OFF-LIMITS)
 - `/projects/lockscreen/detail` — case study deep-dive (OFF-LIMITS)
 
-The pre-rewrite archive lives at git tag `archive/pre-flashlight-only`.
+Archives: git tag `archive/story-page` holds the scroll-driven Story homepage (plus the `/lab/ds` and `/lab/reveal` playgrounds) that `/` replaced; `archive/pre-flashlight-only` is the pre-rewrite site.
 
 ## Typical workflow
 
 1. Figure out what section / component the task touches → look it up in `docs/prd.md`.
 2. Check `docs/site-status.md` to see if scaffolding already exists.
 3. Style with `var(--token)` from [app/_styles/tokens.css](app/_styles/tokens.css). Don't write hex codes.
-4. Reuse scroll primitives from `app/_story/lib/` + `app/_story/components/` before writing new ones. See [docs/scroll-patterns.md](docs/scroll-patterns.md) §2.
+4. Before writing a new scroll primitive, check [docs/scroll-patterns.md](docs/scroll-patterns.md) §2; the built primitives it describes now live in git tag `archive/story-page`.
 5. Verify with `pnpm run dev` + preview tools: `/` renders, `/projects/lockscreen` still renders, console 0 errors.
 6. Commit locally with a descriptive message. Do NOT push unless user says so.
 7. If a new scroll pattern or design-system rule emerged, update the relevant doc (protocol: write the finding into the doc in the same commit that introduces it).

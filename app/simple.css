@@ -1,8 +1,8 @@
 /* ============================================================================
-   /simple — a plain, monochrome cut of the Story page.
+   Homepage (/) styles. Plain, monochrome, editorial.
    No scroll choreography beyond a section-boundary page-bg swap (see
    .sm-root[data-bg] below). Black ink on near-white paper,
-   Swiss-editorial typography, hairline rules. Same structure + copy as `/`.
+   Swiss-editorial typography, hairline rules.
    Leans on the shared token scale (font, type, spacing) from _styles/tokens.css
    but hard-locks to a neutral grayscale so nothing tints.
 ============================================================================ */
