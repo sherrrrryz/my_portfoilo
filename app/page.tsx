@@ -68,26 +68,31 @@ const MEANS = [
     text: 'It means making something personal — at a scale where nothing feels personal.',
     meta: 'Xiaomi Lock Screen · 2023',
     project: 'Xiaomi Lock Screen',
+    href: '/projects/lockscreen',
   },
   {
     text: 'It means building the system that other designers build on.',
     meta: 'MIUI Design System 2.0 · 2023',
     project: 'MIUI Design System 2.0',
+    href: '',
   },
   {
     text: "It means ‘just make it bigger’ is never the answer.",
     meta: 'Foldable Screen Framework · 2022',
     project: 'Foldable Screen Framework',
+    href: '',
   },
   {
     text: 'It means designing what your finger feels, not what your eye sees.',
     meta: 'Touch Hot Zone · 2024',
     project: 'Touch Hot Zone',
+    href: '',
   },
   {
     text: "It means there's always another kind of design waiting to be made.",
     meta: '',
     project: '',
+    href: '',
   },
 ];
 
@@ -443,13 +448,25 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
     <div className="sm-mean__head" ref={headRef}>
       <span className="sm-means__idx">{String(idx + 1).padStart(2, '0')}</span>
       <div>
-        <p className="sm-means__text">{m.text}</p>
+        <p className="sm-means__text">
+          {m.href ? (
+            <Link href={m.href} className="sm-means__text-link">
+              {m.text}
+            </Link>
+          ) : (
+            m.text
+          )}
+        </p>
         {m.meta && (
           <div className="sm-means__meta">
             {m.meta} &middot;{' '}
-            <a href="#" title="Case study coming soon">
-              View project &rarr;
-            </a>
+            {m.href ? (
+              <Link href={m.href}>View project &rarr;</Link>
+            ) : (
+              <a href="#" title="Case study coming soon">
+                View project &rarr;
+              </a>
+            )}
           </div>
         )}
       </div>
