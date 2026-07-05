@@ -458,16 +458,7 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
           )}
         </p>
         {m.meta && (
-          <div className="sm-means__meta">
-            {m.meta} &middot;{' '}
-            {m.href ? (
-              <Link href={m.href}>View project &rarr;</Link>
-            ) : (
-              <a href="#" title="Case study coming soon">
-                View project &rarr;
-              </a>
-            )}
-          </div>
+          <div className="sm-means__meta">{m.meta}</div>
         )}
       </div>
     </div>
