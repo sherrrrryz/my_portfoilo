@@ -6,8 +6,8 @@
    Same structure and copy as `/`, but black-on-white and almost no scroll
    choreography. The one exception is the page background: like the home
    page's body[data-theme] flip, a ScrollTrigger toggles data-bg on .sm-root
-   at section boundaries (02–03 sit on a lighter paper than the rest), and a
-   0.4s CSS transition smooths the swap. The hero keeps only the "I, as a ___"
+   at section boundaries (white for hero + 01, then two grays for 02–03 and
+   04 onward), and a 0.4s CSS transition smooths the swap. The hero keeps only the "I, as a ___"
    rotating role; the flashlight word-wall and floating text are dropped.
 
    Self-contained: no imports from the Story component tree, so the two pages
@@ -1037,15 +1037,16 @@ export default function SimplePage() {
 
   /* Page-bg swap at section boundaries — same recipe as the home page's
      body[data-theme] flip (bottom 55% of the outgoing section), only here
-     it toggles data-bg on .sm-root. Sections 02–03 sit on --sm-bg-lift,
-     everything else on --sm-bg-base; simple.css transitions the color. */
+     it toggles data-bg on .sm-root. Hero + 01 sit on plain white (no
+     attribute), 02–03 on --sm-bg-mid, 04 onward on --sm-bg-tail;
+     simple.css transitions the color. */
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
 
     const transitions: Array<{ sel: string; prev: string; next: string }> = [
-      { sel: '[data-section="millions"]', prev: 'base', next: 'lift' },
-      { sel: '[data-section="teams"]',    prev: 'lift', next: 'base' },
+      { sel: '[data-section="millions"]', prev: 'paper', next: 'mid' },
+      { sel: '[data-section="teams"]',    prev: 'mid',   next: 'tail' },
     ];
 
     const sts = transitions

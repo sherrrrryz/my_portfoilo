@@ -17,15 +17,16 @@
   --sm-line:    #e6e6e6;   /* hairline */
   --sm-line-2:  #d2d2d2;   /* stronger hairline */
   --sm-fill:    #f4f4f4;   /* faint block fill */
-  --sm-bg-base: #efeeea;   /* page bg — hero, 01, 04, contact */
-  --sm-bg-lift: #f8f8f7;   /* page bg while inside 02–03 */
+  --sm-bg-mid:  #f8f8f7;   /* page bg while inside 02–03 */
+  --sm-bg-tail: #efeeea;   /* page bg from 04 to the end */
 }
 
 /* Page background swaps at section boundaries (same recipe as the home
    page's body[data-theme] flip): a ScrollTrigger in page.tsx toggles
-   data-bg on .sm-root; this 0.4s transition smooths the swap. */
+   data-bg on .sm-root; this 0.4s transition smooths the swap.
+   No attribute = plain white paper (hero + 01). */
 .sm-root {
-  background: var(--sm-bg-base);
+  background: var(--sm-paper);
   transition: background-color 0.4s ease;
   color: var(--sm-ink);
   font-family: var(--font-sans);
@@ -36,8 +37,12 @@
   min-height: 100vh;
 }
 
-.sm-root[data-bg='lift'] {
-  background: var(--sm-bg-lift);
+.sm-root[data-bg='mid'] {
+  background: var(--sm-bg-mid);
+}
+
+.sm-root[data-bg='tail'] {
+  background: var(--sm-bg-tail);
 }
 
 .sm-root ::selection {
