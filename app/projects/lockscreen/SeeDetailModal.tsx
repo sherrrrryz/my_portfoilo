@@ -143,34 +143,23 @@ export default function SeeDetailModal({ isOpen, onClose }: SeeDetailModalProps)
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
-      onClick={onClose}
-    >
+    <div className="lsx-modal-ov" onClick={onClose}>
       <div
-        className="relative w-[90vw] max-w-md bg-[var(--imgbg)] rounded-2xl p-8 shadow-xl max-h-[90vh] overflow-y-auto"
+        className="lsx-modal"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
       >
         {/* Close button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-[var(--nav-dim)] hover:text-[var(--nav-fg)] transition-colors text-xl cursor-pointer"
-          aria-label="Close"
-        >
+        <button onClick={onClose} className="lsx-modal__close" aria-label="Close">
           ✕
         </button>
 
         {/* Section 1: Password */}
-        <div className="mb-8">
-          <h2 className="text-lg font-bold text-[var(--nav-fg)] mb-1">
-            Enter password to view details
-          </h2>
-          <p className="text-sm text-[var(--nav-dim)] mb-4">
-            6-digit password required
-          </p>
-          <div className="flex gap-2 justify-center" onPaste={handlePaste}>
+        <div>
+          <h2 className="lsx-modal__h">Enter password to view details</h2>
+          <p className="lsx-modal__p">6-digit password required</p>
+          <div className={`lsx-otp${error ? " lsx-otp--error" : ""}`} onPaste={handlePaste}>
             {digits.map((digit, i) => (
               <input
                 key={i}
@@ -183,72 +172,57 @@ export default function SeeDetailModal({ isOpen, onClose }: SeeDetailModalProps)
                 value={digit}
                 onChange={(e) => handleDigitChange(i, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(i, e)}
-                className={`w-11 h-13 text-center text-xl font-mono rounded-lg border-2 bg-transparent text-[var(--nav-fg)] outline-none transition-colors duration-200 ${
-                  error
-                    ? "border-red-500"
-                    : "border-[var(--nav-border)] focus:border-[var(--accent)]"
-                }`}
               />
             ))}
           </div>
           {error && (
-            <p className="text-red-500 text-sm text-center mt-2">
-              Incorrect password. Please try again.
-            </p>
+            <p className="lsx-modal__err">Incorrect password. Please try again.</p>
           )}
         </div>
 
-        {/* Divider */}
-        <hr className="border-t border-[var(--nav-border)] mb-8" />
+        <hr className="lsx-modal__hr" />
 
         {/* Section 2: Contact */}
         <div>
-          <h2 className="text-lg font-bold text-[var(--nav-fg)] mb-1">
-            Contact me to learn more
-          </h2>
-          <p className="text-sm text-[var(--nav-dim)] mb-4">
+          <h2 className="lsx-modal__h">Contact me to learn more</h2>
+          <p className="lsx-modal__p">
             Send me an email and I&apos;ll share the details with you.
           </p>
 
-          <div className="space-y-3">
+          <div className="lsx-field">
             <input
               type="text"
               placeholder="Your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-lg border border-[var(--nav-border)] bg-transparent text-[var(--nav-fg)] placeholder:text-[var(--nav-dim)] outline-none focus:border-[var(--accent)] transition-colors text-sm"
             />
             <input
               type="email"
               placeholder="Your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-lg border border-[var(--nav-border)] bg-transparent text-[var(--nav-fg)] placeholder:text-[var(--nav-dim)] outline-none focus:border-[var(--accent)] transition-colors text-sm"
             />
             <textarea
               placeholder="Message (optional)"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows={3}
-              className="w-full px-4 py-2.5 rounded-lg border border-[var(--nav-border)] bg-transparent text-[var(--nav-fg)] placeholder:text-[var(--nav-dim)] outline-none focus:border-[var(--accent)] transition-colors text-sm resize-none"
             />
           </div>
 
           {sendSuccess ? (
-            <p className="mt-4 text-center text-sm text-[var(--accent)] font-semibold py-3">
+            <p className="lsx-modal__ok">
               ✓ Email sent successfully! I&apos;ll get back to you soon.
             </p>
           ) : (
             <>
-              {sendError && (
-                <p className="mt-3 text-red-500 text-sm text-center">{sendError}</p>
-              )}
+              {sendError && <p className="lsx-modal__err">{sendError}</p>}
               <button
                 onClick={handleSendEmail}
                 disabled={sending}
-                className="mt-4 inline-flex items-center justify-center w-full gap-2 px-6 py-3 rounded-lg border-2 border-[var(--accent)] text-[var(--accent)] font-semibold text-sm tracking-wider transition-all duration-200 hover:bg-[var(--accent)] hover:text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="lsx-btn lsx-btn--ghost lsx-modal__send"
               >
-                {sending ? "Sending..." : "Send Email"}
+                {sending ? "Sending..." : "Send email"}
               </button>
             </>
           )}

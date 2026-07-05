@@ -22,7 +22,8 @@ Still in the tree and shared:
 | Story (old home) | archived | — | git tag `archive/story-page`. Recover primitives from there if needed. |
 | Overview | not built | `/overview` | PRD §1.1 — elevator-pitch view. Footer already links to it. |
 | Projects | not built | `/projects` | Case-study grid. Lockscreen detail already exists at `/projects/lockscreen/detail` but no index grid yet. Footer already links to it. |
-| Lockscreen case study | built (legacy, OFF-LIMITS) | `/projects/lockscreen` + `/detail` | Isolated; styled by `globals.css`. |
+| Lockscreen case study | built (redesigned 2026-07-04) | `/projects/lockscreen` | Landing restyled to the homepage's monochrome editorial look (`lockscreen.css`, `lsx-` prefix, consumes `tokens.css`). SeeDetail password gate + contact modal restyled, logic unchanged. |
+| Lockscreen detail deck | built (legacy, OFF-LIMITS) | `/projects/lockscreen/detail` | Slide deck, still isolated and styled by `globals.css`. Reached via the 6-digit gate on the landing page. |
 
 ## Outstanding
 

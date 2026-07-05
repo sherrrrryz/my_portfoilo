@@ -1,39 +1,21 @@
+/* ============================================================================
+   /projects/lockscreen — case-study landing, restyled to match the homepage's
+   plain monochrome editorial read. Content is the same data model the legacy
+   page rendered; only the presentation changed. The detail deck at ./detail
+   (and its password gate via SeeDetailModal) is untouched.
+
+   No TSX imports shared with the homepage (isolation rule): layout primitives
+   are local markup, styling lives in ./lockscreen.css on the shared token
+   scale from _styles/tokens.css.
+============================================================================ */
+
+import "../../_styles/tokens.css";
+import "./lockscreen.css";
+
 import Link from "next/link";
 import React from "react";
-import Project3Col from "app/components/project3col";
-import { SectionDivider } from "app/components/sectionDivider";
-import PageHeader from "app/components/pageheader";
-import { TwoCol } from "app/components/twocol";
-import ResponsiveImg from "app/components/projectimg";
 import { SeeDetailProvider } from "./SeeDetailContext";
 import SeeDetailButton from "./SeeDetailButton";
-
-// export default function LockScreen() {
-//   return (
-//     <section className="w-full">
-//       <FadeInWhenVisible>
-//       <div className="mx-auto px-6 md:px-16 py-12">
-//         {/* 返回按钮 */}
-//         <Link 
-//           href="/projects" 
-//           className="inline-flex items-center text-[var(--nav-fg)] hover:text-[var(--accent)] mb-8 transition-colors"
-//         >
-//           ← Back to Projects
-//         </Link>
-
-//         <h1 className="text-4xl font-bold text-[var(--sh-identifier)] mb-8">Lock Screen Design</h1>
-        
-//         <div className="text-[var(--nav-fg)] space-y-4 text-lg leading-relaxed">
-//           <p>This project focuses on reimagining the mobile lock screen experience with enhanced security and personalization features.</p>
-//           <p>I explored innovative interaction patterns that balance accessibility with privacy, creating intuitive gestures for quick access to frequently used functions.</p>
-//           <p>The design incorporates adaptive themes and customizable widgets, allowing users to transform their lock screen into a personalized dashboard.</p>
-//         </div>
-//       </div>
-//       </FadeInWhenVisible>
-//     </section>
-//   );
-// }
-
 
 /** Data model (edit here to drive the page) */
 const project = {
@@ -83,7 +65,6 @@ const project = {
     "Information layer style editing is in a secondary level, making it too deep;",
     "After customization, users cannot preview the effect before applying.",
   ],
-  // Insert your image links here (copied from xueyizhou.xyz project page)
   images: {
     hero: ["/lockscreen/lockscreencover.png", "/lockscreen/background.png"],
     competitor: ["/lockscreen/competitor1.png", "/lockscreen/competitor2.png"],
@@ -92,160 +73,164 @@ const project = {
   },
 };
 
+function Marker({ num, label }: { num: string; label: string }) {
+  return (
+    <div className="lsx-marker">
+      <span className="lsx-marker__num">{num}</span>
+      <span>{label}</span>
+      <span className="lsx-marker__line" aria-hidden="true" />
+    </div>
+  );
+}
+
+function Fig({ src, alt }: { src: string; alt: string }) {
+  return (
+    <figure className="lsx-fig">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt={alt} loading="lazy" draggable={false} />
+    </figure>
+  );
+}
+
+function Rows({ items }: { items: string[] }) {
+  return (
+    <div className="lsx-rows">
+      {items.map((text, i) => (
+        <div className="lsx-row" key={i}>
+          <span className="lsx-row__idx">{String(i + 1).padStart(2, "0")}</span>
+          <p className="lsx-row__txt">{text}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function ProjectLockScreen() {
   return (
     <SeeDetailProvider>
-    <main className="w-full py-4 md:py-8">
-      <Link
-          href="/"
-          className="inline-flex items-center text-[var(--nav-fg)] hover:text-[var(--accent)] mb-8 transition-colors"
-        >
-          ← Back to Story
-        </Link>
+      <div className="lsx-root">
+        <nav className="lsx-nav" aria-label="Primary">
+          <Link href="/" className="lsx-nav__mark">
+            Xueyi Zhou
+          </Link>
+          <Link href="/" className="lsx-nav__link">
+            &larr; Back to home
+          </Link>
+        </nav>
 
-      <ResponsiveImg
-        src={project.images.hero[0]}
-        alt={project.title}
-      />
+        {/* ── Hero ─────────────────────────────────────────────── */}
+        <header className="lsx-section lsx-hero">
+          <div className="lsx-wrap">
+            <div className="lsx-hero__kicker">
+              Case study &middot; Xiaomi MIUI 15 &middot; 2023
+            </div>
+            <h1 className="lsx-hero__title">{project.title}</h1>
+            <div className="lsx-hero__row">
+              <span className="lsx-hero__meta">{project.subtitle}</span>
+              <SeeDetailButton />
+            </div>
+            <Fig src={project.images.hero[0]} alt="Lock screen personalization editing cover" />
+          </div>
+        </header>
 
-      <PageHeader
-        subtitle={project.subtitle}
-        title={project.title}
-        action={<SeeDetailButton />}
-      />
+        {/* ── 01 · Overview ────────────────────────────────────── */}
+        <section className="lsx-section">
+          <div className="lsx-wrap">
+            <Marker num="01" label="Overview" />
+            <div className="lsx-grid3">
+              <div>
+                <div className="lsx-label">Overview</div>
+                <p className="lsx-body">{project.overview}</p>
+              </div>
+              <div>
+                <div className="lsx-label">My contributions</div>
+                <ul className="lsx-plain-list">
+                  {project.contributions.map((c, i) => (
+                    <li key={i}>{c}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <div className="lsx-label">Team</div>
+                <ul className="lsx-plain-list">
+                  {project.team.map((t, i) => (
+                    <li key={i}>{t}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
 
-      <SectionDivider />
+        {/* ── 02 · Background ──────────────────────────────────── */}
+        <section className="lsx-section">
+          <div className="lsx-wrap">
+            <Marker num="02" label="Project background" />
+            <p className="lsx-body">{project.background}</p>
+            <Fig src={project.images.hero[1]} alt="The seven new lock screen designs" />
+          </div>
+        </section>
 
-      {/* Overview */}
-      <Project3Col
-      overview={project.overview}
-      contributions={project.contributions}
-      team={project.team}
-      />
+        {/* ── 03 · Competitor analysis ─────────────────────────── */}
+        <section className="lsx-section">
+          <div className="lsx-wrap">
+            <Marker num="03" label="Competitor analysis" />
+            <Rows items={project.competitorFindings} />
+            <Fig src={project.images.competitor[0]} alt="Competitor lock screen editing flows" />
+            <Fig src={project.images.competitor[1]} alt="Competitor template galleries compared" />
+          </div>
+        </section>
 
-      <SectionDivider />
+        {/* ── 04 · Principles & strategies ─────────────────────── */}
+        <section className="lsx-section">
+          <div className="lsx-wrap">
+            <Marker num="04" label="Design principles &amp; strategies" />
+            <Rows items={project.designPrinciples} />
 
-      <TwoCol title="Project Background" children={project.background} />
+            <h2 className="lsx-sub">Product strategies</h2>
 
-      <ResponsiveImg 
-        src={project.images.hero[1]} 
-        alt={project.title} 
-      />
+            <p className="lsx-note">{project.strategies[0]}</p>
+            <Fig src={project.images.strategy[0]} alt="Classic lock screen preset combinations" />
+            <Fig src={project.images.strategy[1]} alt="Diamond Time preset combinations" />
 
-      <SectionDivider />
+            <p className="lsx-note">{project.strategies[1]}</p>
+            <Fig src={project.images.strategy[2]} alt="Image Magazine style expansion" />
 
-      <TwoCol title="Competitor Analysis">
-        <div className="space-y-4 leading-relaxed">
-          {project.competitorFindings.map((text, i) => (
-          <li key={i}>{text}</li>
-          ))}
-        </div>
-      </TwoCol>
+            <p className="lsx-note">{project.strategies[2]}</p>
+            <Fig src={project.images.strategy[3]} alt="Basic customization ability across all sets" />
+          </div>
+        </section>
 
-      <ResponsiveImg 
-        src={project.images.competitor[0]} 
-        alt={project.title} 
-      />
-      <ResponsiveImg 
-        src={project.images.competitor[1]} 
-        alt={project.title} 
-      />
+        {/* ── 05 · Final model ─────────────────────────────────── */}
+        <section className="lsx-section">
+          <div className="lsx-wrap">
+            <Marker num="05" label="Final model highlights" />
+            <Rows items={project.finalModelHighlights} />
+            <Fig src={project.images.final[0]} alt="Final editing model, template preview panel" />
+            <Fig src={project.images.final[1]} alt="Vertical template switching" />
+            <Fig src={project.images.final[2]} alt="Horizontal preset variation switching" />
+            <Fig src={project.images.final[3]} alt="Instant apply from the top-right button" />
+            <Fig src={project.images.final[4]} alt="Customization framework overview" />
+          </div>
+        </section>
 
-      <SectionDivider />
+        {/* ── 06 · Usability results ───────────────────────────── */}
+        <section className="lsx-section">
+          <div className="lsx-wrap">
+            <Marker num="06" label="Usability results" />
+            <Rows items={project.usabilityFocus} />
+          </div>
+        </section>
 
-      <TwoCol title="Design Principles / Goals">
-        <div className="space-y-4 leading-relaxed">
-          {project.designPrinciples.map((text, i) => (
-          <li key={i}>{text}</li>
-          ))}
-        </div>
-      </TwoCol>
-
-      <div className="w-full my-4 md:my-8 text-lg md:text-2xl font-bold text-[var(--nav-fg)]">
-      Product Strategies
+        {/* ── CTA ──────────────────────────────────────────────── */}
+        <section className="lsx-section">
+          <div className="lsx-wrap">
+            <p className="lsx-cta__line">Want the full walkthrough, with every flow and iteration?</p>
+            <SeeDetailButton />
+            <div className="lsx-cta__hint">6-digit password required &middot; or email me for access</div>
+          </div>
+        </section>
       </div>
-
-      <div className="w-full my-3 md:my-6 text-sm md:text-base text-[var(--nav-fg)]">
-      {project.strategies[0]}
-      </div>
-
-      <ResponsiveImg 
-        src={project.images.strategy[0]} 
-        alt={project.title} 
-      />
-      <ResponsiveImg 
-        src={project.images.strategy[1]} 
-        alt={project.title} 
-      />
-
-      <div className="w-full my-3 md:my-6 text-sm md:text-base text-[var(--nav-fg)]">
-      {project.strategies[1]}
-      </div>
-
-      <ResponsiveImg 
-        src={project.images.strategy[2]} 
-        alt={project.title} 
-      />
-
-      <div className="w-full my-3 md:my-6 text-sm md:text-base text-[var(--nav-fg)]">
-      {project.strategies[2]}
-      </div>
-
-      <ResponsiveImg 
-        src={project.images.strategy[3]} 
-        alt={project.title} 
-      />
-
-      <SectionDivider />
-
-      <TwoCol title="Final Model Highlights">
-        <div className="space-y-4 leading-relaxed">
-          {project.finalModelHighlights.map((text, i) => (
-          <li key={i}>{text}</li>
-          ))}
-        </div>
-      </TwoCol>
-
-      <ResponsiveImg 
-        src={project.images.final[0]} 
-        alt={project.title} 
-      />
-      <ResponsiveImg 
-        src={project.images.final[1]} 
-        alt={project.title} 
-      />
-      <ResponsiveImg 
-        src={project.images.final[2]} 
-        alt={project.title} 
-      />
-
-      <ResponsiveImg 
-        src={project.images.final[3]} 
-        alt={project.title} 
-      />
-
-      <ResponsiveImg 
-        src={project.images.final[4]} 
-        alt={project.title} 
-      />
-      
-      <SectionDivider />
-
-      <TwoCol title="Usability Results">
-        <div className="space-y-4 leading-relaxed">
-          {project.usabilityFocus.map((text, i) => (
-          <li key={i}>{text}</li>
-          ))}
-        </div>
-      </TwoCol>
-
-      {/* Bottom "See Detail" CTA */}
-      <div className="w-full py-12 flex justify-center">
-        <SeeDetailButton />
-      </div>
-
-    </main>
     </SeeDetailProvider>
   );
 }

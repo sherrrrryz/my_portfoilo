@@ -15,15 +15,7 @@ Optional skill (for Claude sessions that install it): `~/.claude/skills/scroll-e
 
 ## Legacy isolation · OFF-LIMITS paths
 
-The Xiaomi lockscreen case study is an **older artifact kept intact** to be reused in the future once the new Projects page is built. It must stay isolated from the new homepage codebase. **Do not edit, rename, move, refactor, reformat, or import from any of the following.** If a task tempts you to touch them, stop and ask the user.
-
-**Lockscreen page + modal:**
-```
-app/projects/lockscreen/page.tsx
-app/projects/lockscreen/SeeDetailButton.tsx
-app/projects/lockscreen/SeeDetailContext.tsx
-app/projects/lockscreen/SeeDetailModal.tsx
-```
+The Xiaomi lockscreen **detail deck** is an **older artifact kept intact**. It must stay isolated from the new codebase. **Do not edit, rename, move, refactor, reformat, or import from any of the following.** If a task tempts you to touch them, stop and ask the user.
 
 **Lockscreen detail (full slide deck):**
 ```
@@ -34,7 +26,9 @@ app/projects/lockscreen/detail/components/**    (all slide components)
 app/projects/lockscreen/detail/hooks/**         (presentation hooks)
 ```
 
-**Shared primitives that lockscreen depends on — kept only for its sake:**
+**No longer off-limits (redesigned 2026-07-04):** the case-study landing (`app/projects/lockscreen/page.tsx`, `SeeDetailButton/Context/Modal.tsx`) was restyled to match the homepage's monochrome editorial look. It now imports `_styles/tokens.css` and styles itself via `app/projects/lockscreen/lockscreen.css` (`lsx-` prefix). The SeeDetail password gate and contact form logic are unchanged.
+
+**Orphaned legacy primitives — kept in the tree, still don't edit or import them:**
 ```
 app/components/fadeIn.tsx
 app/components/pageheader.tsx
@@ -43,10 +37,11 @@ app/components/projectimg.tsx
 app/components/sectionDivider.tsx
 app/components/twocol.tsx
 ```
+The redesigned landing page dropped these; nothing imports them anymore. Delete only with explicit user approval.
 
-**Shared `app/globals.css`** — read-only for us. It declares legacy CSS variables (`--accent: #2EA82C`, `.prose`, `.dark` mode ramp, MDX typography) that lockscreen consumes. The new design system in `app/_styles/tokens.css` is **separate** — imported only from `app/page.tsx`. Don't merge the two, don't collapse variables across them, don't add `@import` from one file to the other.
+**Shared `app/globals.css`** — read-only for us. It declares legacy CSS variables (`--accent: #2EA82C`, `.prose`, `.dark` mode ramp, MDX typography) that the detail deck consumes. The new design system in `app/_styles/tokens.css` is **separate** — imported from `app/page.tsx` and `app/projects/lockscreen/page.tsx`. Don't merge the two, don't collapse variables across them, don't add `@import` from one file to the other.
 
-**Isolation rule in one line:** the homepage (`/`) and the lockscreen route (`/projects/lockscreen/**`) must never share a TSX import, and their styling lives in two separate files. The only shared file is `globals.css`, which neither side rewrites.
+**Isolation rule in one line:** the homepage (`/`) and the lockscreen route (`/projects/lockscreen/**`) must never share a TSX import, and each keeps its page styles in its own CSS file (`simple.css` vs `lockscreen.css`); they may both consume `_styles/tokens.css`. The only other shared file is `globals.css`, which neither side rewrites.
 
 ## Other hard constraints
 
@@ -89,8 +84,8 @@ Before writing a new component, walk this ladder in order. Stop at the first ste
 
 - `/` — homepage, plain monochrome edition (`app/page.tsx` + `app/simple.css`)
 - `/simple` — 308 permanent redirect to `/` (the page used to live there; see `next.config.ts`)
-- `/projects/lockscreen` — case study landing (OFF-LIMITS)
-- `/projects/lockscreen/detail` — case study deep-dive (OFF-LIMITS)
+- `/projects/lockscreen` — case study landing, monochrome edition (`app/projects/lockscreen/page.tsx` + `lockscreen.css`)
+- `/projects/lockscreen/detail` — case study deep-dive slide deck (OFF-LIMITS)
 
 Archives: git tag `archive/story-page` holds the scroll-driven Story homepage (plus the `/lab/ds` and `/lab/reveal` playgrounds) that `/` replaced; `archive/pre-flashlight-only` is the pre-rewrite site.
 
