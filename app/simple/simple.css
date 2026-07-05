@@ -24,9 +24,11 @@
 /* Page background swaps at section boundaries (same recipe as the home
    page's body[data-theme] flip): a ScrollTrigger in page.tsx toggles
    data-bg on .sm-root; this 0.4s transition smooths the swap.
-   No attribute = plain white paper (hero + 01). */
+   No attribute = plain white paper (hero + 01). --sm-bg carries the
+   current color so the sticky nav's backdrop can mix from it too. */
 .sm-root {
-  background: var(--sm-paper);
+  --sm-bg: var(--sm-paper);
+  background: var(--sm-bg);
   transition: background-color 0.4s ease;
   color: var(--sm-ink);
   font-family: var(--font-sans);
@@ -38,11 +40,11 @@
 }
 
 .sm-root[data-bg='mid'] {
-  background: var(--sm-bg-mid);
+  --sm-bg: var(--sm-bg-mid);
 }
 
 .sm-root[data-bg='tail'] {
-  background: var(--sm-bg-tail);
+  --sm-bg: var(--sm-bg-tail);
 }
 
 .sm-root ::selection {
@@ -122,9 +124,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 18px clamp(16px, 3vw, 40px);
-  background: color-mix(in srgb, var(--sm-paper) 82%, transparent);
+  background: color-mix(in srgb, var(--sm-bg) 82%, transparent);
   backdrop-filter: saturate(1.4) blur(10px);
   border-bottom: 1px solid var(--sm-line);
+  transition: background-color 0.4s ease;
 }
 .sm-nav__mark {
   font-family: var(--font-mono);
