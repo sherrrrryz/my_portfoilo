@@ -327,7 +327,9 @@
   letter-spacing: var(--tracking-wide);
   color: var(--sm-ink-3);
 }
-.sm-means__text-link { color: inherit; text-decoration: none; }
+/* cursor: inherit keeps the row's 👀 emoji cursor (set inline from
+   MeanRow via emojiCursor()) instead of the UA's pointer. */
+.sm-means__text-link { color: inherit; text-decoration: none; cursor: inherit; }
 .sm-means__text-link:hover,
 .sm-means__text-link:focus-visible {
   text-decoration: underline;

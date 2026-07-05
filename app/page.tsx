@@ -503,7 +503,7 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
     <div className="sm-mean__head" ref={headRef}>
       <span className="sm-means__idx">{String(idx + 1).padStart(2, '0')}</span>
       <div>
-        <p className="sm-means__text">
+        <p className="sm-means__text" style={{ cursor: emojiCursor('👀') }}>
           {m.href ? (
             <Link href={m.href} className="sm-means__text-link">
               {m.text}
