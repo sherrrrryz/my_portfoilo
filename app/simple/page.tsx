@@ -1209,7 +1209,6 @@ export default function SimplePage() {
           <h2 className="sm-h sm-h--sm">
             Curiosity doesn&rsquo;t stop at the office door.
           </h2>
-          <div className="sm-sublabel">Off the clock · five side projects</div>
           <OffClock />
         </div>
       </section>
