@@ -6,7 +6,9 @@
    but hard-locks to a neutral grayscale so nothing tints.
 ============================================================================ */
 
-.sm-root {
+/* Scoped on .sm-oc-lb too: the lightbox portals to <body>, outside .sm-root. */
+.sm-root,
+.sm-oc-lb {
   --sm-paper:   #ffffff;
   --sm-ink:     #111111;
   --sm-ink-2:   #444444;   /* body */
@@ -14,7 +16,9 @@
   --sm-line:    #e6e6e6;   /* hairline */
   --sm-line-2:  #d2d2d2;   /* stronger hairline */
   --sm-fill:    #f4f4f4;   /* faint block fill */
+}
 
+.sm-root {
   background: var(--sm-paper);
   color: var(--sm-ink);
   font-family: var(--font-sans);
@@ -970,64 +974,193 @@
   color: var(--sm-paper);
 }
 
-/* ── Evidence: tag field ───────────────────────────────────────── */
-.sm-tags {
-  margin-top: clamp(40px, 7vh, 72px);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.sm-tag {
-  font-size: var(--text-sm);
-  padding: 9px 16px;
-  border-radius: var(--radius-pill);
-  line-height: 1;
-  white-space: nowrap;
-}
-.sm-tag--solid { background: var(--sm-ink); color: var(--sm-paper); font-weight: var(--font-medium); }
-.sm-tag--ghost { border: 1px solid var(--sm-line-2); color: var(--sm-ink-3); }
-
-/* ── Curiosity ─────────────────────────────────────────────────── */
-.sm-bio {
-  margin-top: clamp(40px, 7vh, 72px);
+/* ── Curiosity · off-the-clock piles ───────────────────────────── */
+.sm-oc {
+  margin-top: clamp(28px, 5vh, 48px);
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: clamp(28px, 5vw, 72px);
-  align-items: start;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(32px, 5vh, 56px) clamp(24px, 3.5vw, 48px);
 }
-.sm-bio__body { display: grid; gap: 18px; }
-.sm-bio__body p {
+.sm-oc-card {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
   margin: 0;
+  font: inherit;
+  text-align: left;
+  display: block;
+}
+.sm-oc-card:focus-visible { outline: 2px solid var(--sm-ink); outline-offset: 4px; }
+
+.sm-oc-pile {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+}
+.sm-oc-pile__img {
+  position: absolute;
+  inset: 7% 9%;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--sm-fill);
+  border: 1px solid var(--sm-line);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 10px 24px rgba(0, 0, 0, 0.1);
+  filter: grayscale(1) contrast(1.02);
+  transition:
+    transform var(--duration-slow) var(--ease-out),
+    filter var(--duration-slow) var(--ease-out);
+}
+.sm-oc-pile__img img { object-fit: cover; }
+.sm-oc-pile__img[data-i='0'] { transform: rotate(-5deg) translate(-5%, 3%); z-index: 1; }
+.sm-oc-pile__img[data-i='1'] { transform: rotate(4deg) translate(5%, -2%); z-index: 2; }
+.sm-oc-pile__img[data-i='2'] { transform: rotate(-1deg) translate(0, 1%); z-index: 3; }
+
+.sm-oc-card:hover .sm-oc-pile__img,
+.sm-oc-card:focus-visible .sm-oc-pile__img { filter: grayscale(0) contrast(1); }
+.sm-oc-card:hover .sm-oc-pile__img[data-i='0'],
+.sm-oc-card:focus-visible .sm-oc-pile__img[data-i='0'] { transform: rotate(-9deg) translate(-11%, 5%); }
+.sm-oc-card:hover .sm-oc-pile__img[data-i='1'],
+.sm-oc-card:focus-visible .sm-oc-pile__img[data-i='1'] { transform: rotate(8deg) translate(11%, -4%); }
+.sm-oc-card:hover .sm-oc-pile__img[data-i='2'],
+.sm-oc-card:focus-visible .sm-oc-pile__img[data-i='2'] { transform: rotate(-2deg) translate(0, -2%); }
+
+.sm-oc-card__title {
+  display: block;
+  margin-top: 18px;
   font-size: var(--text-md);
-  line-height: var(--leading-relaxed);
+  font-weight: var(--font-semibold);
+  color: var(--sm-ink);
+}
+.sm-oc-card__tag {
+  display: block;
+  margin-top: 4px;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
   color: var(--sm-ink-2);
 }
-.sm-bio__body strong { color: var(--sm-ink); font-weight: var(--font-semibold); }
-
-.sm-photos {
-  margin-top: clamp(40px, 7vh, 80px);
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(10px, 1.4vw, 18px);
-}
-.sm-photo {
-  position: relative;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  border-radius: var(--radius-sm);
-  background: var(--sm-fill);
-  filter: grayscale(1) contrast(1.02);
-  transition: filter var(--duration-slow) var(--ease-out);
-}
-.sm-photo:hover { filter: grayscale(0) contrast(1); }
-.sm-photo img { object-fit: cover; }
-.sm-photos__note {
-  grid-column: 1 / -1;
-  margin-top: 6px;
+.sm-oc-card__meta {
+  display: block;
+  margin-top: 8px;
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
+  color: var(--sm-ink-3);
+}
+
+/* ── Curiosity · lightbox ──────────────────────────────────────── */
+.sm-oc-lb {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(255, 255, 255, 0.94);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(12px, 3vw, 40px);
+  color: var(--sm-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  -webkit-font-smoothing: antialiased;
+}
+.sm-oc-lb__panel {
+  width: min(1000px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  background: var(--sm-paper);
+  border: 1px solid var(--sm-line-2);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+  padding: clamp(18px, 3vw, 32px);
+}
+.sm-oc-lb__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.sm-oc-lb__title {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--sm-ink);
+}
+.sm-oc-lb__close {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0 4px;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--sm-ink-3);
+  cursor: pointer;
+}
+.sm-oc-lb__close:hover { color: var(--sm-ink); }
+.sm-oc-lb__blurb {
+  margin: 10px 0 0;
+  max-width: 62ch;
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--sm-ink-2);
+}
+.sm-oc-lb__fig { margin: clamp(16px, 2.5vh, 24px) 0 0; }
+.sm-oc-lb__fig img,
+.sm-oc-lb__fig video {
+  display: block;
+  width: 100%;
+  max-height: 62vh;
+  object-fit: contain;
+  background: var(--sm-fill);
+  border-radius: var(--radius-sm);
+}
+.sm-oc-lb__cap {
+  margin-top: 10px;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--sm-ink-3);
+}
+.sm-oc-lb__nav {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--sm-line);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.sm-oc-lb__nav > button {
+  appearance: none;
+  background: none;
+  border: 1px solid var(--sm-line-2);
+  border-radius: 999px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  color: var(--sm-ink);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+.sm-oc-lb__nav > button:hover { background: var(--sm-fill); }
+.sm-oc-lb__dots { display: flex; gap: 8px; margin-left: 4px; }
+.sm-oc-lb__dot {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--sm-line-2);
+  cursor: pointer;
+}
+.sm-oc-lb__dot[data-active] { background: var(--sm-ink); }
+.sm-oc-lb__count {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
   color: var(--sm-ink-3);
 }
 
@@ -1079,14 +1212,15 @@
 /* ── responsive ────────────────────────────────────────────────── */
 @media (max-width: 860px) {
   .sm-flip { grid-template-columns: 1fr; }
-  .sm-bio { grid-template-columns: 1fr; }
-  .sm-photos { grid-template-columns: repeat(2, 1fr); }
+  .sm-oc { grid-template-columns: repeat(2, 1fr); }
   .sm-ww { grid-template-columns: repeat(2, 1fr); }
   /* Tight quarters: hint badge would collide with neighboring words; hide. */
   .sm-phrase-hint { display: none; }
   .sm-phrase-card { width: min(360px, calc(100vw - 32px)); }
 }
 @media (max-width: 520px) {
+  .sm-oc { grid-template-columns: 1fr; }
+  .sm-oc-pile { max-width: 420px; }
   .sm-means__head { grid-template-columns: 1fr; gap: 8px; }
   .sm-means__idx { padding-top: 0; }
   .sm-ls-grid { grid-template-columns: repeat(3, 1fr); }

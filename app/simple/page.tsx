@@ -536,37 +536,6 @@ const PHRASES = [
   },
 ];
 
-const RESEARCH = [
-  "Xiaomi's first design research project",
-  '100+ automotive HCI papers',
-  'Cursor research report',
-  'Designer workflow survey',
-];
-
-const METHODS = [
-  'Competitive analysis',
-  'User interviews',
-  'Usability testing',
-  'A/B testing',
-  'Survey design',
-  'Heuristic evaluation',
-  'Contextual inquiry',
-  'Affinity mapping',
-  'Card sorting',
-  'Journey mapping',
-];
-
-const PHOTOS = [
-  '/photos/photo1.jpg',
-  '/photos/photo2.jpg',
-  '/photos/photo3.jpg',
-  '/photos/photo4.jpg',
-  '/photos/photo5.jpg',
-  '/photos/photo6.jpg',
-  '/photos/photo1.jpg',
-  '/photos/photo3.jpg',
-];
-
 /* Underlined phrase inside the For-Teams quote. Hover (or focus for keyboard
    users) opens a large card above the phrase with the bullet points that used
    to sit in the 4-column grid below. A small pulsing "hover" badge on the first
@@ -708,6 +677,348 @@ function Tenets() {
   );
 }
 
+/* Off-the-clock projects for the Curiosity section. Each card is a small pile
+   of overlapping photos; clicking opens a lightbox with a per-item caption.
+   Media live under /public/simple/off-clock/. */
+type OcMedia = {
+  kind: 'image' | 'video';
+  src: string;
+  caption: string;
+};
+
+type OcProject = {
+  id: string;
+  title: string;
+  tagline: string;
+  blurb: string;
+  emoji: string;
+  stack: string[];
+  media: OcMedia[];
+};
+
+const OC = '/simple/off-clock';
+
+const OFF_CLOCK: OcProject[] = [
+  {
+    id: 'provis',
+    title: 'Seeing scent',
+    tagline: 'PROVis, a research tool that gives perfume a visual language.',
+    blurb:
+      'Fragrance data is rich but trapped in text. PROVis translates ingredients, notes and chemistry into flat graphic patterns, so perfumes can be browsed, compared and composed by eye. Wrapped up as an academic design study.',
+    emoji: '🌸',
+    stack: [`${OC}/provis/drop.jpg`, `${OC}/provis/system.jpg`, `${OC}/provis/explorer.jpg`],
+    media: [
+      {
+        kind: 'image',
+        src: `${OC}/provis/system.jpg`,
+        caption:
+          'The rule set. A real plant is traced into a flat profile, its colors sampled and softened into background and foreground elements.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/provis/drop.jpg`,
+        caption:
+          'One drop per perfume. Top, heart and base notes stack into translucent layers, and the drop fades the way a scent does over time.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/provis/explorer.jpg`,
+        caption:
+          'The explorer concept. A fragrance roulette to browse families, chemical charts to compare two bottles, and cards that unpack each formula.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/provis/paper.jpg`,
+        caption:
+          'The write-up. PROVis, a Perfume Relational Omni-dimensional Visualization Tool, structured as an application and design study.',
+      },
+    ],
+  },
+  {
+    id: 'tactile',
+    title: 'Graphics you can touch',
+    tagline: 'Research on graphical tactile displays for visually impaired users.',
+    blurb:
+      'Screens assume sight. At Tsinghua I co-authored an interactive system for graphical tactile devices: a haptic interface, a voice interface and a universal keyboard, tested with visually impaired students down to the braille spacing rules.',
+    emoji: '🤲',
+    stack: [`${OC}/tactile/page-2.jpg`, `${OC}/tactile/page-1.jpg`, `${OC}/tactile/page-4.jpg`],
+    media: [
+      {
+        kind: 'image',
+        src: `${OC}/tactile/page-1.jpg`,
+        caption:
+          'The paper. An interactive system combining touch, voice and a universal keyboard, grounded in interviews and the state of Chinese braille.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/tactile/page-2.jpg`,
+        caption:
+          'Why it matters. Existing tactile displays are driven by memorized clicking buttons, so we drew principles from how blind users actually plan, confirm and recover.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/tactile/page-3.jpg`,
+        caption:
+          'The braille lattice experiment. Seven visually impaired students read two arrangements; the one that scored 90 to 100 percent became the layout rule.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/tactile/page-4.jpg`,
+        caption:
+          'Definition symbols and the keyboard. 3x3 dot-matrix shapes mark what is clickable, and hotkeys follow habits blind users already have.',
+      },
+    ],
+  },
+  {
+    id: 'lego',
+    title: 'Scrapbots at LEGO House',
+    tagline: 'A co-creation sprint in Billund, rewiring the City Architect table.',
+    blurb:
+      'One brief, an international team of seven, a few days inside LEGO House: get families building again in the City Architect experience. Our answer was Scrapbots, scrappy solar-powered robots that keep the LEGO city clean while players keep it powered.',
+    emoji: '🧱',
+    stack: [`${OC}/lego/team.jpg`, `${OC}/lego/poster.jpg`],
+    media: [
+      {
+        kind: 'video',
+        src: `${OC}/lego/house.mp4`,
+        caption: 'The prototype in motion, filmed at LEGO House.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/lego/poster.jpg`,
+        caption:
+          'The pitch. Scraps pile up, Scrapbots sweep in, and the loop runs on solar power that players redirect with mirrored reflectors they build themselves.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/lego/team.jpg`,
+        caption: 'Team Scrapbots in the LEGO House workshop book.',
+      },
+    ],
+  },
+  {
+    id: 'experiments',
+    title: 'Rooms, robots, patterns',
+    tagline: 'Little installations from school years. Sound, cardboard and code.',
+    blurb:
+      'Three experiments that never asked for permission. A pitch-black room that replays the same street three different ways, a choir of emoji boxes with a LEGO brain, and a long generative strip.',
+    emoji: '🔊',
+    stack: [`${OC}/experiments/emoji.jpg`, `${OC}/experiments/strip.jpg`, `${OC}/experiments/room.jpg`],
+    media: [
+      {
+        kind: 'video',
+        src: `${OC}/experiments/installation.mp4`,
+        caption: 'A walkthrough of the sound room.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/experiments/room.jpg`,
+        caption: 'One window, one visitor. Everything else is speakers.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/experiments/sounds.jpg`,
+        caption:
+          'Three sound sets, three worlds. The same room turns into a storm, a drizzle or a lazy morning depending on what you hear.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/experiments/texts.jpg`,
+        caption: 'The premise. What we hear draws the limit of what we imagine.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/experiments/emoji.jpg`,
+        caption: 'Emoji, made physical. A wall of cardboard heads on a black stage.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/experiments/emoji-night.jpg`,
+        caption: 'Lights down. Each box glows on its cue.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/experiments/robot.jpg`,
+        caption: 'The stagehand. A LEGO NXT robot wired into the show.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/experiments/strip.jpg`,
+        caption: 'A generative pattern study, printed long.',
+      },
+    ],
+  },
+  {
+    id: 'linkly',
+    title: 'Linkly',
+    tagline: 'Where every travel link finds its place. UX certification, 2025.',
+    blurb:
+      'Trips are planned in links: maps, posts, screenshots, group chats. Linkly catches them, sorts them by trip and lays them out on a timeline. From interviews to persona to flows to refined screens.',
+    emoji: '✈️',
+    stack: [`${OC}/linkly/cover.jpg`, `${OC}/linkly/flow.jpg`, `${OC}/linkly/screens.jpg`],
+    media: [
+      {
+        kind: 'image',
+        src: `${OC}/linkly/cover.jpg`,
+        caption: 'The one-liner.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/linkly/research.jpg`,
+        caption:
+          'What travelers said. Scattered information, no structure, and collaboration that falls apart in group chats.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/linkly/persona.jpg`,
+        caption: 'Amanda, the default organizer. She wants control without spreadsheet-grade overhead.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/linkly/flow.jpg`,
+        caption: 'Creating a trip. Name it, date it, invite people, then just drop your links.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/linkly/screens.jpg`,
+        caption: 'Refined screens. Home, the trip link board and the trip timeline.',
+      },
+    ],
+  },
+];
+
+function OcLightbox({ p, onClose }: { p: OcProject; onClose: () => void }) {
+  const [i, setI] = useState(0);
+  const count = p.media.length;
+  const m = p.media[i];
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') setI((v) => (v + count - 1) % count);
+      if (e.key === 'ArrowRight') setI((v) => (v + 1) % count);
+    };
+    window.addEventListener('keydown', onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [onClose, count]);
+
+  return createPortal(
+    <motion.div
+      className="sm-oc-lb"
+      role="dialog"
+      aria-modal="true"
+      aria-label={p.title}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.18 }}
+      onClick={onClose}
+    >
+      <motion.div
+        className="sm-oc-lb__panel"
+        initial={{ y: 14, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 10, opacity: 0 }}
+        transition={{ duration: 0.22, ease: 'easeOut' }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <header className="sm-oc-lb__head">
+          <h3 className="sm-oc-lb__title">{p.title}</h3>
+          <button className="sm-oc-lb__close" onClick={onClose} aria-label="Close">
+            &times;
+          </button>
+        </header>
+        <p className="sm-oc-lb__blurb">{p.blurb}</p>
+
+        <figure className="sm-oc-lb__fig">
+          {m.kind === 'video' ? (
+            <video key={m.src} src={m.src} controls playsInline preload="metadata" />
+          ) : (
+            /* Plain <img>: lightbox media are pre-sized local JPEGs and swap on
+               every arrow press; next/image's layout props buy nothing here. */
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={m.src} src={m.src} alt={m.caption} />
+          )}
+          <figcaption className="sm-oc-lb__cap">{m.caption}</figcaption>
+        </figure>
+
+        <footer className="sm-oc-lb__nav">
+          <button onClick={() => setI((v) => (v + count - 1) % count)} aria-label="Previous">
+            &larr;
+          </button>
+          <div className="sm-oc-lb__dots" role="tablist" aria-label="Items">
+            {p.media.map((item, d) => (
+              <button
+                key={item.src + d}
+                className="sm-oc-lb__dot"
+                data-active={d === i || undefined}
+                onClick={() => setI(d)}
+                aria-label={`Item ${d + 1}`}
+              />
+            ))}
+          </div>
+          <span className="sm-oc-lb__count">
+            {i + 1} / {count}
+          </span>
+          <button onClick={() => setI((v) => (v + 1) % count)} aria-label="Next">
+            &rarr;
+          </button>
+        </footer>
+      </motion.div>
+    </motion.div>,
+    document.body,
+  );
+}
+
+function OffClock() {
+  const [openId, setOpenId] = useState<string | null>(null);
+  const open = OFF_CLOCK.find((p) => p.id === openId);
+
+  return (
+    <>
+      <div className="sm-oc">
+        {OFF_CLOCK.map((p) => (
+          <button
+            key={p.id}
+            className="sm-oc-card"
+            style={{ cursor: emojiCursor(p.emoji) }}
+            onClick={() => setOpenId(p.id)}
+            aria-haspopup="dialog"
+          >
+            <span className="sm-oc-pile">
+              {p.stack.map((src, i) => (
+                <span className="sm-oc-pile__img" data-i={i} key={src}>
+                  <Image
+                    src={src}
+                    alt=""
+                    fill
+                    sizes="(max-width: 860px) 90vw, 30vw"
+                    draggable={false}
+                  />
+                </span>
+              ))}
+            </span>
+            <span className="sm-oc-card__title">{p.title}</span>
+            <span className="sm-oc-card__tag">{p.tagline}</span>
+            <span className="sm-oc-card__meta">
+              {p.media.some((m) => m.kind === 'video') ? 'images + video' : `${p.media.length} images`}
+              {' · click to open'}
+            </span>
+          </button>
+        ))}
+      </div>
+      <AnimatePresence>
+        {open && <OcLightbox p={open} onClose={() => setOpenId(null)} />}
+      </AnimatePresence>
+    </>
+  );
+}
+
 function Marker({ num, label }: { num: string; label: string }) {
   return (
     <div className="sm-marker">
@@ -749,8 +1060,8 @@ export default function SimplePage() {
             AppLovin.
           </p>
           <p className="sm-hero__sub">
-            Designing for millions, for business, for teams, for evidence, and
-            out of plain curiosity.
+            Designing for millions, for business, for teams, and out of plain
+            curiosity.
           </p>
           <span className="sm-hero__scroll">Scroll to read &darr;</span>
         </div>
@@ -895,83 +1206,22 @@ export default function SimplePage() {
         </div>
       </section>
 
-      {/* ── 04 · For Evidence ────────────────────────────────── */}
+      {/* ── 04 · Curiosity ───────────────────────────────────── */}
       <section className="sm-section">
         <div className="sm-wrap">
-          <Marker num="04" label="For Evidence" />
-          <h2 className="sm-h sm-h--sm">
-            Every project I&rsquo;ve worked on started with a question I
-            couldn&rsquo;t answer from my desk.
-          </h2>
-          <div className="sm-tags">
-            {RESEARCH.map((t) => (
-              <span className="sm-tag sm-tag--solid" key={t}>
-                {t}
-              </span>
-            ))}
-            {METHODS.map((t) => (
-              <span className="sm-tag sm-tag--ghost" key={t}>
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── 05 · Curiosity ───────────────────────────────────── */}
-      <section className="sm-section">
-        <div className="sm-wrap">
-          <Marker num="05" label="Curiosity" />
+          <Marker num="04" label="Curiosity" />
           <h2 className="sm-h sm-h--sm">
             Curiosity doesn&rsquo;t stop at the office door.
           </h2>
-
-          <div className="sm-bio">
-            <div className="sm-bio__body">
-              <p>
-                I&rsquo;m a <strong>UX Designer</strong> who likes to mess with
-                systems, at work and off the clock.
-              </p>
-              <p>
-                By day I&rsquo;ve shipped features to <strong>700M phones</strong>,
-                run <strong>40-person workshops</strong>, and rebuilt the
-                onboarding flow that quietly prints revenue for a few OEMs.
-              </p>
-              <p>
-                Off the clock I build little iOS toys, teach my{' '}
-                <strong>two cats</strong> new tricks, and chase one more run down
-                the slope.
-              </p>
-              <p>
-                Currently open to <strong>new adventures</strong>. If you&rsquo;re
-                building for real people, let&rsquo;s talk.
-              </p>
-            </div>
-
-            <div className="sm-photos">
-              {PHOTOS.map((src, i) => (
-                <div className="sm-photo" key={`${src}-${i}`}>
-                  <Image
-                    src={src}
-                    alt=""
-                    fill
-                    sizes="(max-width: 860px) 45vw, 22vw"
-                    draggable={false}
-                  />
-                </div>
-              ))}
-              <span className="sm-photos__note">
-                Things I keep chasing off the clock
-              </span>
-            </div>
-          </div>
+          <div className="sm-sublabel">Off the clock · five side projects</div>
+          <OffClock />
         </div>
       </section>
 
       {/* ── Contact ──────────────────────────────────────────── */}
       <footer className="sm-section sm-contact">
         <div className="sm-wrap">
-          <Marker num="06" label="Say hello" />
+          <Marker num="05" label="Say hello" />
           <h2 className="sm-h sm-h--sm">Let&rsquo;s build for real people.</h2>
           <a className="sm-contact__mail" href="mailto:sherrrrrryz@gmail.com">
             sherrrrrryz@gmail.com
