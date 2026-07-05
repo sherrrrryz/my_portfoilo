@@ -275,26 +275,43 @@
   margin-bottom: clamp(28px, 4vh, 44px);
 }
 
-/* G1 — full-bleed lockscreen strip, revealed on row hover.
+/* G1 — full-bleed lockscreen strip, revealed automatically once the row
+   scrolls into place (an IntersectionObserver in page.tsx flips .sm-open,
+   one-way). The reveal animates grid-template-rows 0fr → 1fr instead of
+   max-height: the strip grows to its exact content height, so the ease
+   completes fully at every viewport size instead of getting cut mid-curve.
    Images keep their natural ratio (fixed height, auto width) and scroll
    left → right in an infinite loop. Breaks out of the content column. */
 .sm-ls-strip {
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-top: 0;
-  /* room inside the clip box so the images' drop shadows aren't cut off */
-  padding-block: 10px 40px;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.7s var(--ease-out),
+              margin-top 0.7s var(--ease-out);
+}
+/* the collapsing cell: clips the track while 0fr, and carries a small
+   fade + rise of its own so the images settle in rather than snap */
+.sm-ls-strip__in {
+  min-height: 0;
   overflow: hidden;
-  max-height: 0;
   opacity: 0;
-  transition: max-height 0.5s var(--ease-out),
-              opacity 0.35s var(--ease-out),
-              margin-top 0.5s var(--ease-out);
+  transform: translateY(10px);
+  transition: opacity 0.45s var(--ease-out) 0.1s,
+              transform 0.7s var(--ease-out);
 }
 .sm-ls-track {
   display: flex;
   width: max-content;
+  /* room inside the clip box so the images' drop shadows aren't cut off */
+  padding-block: 10px 40px;
   animation: sm-ls-marquee 80s linear infinite;
+}
+/* closed strips don't need their marquee ticking — pausing them keeps the
+   compositor free while the reveal's height animation runs */
+.sm-mean:not(.sm-open) .sm-ls-track {
+  animation-play-state: paused;
 }
 .sm-ls-track img {
   height: clamp(220px, 30vh, 380px);
@@ -309,15 +326,14 @@
 .sm-ls-track--groups img:nth-child(3n) {
   margin-right: clamp(48px, 6vw, 112px);
 }
-/* revealed once the row has been hovered; stays open until page refresh */
-.sm-mean--ls.sm-open .sm-ls-strip,
-.sm-mean--ds.sm-open .sm-ls-strip,
-.sm-mean--fold.sm-open .sm-ls-strip,
-.sm-mean--touch.sm-open .sm-ls-strip,
-.sm-mean--misc.sm-open .sm-ls-strip {
-  max-height: 480px;
-  opacity: 1;
+/* revealed once the row has scrolled into place; stays open until refresh */
+.sm-mean.sm-open .sm-ls-strip {
+  grid-template-rows: 1fr;
   margin-top: clamp(12px, 2.4vh, 32px);
+}
+.sm-mean.sm-open .sm-ls-strip__in {
+  opacity: 1;
+  transform: none;
 }
 
 /* left → right loop: the track holds two identical copies, so shifting one
@@ -328,6 +344,9 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .sm-ls-track { animation: none; }
+  /* strips still appear (they're content), just without the growth motion */
+  .sm-ls-strip,
+  .sm-ls-strip__in { transition: none; }
 }
 
 /* G3 — A/B vote */

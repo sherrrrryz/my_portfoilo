@@ -365,11 +365,74 @@ function WorkshopCell({ w }: { w: (typeof WORKSHOP)[number] }) {
   );
 }
 
+/* Shared timestamp so strips that qualify at (nearly) the same moment open
+   as a short cascade instead of one big simultaneous layout jump. */
+let lastStripOpenAt = 0;
+const STRIP_STAGGER_MS = 260;
+
 /* One "It means" row. Its visual (lockscreen / before-after / foldable strip)
-   opens on first hover and STAYS open — it only resets on a page refresh.
-   `open` is one-way: once true it never goes back to false. */
+   opens by itself once the row scrolls into place and STAYS open — it only
+   resets on a page refresh. `open` is one-way: once true it never flips back.
+
+   Trigger is an IntersectionObserver rather than GSAP ScrollTrigger on
+   purpose: each strip that opens pushes the rows below it ~400px down, so
+   any trigger position computed up front goes stale after the first reveal.
+   IO evaluates live geometry, so every row still fires at the same visual
+   line (its head entering the top ~68% of the viewport).
+
+   A second, much earlier observer flips `near` one viewport ahead, swapping
+   the strip's images from lazy to eager so they're decoded before the
+   reveal starts — no pop-in while the strip is growing. */
 function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
+  const headRef = useRef<HTMLDivElement | null>(null);
+  const [near, setNear] = useState(false);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (open) return;
+    const el = headRef.current;
+    if (!el) return;
+
+    const nearIO = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setNear(true);
+        nearIO.disconnect();
+      },
+      { rootMargin: '100% 0px 100% 0px' },
+    );
+    nearIO.observe(el);
+
+    let timer: number | undefined;
+    const openIO = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        openIO.disconnect();
+        const now = performance.now();
+        const delay = Math.max(0, lastStripOpenAt + STRIP_STAGGER_MS - now);
+        lastStripOpenAt = now + delay;
+        timer = window.setTimeout(() => {
+          setNear(true);
+          setOpen(true);
+        }, delay);
+      },
+      /* Fires once the head crosses the top ~68% of the viewport. The huge
+         top margin keeps everything ABOVE that line inside the root too:
+         a fast flick (or a restored scroll position) can move the head
+         past the whole band between two observer ticks, and without the
+         allowance that row would never intersect — and never open. */
+      { rootMargin: '9999px 0px -32% 0px' },
+    );
+    openIO.observe(el);
+
+    return () => {
+      nearIO.disconnect();
+      openIO.disconnect();
+      if (timer !== undefined) window.clearTimeout(timer);
+    };
+  }, [open]);
+
+  const lazy = near ? undefined : ('lazy' as const);
 
   const className = `sm-mean${idx === 0 ? ' sm-mean--ls' : ''}${
     idx === 1 ? ' sm-mean--ds' : ''
@@ -378,7 +441,7 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
   }${open ? ' sm-open' : ''}`;
 
   const head = (
-    <div className="sm-mean__head">
+    <div className="sm-mean__head" ref={headRef}>
       <span className="sm-means__idx">{String(idx + 1).padStart(2, '0')}</span>
       <div>
         <p className="sm-means__text">{m.text}</p>
@@ -395,20 +458,19 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
   );
 
   /* Row 5 is a grab-bag of side / older work: no project name, no jump link,
-     no cursor follower. Plain hover-to-reveal wrapper. */
+     no cursor follower. */
   if (idx === 4) {
     return (
-      <div
-        className={className}
-        onMouseEnter={() => setOpen(true)}
-      >
+      <div className={className}>
         {head}
         <div className="sm-ls-strip" aria-hidden="true">
-          <div className="sm-ls-track">
-            {[...MISC_PHOTOS, ...MISC_PHOTOS].map((src, i) => (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img key={i} src={src} alt="" loading="lazy" draggable={false} />
-            ))}
+          <div className="sm-ls-strip__in">
+            <div className="sm-ls-track">
+              {[...MISC_PHOTOS, ...MISC_PHOTOS].map((src, i) => (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img key={i} src={src} alt="" loading={lazy} draggable={false} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -423,50 +485,57 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
           {m.project} <span aria-hidden="true">&rarr;</span>
         </>
       }
-      onOpen={() => setOpen(true)}
     >
       {head}
 
       {idx === 0 && (
         <div className="sm-ls-strip" aria-hidden="true">
-          <div className="sm-ls-track">
-            {[...LOCKSCREENS, ...LOCKSCREENS].map((src, i) => (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img key={i} src={src} alt="" loading="lazy" draggable={false} />
-            ))}
+          <div className="sm-ls-strip__in">
+            <div className="sm-ls-track">
+              {[...LOCKSCREENS, ...LOCKSCREENS].map((src, i) => (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img key={i} src={src} alt="" loading={lazy} draggable={false} />
+              ))}
+            </div>
           </div>
         </div>
       )}
 
       {idx === 2 && (
         <div className="sm-ls-strip" aria-hidden="true">
-          <div className="sm-ls-track sm-ls-track--groups">
-            {[...FOLDABLE_PHOTOS, ...FOLDABLE_PHOTOS].map((src, i) => (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img key={i} src={src} alt="" loading="lazy" draggable={false} />
-            ))}
+          <div className="sm-ls-strip__in">
+            <div className="sm-ls-track sm-ls-track--groups">
+              {[...FOLDABLE_PHOTOS, ...FOLDABLE_PHOTOS].map((src, i) => (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img key={i} src={src} alt="" loading={lazy} draggable={false} />
+              ))}
+            </div>
           </div>
         </div>
       )}
 
       {idx === 1 && (
         <div className="sm-ls-strip" aria-hidden="true">
-          <div className="sm-ls-track">
-            {[...DS_PHOTOS, ...DS_PHOTOS].map((src, i) => (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img key={i} src={src} alt="" loading="lazy" draggable={false} />
-            ))}
+          <div className="sm-ls-strip__in">
+            <div className="sm-ls-track">
+              {[...DS_PHOTOS, ...DS_PHOTOS].map((src, i) => (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img key={i} src={src} alt="" loading={lazy} draggable={false} />
+              ))}
+            </div>
           </div>
         </div>
       )}
 
       {idx === 3 && (
         <div className="sm-ls-strip" aria-hidden="true">
-          <div className="sm-ls-track">
-            {[...TOUCH_PHOTOS, ...TOUCH_PHOTOS].map((src, i) => (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img key={i} src={src} alt="" loading="lazy" draggable={false} />
-            ))}
+          <div className="sm-ls-strip__in">
+            <div className="sm-ls-track">
+              {[...TOUCH_PHOTOS, ...TOUCH_PHOTOS].map((src, i) => (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img key={i} src={src} alt="" loading={lazy} draggable={false} />
+              ))}
+            </div>
           </div>
         </div>
       )}
