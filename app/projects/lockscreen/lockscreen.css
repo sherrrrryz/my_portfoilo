@@ -374,9 +374,13 @@ html:not([data-theme="dark"]) .lsx-theme__moon { display: none; }
   border-top: 1px solid var(--lsx-line);
   margin: 28px 0;
 }
-.lsx-otp { display: flex; gap: 8px; justify-content: center; }
+.lsx-otp { display: flex; gap: clamp(5px, 1.6vw, 8px); justify-content: center; }
 .lsx-otp input {
+  /* 44px when the modal has room; shrink evenly on narrow phones so all
+     six boxes stay inside the card */
   width: 44px;
+  flex: 0 1 44px;
+  min-width: 0;
   height: 52px;
   text-align: center;
   font-family: var(--font-mono);

@@ -95,7 +95,9 @@
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tightest);
   color: var(--sm-ink);
-  margin: 120px 0;
+  /* fluid: 120px on desktop, ~56-70px on phones so the beat survives
+     without a full empty screen of gap */
+  margin: clamp(56px, 14vw, 120px) 0;
   text-wrap: balance;
 }
 .sm-h--sm {
@@ -178,6 +180,9 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
 /* ── hero ──────────────────────────────────────────────────────── */
 .sm-hero {
   min-height: calc(100vh - 61px);
+  /* mobile browsers: size against the small viewport so "Scroll to read"
+     stays visible above the collapsing URL bar */
+  min-height: calc(100svh - 61px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -318,7 +323,7 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   letter-spacing: var(--tracking-tightest);
   color: var(--sm-ink);
   max-width: 20ch;
-  margin: 120px 0;
+  margin: clamp(56px, 14vw, 120px) 0;
   text-wrap: balance;
 }
 .sm-means { display: grid; gap: 0; }
@@ -1371,9 +1376,30 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
 @media (max-width: 520px) {
   .sm-oc { grid-template-columns: 1fr; }
   .sm-oc-pile { max-width: 420px; }
-  .sm-means__head { grid-template-columns: 1fr; gap: 8px; }
+  /* It-means rows: drop the hanging number column, give the display
+     text the full line length */
+  .sm-mean__head { grid-template-columns: 1fr; gap: 10px; }
   .sm-means__idx { padding-top: 0; }
-  .sm-ls-grid { grid-template-columns: repeat(3, 1fr); }
+  /* quote: 1.6 leading is tuned for the desktop hover cards; on a phone
+     the display size + relaxed leading reads gappy */
+  .sm-quote { line-height: 1.45; }
+  /* tenets wrap to two lines here, so the absolutely-positioned ::after
+     line would float between the lines. Swap to a real per-line
+     strikethrough; the color transition keeps a soft reveal. */
+  .sm-tenet::after { display: none; }
+  .sm-tenet {
+    text-decoration: line-through;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 3px;
+    transition: color 600ms var(--ease-out),
+                text-decoration-color 720ms var(--ease-out);
+  }
+  .sm-group--struck .sm-tenet { text-decoration-color: var(--sm-ink); }
+  .sm-group--struck .sm-tenet:nth-child(2) { transition-delay: 140ms; }
+  .sm-group--struck .sm-tenet:nth-child(3) { transition-delay: 280ms; }
+  /* narrow option cards: drop both labels below the WINNER corner tag's
+     line (single-word labels can't wrap away from it) */
+  .sm-opt__label { margin-top: 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
