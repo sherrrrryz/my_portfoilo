@@ -1036,7 +1036,7 @@ const OFF_CLOCK: OcProject[] = [
     blurb:
       'Trips are planned in links: maps, posts, screenshots, group chats. Linkly catches them, sorts them by trip and lays them out on a timeline. From interviews to persona to flows to refined screens.',
     emoji: '✈️',
-    stack: [`${OC}/linkly/cover.jpg`, `${OC}/linkly/flow.jpg`, `${OC}/linkly/screens.jpg`],
+    stack: [`${OC}/linkly/cover.jpg`, `${OC}/linkly/create-trip.jpg`, `${OC}/linkly/screens.jpg`],
     media: [
       {
         kind: 'image',
@@ -1045,24 +1045,69 @@ const OFF_CLOCK: OcProject[] = [
       },
       {
         kind: 'image',
-        src: `${OC}/linkly/research.jpg`,
+        src: `${OC}/linkly/problem.jpg`,
         caption:
-          'What travelers said. Scattered information, no structure, and collaboration that falls apart in group chats.',
+          'The problem. Group trip planning is chaotic: scattered links, messy collaboration, no structure and platform lock-in.',
       },
       {
         kind: 'image',
-        src: `${OC}/linkly/persona.jpg`,
+        src: `${OC}/linkly/research.jpg`,
+        caption:
+          'What travelers said. Big Google Docs that stop working, and apps that want to plan from scratch when people just need their links sorted.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/linkly/persona-jason.jpg`,
+        caption:
+          'Jason, the casual contributor. Drops links in chat and wants a one-tap way to react without logging into anything.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/linkly/persona-amanda.jpg`,
         caption: 'Amanda, the default organizer. She wants control without spreadsheet-grade overhead.',
       },
       {
         kind: 'image',
-        src: `${OC}/linkly/flow.jpg`,
+        src: `${OC}/linkly/solution.jpg`,
+        caption:
+          'The answer. An AI organizer that turns scattered travel links into a clean, shareable library and timeline.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/linkly/wireframe.jpg`,
+        caption: 'Wireframes. Trips, links, link details, adding and filtering.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/linkly/create-trip.jpg`,
         caption: 'Creating a trip. Name it, date it, invite people, then just drop your links.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/linkly/trip-links.jpg`,
+        caption: 'The trip link board. Every saved place as a card, with AI functions a tap away.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/linkly/trip-timeline.jpg`,
+        caption:
+          'The timeline. Days, stops and link cards in order, with AI to check conflicts and summarize the trip.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/linkly/view-modes.jpg`,
+        caption: 'View modes. The same links as full cards, a grid, compact rows or a list.',
       },
       {
         kind: 'image',
         src: `${OC}/linkly/screens.jpg`,
         caption: 'Refined screens. Home, the trip link board and the trip timeline.',
+      },
+      {
+        kind: 'image',
+        src: `${OC}/linkly/ai-filter.jpg`,
+        caption:
+          'AI filter, v1. Name a filter, describe the condition in plain words, get a reusable set of filter chips.',
       },
     ],
   },
