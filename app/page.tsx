@@ -1036,7 +1036,7 @@ const OFF_CLOCK: OcProject[] = [
     blurb:
       'Trips are planned in links: maps, posts, screenshots, group chats. Linkly catches them, sorts them by trip and lays them out on a timeline. From interviews to persona to flows to refined screens.',
     emoji: '✈️',
-    stack: [`${OC}/linkly/cover.jpg`, `${OC}/linkly/create-trip.jpg`, `${OC}/linkly/screens.jpg`],
+    stack: [`${OC}/linkly/screens.jpg`, `${OC}/linkly/create-trip.jpg`, `${OC}/linkly/cover.jpg`],
     media: [
       {
         kind: 'image',
