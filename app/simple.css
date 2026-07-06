@@ -7,18 +7,21 @@
    but hard-locks to a neutral grayscale so nothing tints.
 ============================================================================ */
 
-/* Scoped on .sm-oc-lb too: the lightbox portals to <body>, outside .sm-root. */
+/* Scoped on .sm-oc-lb too: the lightbox portals to <body>, outside .sm-root.
+   Values come from the shared page-theme scale in _styles/tokens.css, which
+   flips on html[data-theme="dark"]; only the --sm-* aliases live here. */
 .sm-root,
 .sm-oc-lb {
-  --sm-paper:   #ffffff;
-  --sm-ink:     #111111;
-  --sm-ink-2:   #444444;   /* body */
-  --sm-ink-3:   #767676;   /* muted / meta */
-  --sm-line:    #e6e6e6;   /* hairline */
-  --sm-line-2:  #d2d2d2;   /* stronger hairline */
-  --sm-fill:    #f4f4f4;   /* faint block fill */
-  --sm-bg-mid:  #f8f8f7;   /* page bg while inside 02–03 */
-  --sm-bg-tail: #efeeea;   /* page bg from 04 to the end */
+  --sm-paper:   var(--theme-paper);
+  --sm-card:    var(--theme-card);    /* raised surface (cards, dialogs) */
+  --sm-ink:     var(--theme-ink);
+  --sm-ink-2:   var(--theme-ink-2);   /* body */
+  --sm-ink-3:   var(--theme-ink-3);   /* muted / meta */
+  --sm-line:    var(--theme-line);    /* hairline */
+  --sm-line-2:  var(--theme-line-2);  /* stronger hairline */
+  --sm-fill:    var(--theme-fill);    /* faint block fill */
+  --sm-bg-mid:  var(--theme-bg-mid);  /* page bg while inside 02–03 */
+  --sm-bg-tail: var(--theme-bg-tail); /* page bg from 04 to the end */
 }
 
 /* Page background swaps at section boundaries (same recipe as the home
@@ -150,6 +153,28 @@
 }
 .sm-nav a.sm-nav__link:hover { color: var(--sm-ink); }
 
+/* light/dark toggle — bare mono icon button; the sun/moon swap is pure CSS
+   keyed off html[data-theme], so the button needs no client state. */
+.sm-theme {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 6px;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sm-ink-3);
+  cursor: pointer;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.sm-theme:hover,
+.sm-theme:focus-visible { color: var(--sm-ink); }
+.sm-theme:focus-visible { outline: 2px solid var(--sm-ink); outline-offset: 2px; }
+.sm-theme svg { width: 18px; height: 18px; display: block; }
+[data-theme="dark"] .sm-theme__sun { display: none; }
+html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
+
 /* ── hero ──────────────────────────────────────────────────────── */
 .sm-hero {
   min-height: calc(100vh - 61px);
@@ -261,7 +286,7 @@
   font-weight: var(--font-semibold);
   letter-spacing: var(--tracking-widest);
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--theme-on-inverse-dim);
   margin-bottom: 6px;
 }
 .sm-co-card__desc {
@@ -677,7 +702,9 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
-  background: var(--sm-paper);
+  /* --sm-card, not paper: in dark mode elevation reads as lighter-than-bg,
+     and the shadows below all but vanish on a dark stage */
+  background: var(--sm-card);
   flex: 1;
   box-shadow:
     0 1px 2px rgba(17, 17, 17, 0.04),
@@ -740,10 +767,10 @@
   overflow: hidden;
 }
 .sm-opt--loser {
-  background: var(--sm-paper);
+  background: var(--sm-card);
   border: 1px solid var(--sm-line-2);
   --mock-ink: var(--sm-ink);
-  --mock-bg:  var(--sm-paper);
+  --mock-bg:  var(--sm-card);
   color: var(--sm-ink);
 }
 .sm-opt--winner {
@@ -790,8 +817,11 @@
 }
 /* The mockup PNGs are light-gray on transparent — they read naturally on the
    black winner card. On the white loser card, drop them a shade darker so the
-   contrast holds. */
+   contrast holds. In dark mode the cards invert (winner becomes the light
+   card), so the filters swap sides. */
 .sm-opt--loser .sm-mock { filter: brightness(0.85); }
+[data-theme="dark"] .sm-opt--loser .sm-mock { filter: none; }
+[data-theme="dark"] .sm-opt--winner .sm-mock { filter: brightness(0.6); }
 
 .sm-footer-link {
   margin-top: clamp(32px, 5vh, 56px);
@@ -969,7 +999,7 @@
   top: 0.62em;
   width: 5px;
   height: 5px;
-  background: rgba(255, 255, 255, 0.62);
+  background: var(--theme-on-inverse-dim);
   border-radius: 50%;
 }
 /* Teams — workshop image wall */
@@ -1067,7 +1097,7 @@
   font-weight: var(--font-medium);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--theme-on-inverse-dim);
   margin-bottom: 6px;
 }
 .sm-ww__tt-title {
@@ -1159,7 +1189,7 @@
   position: fixed;
   inset: 0;
   z-index: 90;
-  background: rgba(255, 255, 255, 0.94);
+  background: var(--theme-scrim);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1178,7 +1208,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  background: var(--sm-paper);
+  background: var(--sm-card);
   border: 1px solid var(--sm-line-2);
   border-radius: var(--radius-sm);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);

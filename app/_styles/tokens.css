@@ -287,6 +287,74 @@
 
 
 /* ============================================================================
+   PAGE THEME — light / dark grayscale for the live pages
+   ----------------------------------------------------------------------------
+   One semantic grayscale, two consumers: app/simple.css aliases these as
+   --sm-* and app/projects/lockscreen/lockscreen.css as --lsx-*. The pages
+   never share TSX (isolation rule), but they share this single color
+   definition so both flip together and stay consistent.
+
+   Dark values activate on html[data-theme="dark"]. The attribute is set
+   pre-paint by the inline script in app/layout.tsx (localStorage 'theme',
+   falling back to prefers-color-scheme) and toggled by each page's own
+   ThemeToggle. The legacy detail deck keys off the `.dark` class from
+   globals.css, so this attribute never affects it.
+
+   Roles (light → dark):
+     paper      page background            #ffffff → #0e0e0e
+     card       raised surface (elevation is lighter-than-bg in dark)
+     ink        primary text               #111111 → #f2f2f2
+     ink-2      body text
+     ink-3      muted / meta
+     line       hairline rule
+     line-2     stronger hairline
+     fill       faint block fill
+     bg-mid/tail  homepage scroll-swap stage backgrounds
+============================================================================ */
+:root {
+  --theme-paper:   #ffffff;
+  --theme-card:    #ffffff;   /* = paper in light; separation comes from shadow */
+  --theme-ink:     #111111;
+  --theme-ink-2:   #444444;
+  --theme-ink-3:   #767676;
+  --theme-line:    #e6e6e6;
+  --theme-line-2:  #d2d2d2;
+  --theme-fill:    #f4f4f4;
+  --theme-bg-mid:  #f8f8f7;
+  --theme-bg-tail: #efeeea;
+
+  /* Derived — auto-flip with paper, don't override in dark. */
+  /* dimmed text / bullet dot on an inverted (ink-filled) card */
+  --theme-on-inverse-dim: color-mix(in srgb, var(--theme-paper) 62%, transparent);
+  /* translucent full-screen scrim behind the lightbox */
+  --theme-scrim: color-mix(in srgb, var(--theme-paper) 94%, transparent);
+}
+
+/* Document-level effects (overscroll bg behind <body>, native scrollbar /
+   form-control scheme). Scoped with :has() to the themed page roots: once
+   loaded, this stylesheet follows client-side navigation everywhere, and
+   without the guard a dark visit to the legacy detail deck would repaint
+   its overscroll area. globals.css sets the light value. */
+:root[data-theme="dark"]:has(.sm-root, .lsx-root) {
+  color-scheme: dark;
+  background-color: #0e0e0e;
+}
+
+:root[data-theme="dark"] {
+  --theme-paper:   #0e0e0e;
+  --theme-card:    #1f1f1f;   /* lighter than every stage bg = raised */
+  --theme-ink:     #f2f2f2;
+  --theme-ink-2:   #c6c6c6;
+  --theme-ink-3:   #8f8f8f;
+  --theme-line:    #262626;
+  --theme-line-2:  #3d3d3d;
+  --theme-fill:    #1a1a1a;
+  --theme-bg-mid:  #141413;
+  --theme-bg-tail: #1a1917;
+}
+
+
+/* ============================================================================
    TAILWIND v4 THEME INTEGRATION
    Exposes core tokens as Tailwind utilities. Lets you write
      <div className="bg-paper text-ink font-sans">

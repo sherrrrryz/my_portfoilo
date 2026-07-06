@@ -49,8 +49,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
+    // suppressHydrationWarning: the inline theme script below sets data-theme
+    // on <html> before hydration; React must not flag that attribute diff.
+    <html lang="en" className={inter.className} suppressHydrationWarning>
       <body className="antialiased">
+        {/* Pre-paint theme resolution: saved choice, else OS preference.
+            Sets data-theme on <html>; the page-theme tokens in
+            _styles/tokens.css key off it. The legacy detail deck uses the
+            `.dark` class instead, so this attribute never restyles it. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var t=localStorage.getItem('theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){}})();",
+          }}
+        />
         {children}
         <Analytics />
         <SpeedInsights />

@@ -8,14 +8,17 @@
    page.tsx); grayscale surface values are locked locally below.
 ============================================================================ */
 
+/* Values come from the shared page-theme scale in _styles/tokens.css, which
+   flips on html[data-theme="dark"]; only the --lsx-* aliases live here. */
 .lsx-root {
-  --lsx-paper:  #ffffff;
-  --lsx-ink:    #111111;
-  --lsx-ink-2:  #444444;   /* body */
-  --lsx-ink-3:  #767676;   /* muted / meta */
-  --lsx-line:   #e6e6e6;   /* hairline */
-  --lsx-line-2: #d2d2d2;   /* stronger hairline */
-  --lsx-fill:   #f4f4f4;   /* faint block fill */
+  --lsx-paper:  var(--theme-paper);
+  --lsx-card:   var(--theme-card);    /* raised surface (modal) */
+  --lsx-ink:    var(--theme-ink);
+  --lsx-ink-2:  var(--theme-ink-2);   /* body */
+  --lsx-ink-3:  var(--theme-ink-3);   /* muted / meta */
+  --lsx-line:   var(--theme-line);    /* hairline */
+  --lsx-line-2: var(--theme-line-2);  /* stronger hairline */
+  --lsx-fill:   var(--theme-fill);    /* faint block fill */
 
   background: var(--lsx-paper);
   color: var(--lsx-ink);
@@ -115,6 +118,33 @@
   transition: color var(--duration-base) var(--ease-out);
 }
 .lsx-nav__link:hover { color: var(--lsx-ink); }
+.lsx-nav__right {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 20px);
+}
+
+/* light/dark toggle — same recipe as the homepage's .sm-theme; duplicated
+   because the two pages share no TSX/CSS beyond tokens.css (isolation rule). */
+.lsx-theme {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 6px;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lsx-ink-3);
+  cursor: pointer;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.lsx-theme:hover,
+.lsx-theme:focus-visible { color: var(--lsx-ink); }
+.lsx-theme:focus-visible { outline: 2px solid var(--lsx-ink); outline-offset: 2px; }
+.lsx-theme svg { width: 18px; height: 18px; display: block; }
+[data-theme="dark"] .lsx-theme__sun { display: none; }
+html:not([data-theme="dark"]) .lsx-theme__moon { display: none; }
 
 /* ── hero ──────────────────────────────────────────────────────── */
 .lsx-hero {
@@ -296,19 +326,20 @@
   backdrop-filter: blur(6px);
   /* the overlay sits inside .lsx-root, but re-declare the surface vars so
      the card can't lose them if it's ever portalled out */
-  --lsx-paper:  #ffffff;
-  --lsx-ink:    #111111;
-  --lsx-ink-2:  #444444;
-  --lsx-ink-3:  #767676;
-  --lsx-line:   #e6e6e6;
-  --lsx-line-2: #d2d2d2;
+  --lsx-paper:  var(--theme-paper);
+  --lsx-card:   var(--theme-card);
+  --lsx-ink:    var(--theme-ink);
+  --lsx-ink-2:  var(--theme-ink-2);
+  --lsx-ink-3:  var(--theme-ink-3);
+  --lsx-line:   var(--theme-line);
+  --lsx-line-2: var(--theme-line-2);
 }
 .lsx-modal {
   position: relative;
   width: min(90vw, 30rem);
   max-height: 90vh;
   overflow-y: auto;
-  background: var(--lsx-paper);
+  background: var(--lsx-card);
   color: var(--lsx-ink);
   border: 1px solid var(--lsx-line);
   border-radius: var(--radius-lg);

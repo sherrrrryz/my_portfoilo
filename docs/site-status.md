@@ -2,7 +2,11 @@
 
 Snapshot of what's live and what still needs building. Update whenever a scaffold lands or a section ships. Use this as the "where are we" doc; use [`prd.md`](./prd.md) for the full spec.
 
-Last updated: 2026-07-04 (homepage replaced: the plain monochrome edition, formerly `/simple`, is now `/`; the scroll-driven Story page is archived).
+Last updated: 2026-07-05 (dark mode shipped for `/` and `/projects/lockscreen`; see "Dark mode" below).
+
+## Dark mode (2026-07-05)
+
+`/` and `/projects/lockscreen` now theme light/dark from one shared grayscale: the PAGE THEME block in `app/_styles/tokens.css` (`--theme-*`, dark values on `html[data-theme="dark"]`). `simple.css` (`--sm-*`) and `lockscreen.css` (`--lsx-*`) alias it; neither page holds raw grayscale hex anymore. The attribute is resolved pre-paint by an inline script in `app/layout.tsx` (localStorage `theme`, falling back to `prefers-color-scheme`) and flipped by a per-page ThemeToggle (duplicated in `app/page.tsx` and `app/projects/lockscreen/ThemeToggle.tsx`; the isolation rule forbids sharing the component). The legacy detail deck keys off the `.dark` class, so `data-theme` never restyles it; the document-level dark rules (overscroll bg, `color-scheme`) are additionally scoped with `:has(.sm-root, .lsx-root)` so client-side navigation into the deck stays clean.
 
 ## Homepage replacement (2026-07-04)
 

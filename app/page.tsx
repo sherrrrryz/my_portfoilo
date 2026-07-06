@@ -38,6 +38,55 @@ const ROLES = [
   'Human',
 ];
 
+/* Light/dark toggle. Stateless on purpose: the visible icon is swapped by
+   CSS keyed off html[data-theme] (see .sm-theme in simple.css), so SSR
+   markup never disagrees with the client and there's no hydration flash.
+   Duplicated on the lockscreen page (isolation rule: no shared TSX). */
+function ThemeToggle() {
+  return (
+    <button
+      type="button"
+      className="sm-theme"
+      aria-label="Toggle dark mode"
+      onClick={() => {
+        const el = document.documentElement;
+        const next = el.dataset.theme === 'dark' ? 'light' : 'dark';
+        el.dataset.theme = next;
+        try {
+          localStorage.setItem('theme', next);
+        } catch {
+          /* private mode etc. — theme still applies for this visit */
+        }
+      }}
+    >
+      <svg
+        className="sm-theme__sun"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+      </svg>
+      <svg
+        className="sm-theme__moon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z" />
+      </svg>
+    </button>
+  );
+}
+
 function RotatingRole() {
   const [i, setI] = useState(0);
   const [state, setState] = useState<'in' | 'out'>('in');
@@ -228,7 +277,9 @@ function FollowPointer({
                   xmlns="http://www.w3.org/2000/svg"
                   style={{
                     transform: 'translate(-2px, -2px) rotate(-70deg)',
-                    color: '#111111',
+                    /* portaled to <body>, outside .sm-root — read the
+                       :root-scoped theme tokens, not the --sm-* aliases */
+                    color: 'var(--theme-ink)',
                     fill: 'currentColor',
                     stroke: 'currentColor',
                     strokeWidth: 1,
@@ -245,8 +296,8 @@ function FollowPointer({
                     position: 'absolute',
                     top: 18,
                     left: 16,
-                    background: '#111111',
-                    color: '#ffffff',
+                    background: 'var(--theme-ink)',
+                    color: 'var(--theme-paper)',
                     fontFamily: 'var(--font-sans)',
                     fontSize: 13,
                     fontWeight: 600,
@@ -1200,6 +1251,7 @@ export default function SimplePage() {
         <Link href="/" className="sm-nav__mark">
           Xueyi Zhou
         </Link>
+        <ThemeToggle />
       </nav>
 
       {/* ── Hero ─────────────────────────────────────────────── */}

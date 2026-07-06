@@ -16,6 +16,7 @@ import Link from "next/link";
 import React from "react";
 import { SeeDetailProvider } from "./SeeDetailContext";
 import SeeDetailButton from "./SeeDetailButton";
+import ThemeToggle from "./ThemeToggle";
 
 /** Data model (edit here to drive the page) */
 const project = {
@@ -107,9 +108,12 @@ export default function ProjectLockScreen() {
           <Link href="/" className="lsx-nav__mark">
             Xueyi Zhou
           </Link>
-          <Link href="/" className="lsx-nav__link">
-            &larr; Back to home
-          </Link>
+          <div className="lsx-nav__right">
+            <Link href="/" className="lsx-nav__link">
+              &larr; Back to home
+            </Link>
+            <ThemeToggle />
+          </div>
         </nav>
 
         {/* ── Hero ─────────────────────────────────────────────── */}

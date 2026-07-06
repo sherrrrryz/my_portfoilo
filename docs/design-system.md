@@ -37,6 +37,17 @@ Hand-picked ramp: olive pale 50 → matcha mid 500 → forest ink 900. Hue cools
 6. **Generous radius.** 12px is a button, 20px is a card, 32–48px is a hero surface. This plays to Switzer's rounded character.
 7. **Geometric spacing.** Scale jumps: 4 · 8 · 16 · 24 · 40 · 64 · 96 · 144. The gap between `--space-5` and `--space-6` is intentional — big moves feel composed, not crowded.
 
+## Dark mode (page theme)
+
+The live pages (`/` and `/projects/lockscreen`) share one light/dark grayscale: the PAGE THEME block in `tokens.css` (`--theme-paper/card/ink/ink-2/ink-3/line/line-2/fill/bg-mid/bg-tail`, plus derived `--theme-on-inverse-dim` and `--theme-scrim`). Dark values live on `html[data-theme="dark"]`; the attribute is set pre-paint by the inline script in `app/layout.tsx` and toggled by each page's local ThemeToggle (one copy per page, isolation rule).
+
+Rules:
+
+1. **Pages alias, never redefine.** `simple.css` maps `--sm-* → var(--theme-*)`, `lockscreen.css` maps `--lsx-* → var(--theme-*)`. New grayscale needs go into the theme block, not into a page file as hex.
+2. **Elevation flips direction.** In light, a raised surface = paper + shadow. In dark, shadows vanish, so raised surfaces use `--theme-card` (lighter than every stage bg). Anything dialog/card-like should sit on `card`, not `paper`.
+3. **Inverted (ink-filled) cards self-invert.** Tooltips/popups painted `background: ink / color: paper` flip automatically; their dimmed text uses `--theme-on-inverse-dim` (paper at 62%), never a hardcoded white/black rgba.
+4. **Don't touch the legacy `.dark` ramp in `globals.css`.** The detail deck consumes it; `data-theme` is a separate mechanism on purpose. Document-level dark rules in `tokens.css` are scoped with `:has(.sm-root, .lsx-root)` so they never leak into the deck.
+
 ## Two stages
 
 - `.stage-light` — `--stage-light` bg (#fafafa) + `--ink-primary` text. All Story sections except opening.
