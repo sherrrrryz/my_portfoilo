@@ -564,13 +564,14 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
   color: var(--ab-paper);
 }
 
-/* cat photos: three flat square tiles in a row, no overlap.
-   Grayscale by default; hovering the card colorizes all three and
-   gives each tile a small staggered lift. */
+/* cat photos: flat tiles, no overlap. One big lead tile on top, two
+   squares under it, so the block carries the same visual weight as the
+   snowboard photo beside it. Grayscale by default; hovering the card
+   colorizes all three with a small staggered lift. */
 .ab-tiles {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(8px, 1vw, 14px);
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(10px, 1.2vw, 16px);
 }
 .ab-tiles__img {
   position: relative;
@@ -585,6 +586,11 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
     transform var(--duration-slow) var(--ease-out),
     filter var(--duration-slow) var(--ease-out),
     box-shadow var(--duration-slow) var(--ease-out);
+}
+/* lead tile: full card width, landscape */
+.ab-tiles__img[data-i='0'] {
+  grid-column: 1 / -1;
+  aspect-ratio: 4 / 3;
 }
 .ab-tiles__img img { object-fit: cover; }
 .ab-oc__card:hover .ab-tiles__img,

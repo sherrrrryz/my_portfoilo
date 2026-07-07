@@ -291,16 +291,16 @@ function SnowCard() {
 
 const CATS = [
   {
-    src: '/about/cats-thermal.jpg',
-    alt: 'Two cats lounging on a desk, rendered in a thermal color filter',
+    src: '/about/cat-yawn.jpg',
+    alt: 'A gray cat mid-yawn',
   },
   {
     src: '/about/cat-spotlight.jpg',
     alt: 'A cat looking up into a lamp in a dark room',
   },
   {
-    src: '/about/cat-yawn.jpg',
-    alt: 'A gray cat mid-yawn',
+    src: '/about/cats-thermal.jpg',
+    alt: 'Two cats lounging on a desk, rendered in a thermal color filter',
   },
 ] as const;
 
@@ -319,7 +319,11 @@ function CatPile() {
               src={c.src}
               alt={c.alt}
               fill
-              sizes="(max-width: 880px) 30vw, 160px"
+              sizes={
+                i === 0
+                  ? '(max-width: 880px) 90vw, 440px'
+                  : '(max-width: 880px) 45vw, 220px'
+              }
               draggable={false}
             />
           </span>
