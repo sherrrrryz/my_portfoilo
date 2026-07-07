@@ -828,12 +828,53 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
 [data-theme="dark"] .sm-opt--loser .sm-mock { filter: none; }
 [data-theme="dark"] .sm-opt--winner .sm-mock { filter: brightness(0.6); }
 
-.sm-footer-link {
+/* Full-width case-study entry bar under the A/B cards. Bordered in ink (not
+   hairline) so it reads as the section's one action; inverts on hover. */
+.sm-case-link {
   margin-top: clamp(32px, 5vh, 56px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  padding: clamp(18px, 2.5vw, 26px) clamp(18px, 2.5vw, 30px);
+  border: 1px solid var(--sm-ink);
+  border-radius: var(--radius-md);
+  color: var(--sm-ink);
+  text-decoration: none;
+  transition: background-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out);
+}
+.sm-case-link:hover,
+.sm-case-link:focus-visible {
+  background: var(--sm-ink);
+  color: var(--sm-paper);
+}
+.sm-case-link:focus-visible {
+  outline: 2px solid var(--sm-ink);
+  outline-offset: 3px;
+}
+.sm-case-link__meta {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   letter-spacing: var(--tracking-wide);
-  color: var(--sm-ink-3);
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.sm-case-link__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--text-md);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-tight);
+}
+.sm-case-link__arrow {
+  display: inline-block;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+.sm-case-link:hover .sm-case-link__arrow {
+  transform: translateX(6px);
 }
 
 /* ── Teams ─────────────────────────────────────────────────────── */

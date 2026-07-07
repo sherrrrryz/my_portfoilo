@@ -1468,7 +1468,15 @@ export default function SimplePage() {
             ))}
           </div>
 
-            <p className="sm-footer-link">AppLovin OOBE &middot; 2025 &middot; View project &rarr;</p>
+            <Link href="/projects/applovin-oobe" className="sm-case-link">
+              <span className="sm-case-link__meta">AppLovin OOBE &middot; 2025</span>
+              <span className="sm-case-link__cta">
+                View the full case study
+                <span className="sm-case-link__arrow" aria-hidden="true">
+                  &rarr;
+                </span>
+              </span>
+            </Link>
           </div>
         </div>
       </section>
