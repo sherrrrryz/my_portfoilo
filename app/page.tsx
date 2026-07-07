@@ -225,7 +225,7 @@ const MEANS = [
     text: 'It means designing what your finger feels, not what your eye sees.',
     meta: 'Touch Hot Zone · 2024',
     project: 'Touch Hot Zone',
-    href: '',
+    href: '/projects/touch-hotspots',
   },
   {
     text: "It means there's always another kind of design waiting to be made.",

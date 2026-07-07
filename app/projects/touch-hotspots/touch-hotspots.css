@@ -1,0 +1,405 @@
+/* ============================================================================
+   /projects/touch-hotspots — case-study landing for the Touch Hot Zone
+   research, same plain monochrome editorial read as the homepage and the
+   other project landings. Class prefix `thz-` so nothing collides with
+   `sm-`, `lsx-`, `ab-`, `mds-`, `alo-` or the legacy detail deck. Consumes
+   the shared token scale from _styles/tokens.css (imported by page.tsx).
+============================================================================ */
+
+/* Values come from the shared page-theme scale in _styles/tokens.css, which
+   flips on html[data-theme="dark"]; only the --thz-* aliases live here. */
+.thz-root {
+  --thz-paper:  var(--theme-paper);
+  --thz-card:   var(--theme-card);    /* raised surface */
+  --thz-ink:    var(--theme-ink);
+  --thz-ink-2:  var(--theme-ink-2);   /* body */
+  --thz-ink-3:  var(--theme-ink-3);   /* muted / meta */
+  --thz-line:   var(--theme-line);    /* hairline */
+  --thz-line-2: var(--theme-line-2);  /* stronger hairline */
+  --thz-fill:   var(--theme-fill);    /* faint block fill */
+
+  background: var(--thz-paper);
+  color: var(--thz-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+}
+
+.thz-root ::selection {
+  background: var(--thz-ink);
+  color: var(--thz-paper);
+}
+
+/* ── shared layout ─────────────────────────────────────────────── */
+.thz-wrap {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding-inline: clamp(16px, 3vw, 40px);
+}
+
+.thz-section {
+  padding-block: clamp(56px, 10vh, 120px);
+  border-top: 1px solid var(--thz-line);
+}
+
+/* mono section marker: "01 — Overview" */
+.thz-marker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--thz-ink-3);
+  margin-bottom: clamp(28px, 5vh, 56px);
+}
+.thz-marker__num { color: var(--thz-ink); }
+.thz-marker__line {
+  flex: 1;
+  height: 1px;
+  background: var(--thz-line-2);
+}
+
+.thz-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--thz-ink-3);
+  margin-bottom: 14px;
+}
+
+.thz-body {
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  color: var(--thz-ink-2);
+  max-width: 62ch;
+  margin: 0;
+}
+
+/* ── top bar ───────────────────────────────────────────────────── */
+.thz-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px clamp(16px, 3vw, 40px);
+  background: color-mix(in srgb, var(--thz-paper) 82%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--thz-line);
+}
+.thz-nav__mark {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--thz-ink);
+  text-decoration: none;
+}
+.thz-nav__link {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--thz-ink-3);
+  text-decoration: none;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.thz-nav__link:hover { color: var(--thz-ink); }
+.thz-nav__right {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 20px);
+}
+
+/* light/dark toggle, same recipe as .mds-theme */
+.thz-theme {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 6px;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--thz-ink-3);
+  cursor: pointer;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.thz-theme:hover,
+.thz-theme:focus-visible { color: var(--thz-ink); }
+.thz-theme:focus-visible { outline: 2px solid var(--thz-ink); outline-offset: 2px; }
+.thz-theme svg { width: 18px; height: 18px; display: block; }
+[data-theme="dark"] .thz-theme__sun { display: none; }
+html:not([data-theme="dark"]) .thz-theme__moon { display: none; }
+
+/* ── hero ──────────────────────────────────────────────────────── */
+.thz-hero {
+  border-top: none;
+  padding-block: clamp(64px, 12vh, 140px) clamp(40px, 7vh, 72px);
+}
+.thz-hero__kicker {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--thz-ink-3);
+  margin-bottom: clamp(24px, 5vh, 48px);
+}
+.thz-hero__title {
+  font-size: clamp(2.1rem, 6vw, 5rem);
+  font-weight: var(--font-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tightest);
+  color: var(--thz-ink);
+  margin: 0;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.thz-hero__dek {
+  margin: clamp(16px, 3vh, 28px) 0 0;
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+  color: var(--thz-ink-2);
+  max-width: 44ch;
+  text-wrap: balance;
+}
+.thz-hero__meta {
+  margin-top: clamp(24px, 4vh, 40px);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  color: var(--thz-ink-3);
+}
+
+/* stat band: big numbers on hairlines (4-up in the hero, 3-up variant) */
+.thz-stats {
+  margin-top: clamp(36px, 6vh, 64px);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--thz-line-2);
+}
+.thz-stats--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 760px) {
+  .thz-stats,
+  .thz-stats--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.thz-stat {
+  padding: clamp(18px, 3vh, 28px) clamp(4px, 1vw, 16px) 6px 0;
+  border-bottom: 1px solid var(--thz-line);
+}
+.thz-stat__num {
+  font-size: clamp(1.7rem, 3.6vw, 3rem);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-tighter);
+  line-height: 1.1;
+  color: var(--thz-ink);
+}
+.thz-stat__num sub {
+  font-size: 0.45em;
+  font-weight: var(--font-medium);
+  color: var(--thz-ink-3);
+  vertical-align: baseline;
+}
+.thz-stat__label {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--thz-ink-3);
+  padding-bottom: 12px;
+}
+
+/* ── overview 3-col ────────────────────────────────────────────── */
+.thz-grid3 {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .thz-grid3 { grid-template-columns: 1fr; }
+}
+.thz-plain-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  font-size: var(--text-base);
+  color: var(--thz-ink-2);
+}
+
+/* ── illustration frame (inline SVG diagrams) ──────────────────── */
+.thz-illo {
+  margin: clamp(24px, 4vh, 40px) 0 0;
+  border: 1px solid var(--thz-line);
+  border-radius: var(--radius-md);
+  background: var(--thz-fill);
+  padding: clamp(16px, 3vw, 36px);
+  color: var(--thz-ink);
+}
+.thz-illo svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 860px;
+  margin-inline: auto;
+}
+.thz-illo text {
+  font-family: var(--font-mono);
+}
+.thz-illo__caption {
+  margin: 14px 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--thz-ink-3);
+}
+
+/* ── real-data figure ──────────────────────────────────────────── */
+.thz-figure {
+  margin: clamp(24px, 4vh, 40px) 0 0;
+}
+.thz-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--thz-line);
+  background: #000; /* the heatmap export is dark; keep its own ground in both themes */
+}
+.thz-figure figcaption {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--thz-ink-3);
+}
+
+/* ── chips ─────────────────────────────────────────────────────── */
+.thz-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.thz-chip {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--thz-ink-2);
+  border: 1px solid var(--thz-line-2);
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+}
+.thz-chip--num {
+  color: var(--thz-ink);
+}
+.thz-chip--num span {
+  color: var(--thz-ink-3);
+  margin-right: 6px;
+}
+
+.thz-note {
+  margin: clamp(16px, 2.5vh, 24px) 0 0;
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  color: var(--thz-ink-2);
+  max-width: 62ch;
+}
+
+/* ── pull quote ────────────────────────────────────────────────── */
+.thz-quote {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: clamp(1.4rem, 3.2vw, 2.4rem);
+  font-weight: var(--font-medium);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-snug);
+  color: var(--thz-ink);
+  max-width: 34ch;
+  text-wrap: balance;
+}
+.thz-quote__by {
+  display: block;
+  margin-top: 18px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--thz-ink-3);
+}
+
+/* ── buttons + CTA ─────────────────────────────────────────────── */
+.thz-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--thz-ink);
+  background: var(--thz-ink);
+  color: var(--thz-paper);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out);
+}
+.thz-btn:hover {
+  background: var(--thz-paper);
+  color: var(--thz-ink);
+}
+.thz-btn--ghost {
+  background: transparent;
+  color: var(--thz-ink);
+}
+.thz-btn--ghost:hover {
+  background: var(--thz-ink);
+  color: var(--thz-paper);
+}
+.thz-cta__line {
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-tightest);
+  line-height: var(--leading-tight);
+  color: var(--thz-ink);
+  margin: 0 0 clamp(20px, 4vh, 36px);
+  max-width: 24ch;
+  text-wrap: balance;
+}
+.thz-cta__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.thz-cta__hint {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--thz-ink-3);
+}

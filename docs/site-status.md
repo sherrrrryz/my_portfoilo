@@ -2,7 +2,11 @@
 
 Snapshot of what's live and what still needs building. Update whenever a scaffold lands or a section ships. Use this as the "where are we" doc; use [`prd.md`](./prd.md) for the full spec.
 
-Last updated: 2026-07-07 (AppLovin OOBE case study shipped at `/projects/applovin-oobe`; see below).
+Last updated: 2026-07-07 (Touch Hot Zone case study shipped at `/projects/touch-hotspots`; see below).
+
+## Touch Hot Zone case study (2026-07-07)
+
+`/projects/touch-hotspots` is a self-contained monochrome case-study landing (`app/projects/touch-hotspots/page.tsx` + `touch-hotspots.css`, `thz-` prefix, consumes `tokens.css`; own ThemeToggle copy per the isolation convention). Content distilled from Sherry's Framer page (static-acknowledge-295569.framer.app/project2, the 屏幕触摸热区研究 / Touch Hotspots study): the long research text is replaced by a hero stat band, five inline SVG diagrams (screen-growth vs thumb reach, two grip styles, the 8×18 zone experiment plus trial sequence, three reach bands per hand, top-tabs vs bottom-tabs before/after), a 3-up flow stat band, and the real hit-rate heatmap from `public/toucharea/Cover.png` (that directory is therefore no longer orphaned, do not delete). The homepage It-means row 4 (Touch Hot Zone) now links to it, and the dark-theme `:has()` guard in `tokens.css` includes `.thz-root`. No scroll choreography, no framer-motion, no shared TSX with other pages.
 
 ## AppLovin OOBE case study (2026-07-07)
 
@@ -42,6 +46,7 @@ Removed in the 2026-07-04 redundancy cleanup (recover from git history if needed
 | Projects | not built | `/projects` | Case-study grid. Lockscreen detail already exists at `/projects/lockscreen/detail` but no index grid yet. Footer already links to it. |
 | Lockscreen case study | built (redesigned 2026-07-04) | `/projects/lockscreen` | Landing restyled to the homepage's monochrome editorial look (`lockscreen.css`, `lsx-` prefix, consumes `tokens.css`). SeeDetail password gate + contact modal restyled, logic unchanged. |
 | MIUI Design System case study | built | `/projects/miui-design-system` | Short visual-first landing (`miui-ds.css`, `mds-` prefix, consumes `tokens.css`). Stat band + SVG diagrams + before/after pairs from `public/miui/`. Linked from homepage It-means row 2. |
+| Touch Hot Zone case study | built | `/projects/touch-hotspots` | Short visual-first landing (`touch-hotspots.css`, `thz-` prefix, consumes `tokens.css`). Stat bands + five SVG diagrams + real heatmap from `public/toucharea/`. Linked from homepage It-means row 4. |
 | AppLovin OOBE case study | built | `/projects/applovin-oobe` | Short visual-first landing (`oobe.css`, `alo-` prefix, consumes `tokens.css`). Stat bands + SVG diagrams + sanitized flow images from `public/oobe/`. Linked from the homepage 02 Business case-link bar. |
 | Lockscreen detail deck | built (legacy, OFF-LIMITS) | `/projects/lockscreen/detail` | Slide deck, still isolated and styled by `globals.css`. Reached via the 6-digit gate on the landing page. |
 
@@ -54,6 +59,6 @@ Homepage follow-ups:
 
 Known issues (found in the 2026-07-04 redundancy scan, deliberately not fixed yet):
 - `/api/send-email` route does not exist, but the lockscreen SeeDetail modal's contact form POSTs to it, so sending always fails. Either implement the route (e.g. Resend) or drop the form.
-- ~55MB of `public/` assets have zero code references and can be deleted in a follow-up pass: whole dirs `story-lockscreens/` (14MB), `photos/` (20MB), `toucharea/`, `s4/` (`miui/` was reclaimed 2026-07-07 by the MIUI Design System case study, do not delete); orphans `lockscreen/1-14.png`, `1-15.png`, `1-17.png`, `1-18.png`; root-level `projectimg1-4.png`, `myimg.png`, `dark/light-mode-demo.png`, `huawei/xiaomi/applovin.png`, `avatar.png`, `logo.png`, `profile.png`. Re-verify each with a repo-wide grep before deleting.
+- ~55MB of `public/` assets have zero code references and can be deleted in a follow-up pass: whole dirs `story-lockscreens/` (14MB), `photos/` (20MB), `s4/` (`miui/` and `toucharea/` were reclaimed 2026-07-07 by the MIUI Design System and Touch Hot Zone case studies, do not delete); orphans `lockscreen/1-14.png`, `1-15.png`, `1-17.png`, `1-18.png`; root-level `projectimg1-4.png`, `myimg.png`, `dark/light-mode-demo.png`, `huawei/xiaomi/applovin.png`, `avatar.png`, `logo.png`, `profile.png`. Re-verify each with a repo-wide grep before deleting.
 
 Content: S6-style closing copy was folded into the plain contact section; no pending copy.
