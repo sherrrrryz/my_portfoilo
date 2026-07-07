@@ -92,14 +92,12 @@ function Fact({
   tag,
   desc,
   emoji,
-  showHint,
 }: {
   children: ReactNode;
   id: string;
   tag: string;
   desc: string;
   emoji?: string;
-  showHint?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -114,12 +112,6 @@ function Fact({
       aria-describedby={open ? `fact-${id}` : undefined}
     >
       {children}
-      {showHint && (
-        <span className="ab-fact-hint" aria-hidden="true">
-          <span className="ab-fact-hint__dot" />
-          hover
-        </span>
-      )}
       <AnimatePresence>
         {open && (
           <motion.span
@@ -400,7 +392,6 @@ export default function AboutPage() {
                 tag="The other path"
                 desc="News writing, deep reporting, data journalism. I nearly became a reporter. User interviews still feel like fieldwork."
                 emoji="📰"
-                showHint
               >
                 Journalism and Communication
               </Fact>

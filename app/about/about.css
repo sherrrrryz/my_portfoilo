@@ -330,47 +330,6 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
   color: var(--ab-paper);
 }
 
-/* pulsing "hover" hint on the first fact (same recipe as .sm-phrase-hint) */
-.ab-fact-hint {
-  position: absolute;
-  top: -0.85em;
-  right: -0.4em;
-  transform: translateX(100%);
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 8px 3px 7px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: var(--font-semibold);
-  letter-spacing: var(--tracking-widest);
-  text-transform: uppercase;
-  color: var(--ab-ink);
-  background: var(--ab-paper);
-  border: 1px solid var(--ab-line-2);
-  border-radius: var(--radius-pill);
-  white-space: nowrap;
-  pointer-events: none;
-  box-shadow: 0 4px 12px -6px rgba(17, 17, 17, 0.25);
-}
-.ab-fact-hint__dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--ab-ink);
-  animation: ab-hint-pulse 1.6s ease-in-out infinite;
-}
-@keyframes ab-hint-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: 0.35; transform: scale(0.6); }
-}
-.ab-fact:hover .ab-fact-hint,
-.ab-fact:focus-visible .ab-fact-hint {
-  opacity: 0;
-  transition: opacity 200ms var(--ease-out);
-}
-
 /* ── 02 · the path (timeline rows, hover to expand) ────────────── */
 .ab-tl { display: grid; }
 .ab-tl__row {
@@ -705,7 +664,6 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
   .ab-hero { min-height: 0; }
   .ab-portrait { justify-self: start; margin-top: 8px; }
   .ab-oc { grid-template-columns: 1fr; }
-  .ab-fact-hint { display: none; }
 }
 @media (max-width: 700px) {
   /* touch: no reliable hover — keep timeline details always visible */
