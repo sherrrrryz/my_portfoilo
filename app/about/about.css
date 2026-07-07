@@ -458,9 +458,9 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(28px, 4vw, 56px);
-  /* the cat card is much shorter than the snowboard photo — centering it
-     reads as composed instead of leaving a void under the tiles */
-  align-items: center;
+  /* both photo blocks are 3:4 now — top-align so frames and captions
+     line up across the two columns */
+  align-items: start;
   /* keep the prints photo-sized, not poster-sized, on wide screens */
   max-width: 960px;
 }
@@ -564,19 +564,22 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
   color: var(--ab-paper);
 }
 
-/* cat photos: flat tiles, no overlap. One big lead tile on top, two
-   squares under it, so the block carries the same visual weight as the
-   snowboard photo beside it. Grayscale by default; hovering the card
-   colorizes all three with a small staggered lift. */
+/* cat photos: flat tiles, no overlap. The whole block is locked to the
+   same 3:4 box as the snowboard frame beside it: a big lead tile fills
+   the remaining height, two squares sit under it. Radius matches the
+   snow photo. Grayscale by default; hovering the card colorizes all
+   three with a small staggered lift. */
 .ab-tiles {
   display: grid;
+  aspect-ratio: 3 / 4;
   grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr auto;
   gap: clamp(10px, 1.2vw, 16px);
 }
 .ab-tiles__img {
   position: relative;
   aspect-ratio: 1 / 1;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--ab-fill);
   border: 1px solid var(--ab-line);
@@ -587,10 +590,11 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
     filter var(--duration-slow) var(--ease-out),
     box-shadow var(--duration-slow) var(--ease-out);
 }
-/* lead tile: full card width, landscape */
+/* lead tile: full card width, stretches to whatever height the 3:4 box
+   leaves over after the square row */
 .ab-tiles__img[data-i='0'] {
   grid-column: 1 / -1;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: auto;
 }
 .ab-tiles__img img { object-fit: cover; }
 .ab-oc__card:hover .ab-tiles__img,

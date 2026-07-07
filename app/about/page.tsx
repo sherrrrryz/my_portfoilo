@@ -291,16 +291,16 @@ function SnowCard() {
 
 const CATS = [
   {
-    src: '/about/cat-yawn.jpg',
-    alt: 'A gray cat mid-yawn',
+    src: '/about/cats-thermal.jpg',
+    alt: 'Two cats lounging on a desk, rendered in a thermal color filter',
   },
   {
     src: '/about/cat-spotlight.jpg',
     alt: 'A cat looking up into a lamp in a dark room',
   },
   {
-    src: '/about/cats-thermal.jpg',
-    alt: 'Two cats lounging on a desk, rendered in a thermal color filter',
+    src: '/about/cat-yawn.jpg',
+    alt: 'A gray cat mid-yawn',
   },
 ] as const;
 
