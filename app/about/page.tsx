@@ -8,6 +8,11 @@
    emojiCursor are deliberate per-page copies). No scroll choreography at
    all — every interaction here is state-driven, so framer-motion only.
 
+   Bilingual: copy strings are { en, zh } pairs picked by a lang state
+   (persisted in localStorage "lang", shared with the homepage). The toggle
+   lives in the footer colophon, bottom right — per-page copy, same as
+   ThemeToggle.
+
    Content sources: Sherry_Zhou_Resume.docx + 周雪怡_交互设计.pdf (2026-07).
    Photos live in /public/about/ (EXIF/GPS stripped at export time).
 ============================================================================ */
@@ -17,8 +22,31 @@ import './about.css';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+
+/* ── i18n plumbing — per-page copy of the homepage recipe ─────────── */
+type Lang = 'en' | 'zh';
+type L10n = { en: string; zh: string };
+
+const LangContext = createContext<Lang>('en');
+
+function useLang() {
+  return useContext(LangContext);
+}
+
+function useT() {
+  const lang = useContext(LangContext);
+  return (s: L10n) => s[lang];
+}
 
 /* Light/dark toggle. Stateless: the icon swap is CSS keyed off
    html[data-theme]. Duplicated per page (isolation rule). */
@@ -63,6 +91,27 @@ function ThemeToggle() {
       >
         <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z" />
       </svg>
+    </button>
+  );
+}
+
+/* Footer language switch: shows the language you'd switch TO.
+   Duplicated on the homepage (per-page copies, same as ThemeToggle). */
+function LangToggle({
+  lang,
+  onChange,
+}: {
+  lang: Lang;
+  onChange: (l: Lang) => void;
+}) {
+  return (
+    <button
+      type="button"
+      className="ab-lang"
+      aria-label={lang === 'en' ? '切换到中文' : 'Switch to English'}
+      onClick={() => onChange(lang === 'en' ? 'zh' : 'en')}
+    >
+      {lang === 'en' ? '中文' : 'English'}
     </button>
   );
 }
@@ -127,10 +176,11 @@ function Fact({
 }: {
   children: ReactNode;
   id: string;
-  tag: string;
-  desc: string;
+  tag: L10n;
+  desc: L10n;
   emoji?: string;
 }) {
+  const t = useT();
   const [open, setOpen] = useState(false);
   const { cardRef, shift } = useCardShift<HTMLSpanElement>(open);
   return (
@@ -158,8 +208,8 @@ function Fact({
             exit={{ opacity: 0, y: 6, scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 340, damping: 26 }}
           >
-            <span className="ab-fact-card__tag">{tag}</span>
-            <span className="ab-fact-card__desc">{desc}</span>
+            <span className="ab-fact-card__tag">{t(tag)}</span>
+            <span className="ab-fact-card__desc">{t(desc)}</span>
           </motion.span>
         )}
       </AnimatePresence>
@@ -170,6 +220,7 @@ function Fact({
 /* Hero portrait: a tilted print that swaps between the studio photo and the
    weekend photo on hover (or tap, for touch), caption included. */
 function PortraitSwap() {
+  const lang = useLang();
   const [alt, setAlt] = useState(false);
   return (
     <button
@@ -202,7 +253,13 @@ function PortraitSwap() {
         />
       </span>
       <span className="ab-portrait__cap">
-        {alt ? 'The weekend version.' : 'The portfolio version.'}
+        {lang === 'zh'
+          ? alt
+            ? '周末版本。'
+            : '作品集版本。'
+          : alt
+            ? 'The weekend version.'
+            : 'The portfolio version.'}
       </span>
     </button>
   );
@@ -212,51 +269,70 @@ function PortraitSwap() {
 const PATH = [
   {
     years: '2013–2017',
-    title: 'Tsinghua University · two bachelor’s at once',
-    detail:
-      'Information Art and Design, plus a second degree in Journalism and Communication. First taste of the industry as an interaction design intern at Alibaba’s Cainiao Network.',
+    title: {
+      en: 'Tsinghua University · two bachelor’s at once',
+      zh: '清华大学 · 同时读两个本科',
+    },
+    detail: {
+      en: 'Information Art and Design, plus a second degree in Journalism and Communication. First taste of the industry as an interaction design intern at Alibaba’s Cainiao Network.',
+      zh: '信息艺术设计，加上新闻与传播的第二学位。在阿里巴巴菜鸟网络做交互设计实习生，第一次尝到行业的味道。',
+    },
   },
   {
     years: '2017–2020',
-    title: 'Tsinghua University · master’s',
-    detail:
-      'MA in Information Art and Design. Future Lab research on scent visualization and tactile graphics for blind users, with internships at Schlumberger and Huawei along the way.',
+    title: { en: 'Tsinghua University · master’s', zh: '清华大学 · 硕士' },
+    detail: {
+      en: 'MA in Information Art and Design. Future Lab research on scent visualization and tactile graphics for blind users, with internships at Schlumberger and Huawei along the way.',
+      zh: '信息艺术设计硕士。在未来实验室研究香味可视化和面向盲人的触觉图形，期间在斯伦贝谢和华为实习。',
+    },
   },
   {
     years: '2020–2021',
-    title: 'Huawei · UX Designer',
-    detail:
-      'Human factors and HCI group. Gesture design and cross-device interaction across phones, tablets and foldables, plus patent writing for cross-device features.',
+    title: { en: 'Huawei · UX Designer', zh: '华为 · UX 设计师' },
+    detail: {
+      en: 'Human factors and HCI group. Gesture design and cross-device interaction across phones, tablets and foldables, plus patent writing for cross-device features.',
+      zh: '人因与 HCI 组。负责手机、平板和折叠屏的手势设计与跨设备交互，并撰写跨设备功能专利。',
+    },
   },
   {
     years: '2021–2023',
-    title: 'Xiaomi · UX Designer → Senior UX Designer',
-    detail:
-      'Promoted to senior in year two. Led shared design standards across 7+ teams on an OS used by 700 million people, including the design system and lock screen work on this site.',
+    title: {
+      en: 'Xiaomi · UX Designer → Senior UX Designer',
+      zh: '小米 · UX 设计师 → 资深 UX 设计师',
+    },
+    detail: {
+      en: 'Promoted to senior in year two. Led shared design standards across 7+ teams on an OS used by 700 million people, including the design system and lock screen work on this site.',
+      zh: '第二年晋升资深。在一个 7 亿人使用的操作系统上，主导 7+ 团队共享的设计标准，包括本站的设计系统与锁屏项目。',
+    },
   },
   {
     years: '2023–2025',
-    title: 'AppLovin · Product Designer',
-    detail:
-      'Out-of-box flows shipped with Samsung, T-Mobile and other OEMs, where every design decision is A/B tested against installs and revenue. Moved from the Beijing office to Toronto in late 2024.',
+    title: { en: 'AppLovin · Product Designer', zh: 'AppLovin · 产品设计师' },
+    detail: {
+      en: 'Out-of-box flows shipped with Samsung, T-Mobile and other OEMs, where every design decision is A/B tested against installs and revenue. Moved from the Beijing office to Toronto in late 2024.',
+      zh: '随三星、T-Mobile 等 OEM 出厂的开箱流程，每个设计决策都以安装量和营收做 A/B 检验。2024 年底从北京办公室搬到多伦多。',
+    },
   },
   {
     years: '2025–now',
-    title: 'Toronto · what’s next',
-    detail:
-      'Settling into a new city, building this site, and staying curious about what to design next.',
+    title: { en: 'Toronto · what’s next', zh: '多伦多 · 下一步' },
+    detail: {
+      en: 'Settling into a new city, building this site, and staying curious about what to design next.',
+      zh: '安顿一座新城市，搭这个网站，并对接下来要设计什么保持好奇。',
+    },
   },
 ] as const;
 
 function TimelineRow({ row }: { row: (typeof PATH)[number] }) {
+  const t = useT();
   return (
     <div className="ab-tl__row" tabIndex={0}>
       <span className="ab-tl__years">{row.years}</span>
       <div>
-        <h3 className="ab-tl__title">{row.title}</h3>
+        <h3 className="ab-tl__title">{t(row.title)}</h3>
         <div className="ab-tl__detail" aria-hidden={false}>
           <div>
-            <p>{row.detail}</p>
+            <p>{t(row.detail)}</p>
           </div>
         </div>
       </div>
@@ -266,6 +342,7 @@ function TimelineRow({ row }: { row: (typeof PATH)[number] }) {
 
 /* ── 03 · off the clock ────────────────────────────────────────── */
 function SnowCard() {
+  const lang = useLang();
   const [hovered, setHovered] = useState(false);
   return (
     <div
@@ -276,7 +353,11 @@ function SnowCard() {
       onFocus={() => setHovered(true)}
       onBlur={() => setHovered(false)}
       tabIndex={0}
-      aria-label="Snowboarding. Former president of the Tsinghua Ski Association."
+      aria-label={
+        lang === 'zh'
+          ? '单板滑雪。清华大学滑雪协会前任社长。'
+          : 'Snowboarding. Former president of the Tsinghua Ski Association.'
+      }
     >
       <div className="ab-photo">
         <div className="ab-photo__frame">
@@ -297,20 +378,28 @@ function SnowCard() {
               exit={{ opacity: 0, y: 8, scale: 0.96 }}
               transition={{ type: 'spring', stiffness: 340, damping: 26 }}
             >
-              <span className="ab-photo__tt-tag">Tsinghua Ski Association</span>
-              <p className="ab-photo__tt-title">Club president, 2018 to 2019</p>
+              <span className="ab-photo__tt-tag">
+                {lang === 'zh' ? '清华大学滑雪协会' : 'Tsinghua Ski Association'}
+              </span>
+              <p className="ab-photo__tt-title">
+                {lang === 'zh' ? '社长，2018 至 2019' : 'Club president, 2018 to 2019'}
+              </p>
               <p className="ab-photo__tt-desc">
-                Sponsorships, races and trips for the whole club. These days it
-                is one snowboard and as much powder as possible.
+                {lang === 'zh'
+                  ? '拉赞助、办比赛、组织全社出行。如今只剩一块单板，和尽可能多的粉雪。'
+                  : 'Sponsorships, races and trips for the whole club. These days it is one snowboard and as much powder as possible.'}
               </p>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-      <span className="ab-oc__title">Winter is the busy season</span>
+      <span className="ab-oc__title">
+        {lang === 'zh' ? '冬天才是旺季' : 'Winter is the busy season'}
+      </span>
       <span className="ab-oc__tag">
-        Ran a university ski club as president. Now the meetings are optional
-        and the snow is deeper.
+        {lang === 'zh'
+          ? '大学时当过滑雪社社长。现在开会都免了，雪更深了。'
+          : 'Ran a university ski club as president. Now the meetings are optional and the snow is deeper.'}
       </span>
     </div>
   );
@@ -332,12 +421,15 @@ const CATS = [
 ] as const;
 
 function CatPile() {
+  const lang = useLang();
   return (
     <div
       className="ab-oc__card"
       style={{ cursor: emojiCursor('🐈') }}
       tabIndex={0}
-      aria-label="Two cats, photographed extensively"
+      aria-label={
+        lang === 'zh' ? '两只猫，被大量拍摄' : 'Two cats, photographed extensively'
+      }
     >
       <span className="ab-tiles">
         {CATS.map((c, i) => (
@@ -356,31 +448,111 @@ function CatPile() {
           </span>
         ))}
       </span>
-      <span className="ab-oc__title">The supervision team</span>
+      <span className="ab-oc__title">
+        {lang === 'zh' ? '监工小队' : 'The supervision team'}
+      </span>
       <span className="ab-oc__tag">
-        Two cats. They sit in on every design review, contribute nothing, and
-        approve nothing.
+        {lang === 'zh'
+          ? '两只猫。每场设计评审都列席，什么也不贡献，什么也不批准。'
+          : 'Two cats. They sit in on every design review, contribute nothing, and approve nothing.'}
       </span>
     </div>
   );
 }
 
-const ALSO_TRUE = [
-  '📰 Trained in news writing and photography',
-  '🤲 Co-authored tactile display research for blind users',
-  '📄 Wrote patents for cross-device interaction',
-  '🗣️ Bilingual, Mandarin and English',
-] as const;
+const ALSO_TRUE: L10n[] = [
+  { en: '📰 Trained in news writing and photography', zh: '📰 受过新闻写作与摄影训练' },
+  {
+    en: '🤲 Co-authored tactile display research for blind users',
+    zh: '🤲 合著过面向盲人的触觉显示研究',
+  },
+  { en: '📄 Wrote patents for cross-device interaction', zh: '📄 写过跨设备交互专利' },
+  { en: '🗣️ Bilingual, Mandarin and English', zh: '🗣️ 中英双语' },
+];
+
+/* All inline page copy that isn't part of a data constant above. */
+const UI = {
+  en: {
+    navMark: 'Xueyi Zhou',
+    crumb: 'About',
+    kicker: 'About · Xueyi (Sherry) Zhou',
+    heroSub1: 'Product designer. Raised in Beijing, based in Toronto.',
+    heroSub2: 'I design for millions of people at work, and for two cats at home.',
+    scroll: 'Scroll for the full story ↓',
+    mShort: 'The short version',
+    mPath: 'The path',
+    mOff: 'Off the clock',
+    mHello: 'Say hello',
+    pathSub: '2013 to now · hover a row',
+    offHead: 'Powder in winter, cats all year.',
+    alsoAria: 'Also true',
+    contactHead: 'Now you know me. Your turn.',
+    fHome: 'Home',
+    fOverview: 'Overview',
+    fProjects: 'Projects',
+    colophon: 'Xueyi (Sherry) Zhou © 2026',
+  },
+  zh: {
+    navMark: '周雪怡',
+    crumb: '关于',
+    kicker: '关于 · 周雪怡 (Sherry)',
+    heroSub1: '产品设计师。北京长大，现居多伦多。',
+    heroSub2: '在公司为亿万用户做设计，在家为两只猫做设计。',
+    scroll: '向下滚动看完整故事 ↓',
+    mShort: '简短版本',
+    mPath: '来时的路',
+    mOff: '工作之外',
+    mHello: '打个招呼',
+    pathSub: '2013 至今 · 悬停查看',
+    offHead: '冬天滑雪，四季撸猫。',
+    alsoAria: '同样属实',
+    contactHead: '现在你认识我了。该你了。',
+    fHome: '首页',
+    fOverview: '概览',
+    fProjects: '项目',
+    colophon: '周雪怡 (Sherry) © 2026',
+  },
+} as const;
 
 export default function AboutPage() {
+  const [lang, setLang] = useState<Lang>('en');
+
+  /* Restore the saved language after hydration (SSR is always English, so
+     the first client render matches the server markup — no mismatch). */
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('lang');
+      if (saved === 'zh' || saved === 'en') setLang(saved);
+    } catch {
+      /* private mode etc. — stay in English */
+    }
+  }, []);
+
+  /* Keep <html lang> honest for screen readers / search engines. */
+  useEffect(() => {
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  }, [lang]);
+
+  const changeLang = (l: Lang) => {
+    setLang(l);
+    try {
+      localStorage.setItem('lang', l);
+    } catch {
+      /* private mode etc. — language still applies for this visit */
+    }
+  };
+
+  const u = UI[lang];
+
   return (
+    <LangContext.Provider value={lang}>
     <div className="ab-root">
       <nav className="ab-nav" aria-label="Primary">
         <Link href="/" className="ab-nav__mark">
-          Xueyi Zhou
+          {u.navMark}
         </Link>
         <div className="ab-nav__side">
-          <span className="ab-nav__crumb">About</span>
+          <span className="ab-nav__crumb">{u.crumb}</span>
           <ThemeToggle />
         </div>
       </nav>
@@ -390,23 +562,20 @@ export default function AboutPage() {
         <div className="ab-wrap">
           <div className="ab-hero__grid">
             <div>
-              <div className="ab-hero__kicker">
-                About &middot; Xueyi (Sherry) Zhou
-              </div>
+              <div className="ab-hero__kicker">{u.kicker}</div>
               <h1 className="ab-hero__line">
-                Hi, I&rsquo;m Sherry.&nbsp;
+                {lang === 'zh' ? (
+                  <>嗨，我是 Sherry。&nbsp;</>
+                ) : (
+                  <>Hi, I&rsquo;m Sherry.&nbsp;</>
+                )}
                 <span className="ab-wave" aria-hidden="true">
                   👋
                 </span>
               </h1>
-              <p className="ab-hero__sub">
-                Product designer. Raised in Beijing, based in Toronto.
-              </p>
-              <p className="ab-hero__sub">
-                I design for millions of people at work, and for two cats at
-                home.
-              </p>
-              <span className="ab-hero__scroll">Scroll for the full story &darr;</span>
+              <p className="ab-hero__sub">{u.heroSub1}</p>
+              <p className="ab-hero__sub">{u.heroSub2}</p>
+              <span className="ab-hero__scroll">{u.scroll}</span>
             </div>
             <PortraitSwap />
           </div>
@@ -416,51 +585,112 @@ export default function AboutPage() {
       {/* ── 01 · The short version ───────────────────────────── */}
       <section className="ab-section">
         <div className="ab-wrap">
-          <Marker num="01" label="The short version" />
+          <Marker num="01" label={u.mShort} />
           <div className="ab-bio">
-            <p>
-              I grew up in Beijing and spent seven years at Tsinghua
-              University, leaving with a bachelor&rsquo;s in Information Art
-              and Design, a second bachelor&rsquo;s in Journalism and
-              Communication, and a master&rsquo;s from the same
-              interdisciplinary lab.
-            </p>
-            <p>
-              Since 2020 I have designed across every screen size: phones,
-              tablets and foldables at{' '}
-              <Fact
-                id="huawei"
-                tag="2020 to 2021"
-                desc="UX designer in the human factors and HCI group. Gesture systems and cross-device interaction, with a few patents written along the way."
-                emoji="📱"
-              >
-                Huawei
-              </Fact>
-              , an OS for 700 million people at{' '}
-              <Fact
-                id="xiaomi"
-                tag="2021 to 2023"
-                desc="UX to senior UX designer. Led shared design standards across 7+ teams, including the lock screen and design system work on this site."
-                emoji="🧩"
-              >
-                Xiaomi
-              </Fact>
-              , and growth flows measured in dollars at{' '}
-              <Fact
-                id="applovin"
-                tag="2023 to 2025"
-                desc="Product designer on out-of-box flows shipped with Samsung, T-Mobile and other OEMs. Every design decision A/B tested against revenue."
-                emoji="📈"
-              >
-                AppLovin
-              </Fact>
-              .
-            </p>
-            <p>
-              In late 2024 I moved from Beijing to Toronto with AppLovin,
-              switched my daily working language to English, and started
-              sketching what comes next. This site is part of that.
-            </p>
+            {lang === 'zh' ? (
+              <>
+                <p>
+                  我在北京长大，在清华大学度过了七年，拿到信息艺术设计的本科学位、新闻与传播的第二学位，以及同一个交叉学科实验室的硕士学位。
+                </p>
+                <p>
+                  2020 年起，我的设计横跨每一种屏幕尺寸：在{' '}
+                  <Fact
+                    id="huawei"
+                    tag={{ en: '2020 to 2021', zh: '2020 至 2021' }}
+                    desc={{
+                      en: 'UX designer in the human factors and HCI group. Gesture systems and cross-device interaction, with a few patents written along the way.',
+                      zh: '人因与 HCI 组的 UX 设计师。做手势系统和跨设备交互，顺手写了几项专利。',
+                    }}
+                    emoji="📱"
+                  >
+                    华为
+                  </Fact>{' '}
+                  做手机、平板和折叠屏，在{' '}
+                  <Fact
+                    id="xiaomi"
+                    tag={{ en: '2021 to 2023', zh: '2021 至 2023' }}
+                    desc={{
+                      en: 'UX to senior UX designer. Led shared design standards across 7+ teams, including the lock screen and design system work on this site.',
+                      zh: '从 UX 设计师晋升到资深 UX 设计师。主导 7+ 团队共用的设计标准，包括本站的锁屏与设计系统项目。',
+                    }}
+                    emoji="🧩"
+                  >
+                    小米
+                  </Fact>{' '}
+                  做一个 7 亿人使用的操作系统，在{' '}
+                  <Fact
+                    id="applovin"
+                    tag={{ en: '2023 to 2025', zh: '2023 至 2025' }}
+                    desc={{
+                      en: 'Product designer on out-of-box flows shipped with Samsung, T-Mobile and other OEMs. Every design decision A/B tested against revenue.',
+                      zh: '负责随三星、T-Mobile 等 OEM 出厂的开箱流程。每个设计决策都要经过以营收为标准的 A/B 测试。',
+                    }}
+                    emoji="📈"
+                  >
+                    AppLovin
+                  </Fact>{' '}
+                  做用美元衡量的增长流程。
+                </p>
+                <p>
+                  2024 年底，我随 AppLovin 从北京搬到多伦多，把日常工作语言切换成英语，开始勾画下一步。这个网站就是其中的一部分。
+                </p>
+              </>
+            ) : (
+              <>
+                <p>
+                  I grew up in Beijing and spent seven years at Tsinghua
+                  University, leaving with a bachelor&rsquo;s in Information Art
+                  and Design, a second bachelor&rsquo;s in Journalism and
+                  Communication, and a master&rsquo;s from the same
+                  interdisciplinary lab.
+                </p>
+                <p>
+                  Since 2020 I have designed across every screen size: phones,
+                  tablets and foldables at{' '}
+                  <Fact
+                    id="huawei"
+                    tag={{ en: '2020 to 2021', zh: '2020 至 2021' }}
+                    desc={{
+                      en: 'UX designer in the human factors and HCI group. Gesture systems and cross-device interaction, with a few patents written along the way.',
+                      zh: '人因与 HCI 组的 UX 设计师。做手势系统和跨设备交互，顺手写了几项专利。',
+                    }}
+                    emoji="📱"
+                  >
+                    Huawei
+                  </Fact>
+                  , an OS for 700 million people at{' '}
+                  <Fact
+                    id="xiaomi"
+                    tag={{ en: '2021 to 2023', zh: '2021 至 2023' }}
+                    desc={{
+                      en: 'UX to senior UX designer. Led shared design standards across 7+ teams, including the lock screen and design system work on this site.',
+                      zh: '从 UX 设计师晋升到资深 UX 设计师。主导 7+ 团队共用的设计标准，包括本站的锁屏与设计系统项目。',
+                    }}
+                    emoji="🧩"
+                  >
+                    Xiaomi
+                  </Fact>
+                  , and growth flows measured in dollars at{' '}
+                  <Fact
+                    id="applovin"
+                    tag={{ en: '2023 to 2025', zh: '2023 至 2025' }}
+                    desc={{
+                      en: 'Product designer on out-of-box flows shipped with Samsung, T-Mobile and other OEMs. Every design decision A/B tested against revenue.',
+                      zh: '负责随三星、T-Mobile 等 OEM 出厂的开箱流程。每个设计决策都要经过以营收为标准的 A/B 测试。',
+                    }}
+                    emoji="📈"
+                  >
+                    AppLovin
+                  </Fact>
+                  .
+                </p>
+                <p>
+                  In late 2024 I moved from Beijing to Toronto with AppLovin,
+                  switched my daily working language to English, and started
+                  sketching what comes next. This site is part of that.
+                </p>
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -468,8 +698,8 @@ export default function AboutPage() {
       {/* ── 02 · The path ────────────────────────────────────── */}
       <section className="ab-section">
         <div className="ab-wrap">
-          <Marker num="02" label="The path" />
-          <div className="ab-sublabel">2013 to now &middot; hover a row</div>
+          <Marker num="02" label={u.mPath} />
+          <div className="ab-sublabel">{u.pathSub}</div>
           <div className="ab-tl">
             {PATH.map((row) => (
               <TimelineRow row={row} key={row.years} />
@@ -481,16 +711,16 @@ export default function AboutPage() {
       {/* ── 03 · Off the clock ───────────────────────────────── */}
       <section className="ab-section">
         <div className="ab-wrap">
-          <Marker num="03" label="Off the clock" />
-          <h2 className="ab-h">Powder in winter, cats all year.</h2>
+          <Marker num="03" label={u.mOff} />
+          <h2 className="ab-h">{u.offHead}</h2>
           <div className="ab-oc">
             <SnowCard />
             <CatPile />
           </div>
-          <ul className="ab-pills" aria-label="Also true">
+          <ul className="ab-pills" aria-label={u.alsoAria}>
             {ALSO_TRUE.map((t) => (
-              <li className="ab-pill" key={t}>
-                {t}
+              <li className="ab-pill" key={t.en}>
+                {t[lang]}
               </li>
             ))}
           </ul>
@@ -500,21 +730,23 @@ export default function AboutPage() {
       {/* ── Contact ──────────────────────────────────────────── */}
       <footer className="ab-section ab-contact">
         <div className="ab-wrap">
-          <Marker num="04" label="Say hello" />
-          <h2 className="ab-h">Now you know me. Your turn.</h2>
+          <Marker num="04" label={u.mHello} />
+          <h2 className="ab-h">{u.contactHead}</h2>
           <a className="ab-contact__mail" href="mailto:sherrrrrryz@gmail.com">
             sherrrrrryz@gmail.com
           </a>
           <div className="ab-contact__row">
-            <Link href="/">Home</Link>
-            <Link href="/overview">Overview</Link>
-            <Link href="/projects">Projects</Link>
+            <Link href="/">{u.fHome}</Link>
+            <Link href="/overview">{u.fOverview}</Link>
+            <Link href="/projects">{u.fProjects}</Link>
           </div>
           <div className="ab-colophon">
-            <span>Xueyi (Sherry) Zhou &copy; 2026</span>
+            <span>{u.colophon}</span>
+            <LangToggle lang={lang} onChange={changeLang} />
           </div>
         </div>
       </footer>
     </div>
+    </LangContext.Provider>
   );
 }

@@ -1409,6 +1409,24 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   gap: 12px;
 }
 
+/* Language switch, bottom-right of the colophon. Inherits the colophon's
+   mono type; reads as a quiet link, darkens to ink on hover like the
+   contact-row links. */
+.sm-lang {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--sm-ink-3);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.sm-lang:hover,
+.sm-lang:focus-visible { color: var(--sm-ink); }
+
 /* ── responsive ────────────────────────────────────────────────── */
 @media (max-width: 860px) {
   .sm-flip { grid-template-columns: 1fr; }

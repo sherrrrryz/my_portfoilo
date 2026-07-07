@@ -2,7 +2,17 @@
 
 Snapshot of what's live and what still needs building. Update whenever a scaffold lands or a section ships. Use this as the "where are we" doc; use [`prd.md`](./prd.md) for the full spec.
 
-Last updated: 2026-07-07 (Touch Hot Zone case study shipped at `/projects/touch-hotspots`; see below).
+Last updated: 2026-07-07 (Chinese edition of `/` and `/about` shipped; see below).
+
+## Chinese edition (2026-07-07)
+
+`/` and `/about` are now bilingual (English / Simplified Chinese). Implementation, per page (isolation rule keeps the copies separate, same as ThemeToggle):
+
+- Every copy string in the page is an `{ en, zh }` pair (`type L10n`); data constants keep a single copy of each src/href and localize only text fields, so the languages can't drift structurally. Inline JSX copy lives in a `UI` dict; the hero sub, business body, and For-Teams quote are conditional JSX blocks because their inline-component interleaving differs by language.
+- A `lang` state (`'en' | 'zh'`) is persisted in localStorage `lang` and shared across both pages; a `LangContext` + `useT()` hook feed subcomponents. SSR always renders English; the saved language is restored after hydration (no mismatch, one repaint). `<html lang>` is kept in sync (`en` / `zh-CN`).
+- The toggle is a `LangToggle` button at the bottom right of the footer colophon (`.sm-lang` / `.ab-lang`), showing the language you'd switch TO ("中文" / "English").
+- Chinese copy uses fullwidth punctuation (，：？) after CJK characters; no em dashes.
+- Not yet translated: the case-study pages (`/projects/lockscreen`, `/projects/miui-design-system`, `/projects/applovin-oobe`, `/projects/touch-hotspots`) and the legacy detail deck. They stay English regardless of the toggle.
 
 ## Touch Hot Zone case study (2026-07-07)
 

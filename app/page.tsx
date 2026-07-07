@@ -8,6 +8,11 @@
    for hero + 01, then two grays for 02–03 and 04 onward), and a 0.4s CSS
    transition smooths the swap. The hero keeps the "I, as a ___" rotating role.
 
+   Bilingual: every copy string is an { en, zh } pair picked by a lang state
+   (persisted in localStorage "lang", shared with /about). The toggle lives
+   in the footer colophon, bottom right. SSR renders English; a returning
+   zh reader flips after hydration (no mismatch, one repaint).
+
    Self-contained: no TSX imports shared with the lockscreen routes (isolation
    rule). Styling lives in ./simple.css and leans on the shared token scale in
    _styles/tokens.css for type + spacing. The former scroll-driven Story page
@@ -19,7 +24,15 @@ import './simple.css';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { gsap } from 'gsap';
@@ -27,15 +40,33 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ROLES = [
-  'UX Designer',
-  'Team Leader',
-  'Researcher',
-  'Facilitator',
-  'Experimenter',
-  'Maker',
-  'Learner',
-  'Human',
+/* ── i18n plumbing ─────────────────────────────────────────────────
+   One context, one hook. Data constants keep a single copy of every
+   src/href and localize only their text fields, so the two languages
+   can never drift apart structurally. */
+type Lang = 'en' | 'zh';
+type L10n = { en: string; zh: string };
+
+const LangContext = createContext<Lang>('en');
+
+function useLang() {
+  return useContext(LangContext);
+}
+
+function useT() {
+  const lang = useContext(LangContext);
+  return (s: L10n) => s[lang];
+}
+
+const ROLES: L10n[] = [
+  { en: 'UX Designer', zh: 'UX 设计师' },
+  { en: 'Team Leader', zh: '团队负责人' },
+  { en: 'Researcher', zh: '研究者' },
+  { en: 'Facilitator', zh: '引导者' },
+  { en: 'Experimenter', zh: '实验者' },
+  { en: 'Maker', zh: '创造者' },
+  { en: 'Learner', zh: '学习者' },
+  { en: 'Human', zh: '普通人' },
 ];
 
 /* Light/dark toggle. Stateless on purpose: the visible icon is swapped by
@@ -87,7 +118,29 @@ function ThemeToggle() {
   );
 }
 
+/* Footer language switch: shows the language you'd switch TO.
+   Duplicated on /about (per-page copies, same as ThemeToggle). */
+function LangToggle({
+  lang,
+  onChange,
+}: {
+  lang: Lang;
+  onChange: (l: Lang) => void;
+}) {
+  return (
+    <button
+      type="button"
+      className="sm-lang"
+      aria-label={lang === 'en' ? '切换到中文' : 'Switch to English'}
+      onClick={() => onChange(lang === 'en' ? 'zh' : 'en')}
+    >
+      {lang === 'en' ? '中文' : 'English'}
+    </button>
+  );
+}
+
 function RotatingRole() {
+  const t = useT();
   const [i, setI] = useState(0);
   const [state, setState] = useState<'in' | 'out'>('in');
 
@@ -106,7 +159,7 @@ function RotatingRole() {
   return (
     <span className="sm-role">
       <span className="sm-role__word" data-state={state}>
-        {ROLES[i]}
+        {t(ROLES[i])}
       </span>
     </span>
   );
@@ -117,19 +170,31 @@ function RotatingRole() {
    get a sense of how big each company is. */
 const COMPANIES = [
   {
-    name: 'Xiaomi',
-    tag: 'Fortune Global 500',
-    desc: 'One of the world’s top 3 smartphone makers. Its OS runs on 700M+ monthly active devices.',
+    id: 'xiaomi',
+    name: { en: 'Xiaomi', zh: '小米' },
+    tag: { en: 'Fortune Global 500', zh: '财富世界 500 强' },
+    desc: {
+      en: 'One of the world’s top 3 smartphone makers. Its OS runs on 700M+ monthly active devices.',
+      zh: '全球前三的智能手机厂商，其操作系统运行在 7 亿+ 月活设备上。',
+    },
   },
   {
-    name: 'AppLovin',
-    tag: 'NASDAQ: APP',
-    desc: 'A leading mobile ad-tech platform, reaching over 1 billion devices every day.',
+    id: 'applovin',
+    name: { en: 'AppLovin', zh: 'AppLovin' },
+    tag: { en: 'NASDAQ: APP', zh: 'NASDAQ: APP' },
+    desc: {
+      en: 'A leading mobile ad-tech platform, reaching over 1 billion devices every day.',
+      zh: '领先的移动广告技术平台，每天触达超过 10 亿台设备。',
+    },
   },
   {
-    name: 'Huawei',
-    tag: '170+ countries',
-    desc: 'A global ICT giant with 200,000+ employees, serving over 3 billion people.',
+    id: 'huawei',
+    name: { en: 'Huawei', zh: '华为' },
+    tag: { en: '170+ countries', zh: '覆盖 170+ 国家' },
+    desc: {
+      en: 'A global ICT giant with 200,000+ employees, serving over 3 billion people.',
+      zh: '全球 ICT 巨头，拥有 20 万+ 员工，服务超过 30 亿人。',
+    },
   },
 ];
 
@@ -167,6 +232,7 @@ function useCardShift<T extends HTMLElement>(open: boolean) {
 }
 
 function CompanyHover({ c }: { c: (typeof COMPANIES)[number] }) {
+  const t = useT();
   const [open, setOpen] = useState(false);
   const { cardRef, shift } = useCardShift<HTMLSpanElement>(open);
   return (
@@ -177,14 +243,14 @@ function CompanyHover({ c }: { c: (typeof COMPANIES)[number] }) {
       onFocus={() => setOpen(true)}
       onBlur={() => setOpen(false)}
       tabIndex={0}
-      aria-describedby={open ? `co-${c.name}` : undefined}
+      aria-describedby={open ? `co-${c.id}` : undefined}
     >
-      {c.name}
+      {t(c.name)}
       <AnimatePresence>
         {open && (
           <motion.span
             className="sm-co-card"
-            id={`co-${c.name}`}
+            id={`co-${c.id}`}
             role="tooltip"
             ref={cardRef}
             style={{ translate: `calc(-50% + ${shift}px)` }}
@@ -193,8 +259,8 @@ function CompanyHover({ c }: { c: (typeof COMPANIES)[number] }) {
             exit={{ opacity: 0, y: 6, scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 340, damping: 26 }}
           >
-            <span className="sm-co-card__tag">{c.tag}</span>
-            <span className="sm-co-card__desc">{c.desc}</span>
+            <span className="sm-co-card__tag">{t(c.tag)}</span>
+            <span className="sm-co-card__desc">{t(c.desc)}</span>
           </motion.span>
         )}
       </AnimatePresence>
@@ -204,33 +270,43 @@ function CompanyHover({ c }: { c: (typeof COMPANIES)[number] }) {
 
 const MEANS = [
   {
-    text: 'It means making something personal — at a scale where nothing feels personal.',
-    meta: 'Xiaomi Lock Screen · 2023',
-    project: 'Xiaomi Lock Screen',
+    text: {
+      en: 'It means making something personal — at a scale where nothing feels personal.',
+      zh: '意味着在一个一切都谈不上个人的规模里，做出足够个人的东西。',
+    },
+    meta: { en: 'Xiaomi Lock Screen · 2023', zh: '小米锁屏 · 2023' },
     href: '/projects/lockscreen',
   },
   {
-    text: 'It means building the system that other designers build on.',
-    meta: 'MIUI Design System 2.0 · 2023',
-    project: 'MIUI Design System 2.0',
+    text: {
+      en: 'It means building the system that other designers build on.',
+      zh: '意味着搭建一套系统，让其他设计师在上面继续搭建。',
+    },
+    meta: { en: 'MIUI Design System 2.0 · 2023', zh: 'MIUI 设计系统 2.0 · 2023' },
     href: '/projects/miui-design-system',
   },
   {
-    text: "It means ‘just make it bigger’ is never the answer.",
-    meta: 'Foldable Screen Framework · 2022',
-    project: 'Foldable Screen Framework',
+    text: {
+      en: "It means ‘just make it bigger’ is never the answer.",
+      zh: '意味着“把它做大一点”从来都不是答案。',
+    },
+    meta: { en: 'Foldable Screen Framework · 2022', zh: '折叠屏框架 · 2022' },
     href: '',
   },
   {
-    text: 'It means designing what your finger feels, not what your eye sees.',
-    meta: 'Touch Hot Zone · 2024',
-    project: 'Touch Hot Zone',
+    text: {
+      en: 'It means designing what your finger feels, not what your eye sees.',
+      zh: '意味着为手指的感受设计，而不是为眼睛所见设计。',
+    },
+    meta: { en: 'Touch Hot Zone · 2024', zh: '触摸热区 · 2024' },
     href: '/projects/touch-hotspots',
   },
   {
-    text: "It means there's always another kind of design waiting to be made.",
-    meta: '',
-    project: '',
+    text: {
+      en: "It means there's always another kind of design waiting to be made.",
+      zh: '意味着总有另一种设计，等着被做出来。',
+    },
+    meta: { en: '', zh: '' },
     href: '',
   },
 ];
@@ -391,87 +467,129 @@ const DS_PHOTOS = Array.from(
 const WORKSHOP = [
   {
     src: '/section3-3/1-1.png',
-    workshop: 'Design system workshop',
-    title: 'Opener: "How might we"',
-    desc: 'Setting the frame before 40 people split into breakout groups.',
+    workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
+    title: { en: 'Opener: "How might we"', zh: '开场：“我们如何能”' },
+    desc: {
+      en: 'Setting the frame before 40 people split into breakout groups.',
+      zh: '在 40 人分组讨论之前，先把问题框定下来。',
+    },
   },
   {
     src: '/section3-3/2-1.png',
-    workshop: 'Design system workshop',
-    title: 'Small-group sketching',
-    desc: 'Senior engineers drew their own components. Nobody stayed quiet.',
+    workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
+    title: { en: 'Small-group sketching', zh: '小组草图' },
+    desc: {
+      en: 'Senior engineers drew their own components. Nobody stayed quiet.',
+      zh: '资深工程师亲手画自己的组件，没有人闲着。',
+    },
   },
   {
     src: '/section3-3/1-3.png',
-    workshop: 'Desktop feature workshop',
-    title: 'Clustered user needs',
-    desc: 'Two days of sticky notes collapsed into five opportunity areas.',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'Clustered user needs', zh: '用户需求聚类' },
+    desc: {
+      en: 'Two days of sticky notes collapsed into five opportunity areas.',
+      zh: '两天的便利贴，归拢成五个机会领域。',
+    },
   },
   {
     src: '/section3-3/2-2.png',
-    workshop: 'Design system workshop',
-    title: 'Cross-team critique',
-    desc: 'Three roles reviewed the same screen. Disagreements surfaced fast.',
+    workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
+    title: { en: 'Cross-team critique', zh: '跨团队评审' },
+    desc: {
+      en: 'Three roles reviewed the same screen. Disagreements surfaced fast.',
+      zh: '三种角色评审同一个界面，分歧很快浮出水面。',
+    },
   },
   {
     src: '/section3-3/1-2.png',
-    workshop: 'Design system workshop',
-    title: 'Redefining the problem',
-    desc: 'Madlib template forcing each team to name the real user friction.',
+    workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
+    title: { en: 'Redefining the problem', zh: '重新定义问题' },
+    desc: {
+      en: 'Madlib template forcing each team to name the real user friction.',
+      zh: '用填空模板，让每个小组说出真正的用户摩擦。',
+    },
   },
   {
     src: '/section3-3/2-5.png',
-    workshop: 'Lock screen brainstorm',
-    title: 'Card-sorting the catalog',
-    desc: 'Every lock-screen style on the wall. One afternoon to re-group them all.',
+    workshop: { en: 'Lock screen brainstorm', zh: '锁屏头脑风暴' },
+    title: { en: 'Card-sorting the catalog', zh: '卡片分类' },
+    desc: {
+      en: 'Every lock-screen style on the wall. One afternoon to re-group them all.',
+      zh: '所有锁屏样式贴上墙，一个下午全部重新归组。',
+    },
   },
   {
     src: '/section3-3/1-4.png',
-    workshop: 'Desktop feature workshop',
-    title: 'Impact × effort matrix',
-    desc: 'PMs, engineers, designers scored the same list side by side.',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'Impact × effort matrix', zh: '影响 × 成本矩阵' },
+    desc: {
+      en: 'PMs, engineers, designers scored the same list side by side.',
+      zh: '产品、工程、设计并排给同一张清单打分。',
+    },
   },
   {
     src: '/section3-3/2-3.png',
-    workshop: 'Desktop feature workshop',
-    title: 'Dot-vote round',
-    desc: 'Five dots each. Loudest voice in the room suddenly had to choose.',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'Dot-vote round', zh: '圆点投票' },
+    desc: {
+      en: 'Five dots each. Loudest voice in the room suddenly had to choose.',
+      zh: '每人五个圆点，嗓门最大的人也得做出选择。',
+    },
   },
   {
     src: '/section3-3/1-5.png',
-    workshop: 'Lock screen brainstorm',
-    title: 'Final recap',
-    desc: 'One deck to carry the decisions back to each department.',
+    workshop: { en: 'Lock screen brainstorm', zh: '锁屏头脑风暴' },
+    title: { en: 'Final recap', zh: '最终复盘' },
+    desc: {
+      en: 'One deck to carry the decisions back to each department.',
+      zh: '一份文档，把决定带回各个部门。',
+    },
   },
   {
     src: '/section3-3/2-4.png',
-    workshop: 'Desktop feature workshop',
-    title: 'Pair focus block',
-    desc: 'Designer + PM working through one flow end to end, together.',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'Pair focus block', zh: '结对专注时段' },
+    desc: {
+      en: 'Designer + PM working through one flow end to end, together.',
+      zh: '设计师和产品经理一起，把一条流程从头走到尾。',
+    },
   },
   {
     src: '/section3-3/new1.png',
-    workshop: 'Desktop feature workshop',
-    title: 'Cross-team working session',
-    desc: 'Designers, PMs, and engineers heads-down at the same table.',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'Cross-team working session', zh: '跨团队工作会' },
+    desc: {
+      en: 'Designers, PMs, and engineers heads-down at the same table.',
+      zh: '设计、产品、工程围着同一张桌子埋头干活。',
+    },
   },
   {
     src: '/section3-3/new2.png',
-    workshop: 'Design system workshop',
-    title: '40-person plenary',
-    desc: 'Whole-room debrief before the tables broke into their own tracks.',
+    workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
+    title: { en: '40-person plenary', zh: '40 人全体会' },
+    desc: {
+      en: 'Whole-room debrief before the tables broke into their own tracks.',
+      zh: '各桌分头推进之前，全场先对齐一次。',
+    },
   },
   {
     src: '/section3-3/new3.png',
-    workshop: 'Design system workshop',
-    title: 'Pain-point wall + dot vote',
-    desc: 'Every gap in the old system called out. Dots picked what to fix first.',
+    workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
+    title: { en: 'Pain-point wall + dot vote', zh: '痛点墙 + 圆点投票' },
+    desc: {
+      en: 'Every gap in the old system called out. Dots picked what to fix first.',
+      zh: '旧系统的每个缺口都被点名，圆点决定先修哪个。',
+    },
   },
   {
     src: '/section3-3/new4.png',
-    workshop: 'Design system workshop',
-    title: 'Team-by-team critique board',
-    desc: "Every designer's work reviewed side by side by the whole team.",
+    workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
+    title: { en: 'Team-by-team critique board', zh: '逐组评审墙' },
+    desc: {
+      en: "Every designer's work reviewed side by side by the whole team.",
+      zh: '每位设计师的产出并排陈列，全组一起评审。',
+    },
   },
 ] as const;
 
@@ -479,6 +597,7 @@ const WORKSHOP = [
    tooltip above it (workshop tag · title · description) — same recipe as the
    home page's WorkshopWall, restyled black/white. */
 function WorkshopCell({ w }: { w: (typeof WORKSHOP)[number] }) {
+  const t = useT();
   const [hovered, setHovered] = useState(false);
   const { cardRef, shift } = useCardShift<HTMLDivElement>(hovered);
   return (
@@ -489,7 +608,7 @@ function WorkshopCell({ w }: { w: (typeof WORKSHOP)[number] }) {
       onFocus={() => setHovered(true)}
       onBlur={() => setHovered(false)}
       tabIndex={0}
-      aria-label={`${w.workshop}: ${w.title}`}
+      aria-label={`${t(w.workshop)}: ${t(w.title)}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={w.src} alt="" loading="lazy" draggable={false} />
@@ -504,9 +623,9 @@ function WorkshopCell({ w }: { w: (typeof WORKSHOP)[number] }) {
             exit={{ opacity: 0, y: 8, scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 340, damping: 26 }}
           >
-            <span className="sm-ww__tt-tag">{w.workshop}</span>
-            <p className="sm-ww__tt-title">{w.title}</p>
-            <p className="sm-ww__tt-desc">{w.desc}</p>
+            <span className="sm-ww__tt-tag">{t(w.workshop)}</span>
+            <p className="sm-ww__tt-title">{t(w.title)}</p>
+            <p className="sm-ww__tt-desc">{t(w.desc)}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -533,6 +652,7 @@ const STRIP_STAGGER_MS = 260;
    the strip's images from lazy to eager so they're decoded before the
    reveal starts — no pop-in while the strip is growing. */
 function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
+  const t = useT();
   const headRef = useRef<HTMLDivElement | null>(null);
   const [near, setNear] = useState(false);
   const [open, setOpen] = useState(false);
@@ -596,14 +716,14 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
         <p className="sm-means__text" style={{ cursor: emojiCursor('👀') }}>
           {m.href ? (
             <Link href={m.href} className="sm-means__text-link">
-              {m.text}
+              {t(m.text)}
             </Link>
           ) : (
-            m.text
+            t(m.text)
           )}
         </p>
-        {m.meta && (
-          <div className="sm-means__meta">{m.meta}</div>
+        {t(m.meta) && (
+          <div className="sm-means__meta">{t(m.meta)}</div>
         )}
       </div>
     </div>
@@ -689,29 +809,44 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
 
 const FLIP = [
   {
-    label: 'Onboarding survey',
-    actual: '5-step survey drove 18% install growth. 1-step only drove 14%.',
-    insight: 'Longer engagement built stronger intent.',
-    loser: '1 step',
-    winner: '5 step',
+    label: { en: 'Onboarding survey', zh: '开机问卷' },
+    actual: {
+      en: '5-step survey drove 18% install growth. 1-step only drove 14%.',
+      zh: '5 步问卷带来 18% 的安装增长，1 步问卷只有 14%。',
+    },
+    insight: {
+      en: 'Longer engagement built stronger intent.',
+      zh: '更长的参与，换来更强的意愿。',
+    },
+    loser: { en: '1 step', zh: '1 步' },
+    winner: { en: '5 step', zh: '5 步' },
     loserImg: '/section2/1-step.png',
     winnerImg: '/section2/5-step.png',
   },
   {
-    label: 'App bundle',
-    actual: 'Showing all app icons lifted installs by 0.47 per user. Collapsed view only lifted 0.37.',
-    insight: 'Transparency beat minimalism.',
-    loser: 'Collapsed',
-    winner: 'Transparent',
+    label: { en: 'App bundle', zh: '应用合集' },
+    actual: {
+      en: 'Showing all app icons lifted installs by 0.47 per user. Collapsed view only lifted 0.37.',
+      zh: '展示全部应用图标让人均安装提升 0.47，折叠视图只有 0.37。',
+    },
+    insight: { en: 'Transparency beat minimalism.', zh: '透明胜过极简。' },
+    loser: { en: 'Collapsed', zh: '折叠' },
+    winner: { en: 'Transparent', zh: '透明' },
     loserImg: '/section2/collapsed.png',
     winnerImg: '/section2/transparent.png',
   },
   {
-    label: 'Recommendation browsing',
-    actual: 'Swipe cards reached 15.65% CTR. Free-scroll list stayed much lower.',
-    insight: 'Forced focus beat open browsing.',
-    loser: 'Free-scroll',
-    winner: 'Swipe',
+    label: { en: 'Recommendation browsing', zh: '推荐浏览方式' },
+    actual: {
+      en: 'Swipe cards reached 15.65% CTR. Free-scroll list stayed much lower.',
+      zh: '滑动卡片的点击率达到 15.65%，自由滚动列表远低于此。',
+    },
+    insight: {
+      en: 'Forced focus beat open browsing.',
+      zh: '强制聚焦胜过自由浏览。',
+    },
+    loser: { en: 'Free-scroll', zh: '自由滚动' },
+    winner: { en: 'Swipe', zh: '滑动卡片' },
     loserImg: '/section2/free-scroll.png',
     winnerImg: '/section2/swipe.png',
   },
@@ -719,39 +854,55 @@ const FLIP = [
 
 const PHRASES = [
   {
-    head: 'a newcomer',
+    id: 'newcomer',
+    head: { en: 'a newcomer', zh: '一个新人' },
     items: [
-      'Only 1 year of working experience',
-      'Already leading another key project',
-      "Started with 2 teammates who weren't sure about me",
+      { en: 'Only 1 year of working experience', zh: '只有 1 年工作经验' },
+      { en: 'Already leading another key project', zh: '同时还在主导另一个重点项目' },
+      {
+        en: "Started with 2 teammates who weren't sure about me",
+        zh: '起步时的 2 位队友对我还将信将疑',
+      },
     ],
   },
   {
-    head: 'a team of senior people',
+    id: 'senior-team',
+    head: { en: 'a team of senior people', zh: '一支资深团队' },
     items: [
-      'Grew the team from 2 to 7',
-      'Helped everyone understand the current state',
-      'Gathered evidence to set a clear direction',
-      'Learned together as a team',
-      'Took the first step alone so others could follow',
+      { en: 'Grew the team from 2 to 7', zh: '把团队从 2 人带到 7 人' },
+      { en: 'Helped everyone understand the current state', zh: '帮每个人看清现状' },
+      { en: 'Gathered evidence to set a clear direction', zh: '收集证据，定下清晰的方向' },
+      { en: 'Learned together as a team', zh: '和团队一起学习' },
+      {
+        en: 'Took the first step alone so others could follow',
+        zh: '先独自迈出第一步，让别人可以跟上',
+      },
     ],
   },
   {
-    head: 'multiple departments',
+    id: 'departments',
+    head: { en: 'multiple departments', zh: '多个部门' },
     items: [
-      '40-person workshop with design, PM, and research',
-      'Invited engineers to share their pain points',
-      'Aligned rules directly with 6 SDK engineers',
-      'Cross-role review: 10 designers + 10 PMs + 10 engineers',
+      {
+        en: '40-person workshop with design, PM, and research',
+        zh: '40 人工作坊，设计、产品、研究一起参与',
+      },
+      { en: 'Invited engineers to share their pain points', zh: '邀请工程师来讲他们的痛点' },
+      { en: 'Aligned rules directly with 6 SDK engineers', zh: '与 6 位 SDK 工程师直接对齐规则' },
+      {
+        en: 'Cross-role review: 10 designers + 10 PMs + 10 engineers',
+        zh: '跨角色评审：10 位设计师 + 10 位产品经理 + 10 位工程师',
+      },
     ],
   },
   {
-    head: 'a terrible idea',
+    id: 'terrible-idea',
+    head: { en: 'a terrible idea', zh: '一个糟糕的主意' },
     items: [
-      '8 core components documented',
-      'First-ever foundation guidelines',
-      'Design tokens introduced',
-      '8.9 / 10 satisfaction score',
+      { en: '8 core components documented', zh: '沉淀了 8 个核心组件文档' },
+      { en: 'First-ever foundation guidelines', zh: '第一份基础规范' },
+      { en: 'Design tokens introduced', zh: '引入了设计令牌' },
+      { en: '8.9 / 10 satisfaction score', zh: '8.9 / 10 的满意度' },
     ],
   },
 ];
@@ -785,6 +936,8 @@ function HoverPhrase({
      phrase. When set, overrides the default `cursor: help`. */
   emoji?: string;
 }) {
+  const lang = useLang();
+  const t = useT();
   const [open, setOpen] = useState(false);
   const { cardRef, shift } = useCardShift<HTMLSpanElement>(open);
   return (
@@ -797,7 +950,7 @@ function HoverPhrase({
       onFocus={() => setOpen(true)}
       onBlur={() => setOpen(false)}
       tabIndex={0}
-      aria-describedby={open ? `phrase-${phrase.head}` : undefined}
+      aria-describedby={open ? `phrase-${phrase.id}` : undefined}
       aria-label={reveal ? `${reveal.before}${reveal.from}${reveal.after}` : undefined}
     >
       {reveal ? (
@@ -814,19 +967,19 @@ function HoverPhrase({
           {reveal.after}
         </>
       ) : (
-        phrase.head
+        t(phrase.head)
       )}
       {showHint && (
         <span className="sm-phrase-hint" aria-hidden="true">
           <span className="sm-phrase-hint__dot" />
-          hover
+          {lang === 'zh' ? '悬停' : 'hover'}
         </span>
       )}
       <AnimatePresence>
         {open && (
           <motion.span
             className="sm-phrase-card"
-            id={`phrase-${phrase.head}`}
+            id={`phrase-${phrase.id}`}
             role="tooltip"
             ref={cardRef}
             style={{ translate: `calc(-50% + ${shift}px)` }}
@@ -837,7 +990,7 @@ function HoverPhrase({
           >
             <ul className="sm-phrase-card__list">
               {phrase.items.map((it) => (
-                <li key={it}>{it}</li>
+                <li key={it.en}>{t(it)}</li>
               ))}
             </ul>
           </motion.span>
@@ -852,6 +1005,7 @@ function HoverPhrase({
    gets struck through in a staggered left-to-right sweep. One-way: doesn't
    un-strike on scroll back — the "we were wrong" reveal shouldn't rewind. */
 function Tenets() {
+  const lang = useLang();
   const ref = useRef<HTMLDivElement | null>(null);
   const [struck, setStruck] = useState(false);
 
@@ -890,11 +1044,21 @@ function Tenets() {
       ref={ref}
       className={`sm-group sm-group--tenets${struck ? ' sm-group--struck' : ''}`}
     >
-      <div className="sm-eyebrow">Design common sense</div>
+      <div className="sm-eyebrow">{lang === 'zh' ? '设计常识' : 'Design common sense'}</div>
       <div className="sm-tenets">
-        <p className="sm-tenet">&ldquo;Fewer steps is always better.&rdquo;</p>
-        <p className="sm-tenet">&ldquo;Cleaner UI converts more.&rdquo;</p>
-        <p className="sm-tenet">&ldquo;Users hate being forced.&rdquo;</p>
+        {lang === 'zh' ? (
+          <>
+            <p className="sm-tenet">&ldquo;步骤越少越好。&rdquo;</p>
+            <p className="sm-tenet">&ldquo;界面越干净，转化越高。&rdquo;</p>
+            <p className="sm-tenet">&ldquo;用户讨厌被强迫。&rdquo;</p>
+          </>
+        ) : (
+          <>
+            <p className="sm-tenet">&ldquo;Fewer steps is always better.&rdquo;</p>
+            <p className="sm-tenet">&ldquo;Cleaner UI converts more.&rdquo;</p>
+            <p className="sm-tenet">&ldquo;Users hate being forced.&rdquo;</p>
+          </>
+        )}
       </div>
     </div>
   );
@@ -906,14 +1070,14 @@ function Tenets() {
 type OcMedia = {
   kind: 'image' | 'video';
   src: string;
-  caption: string;
+  caption: L10n;
 };
 
 type OcProject = {
   id: string;
-  title: string;
-  tagline: string;
-  blurb: string;
+  title: L10n;
+  tagline: L10n;
+  blurb: L10n;
   emoji: string;
   stack: string[];
   media: OcMedia[];
@@ -924,238 +1088,333 @@ const OC = '/simple/off-clock';
 const OFF_CLOCK: OcProject[] = [
   {
     id: 'provis',
-    title: 'Seeing scent',
-    tagline: 'PROVis, a research tool that gives perfume a visual language.',
-    blurb:
-      'Fragrance data is rich but trapped in text. PROVis translates ingredients, notes and chemistry into flat graphic patterns, so perfumes can be browsed, compared and composed by eye. Wrapped up as an academic design study.',
+    title: { en: 'Seeing scent', zh: '看得见的香气' },
+    tagline: {
+      en: 'PROVis, a research tool that gives perfume a visual language.',
+      zh: 'PROVis，一个让香水拥有视觉语言的研究工具。',
+    },
+    blurb: {
+      en: 'Fragrance data is rich but trapped in text. PROVis translates ingredients, notes and chemistry into flat graphic patterns, so perfumes can be browsed, compared and composed by eye. Wrapped up as an academic design study.',
+      zh: '香水的数据很丰富，却困在文字里。PROVis 把成分、香调和化学属性翻译成扁平的图形语言，让香水可以用眼睛去浏览、比较和组合。最终整理成一项学术设计研究。',
+    },
     emoji: '🌸',
     stack: [`${OC}/provis/drop.jpg`, `${OC}/provis/system.jpg`, `${OC}/provis/explorer.jpg`],
     media: [
       {
         kind: 'image',
         src: `${OC}/provis/system.jpg`,
-        caption:
-          'The rule set. A real plant is traced into a flat profile, its colors sampled and softened into background and foreground elements.',
+        caption: {
+          en: 'The rule set. A real plant is traced into a flat profile, its colors sampled and softened into background and foreground elements.',
+          zh: '规则体系。把一株真实的植物描摹成扁平轮廓，取色后柔化成背景与前景元素。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/provis/drop.jpg`,
-        caption:
-          'One drop per perfume. Top, heart and base notes stack into translucent layers, and the drop fades the way a scent does over time.',
+        caption: {
+          en: 'One drop per perfume. Top, heart and base notes stack into translucent layers, and the drop fades the way a scent does over time.',
+          zh: '一滴代表一支香水。前调、中调、后调叠成半透明的层，液滴像香味一样随时间淡去。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/provis/explorer.jpg`,
-        caption:
-          'The explorer concept. A fragrance roulette to browse families, chemical charts to compare two bottles, and cards that unpack each formula.',
+        caption: {
+          en: 'The explorer concept. A fragrance roulette to browse families, chemical charts to compare two bottles, and cards that unpack each formula.',
+          zh: '浏览器概念。用香水轮盘浏览香调家族，用化学图表对比两支香水，再用卡片拆解每个配方。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/provis/paper.jpg`,
-        caption:
-          'The write-up. PROVis, a Perfume Relational Omni-dimensional Visualization Tool, structured as an application and design study.',
+        caption: {
+          en: 'The write-up. PROVis, a Perfume Relational Omni-dimensional Visualization Tool, structured as an application and design study.',
+          zh: '论文。PROVis，一个香水关系全维度可视化工具，以应用与设计研究的形式呈现。',
+        },
       },
     ],
   },
   {
     id: 'tactile',
-    title: 'Graphics you can touch',
-    tagline: 'Research on graphical tactile displays for visually impaired users.',
-    blurb:
-      'Screens assume sight. At Tsinghua I co-authored an interactive system for graphical tactile devices: a haptic interface, a voice interface and a universal keyboard, tested with visually impaired students down to the braille spacing rules.',
+    title: { en: 'Graphics you can touch', zh: '摸得到的图形' },
+    tagline: {
+      en: 'Research on graphical tactile displays for visually impaired users.',
+      zh: '面向视障用户的图形化触觉显示研究。',
+    },
+    blurb: {
+      en: 'Screens assume sight. At Tsinghua I co-authored an interactive system for graphical tactile devices: a haptic interface, a voice interface and a universal keyboard, tested with visually impaired students down to the braille spacing rules.',
+      zh: '屏幕默认人人都看得见。在清华，我参与合著了一套图形化触觉设备的交互系统：触觉界面、语音界面和通用键盘，并与视障学生一起测试，细到盲文点距的排布规则。',
+    },
     emoji: '🤲',
     stack: [`${OC}/tactile/page-2.jpg`, `${OC}/tactile/page-1.jpg`, `${OC}/tactile/page-4.jpg`],
     media: [
       {
         kind: 'image',
         src: `${OC}/tactile/page-1.jpg`,
-        caption:
-          'The paper. An interactive system combining touch, voice and a universal keyboard, grounded in interviews and the state of Chinese braille.',
+        caption: {
+          en: 'The paper. An interactive system combining touch, voice and a universal keyboard, grounded in interviews and the state of Chinese braille.',
+          zh: '论文本体。一套结合触觉、语音和通用键盘的交互系统，建立在访谈和中国盲文现状之上。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/tactile/page-2.jpg`,
-        caption:
-          'Why it matters. Existing tactile displays are driven by memorized clicking buttons, so we drew principles from how blind users actually plan, confirm and recover.',
+        caption: {
+          en: 'Why it matters. Existing tactile displays are driven by memorized clicking buttons, so we drew principles from how blind users actually plan, confirm and recover.',
+          zh: '为什么重要。现有触觉显示器靠死记按键来操作，我们从盲人用户真实的计划、确认与纠错方式中提炼原则。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/tactile/page-3.jpg`,
-        caption:
-          'The braille lattice experiment. Seven visually impaired students read two arrangements; the one that scored 90 to 100 percent became the layout rule.',
+        caption: {
+          en: 'The braille lattice experiment. Seven visually impaired students read two arrangements; the one that scored 90 to 100 percent became the layout rule.',
+          zh: '盲文点阵实验。七位视障学生阅读两种排布，得分 90 到 100 分的那一种成为布局规则。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/tactile/page-4.jpg`,
-        caption:
-          'Definition symbols and the keyboard. 3x3 dot-matrix shapes mark what is clickable, and hotkeys follow habits blind users already have.',
+        caption: {
+          en: 'Definition symbols and the keyboard. 3x3 dot-matrix shapes mark what is clickable, and hotkeys follow habits blind users already have.',
+          zh: '定义符号与键盘。3x3 点阵图形标记出可点击的对象，快捷键沿用盲人用户已有的习惯。',
+        },
       },
     ],
   },
   {
     id: 'lego',
-    title: 'Scrapbots at LEGO House',
-    tagline: 'A co-creation sprint in Billund, rewiring the City Architect table.',
-    blurb:
-      'One brief, an international team of seven, a few days inside LEGO House: get families building again in the City Architect experience. Our answer was Scrapbots, scrappy solar-powered robots that keep the LEGO city clean while players keep it powered.',
+    title: { en: 'Scrapbots at LEGO House', zh: '乐高之家的 Scrapbots' },
+    tagline: {
+      en: 'A co-creation sprint in Billund, rewiring the City Architect table.',
+      zh: '在比隆的一次共创冲刺，给 City Architect 桌注入新玩法。',
+    },
+    blurb: {
+      en: 'One brief, an international team of seven, a few days inside LEGO House: get families building again in the City Architect experience. Our answer was Scrapbots, scrappy solar-powered robots that keep the LEGO city clean while players keep it powered.',
+      zh: '一个命题，一支七人国际团队，在乐高之家的几天：让家庭在 City Architect 体验里重新动手搭建。我们的答案是 Scrapbots，一群捡废料的太阳能小机器人，玩家维持城市供电，它们维持城市干净。',
+    },
     emoji: '🧱',
     stack: [`${OC}/lego/team.jpg`, `${OC}/lego/poster.jpg`],
     media: [
       {
         kind: 'video',
         src: `${OC}/lego/house.mp4`,
-        caption: 'The prototype in motion, filmed at LEGO House.',
+        caption: {
+          en: 'The prototype in motion, filmed at LEGO House.',
+          zh: '原型运转实拍，摄于乐高之家。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/lego/poster.jpg`,
-        caption:
-          'The pitch. Scraps pile up, Scrapbots sweep in, and the loop runs on solar power that players redirect with mirrored reflectors they build themselves.',
+        caption: {
+          en: 'The pitch. Scraps pile up, Scrapbots sweep in, and the loop runs on solar power that players redirect with mirrored reflectors they build themselves.',
+          zh: '提案。废料堆起来，Scrapbots 扫过去，整个循环靠玩家亲手搭建的反光镜阵列引导太阳能来驱动。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/lego/team.jpg`,
-        caption: 'Team Scrapbots in the LEGO House workshop book.',
+        caption: {
+          en: 'Team Scrapbots in the LEGO House workshop book.',
+          zh: '工作坊纪念册里的 Scrapbots 团队。',
+        },
       },
     ],
   },
   {
     id: 'experiments',
-    title: 'Rooms, robots, patterns',
-    tagline: 'Little installations from school years. Sound, cardboard and code.',
-    blurb:
-      'Three experiments that never asked for permission. A pitch-black room that replays the same street three different ways, a choir of emoji boxes with a LEGO brain, and a long generative strip.',
+    title: { en: 'Rooms, robots, patterns', zh: '房间、机器人与图案' },
+    tagline: {
+      en: 'Little installations from school years. Sound, cardboard and code.',
+      zh: '学生时代的小装置。声音、纸板和代码。',
+    },
+    blurb: {
+      en: 'Three experiments that never asked for permission. A pitch-black room that replays the same street three different ways, a choir of emoji boxes with a LEGO brain, and a long generative strip.',
+      zh: '三个从没请示过谁的实验。一间把同一条街道播成三种世界的全黑房间，一支由乐高大脑指挥的 emoji 纸盒合唱团，还有一条长长的生成式图案。',
+    },
     emoji: '🔊',
     stack: [`${OC}/experiments/emoji.jpg`, `${OC}/experiments/strip.jpg`, `${OC}/experiments/room.jpg`],
     media: [
       {
         kind: 'video',
         src: `${OC}/experiments/installation.mp4`,
-        caption: 'A walkthrough of the sound room.',
+        caption: { en: 'A walkthrough of the sound room.', zh: '声音房间的现场走览。' },
       },
       {
         kind: 'image',
         src: `${OC}/experiments/room.jpg`,
-        caption: 'One window, one visitor. Everything else is speakers.',
+        caption: {
+          en: 'One window, one visitor. Everything else is speakers.',
+          zh: '一扇窗，一位访客，其余全是音箱。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/experiments/sounds.jpg`,
-        caption:
-          'Three sound sets, three worlds. The same room turns into a storm, a drizzle or a lazy morning depending on what you hear.',
+        caption: {
+          en: 'Three sound sets, three worlds. The same room turns into a storm, a drizzle or a lazy morning depending on what you hear.',
+          zh: '三组声音，三个世界。同一个房间，随你听到的声音变成暴雨、细雨或慵懒的清晨。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/experiments/texts.jpg`,
-        caption: 'The premise. What we hear draws the limit of what we imagine.',
+        caption: {
+          en: 'The premise. What we hear draws the limit of what we imagine.',
+          zh: '前提。我们听到什么，决定了我们能想象什么。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/experiments/emoji.jpg`,
-        caption: 'Emoji, made physical. A wall of cardboard heads on a black stage.',
+        caption: {
+          en: 'Emoji, made physical. A wall of cardboard heads on a black stage.',
+          zh: 'emoji 的实体化。黑色舞台上的一面纸板头像墙。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/experiments/emoji-night.jpg`,
-        caption: 'Lights down. Each box glows on its cue.',
+        caption: { en: 'Lights down. Each box glows on its cue.', zh: '灯光暗下，每个纸盒按各自的节拍发光。' },
       },
       {
         kind: 'image',
         src: `${OC}/experiments/robot.jpg`,
-        caption: 'The stagehand. A LEGO NXT robot wired into the show.',
+        caption: {
+          en: 'The stagehand. A LEGO NXT robot wired into the show.',
+          zh: '后台工作人员。一台接进演出的乐高 NXT 机器人。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/experiments/strip.jpg`,
-        caption: 'A generative pattern study, printed long.',
+        caption: { en: 'A generative pattern study, printed long.', zh: '一次生成式图案研究，打印成长卷。' },
       },
     ],
   },
   {
     id: 'linkly',
-    title: 'Linkly',
-    tagline: 'Where every travel link finds its place. UX certification, 2025.',
-    blurb:
-      'Trips are planned in links: maps, posts, screenshots, group chats. Linkly catches them, sorts them by trip and lays them out on a timeline. From interviews to persona to flows to refined screens.',
+    title: { en: 'Linkly', zh: 'Linkly' },
+    tagline: {
+      en: 'Where every travel link finds its place. UX certification, 2025.',
+      zh: '让每条旅行链接都有归处。UX 认证项目，2025。',
+    },
+    blurb: {
+      en: 'Trips are planned in links: maps, posts, screenshots, group chats. Linkly catches them, sorts them by trip and lays them out on a timeline. From interviews to persona to flows to refined screens.',
+      zh: '旅行是在链接里计划出来的：地图、帖子、截图、群聊。Linkly 把它们接住，按行程分类，再铺到时间线上。从访谈到画像、流程，再到细化界面。',
+    },
     emoji: '✈️',
     stack: [`${OC}/linkly/screens.jpg`, `${OC}/linkly/create-trip.jpg`, `${OC}/linkly/cover.jpg`],
     media: [
       {
         kind: 'image',
         src: `${OC}/linkly/cover.jpg`,
-        caption: 'The one-liner.',
+        caption: { en: 'The one-liner.', zh: '一句话概括。' },
       },
       {
         kind: 'image',
         src: `${OC}/linkly/problem.jpg`,
-        caption:
-          'The problem. Group trip planning is chaotic: scattered links, messy collaboration, no structure and platform lock-in.',
+        caption: {
+          en: 'The problem. Group trip planning is chaotic: scattered links, messy collaboration, no structure and platform lock-in.',
+          zh: '问题。多人旅行计划一团乱：链接四散、协作混乱、缺乏结构，还被平台锁定。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/linkly/research.jpg`,
-        caption:
-          'What travelers said. Big Google Docs that stop working, and apps that want to plan from scratch when people just need their links sorted.',
+        caption: {
+          en: 'What travelers said. Big Google Docs that stop working, and apps that want to plan from scratch when people just need their links sorted.',
+          zh: '旅行者的原话。越写越长直到失控的 Google 文档，和总想让人从零开始规划的应用，可大家只想把链接理清楚。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/linkly/persona-jason.jpg`,
-        caption:
-          'Jason, the casual contributor. Drops links in chat and wants a one-tap way to react without logging into anything.',
+        caption: {
+          en: 'Jason, the casual contributor. Drops links in chat and wants a one-tap way to react without logging into anything.',
+          zh: 'Jason，随手贡献者。往群里丢链接，希望不用登录就能一键表态。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/linkly/persona-amanda.jpg`,
-        caption: 'Amanda, the default organizer. She wants control without spreadsheet-grade overhead.',
+        caption: {
+          en: 'Amanda, the default organizer. She wants control without spreadsheet-grade overhead.',
+          zh: 'Amanda，默认的组织者。她想要掌控感，但不想要表格级的负担。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/linkly/solution.jpg`,
-        caption:
-          'The answer. An AI organizer that turns scattered travel links into a clean, shareable library and timeline.',
+        caption: {
+          en: 'The answer. An AI organizer that turns scattered travel links into a clean, shareable library and timeline.',
+          zh: '答案。一个 AI 整理器，把散落的旅行链接变成清爽可分享的资料库和时间线。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/linkly/wireframe.jpg`,
-        caption: 'Wireframes. Trips, links, link details, adding and filtering.',
+        caption: {
+          en: 'Wireframes. Trips, links, link details, adding and filtering.',
+          zh: '线框图。行程、链接、链接详情、添加与筛选。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/linkly/create-trip.jpg`,
-        caption: 'Creating a trip. Name it, date it, invite people, then just drop your links.',
+        caption: {
+          en: 'Creating a trip. Name it, date it, invite people, then just drop your links.',
+          zh: '创建行程。起名、定日期、邀请伙伴，然后只管丢链接。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/linkly/trip-links.jpg`,
-        caption: 'The trip link board. Every saved place as a card, with AI functions a tap away.',
+        caption: {
+          en: 'The trip link board. Every saved place as a card, with AI functions a tap away.',
+          zh: '行程链接板。每个收藏的地点都是一张卡片，AI 功能一步可达。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/linkly/trip-timeline.jpg`,
-        caption:
-          'The timeline. Days, stops and link cards in order, with AI to check conflicts and summarize the trip.',
+        caption: {
+          en: 'The timeline. Days, stops and link cards in order, with AI to check conflicts and summarize the trip.',
+          zh: '时间线。天数、站点和链接卡片依次排开，AI 负责查冲突、做总结。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/linkly/view-modes.jpg`,
-        caption: 'View modes. The same links as full cards, a grid, compact rows or a list.',
+        caption: {
+          en: 'View modes. The same links as full cards, a grid, compact rows or a list.',
+          zh: '视图模式。同一批链接，可以是大卡片、网格、紧凑行或列表。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/linkly/screens.jpg`,
-        caption: 'Refined screens. Home, the trip link board and the trip timeline.',
+        caption: {
+          en: 'Refined screens. Home, the trip link board and the trip timeline.',
+          zh: '细化界面。首页、行程链接板和行程时间线。',
+        },
       },
       {
         kind: 'image',
         src: `${OC}/linkly/ai-filter.jpg`,
-        caption:
-          'AI filter, v1. Name a filter, describe the condition in plain words, get a reusable set of filter chips.',
+        caption: {
+          en: 'AI filter, v1. Name a filter, describe the condition in plain words, get a reusable set of filter chips.',
+          zh: 'AI 筛选，第一版。给筛选起个名字，用大白话描述条件，得到一组可复用的筛选标签。',
+        },
       },
     ],
   },
 ];
 
 function OcLightbox({ p, onClose }: { p: OcProject; onClose: () => void }) {
+  const lang = useLang();
+  const t = useT();
   const [i, setI] = useState(0);
   const count = p.media.length;
   const m = p.media[i];
@@ -1180,7 +1439,7 @@ function OcLightbox({ p, onClose }: { p: OcProject; onClose: () => void }) {
       className="sm-oc-lb"
       role="dialog"
       aria-modal="true"
-      aria-label={p.title}
+      aria-label={t(p.title)}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -1196,12 +1455,16 @@ function OcLightbox({ p, onClose }: { p: OcProject; onClose: () => void }) {
         onClick={(e) => e.stopPropagation()}
       >
         <header className="sm-oc-lb__head">
-          <h3 className="sm-oc-lb__title">{p.title}</h3>
-          <button className="sm-oc-lb__close" onClick={onClose} aria-label="Close">
+          <h3 className="sm-oc-lb__title">{t(p.title)}</h3>
+          <button
+            className="sm-oc-lb__close"
+            onClick={onClose}
+            aria-label={lang === 'zh' ? '关闭' : 'Close'}
+          >
             &times;
           </button>
         </header>
-        <p className="sm-oc-lb__blurb">{p.blurb}</p>
+        <p className="sm-oc-lb__blurb">{t(p.blurb)}</p>
 
         <figure className="sm-oc-lb__fig">
           {m.kind === 'video' ? (
@@ -1210,30 +1473,40 @@ function OcLightbox({ p, onClose }: { p: OcProject; onClose: () => void }) {
             /* Plain <img>: lightbox media are pre-sized local JPEGs and swap on
                every arrow press; next/image's layout props buy nothing here. */
             // eslint-disable-next-line @next/next/no-img-element
-            <img key={m.src} src={m.src} alt={m.caption} />
+            <img key={m.src} src={m.src} alt={t(m.caption)} />
           )}
-          <figcaption className="sm-oc-lb__cap">{m.caption}</figcaption>
+          <figcaption className="sm-oc-lb__cap">{t(m.caption)}</figcaption>
         </figure>
 
         <footer className="sm-oc-lb__nav">
-          <button onClick={() => setI((v) => (v + count - 1) % count)} aria-label="Previous">
+          <button
+            onClick={() => setI((v) => (v + count - 1) % count)}
+            aria-label={lang === 'zh' ? '上一张' : 'Previous'}
+          >
             &larr;
           </button>
-          <div className="sm-oc-lb__dots" role="tablist" aria-label="Items">
+          <div
+            className="sm-oc-lb__dots"
+            role="tablist"
+            aria-label={lang === 'zh' ? '条目' : 'Items'}
+          >
             {p.media.map((item, d) => (
               <button
                 key={item.src + d}
                 className="sm-oc-lb__dot"
                 data-active={d === i || undefined}
                 onClick={() => setI(d)}
-                aria-label={`Item ${d + 1}`}
+                aria-label={lang === 'zh' ? `第 ${d + 1} 项` : `Item ${d + 1}`}
               />
             ))}
           </div>
           <span className="sm-oc-lb__count">
             {i + 1} / {count}
           </span>
-          <button onClick={() => setI((v) => (v + 1) % count)} aria-label="Next">
+          <button
+            onClick={() => setI((v) => (v + 1) % count)}
+            aria-label={lang === 'zh' ? '下一张' : 'Next'}
+          >
             &rarr;
           </button>
         </footer>
@@ -1244,6 +1517,7 @@ function OcLightbox({ p, onClose }: { p: OcProject; onClose: () => void }) {
 }
 
 function OffClock() {
+  const t = useT();
   const [openId, setOpenId] = useState<string | null>(null);
   const open = OFF_CLOCK.find((p) => p.id === openId);
 
@@ -1271,8 +1545,8 @@ function OffClock() {
                 </span>
               ))}
             </span>
-            <span className="sm-oc-card__title">{p.title}</span>
-            <span className="sm-oc-card__tag">{p.tagline}</span>
+            <span className="sm-oc-card__title">{t(p.title)}</span>
+            <span className="sm-oc-card__tag">{t(p.tagline)}</span>
           </button>
         ))}
       </div>
@@ -1293,8 +1567,92 @@ function Marker({ num, label }: { num: string; label: string }) {
   );
 }
 
+/* All inline page copy that isn't part of a data constant above. */
+const UI = {
+  en: {
+    navMark: 'Xueyi Zhou',
+    kicker: 'Xueyi (Sherry) Zhou · Product Designer',
+    heroLine: 'I, as a',
+    scroll: 'Scroll to read ↓',
+    mMillions: 'For Millions',
+    mBusiness: 'For Business',
+    mTeams: 'For Teams',
+    mCuriosity: 'Curiosity',
+    mHello: 'Say hello',
+    q1: 'What does it mean to design for 700 million people?',
+    bizHead: 'At AppLovin, design was measured in dollars.',
+    oemsAria: 'OEM & carrier partners',
+    verdict: 'We tested all three. All three were wrong.',
+    winnerTag: 'WINNER',
+    caseMeta: 'AppLovin OOBE · 2025',
+    caseCta: 'View the full case study',
+    quoteIntro: 'My manager said this when he put me in charge of the design system:',
+    sublabelWw: 'Workshops · aligning across departments',
+    curiosityHead: 'Curiosity doesn’t stop at the office door.',
+    contactHead: 'Let’s build for real people.',
+    fAbout: 'About',
+    fOverview: 'Overview',
+    fProjects: 'Projects',
+    colophon: 'Xueyi (Sherry) Zhou © 2026',
+  },
+  zh: {
+    navMark: '周雪怡',
+    kicker: '周雪怡 (Sherry) · 产品设计师',
+    heroLine: '我，作为',
+    scroll: '向下滚动阅读 ↓',
+    mMillions: '为亿万用户',
+    mBusiness: '为商业',
+    mTeams: '为团队',
+    mCuriosity: '好奇心',
+    mHello: '打个招呼',
+    q1: '为 7 亿人做设计，意味着什么？',
+    bizHead: '在 AppLovin，设计的好坏用美元来衡量。',
+    oemsAria: 'OEM 与运营商伙伴',
+    verdict: '三条我们都测了。三条全错了。',
+    winnerTag: '胜出',
+    caseMeta: 'AppLovin OOBE · 2025',
+    caseCta: '查看完整案例',
+    quoteIntro: '把设计系统交给我时，我的老板是这么说的：',
+    sublabelWw: '工作坊 · 跨部门对齐',
+    curiosityHead: '好奇心不会停在办公室门口。',
+    contactHead: '一起为真实的人做点东西吧。',
+    fAbout: '关于',
+    fOverview: '概览',
+    fProjects: '项目',
+    colophon: '周雪怡 (Sherry) © 2026',
+  },
+} as const;
+
 export default function SimplePage() {
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const [lang, setLang] = useState<Lang>('en');
+
+  /* Restore the saved language after hydration (SSR is always English, so
+     the first client render matches the server markup — no mismatch). */
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('lang');
+      if (saved === 'zh' || saved === 'en') setLang(saved);
+    } catch {
+      /* private mode etc. — stay in English */
+    }
+  }, []);
+
+  /* Keep <html lang> honest for screen readers / search engines. */
+  useEffect(() => {
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  }, [lang]);
+
+  const changeLang = (l: Lang) => {
+    setLang(l);
+    try {
+      localStorage.setItem('lang', l);
+    } catch {
+      /* private mode etc. — language still applies for this visit */
+    }
+  };
+
+  const u = UI[lang];
 
   /* Page-bg swap at section boundaries — same recipe as the home page's
      body[data-theme] flip (bottom 55% of the outgoing section), only here
@@ -1333,10 +1691,11 @@ export default function SimplePage() {
   }, []);
 
   return (
+    <LangContext.Provider value={lang}>
     <div className="sm-root" ref={rootRef}>
       <nav className="sm-nav" aria-label="Primary">
         <Link href="/" className="sm-nav__mark">
-          Xueyi Zhou
+          {u.navMark}
         </Link>
         <ThemeToggle />
       </nav>
@@ -1344,39 +1703,46 @@ export default function SimplePage() {
       {/* ── Hero ─────────────────────────────────────────────── */}
       <header className="sm-section sm-hero">
         <div className="sm-wrap">
-          <div className="sm-hero__kicker">Xueyi (Sherry) Zhou &middot; Product Designer</div>
+          <div className="sm-hero__kicker">{u.kicker}</div>
           <h1 className="sm-hero__line">
-            I, as a
+            {u.heroLine}
             <br />
             <RotatingRole />
             <span className="sm-role__cursor" aria-hidden="true">
               _
             </span>
           </h1>
+          {lang === 'zh' ? (
+            <p className="sm-hero__sub">
+              一名 UX/产品设计师，曾任职于
+              <CompanyHover c={COMPANIES[0]} />、
+              <CompanyHover c={COMPANIES[1]} /> 和 <CompanyHover c={COMPANIES[2]} />。
+            </p>
+          ) : (
+            <p className="sm-hero__sub">
+              A UX/Product Designer with experience at{' '}
+              <CompanyHover c={COMPANIES[0]} />,{' '}
+              <CompanyHover c={COMPANIES[1]} />, and{' '}
+              <CompanyHover c={COMPANIES[2]} />.
+            </p>
+          )}
           <p className="sm-hero__sub">
-            A UX/Product Designer with experience at{' '}
-            <CompanyHover c={COMPANIES[0]} />,{' '}
-            <CompanyHover c={COMPANIES[1]} />, and{' '}
-            <CompanyHover c={COMPANIES[2]} />.
+            {lang === 'zh'
+              ? '为亿万用户设计，为商业设计，为团队设计，也为纯粹的好奇心设计。'
+              : 'Designing for millions, for business, for teams, and out of plain curiosity.'}
           </p>
-          <p className="sm-hero__sub">
-            Designing for millions, for business, for teams, and out of plain
-            curiosity.
-          </p>
-          <span className="sm-hero__scroll">Scroll to read &darr;</span>
+          <span className="sm-hero__scroll">{u.scroll}</span>
         </div>
       </header>
 
       {/* ── 01 · For Millions ────────────────────────────────── */}
       <section className="sm-section" data-section="millions">
         <div className="sm-wrap">
-          <Marker num="01" label="For Millions" />
-          <h2 className="sm-question">
-            What does it mean to design for 700 million people?
-          </h2>
+          <Marker num="01" label={u.mMillions} />
+          <h2 className="sm-question">{u.q1}</h2>
           <div className="sm-means">
             {MEANS.map((m, idx) => (
-              <MeanRow key={m.meta} m={m} idx={idx} />
+              <MeanRow key={idx} m={m} idx={idx} />
             ))}
           </div>
         </div>
@@ -1385,20 +1751,26 @@ export default function SimplePage() {
       {/* ── 02 · For Business ────────────────────────────────── */}
       <section className="sm-section">
         <div className="sm-wrap">
-          <Marker num="02" label="For Business" />
+          <Marker num="02" label={u.mBusiness} />
 
           {/* Group 1 — headline + context */}
           <div className="sm-group">
-            <h2 className="sm-h">
-              At AppLovin, design was measured in dollars.
-            </h2>
-            <p className="sm-body sm-group__body">
-              The OOBE app-recommendation flow ships with <strong>Samsung</strong>,{' '}
-              <strong>T-Mobile</strong>, and a dozen other OEMs. It reaches tens
-              of millions of newly unboxed phones each quarter and contributes{' '}
-              <strong>seven figures of revenue</strong>.
-            </p>
-            <ul className="sm-oems" aria-label="OEM & carrier partners">
+            <h2 className="sm-h">{u.bizHead}</h2>
+            {lang === 'zh' ? (
+              <p className="sm-body sm-group__body">
+                OOBE 应用推荐流程随<strong>三星</strong>、<strong>T-Mobile</strong>
+                以及十多家 OEM 厂商出厂，每个季度触达数千万台新开箱的手机，贡献
+                <strong>七位数的营收</strong>。
+              </p>
+            ) : (
+              <p className="sm-body sm-group__body">
+                The OOBE app-recommendation flow ships with <strong>Samsung</strong>,{' '}
+                <strong>T-Mobile</strong>, and a dozen other OEMs. It reaches tens
+                of millions of newly unboxed phones each quarter and contributes{' '}
+                <strong>seven figures of revenue</strong>.
+              </p>
+            )}
+            <ul className="sm-oems" aria-label={u.oemsAria}>
               {[
                 { src: '/section2/oem-tmobile.png',  name: 'T-Mobile' },
                 { src: '/section2/oem-realme.png',   name: 'realme' },
@@ -1420,23 +1792,21 @@ export default function SimplePage() {
 
           {/* Group 3 — the verdict + the three tests */}
           <div className="sm-group">
-            <p className="sm-verdict">
-              We tested all three. All three were wrong.
-            </p>
+            <p className="sm-verdict">{u.verdict}</p>
 
           <div className="sm-flip">
             {FLIP.map((c) => (
               <FollowPointer
-                key={c.label}
+                key={c.label.en}
                 className="sm-flip__col"
-                title={c.insight}
+                title={c.insight[lang]}
               >
                 <article className="sm-card">
-                  <h3 className="sm-card__title">{c.label}</h3>
-                  <p className="sm-card__desc">{c.actual}</p>
+                  <h3 className="sm-card__title">{c.label[lang]}</h3>
+                  <p className="sm-card__desc">{c.actual[lang]}</p>
                   <div className="sm-card__pair">
                     <div className="sm-opt sm-opt--loser">
-                      <span className="sm-opt__label">{c.loser}</span>
+                      <span className="sm-opt__label">{c.loser[lang]}</span>
                       <div className="sm-opt__art">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -1449,8 +1819,8 @@ export default function SimplePage() {
                       </div>
                     </div>
                     <div className="sm-opt sm-opt--winner">
-                      <span className="sm-opt__tag">WINNER</span>
-                      <span className="sm-opt__label">{c.winner}</span>
+                      <span className="sm-opt__tag">{u.winnerTag}</span>
+                      <span className="sm-opt__label">{c.winner[lang]}</span>
                       <div className="sm-opt__art">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -1469,9 +1839,9 @@ export default function SimplePage() {
           </div>
 
             <Link href="/projects/applovin-oobe" className="sm-case-link">
-              <span className="sm-case-link__meta">AppLovin OOBE &middot; 2025</span>
+              <span className="sm-case-link__meta">{u.caseMeta}</span>
               <span className="sm-case-link__cta">
-                View the full case study
+                {u.caseCta}
                 <span className="sm-case-link__arrow" aria-hidden="true">
                   &rarr;
                 </span>
@@ -1484,27 +1854,43 @@ export default function SimplePage() {
       {/* ── 03 · For Teams ───────────────────────────────────── */}
       <section className="sm-section" data-section="teams">
         <div className="sm-wrap">
-          <Marker num="03" label="For Teams" />
-          <p className="sm-quote-intro">
-            My manager said this when he put me in charge of the design system:
-          </p>
-          <blockquote className="sm-quote">
-            &ldquo;We just put{' '}
-            <HoverPhrase phrase={PHRASES[0]} showHint emoji="😳" />
-            {' '}in charge, leading{' '}
-            <HoverPhrase phrase={PHRASES[1]} emoji="🤨" />
-            , across{' '}
-            <HoverPhrase phrase={PHRASES[2]} emoji="🤯" />
-            . Honestly? It sounded like{' '}
-            <HoverPhrase
-              phrase={PHRASES[3]}
-              reveal={{ before: 'a ', from: 'terrible', to: 'brilliant', after: ' idea' }}
-              emoji="🤩"
-            />
-            .&rdquo;
-          </blockquote>
+          <Marker num="03" label={u.mTeams} />
+          <p className="sm-quote-intro">{u.quoteIntro}</p>
+          {lang === 'zh' ? (
+            <blockquote className="sm-quote">
+              &ldquo;我们刚让
+              <HoverPhrase phrase={PHRASES[0]} showHint emoji="😳" />
+              来负责，带着
+              <HoverPhrase phrase={PHRASES[1]} emoji="🤨" />
+              ，横跨
+              <HoverPhrase phrase={PHRASES[2]} emoji="🤯" />
+              。说实话？这听起来像
+              <HoverPhrase
+                phrase={PHRASES[3]}
+                reveal={{ before: '一个', from: '糟糕', to: '绝妙', after: '的主意' }}
+                emoji="🤩"
+              />
+              。&rdquo;
+            </blockquote>
+          ) : (
+            <blockquote className="sm-quote">
+              &ldquo;We just put{' '}
+              <HoverPhrase phrase={PHRASES[0]} showHint emoji="😳" />
+              {' '}in charge, leading{' '}
+              <HoverPhrase phrase={PHRASES[1]} emoji="🤨" />
+              , across{' '}
+              <HoverPhrase phrase={PHRASES[2]} emoji="🤯" />
+              . Honestly? It sounded like{' '}
+              <HoverPhrase
+                phrase={PHRASES[3]}
+                reveal={{ before: 'a ', from: 'terrible', to: 'brilliant', after: ' idea' }}
+                emoji="🤩"
+              />
+              .&rdquo;
+            </blockquote>
+          )}
 
-          <div className="sm-sublabel">Workshops · aligning across departments</div>
+          <div className="sm-sublabel">{u.sublabelWw}</div>
           <div className="sm-ww">
             {WORKSHOP.map((w, i) => (
               <WorkshopCell w={w} key={i} />
@@ -1517,10 +1903,8 @@ export default function SimplePage() {
       {/* ── 04 · Curiosity ───────────────────────────────────── */}
       <section className="sm-section">
         <div className="sm-wrap">
-          <Marker num="04" label="Curiosity" />
-          <h2 className="sm-h sm-h--sm">
-            Curiosity doesn&rsquo;t stop at the office door.
-          </h2>
+          <Marker num="04" label={u.mCuriosity} />
+          <h2 className="sm-h sm-h--sm">{u.curiosityHead}</h2>
           <OffClock />
         </div>
       </section>
@@ -1528,21 +1912,23 @@ export default function SimplePage() {
       {/* ── Contact ──────────────────────────────────────────── */}
       <footer className="sm-section sm-contact">
         <div className="sm-wrap">
-          <Marker num="05" label="Say hello" />
-          <h2 className="sm-h sm-h--sm">Let&rsquo;s build for real people.</h2>
+          <Marker num="05" label={u.mHello} />
+          <h2 className="sm-h sm-h--sm">{u.contactHead}</h2>
           <a className="sm-contact__mail" href="mailto:sherrrrrryz@gmail.com">
             sherrrrrryz@gmail.com
           </a>
           <div className="sm-contact__row">
-            <Link href="/about">About</Link>
-            <Link href="/overview">Overview</Link>
-            <Link href="/projects">Projects</Link>
+            <Link href="/about">{u.fAbout}</Link>
+            <Link href="/overview">{u.fOverview}</Link>
+            <Link href="/projects">{u.fProjects}</Link>
           </div>
           <div className="sm-colophon">
-            <span>Xueyi (Sherry) Zhou &copy; 2026</span>
+            <span>{u.colophon}</span>
+            <LangToggle lang={lang} onChange={changeLang} />
           </div>
         </div>
       </footer>
     </div>
+    </LangContext.Provider>
   );
 }
