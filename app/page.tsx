@@ -213,7 +213,7 @@ const MEANS = [
     text: 'It means building the system that other designers build on.',
     meta: 'MIUI Design System 2.0 · 2023',
     project: 'MIUI Design System 2.0',
-    href: '',
+    href: '/projects/miui-design-system',
   },
   {
     text: "It means ‘just make it bigger’ is never the answer.",

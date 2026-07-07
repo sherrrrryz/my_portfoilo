@@ -2,7 +2,11 @@
 
 Snapshot of what's live and what still needs building. Update whenever a scaffold lands or a section ships. Use this as the "where are we" doc; use [`prd.md`](./prd.md) for the full spec.
 
-Last updated: 2026-07-07 (About page shipped at `/about`; see below).
+Last updated: 2026-07-07 (MIUI Design System case study shipped at `/projects/miui-design-system`; see below).
+
+## MIUI Design System case study (2026-07-07)
+
+`/projects/miui-design-system` is a self-contained monochrome case-study landing (`app/projects/miui-design-system/page.tsx` + `miui-ds.css`, `mds-` prefix, consumes `tokens.css`; own ThemeToggle copy per the isolation convention). Content distilled from Sherry's Notion deck "Miui规范v1": the long deck text is replaced by a hero stat band, an inline SVG handover diagram, research pictogram cards, problem-to-goal cards, an 8.9/10 score bar, doc-anatomy chips, and three before/after image pairs from `public/miui/` (that directory is therefore no longer orphaned). The homepage It-means row 2 (MIUI Design System 2.0) now links to it, and the dark-theme `:has()` guard in `tokens.css` includes `.mds-root`. No scroll choreography, no framer-motion, no shared TSX with other pages.
 
 ## About page (2026-07-07)
 
@@ -33,6 +37,7 @@ Removed in the 2026-07-04 redundancy cleanup (recover from git history if needed
 | Overview | not built | `/overview` | PRD §1.1 — elevator-pitch view. Footer already links to it. |
 | Projects | not built | `/projects` | Case-study grid. Lockscreen detail already exists at `/projects/lockscreen/detail` but no index grid yet. Footer already links to it. |
 | Lockscreen case study | built (redesigned 2026-07-04) | `/projects/lockscreen` | Landing restyled to the homepage's monochrome editorial look (`lockscreen.css`, `lsx-` prefix, consumes `tokens.css`). SeeDetail password gate + contact modal restyled, logic unchanged. |
+| MIUI Design System case study | built | `/projects/miui-design-system` | Short visual-first landing (`miui-ds.css`, `mds-` prefix, consumes `tokens.css`). Stat band + SVG diagrams + before/after pairs from `public/miui/`. Linked from homepage It-means row 2. |
 | Lockscreen detail deck | built (legacy, OFF-LIMITS) | `/projects/lockscreen/detail` | Slide deck, still isolated and styled by `globals.css`. Reached via the 6-digit gate on the landing page. |
 
 ## Outstanding
@@ -44,6 +49,6 @@ Homepage follow-ups:
 
 Known issues (found in the 2026-07-04 redundancy scan, deliberately not fixed yet):
 - `/api/send-email` route does not exist, but the lockscreen SeeDetail modal's contact form POSTs to it, so sending always fails. Either implement the route (e.g. Resend) or drop the form.
-- ~57MB of `public/` assets have zero code references and can be deleted in a follow-up pass: whole dirs `story-lockscreens/` (14MB), `photos/` (20MB), `miui/` (2.3MB), `toucharea/`, `s4/`; orphans `lockscreen/1-14.png`, `1-15.png`, `1-17.png`, `1-18.png`; root-level `projectimg1-4.png`, `myimg.png`, `dark/light-mode-demo.png`, `huawei/xiaomi/applovin.png`, `avatar.png`, `logo.png`, `profile.png`. Re-verify each with a repo-wide grep before deleting.
+- ~55MB of `public/` assets have zero code references and can be deleted in a follow-up pass: whole dirs `story-lockscreens/` (14MB), `photos/` (20MB), `toucharea/`, `s4/` (`miui/` was reclaimed 2026-07-07 by the MIUI Design System case study, do not delete); orphans `lockscreen/1-14.png`, `1-15.png`, `1-17.png`, `1-18.png`; root-level `projectimg1-4.png`, `myimg.png`, `dark/light-mode-demo.png`, `huawei/xiaomi/applovin.png`, `avatar.png`, `logo.png`, `profile.png`. Re-verify each with a repo-wide grep before deleting.
 
 Content: S6-style closing copy was folded into the plain contact section; no pending copy.
