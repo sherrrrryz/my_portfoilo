@@ -386,16 +386,9 @@ export default function AboutPage() {
             <p>
               I grew up in Beijing and spent seven years at Tsinghua
               University, leaving with a bachelor&rsquo;s in Information Art
-              and Design, a second bachelor&rsquo;s in{' '}
-              <Fact
-                id="journalism"
-                tag="The other path"
-                desc="News writing, deep reporting, data journalism. I nearly became a reporter. User interviews still feel like fieldwork."
-                emoji="📰"
-              >
-                Journalism and Communication
-              </Fact>
-              , and a master&rsquo;s from the same interdisciplinary lab.
+              and Design, a second bachelor&rsquo;s in Journalism and
+              Communication, and a master&rsquo;s from the same
+              interdisciplinary lab.
             </p>
             <p>
               Since 2020 I have designed across every screen size: phones,
