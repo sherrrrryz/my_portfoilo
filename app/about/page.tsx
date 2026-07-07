@@ -312,14 +312,14 @@ function CatPile() {
       tabIndex={0}
       aria-label="Two cats, photographed extensively"
     >
-      <span className="ab-pile">
+      <span className="ab-tiles">
         {CATS.map((c, i) => (
-          <span className="ab-pile__img" data-i={i} key={c.src}>
+          <span className="ab-tiles__img" data-i={i} key={c.src}>
             <Image
               src={c.src}
               alt={c.alt}
               fill
-              sizes="(max-width: 880px) 90vw, 40vw"
+              sizes="(max-width: 880px) 30vw, 160px"
               draggable={false}
             />
           </span>

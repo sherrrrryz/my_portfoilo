@@ -458,7 +458,9 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(28px, 4vw, 56px);
-  align-items: start;
+  /* the cat card is much shorter than the snowboard photo — centering it
+     reads as composed instead of leaving a void under the tiles */
+  align-items: center;
   /* keep the prints photo-sized, not poster-sized, on wide screens */
   max-width: 960px;
 }
@@ -562,41 +564,41 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
   color: var(--ab-paper);
 }
 
-/* photo pile (cats): three small scattered prints, each one peeking out.
-   Fixed 56%-wide square crops placed by hand (not full-size stacked
-   prints — those hid everything but the top photo). Hover fans them
-   apart slightly + colorizes. */
-.ab-pile {
-  position: relative;
-  display: block;
-  aspect-ratio: 4 / 3;
+/* cat photos: three flat square tiles in a row, no overlap.
+   Grayscale by default; hovering the card colorizes all three and
+   gives each tile a small staggered lift. */
+.ab-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(8px, 1vw, 14px);
 }
-.ab-pile__img {
-  position: absolute;
-  width: 56%;
+.ab-tiles__img {
+  position: relative;
   aspect-ratio: 1 / 1;
   border-radius: var(--radius-sm);
   overflow: hidden;
   background: var(--ab-fill);
   border: 1px solid var(--ab-line);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 10px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
   filter: grayscale(1) contrast(1.02);
   transition:
     transform var(--duration-slow) var(--ease-out),
-    filter var(--duration-slow) var(--ease-out);
+    filter var(--duration-slow) var(--ease-out),
+    box-shadow var(--duration-slow) var(--ease-out);
 }
-.ab-pile__img img { object-fit: cover; }
-.ab-pile__img[data-i='0'] { left: 1%;  top: 12%; transform: rotate(-7deg); z-index: 1; }
-.ab-pile__img[data-i='1'] { left: 43%; top: 2%;  transform: rotate(6deg);  z-index: 2; }
-.ab-pile__img[data-i='2'] { left: 21%; top: 24%; transform: rotate(-2deg); z-index: 3; }
-.ab-oc__card:hover .ab-pile__img,
-.ab-oc__card:focus-visible .ab-pile__img { filter: grayscale(0) contrast(1); }
-.ab-oc__card:hover .ab-pile__img[data-i='0'],
-.ab-oc__card:focus-visible .ab-pile__img[data-i='0'] { transform: rotate(-10deg) translate(-5%, 2%); }
-.ab-oc__card:hover .ab-pile__img[data-i='1'],
-.ab-oc__card:focus-visible .ab-pile__img[data-i='1'] { transform: rotate(9deg) translate(5%, -2%); }
-.ab-oc__card:hover .ab-pile__img[data-i='2'],
-.ab-oc__card:focus-visible .ab-pile__img[data-i='2'] { transform: rotate(-3deg) translate(0, 3%); }
+.ab-tiles__img img { object-fit: cover; }
+.ab-oc__card:hover .ab-tiles__img,
+.ab-oc__card:focus-visible .ab-tiles__img {
+  filter: grayscale(0) contrast(1);
+  transform: translateY(-4px);
+  box-shadow:
+    0 2px 4px rgba(17, 17, 17, 0.08),
+    0 14px 28px -14px rgba(17, 17, 17, 0.3);
+}
+.ab-oc__card:hover .ab-tiles__img[data-i='1'],
+.ab-oc__card:focus-visible .ab-tiles__img[data-i='1'] { transition-delay: 60ms; }
+.ab-oc__card:hover .ab-tiles__img[data-i='2'],
+.ab-oc__card:focus-visible .ab-tiles__img[data-i='2'] { transition-delay: 120ms; }
 
 .ab-oc__title {
   display: block;
