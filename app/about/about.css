@@ -252,15 +252,19 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
 .ab-bio {
   display: grid;
   gap: clamp(28px, 5vh, 48px);
-  max-width: 34ch;
 }
+/* max-width in ch on the paragraph itself so it resolves against the
+   display font size (on the parent it resolved against the 16px base
+   and squeezed the column to ~300px) */
 .ab-bio p {
   margin: 0;
-  font-size: clamp(1.3rem, 2.6vw, 2rem);
+  font-size: clamp(1.4rem, 2.8vw, 2.25rem);
   font-weight: var(--font-medium);
   line-height: 1.45;
   letter-spacing: var(--tracking-tight);
   color: var(--ab-ink);
+  max-width: 36ch;
+  text-wrap: pretty;
 }
 
 /* underlined fact + floating dark card. Same recipe as .sm-co / .sm-co-card. */
