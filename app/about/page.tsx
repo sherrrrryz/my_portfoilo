@@ -17,7 +17,7 @@ import './about.css';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 /* Light/dark toggle. Stateless: the icon swap is CSS keyed off
@@ -83,6 +83,38 @@ function Marker({ num, label }: { num: string; label: string }) {
   );
 }
 
+/* Clamp a trigger-centered floating card to the viewport. The card sits at
+   `translate: -50%` above its trigger; when the trigger is near a screen
+   edge the card would run off-screen and get cut. Measure once open and
+   return the px shift to fold into the centering translate. Duplicated on
+   the homepage (per-page copies, same as ThemeToggle). */
+function useCardShift<T extends HTMLElement>(open: boolean) {
+  const cardRef = useRef<T | null>(null);
+  const [shift, setShift] = useState(0);
+  useLayoutEffect(() => {
+    if (!open) {
+      setShift(0);
+      return;
+    }
+    const el = cardRef.current;
+    const host = el?.parentElement;
+    if (!el || !host) return;
+    const PAD = 12;
+    const hostRect = host.getBoundingClientRect();
+    const cx = hostRect.left + hostRect.width / 2;
+    /* offsetWidth, not getBoundingClientRect().width — the entry animation
+       starts at scale 0.96 and would under-measure the settled card */
+    const half = el.offsetWidth / 2;
+    let d = 0;
+    if (cx - half < PAD) d = PAD - (cx - half);
+    else if (cx + half > window.innerWidth - PAD) {
+      d = window.innerWidth - PAD - (cx + half);
+    }
+    setShift(Math.round(d));
+  }, [open]);
+  return { cardRef, shift };
+}
+
 /* Underlined fact inside the bio. Hover / focus floats a small dark card
    with a mono tag + one short story. Same recipe as the homepage's
    CompanyHover, generalized. */
@@ -100,6 +132,7 @@ function Fact({
   emoji?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const { cardRef, shift } = useCardShift<HTMLSpanElement>(open);
   return (
     <span
       className="ab-fact"
@@ -118,6 +151,8 @@ function Fact({
             className="ab-fact-card"
             id={`fact-${id}`}
             role="tooltip"
+            ref={cardRef}
+            style={{ translate: `calc(-50% + ${shift}px)` }}
             initial={{ opacity: 0, y: 10, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 6, scale: 0.96 }}

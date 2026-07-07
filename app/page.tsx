@@ -19,7 +19,7 @@ import './simple.css';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { gsap } from 'gsap';
@@ -133,8 +133,42 @@ const COMPANIES = [
   },
 ];
 
+/* Clamp a trigger-centered floating card to the viewport. The cards below
+   (company card, phrase card, workshop tooltip) are centered on their
+   trigger with `translate: -50%`; when the trigger sits near a screen edge
+   the card would run off-screen and get cut, especially on phones. Measure
+   once open and return the px shift to fold into the centering translate.
+   Duplicated on /about (per-page copies, same as ThemeToggle). */
+function useCardShift<T extends HTMLElement>(open: boolean) {
+  const cardRef = useRef<T | null>(null);
+  const [shift, setShift] = useState(0);
+  useLayoutEffect(() => {
+    if (!open) {
+      setShift(0);
+      return;
+    }
+    const el = cardRef.current;
+    const host = el?.parentElement;
+    if (!el || !host) return;
+    const PAD = 12;
+    const hostRect = host.getBoundingClientRect();
+    const cx = hostRect.left + hostRect.width / 2;
+    /* offsetWidth, not getBoundingClientRect().width — the entry animation
+       starts at scale 0.96 and would under-measure the settled card */
+    const half = el.offsetWidth / 2;
+    let d = 0;
+    if (cx - half < PAD) d = PAD - (cx - half);
+    else if (cx + half > window.innerWidth - PAD) {
+      d = window.innerWidth - PAD - (cx + half);
+    }
+    setShift(Math.round(d));
+  }, [open]);
+  return { cardRef, shift };
+}
+
 function CompanyHover({ c }: { c: (typeof COMPANIES)[number] }) {
   const [open, setOpen] = useState(false);
+  const { cardRef, shift } = useCardShift<HTMLSpanElement>(open);
   return (
     <span
       className="sm-co"
@@ -152,6 +186,8 @@ function CompanyHover({ c }: { c: (typeof COMPANIES)[number] }) {
             className="sm-co-card"
             id={`co-${c.name}`}
             role="tooltip"
+            ref={cardRef}
+            style={{ translate: `calc(-50% + ${shift}px)` }}
             initial={{ opacity: 0, y: 10, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 6, scale: 0.96 }}
@@ -444,6 +480,7 @@ const WORKSHOP = [
    home page's WorkshopWall, restyled black/white. */
 function WorkshopCell({ w }: { w: (typeof WORKSHOP)[number] }) {
   const [hovered, setHovered] = useState(false);
+  const { cardRef, shift } = useCardShift<HTMLDivElement>(hovered);
   return (
     <div
       className="sm-ww__cell"
@@ -460,6 +497,8 @@ function WorkshopCell({ w }: { w: (typeof WORKSHOP)[number] }) {
         {hovered && (
           <motion.div
             className="sm-ww__tooltip"
+            ref={cardRef}
+            style={{ translate: `calc(-50% + ${shift}px)` }}
             initial={{ opacity: 0, y: 12, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.96 }}
@@ -747,6 +786,7 @@ function HoverPhrase({
   emoji?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const { cardRef, shift } = useCardShift<HTMLSpanElement>(open);
   return (
     <span
       className="sm-phrase-hover"
@@ -788,6 +828,8 @@ function HoverPhrase({
             className="sm-phrase-card"
             id={`phrase-${phrase.head}`}
             role="tooltip"
+            ref={cardRef}
+            style={{ translate: `calc(-50% + ${shift}px)` }}
             initial={{ opacity: 0, y: 14, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.96 }}

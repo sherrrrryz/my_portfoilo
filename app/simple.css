@@ -951,7 +951,9 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   position: absolute;
   bottom: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  /* standalone translate (framer-motion owns `transform`); the inline
+     style from useCardShift() folds in the viewport-clamp offset */
+  translate: -50%;
   transform-origin: center bottom;
   margin-bottom: 14px;
   width: max-content;
@@ -1070,7 +1072,9 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   position: absolute;
   bottom: calc(100% + 12px);
   left: 50%;
-  transform: translateX(-50%);
+  /* standalone translate (framer-motion owns `transform`); the inline
+     style from useCardShift() folds in the viewport-clamp offset */
+  translate: -50%;
   transform-origin: center bottom;
   width: max-content;
   max-width: 280px;
