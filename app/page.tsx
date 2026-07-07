@@ -1484,6 +1484,7 @@ export default function SimplePage() {
             sherrrrrryz@gmail.com
           </a>
           <div className="sm-contact__row">
+            <Link href="/about">About</Link>
             <Link href="/overview">Overview</Link>
             <Link href="/projects">Projects</Link>
           </div>

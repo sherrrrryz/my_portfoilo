@@ -2,7 +2,11 @@
 
 Snapshot of what's live and what still needs building. Update whenever a scaffold lands or a section ships. Use this as the "where are we" doc; use [`prd.md`](./prd.md) for the full spec.
 
-Last updated: 2026-07-05 (dark mode shipped for `/` and `/projects/lockscreen`; see "Dark mode" below).
+Last updated: 2026-07-07 (About page shipped at `/about`; see below).
+
+## About page (2026-07-07)
+
+`/about` is a self-contained monochrome editorial page (`app/about/page.tsx` + `app/about/about.css`, `ab-` prefix) built from Sherry's resumes. Follows every homepage recipe: theme tokens aliased from the PAGE THEME block (the `:has()` guard in `tokens.css` now includes `.ab-root`), per-page ThemeToggle copy, emoji cursors, dark hover tooltip cards, grayscale-to-color photo hovers. Sections: hero with a hover-swap portrait, bio with hover facts, hover-to-expand career timeline, off-the-clock photo cards (snowboarding + cat pile), contact. Photos live in `public/about/` (EXIF/GPS stripped at export). No scroll choreography, framer-motion only. Homepage footer now links to it.
 
 ## Dark mode (2026-07-05)
 
@@ -23,6 +27,7 @@ Removed in the 2026-07-04 redundancy cleanup (recover from git history if needed
 
 | Page | Status | Route | Notes |
 |---|---|---|---|
+| About | built | `/about` | Hero portrait swap + bio hover facts + hover-expand timeline + off-clock photo cards. Self-contained (`ab-` prefix), consumes `tokens.css`. |
 | Home (plain edition) | built | `/` | Hero rotating role + 01 Millions (5 marquee rows) + 02 Business (A/B cards) + 03 Teams (workshop grid, hover phrases) + 04 Evidence + Curiosity (off-clock lightbox) + 05 Contact. Scroll-driven page-bg swap (`data-bg` on `.sm-root`) is the only scroll choreography. |
 | Story (old home) | archived | — | git tag `archive/story-page`. Recover primitives from there if needed. |
 | Overview | not built | `/overview` | PRD §1.1 — elevator-pitch view. Footer already links to it. |

@@ -79,6 +79,7 @@ Before writing a new component, walk this ladder in order. Stop at the first ste
 ## Live routes
 
 - `/` — homepage, plain monochrome edition (`app/page.tsx` + `app/simple.css`)
+- `/about` — about page, same monochrome edition (`app/about/page.tsx` + `app/about/about.css`, `ab-` prefix; photos in `public/about/`)
 - `/simple` — 308 permanent redirect to `/` (the page used to live there; see `next.config.ts`)
 - `/projects/lockscreen` — case study landing, monochrome edition (`app/projects/lockscreen/page.tsx` + `lockscreen.css`)
 - `/projects/lockscreen/detail` — case study deep-dive slide deck (OFF-LIMITS)
