@@ -459,6 +459,8 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
   grid-template-columns: 1fr 1fr;
   gap: clamp(28px, 4vw, 56px);
   align-items: start;
+  /* keep the prints photo-sized, not poster-sized, on wide screens */
+  max-width: 960px;
 }
 .ab-oc__card {
   appearance: none;
@@ -560,15 +562,19 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
   color: var(--ab-paper);
 }
 
-/* photo pile (cats): three prints fan out + colorize on hover */
+/* photo pile (cats): three small scattered prints, each one peeking out.
+   Fixed 56%-wide square crops placed by hand (not full-size stacked
+   prints — those hid everything but the top photo). Hover fans them
+   apart slightly + colorizes. */
 .ab-pile {
   position: relative;
   display: block;
-  aspect-ratio: 4 / 3.4;
+  aspect-ratio: 4 / 3;
 }
 .ab-pile__img {
   position: absolute;
-  inset: 8% 10%;
+  width: 56%;
+  aspect-ratio: 1 / 1;
   border-radius: var(--radius-sm);
   overflow: hidden;
   background: var(--ab-fill);
@@ -580,17 +586,17 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
     filter var(--duration-slow) var(--ease-out);
 }
 .ab-pile__img img { object-fit: cover; }
-.ab-pile__img[data-i='0'] { transform: rotate(-6deg) translate(-6%, 3%); z-index: 1; }
-.ab-pile__img[data-i='1'] { transform: rotate(5deg) translate(6%, -2%);  z-index: 2; }
-.ab-pile__img[data-i='2'] { transform: rotate(-1deg) translate(0, 1%);   z-index: 3; }
+.ab-pile__img[data-i='0'] { left: 1%;  top: 12%; transform: rotate(-7deg); z-index: 1; }
+.ab-pile__img[data-i='1'] { left: 43%; top: 2%;  transform: rotate(6deg);  z-index: 2; }
+.ab-pile__img[data-i='2'] { left: 21%; top: 24%; transform: rotate(-2deg); z-index: 3; }
 .ab-oc__card:hover .ab-pile__img,
 .ab-oc__card:focus-visible .ab-pile__img { filter: grayscale(0) contrast(1); }
 .ab-oc__card:hover .ab-pile__img[data-i='0'],
-.ab-oc__card:focus-visible .ab-pile__img[data-i='0'] { transform: rotate(-11deg) translate(-13%, 6%); }
+.ab-oc__card:focus-visible .ab-pile__img[data-i='0'] { transform: rotate(-10deg) translate(-5%, 2%); }
 .ab-oc__card:hover .ab-pile__img[data-i='1'],
-.ab-oc__card:focus-visible .ab-pile__img[data-i='1'] { transform: rotate(9deg) translate(13%, -5%); }
+.ab-oc__card:focus-visible .ab-pile__img[data-i='1'] { transform: rotate(9deg) translate(5%, -2%); }
 .ab-oc__card:hover .ab-pile__img[data-i='2'],
-.ab-oc__card:focus-visible .ab-pile__img[data-i='2'] { transform: rotate(-2deg) translate(0, -3%); }
+.ab-oc__card:focus-visible .ab-pile__img[data-i='2'] { transform: rotate(-3deg) translate(0, 3%); }
 
 .ab-oc__title {
   display: block;
