@@ -1,0 +1,509 @@
+/* ============================================================================
+   /projects/applovin-oobe — case-study landing for the AppLovin OOBE app
+   discovery experiments, same plain monochrome editorial read as the
+   homepage and the other case studies. Class prefix `alo-` so nothing
+   collides with `sm-`, `lsx-`, `ab-` or `mds-`. Consumes the shared token
+   scale from _styles/tokens.css (imported by page.tsx).
+============================================================================ */
+
+/* Values come from the shared page-theme scale in _styles/tokens.css, which
+   flips on html[data-theme="dark"]; only the --alo-* aliases live here. */
+.alo-root {
+  --alo-paper:  var(--theme-paper);
+  --alo-card:   var(--theme-card);    /* raised surface */
+  --alo-ink:    var(--theme-ink);
+  --alo-ink-2:  var(--theme-ink-2);   /* body */
+  --alo-ink-3:  var(--theme-ink-3);   /* muted / meta */
+  --alo-line:   var(--theme-line);    /* hairline */
+  --alo-line-2: var(--theme-line-2);  /* stronger hairline */
+  --alo-fill:   var(--theme-fill);    /* faint block fill */
+
+  background: var(--alo-paper);
+  color: var(--alo-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+}
+
+.alo-root ::selection {
+  background: var(--alo-ink);
+  color: var(--alo-paper);
+}
+
+/* ── shared layout ─────────────────────────────────────────────── */
+.alo-wrap {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding-inline: clamp(16px, 3vw, 40px);
+}
+
+.alo-section {
+  padding-block: clamp(56px, 10vh, 120px);
+  border-top: 1px solid var(--alo-line);
+}
+
+/* mono section marker: "01 — Overview" */
+.alo-marker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--alo-ink-3);
+  margin-bottom: clamp(28px, 5vh, 56px);
+}
+.alo-marker__num { color: var(--alo-ink); }
+.alo-marker__line {
+  flex: 1;
+  height: 1px;
+  background: var(--alo-line-2);
+}
+
+.alo-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--alo-ink-3);
+  margin-bottom: 14px;
+}
+
+.alo-body {
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  color: var(--alo-ink-2);
+  max-width: 62ch;
+  margin: 0;
+}
+
+/* ── top bar ───────────────────────────────────────────────────── */
+.alo-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px clamp(16px, 3vw, 40px);
+  background: color-mix(in srgb, var(--alo-paper) 82%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--alo-line);
+}
+.alo-nav__mark {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--alo-ink);
+  text-decoration: none;
+}
+.alo-nav__link {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--alo-ink-3);
+  text-decoration: none;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.alo-nav__link:hover { color: var(--alo-ink); }
+.alo-nav__right {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 20px);
+}
+
+/* light/dark toggle, same recipe as .mds-theme */
+.alo-theme {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 6px;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--alo-ink-3);
+  cursor: pointer;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.alo-theme:hover,
+.alo-theme:focus-visible { color: var(--alo-ink); }
+.alo-theme:focus-visible { outline: 2px solid var(--alo-ink); outline-offset: 2px; }
+.alo-theme svg { width: 18px; height: 18px; display: block; }
+[data-theme="dark"] .alo-theme__sun { display: none; }
+html:not([data-theme="dark"]) .alo-theme__moon { display: none; }
+
+/* ── hero ──────────────────────────────────────────────────────── */
+.alo-hero {
+  border-top: none;
+  padding-block: clamp(64px, 12vh, 140px) clamp(40px, 7vh, 72px);
+}
+.alo-hero__kicker {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--alo-ink-3);
+  margin-bottom: clamp(24px, 5vh, 48px);
+}
+.alo-hero__title {
+  font-size: clamp(2.1rem, 6vw, 5rem);
+  font-weight: var(--font-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tightest);
+  color: var(--alo-ink);
+  margin: 0;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.alo-hero__dek {
+  margin: clamp(16px, 3vh, 28px) 0 0;
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+  color: var(--alo-ink-2);
+  max-width: 44ch;
+  text-wrap: balance;
+}
+.alo-hero__meta {
+  margin-top: clamp(24px, 4vh, 40px);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  color: var(--alo-ink-3);
+}
+
+/* hero stat band: four big numbers on hairlines */
+.alo-stats {
+  margin-top: clamp(36px, 6vh, 64px);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--alo-line-2);
+}
+@media (max-width: 760px) {
+  .alo-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.alo-stat {
+  padding: clamp(18px, 3vh, 28px) clamp(4px, 1vw, 16px) 6px 0;
+  border-bottom: 1px solid var(--alo-line);
+}
+.alo-stat__num {
+  font-size: clamp(1.7rem, 3.6vw, 3rem);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-tighter);
+  line-height: 1.1;
+  color: var(--alo-ink);
+}
+.alo-stat__label {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--alo-ink-3);
+  padding-bottom: 12px;
+}
+
+/* compact stat band inside experiment sections: same anatomy, smaller type */
+.alo-xstats {
+  margin-top: clamp(20px, 3vh, 32px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  border-top: 1px solid var(--alo-line-2);
+}
+.alo-xstats .alo-stat__num {
+  font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+}
+
+/* ── overview 3-col ────────────────────────────────────────────── */
+.alo-grid3 {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .alo-grid3 { grid-template-columns: 1fr; }
+}
+.alo-plain-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  font-size: var(--text-base);
+  color: var(--alo-ink-2);
+}
+
+/* confidentiality strip: dashed border so it reads as an aside, not content */
+.alo-redact {
+  margin-top: clamp(28px, 4vh, 44px);
+  border: 1px dashed var(--alo-line-2);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  line-height: var(--leading-relaxed);
+  color: var(--alo-ink-3);
+}
+
+/* ── illustration frame (inline SVG diagrams) ──────────────────── */
+.alo-illo {
+  margin: clamp(24px, 4vh, 40px) 0 0;
+  border: 1px solid var(--alo-line);
+  border-radius: var(--radius-md);
+  background: var(--alo-fill);
+  padding: clamp(16px, 3vw, 36px);
+  color: var(--alo-ink);
+}
+.alo-illo svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.alo-illo text {
+  font-family: var(--font-mono);
+}
+.alo-illo__caption {
+  margin: 14px 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--alo-ink-3);
+}
+
+/* ── constraint pictogram cards ────────────────────────────────── */
+.alo-cards4 {
+  margin-top: clamp(24px, 4vh, 40px);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 24px);
+}
+@media (max-width: 1020px) {
+  .alo-cards4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .alo-cards4 { grid-template-columns: 1fr; }
+}
+.alo-card {
+  border: 1px solid var(--alo-line);
+  border-radius: var(--radius-md);
+  padding: clamp(18px, 2.5vw, 28px);
+  background: var(--alo-paper);
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+.alo-card svg {
+  width: 40px;
+  height: 40px;
+  color: var(--alo-ink);
+}
+.alo-card__kicker {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--alo-ink-3);
+}
+.alo-card__title {
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--alo-ink);
+  line-height: var(--leading-snug);
+}
+.alo-card__txt {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--alo-ink-2);
+}
+
+/* ── figures ───────────────────────────────────────────────────── */
+.alo-fig {
+  margin: clamp(24px, 4vh, 40px) 0 0;
+}
+.alo-fig img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--alo-line);
+  background: var(--alo-fill);
+}
+
+/* two labeled variants, stacked full width: the sanitized flows are wide
+   multi-screen strips, so side-by-side columns would shrink them illegible */
+.alo-pair {
+  margin-top: clamp(20px, 3vh, 32px);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(20px, 3vh, 32px);
+}
+.alo-pair__cell { display: grid; gap: 10px; align-content: start; }
+.alo-pair__tag {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--alo-ink-3);
+}
+.alo-pair__cell--win .alo-pair__tag { color: var(--alo-ink); }
+.alo-pair__cell figure { margin: 0; }
+.alo-pair__cell img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--alo-line);
+  background: var(--alo-fill);
+}
+
+/* ── hypothesis / takeaway ─────────────────────────────────────── */
+.alo-note {
+  margin: clamp(16px, 2.5vh, 24px) 0 0;
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  color: var(--alo-ink-2);
+  max-width: 62ch;
+}
+.alo-take {
+  margin: clamp(24px, 4vh, 40px) 0 0;
+  padding-left: clamp(16px, 2vw, 24px);
+  border-left: 2px solid var(--alo-ink);
+  max-width: 62ch;
+}
+.alo-take__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--alo-ink-3);
+  margin-bottom: 8px;
+}
+.alo-take__txt {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-relaxed);
+  color: var(--alo-ink);
+}
+
+/* ── numbered learning rows (same anatomy as the lockscreen rows) ── */
+.alo-rows {
+  margin-top: clamp(24px, 4vh, 40px);
+  border-top: 1px solid var(--alo-line-2);
+}
+.alo-row {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: clamp(12px, 2vw, 28px);
+  padding-block: clamp(16px, 2.5vh, 24px);
+  border-bottom: 1px solid var(--alo-line);
+}
+.alo-row__idx {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--alo-ink-3);
+  padding-top: 3px;
+}
+.alo-row__txt {
+  margin: 0;
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  color: var(--alo-ink-2);
+  max-width: 70ch;
+}
+.alo-row__txt strong {
+  color: var(--alo-ink);
+  font-weight: var(--font-semibold);
+}
+
+/* ── metric chips ──────────────────────────────────────────────── */
+.alo-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: clamp(16px, 2.5vh, 24px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.alo-chip {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--alo-ink-2);
+  border: 1px solid var(--alo-line-2);
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+}
+
+/* ── buttons + CTA ─────────────────────────────────────────────── */
+.alo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--alo-ink);
+  background: var(--alo-ink);
+  color: var(--alo-paper);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out);
+}
+.alo-btn:hover {
+  background: var(--alo-paper);
+  color: var(--alo-ink);
+}
+.alo-btn--ghost {
+  background: transparent;
+  color: var(--alo-ink);
+}
+.alo-btn--ghost:hover {
+  background: var(--alo-ink);
+  color: var(--alo-paper);
+}
+.alo-cta__line {
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  font-weight: var(--font-extrabold);
+  letter-spacing: var(--tracking-tightest);
+  line-height: var(--leading-tight);
+  color: var(--alo-ink);
+  margin: 0 0 clamp(20px, 4vh, 36px);
+  max-width: 24ch;
+  text-wrap: balance;
+}
+.alo-cta__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.alo-cta__hint {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--alo-ink-3);
+}
