@@ -1909,7 +1909,8 @@ export default function SimplePage() {
       </section>
 
       {/* ── 04 · Curiosity ───────────────────────────────────── */}
-      <section className="sm-section">
+      {/* id: anchor target for the Linkly card on /projects */}
+      <section className="sm-section" id="curiosity">
         <div className="sm-wrap">
           <Marker num="04" label={u.mCuriosity} />
           <h2 className="sm-h sm-h--sm">{u.curiosityHead}</h2>

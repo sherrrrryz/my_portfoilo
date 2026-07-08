@@ -2,7 +2,13 @@
 
 Snapshot of what's live and what still needs building. Update whenever a scaffold lands or a section ships. Use this as the "where are we" doc; use [`prd.md`](./prd.md) for the full spec.
 
-Last updated: 2026-07-07 (Chinese edition of `/` and `/about` shipped; see below).
+Last updated: 2026-07-08 (Projects index shipped; see below).
+
+## Projects index (2026-07-08)
+
+`/projects` is a self-contained monochrome card grid (`app/projects/ProjectsIndex.tsx` + `projects.css`, `pj-` prefix, consumes `tokens.css`; own ThemeToggle/LangToggle/emojiCursor copies per the isolation convention). Because the index is bilingual it's a client component, so a thin server wrapper (`app/projects/page.tsx`) exports the route metadata. Deliberately NOT a `layout.tsx` — that would wrap every `/projects/*` case study and the legacy detail deck.
+
+Six cards in homepage order: the four It-means projects (Lock Screen Personalization, MIUI Design System 2.0, Foldable Screen Framework, Touch Hot Zone), the AppLovin OOBE work, and Linkly. Four link to their case-study landings; Foldable ("write-up in progress") and Linkly carry a mono note instead of a CTA — Linkly's note links to `/#curiosity` (new anchor id on the homepage's 04 section) where its lightbox walkthrough lives. Thumbnails are cover-cropped 3:2, grayscale at rest, color on hover (the `/about` photo recipe); sources reuse existing `public/` assets (`lockscreen/lockscreencover.png`, `miui/components-after.png`, `foldable/note-unfold-a.png`, `toucharea/Cover.png`, `oobe/existing-flow.png`, `simple/off-clock/linkly/cover.jpg`). The dark-theme `:has()` guard in `tokens.css` includes `.pj-root`. No scroll choreography, no framer-motion, no shared TSX with other pages.
 
 ## Chinese edition (2026-07-07)
 
@@ -12,7 +18,7 @@ Last updated: 2026-07-07 (Chinese edition of `/` and `/about` shipped; see below
 - A `lang` state (`'en' | 'zh'`) is persisted in localStorage `lang` and shared across both pages; a `LangContext` + `useT()` hook feed subcomponents. SSR always renders English; the saved language is restored after hydration (no mismatch, one repaint). `<html lang>` is kept in sync (`en` / `zh-CN`).
 - The toggle is a `LangToggle` button at the bottom right of the footer colophon (`.sm-lang` / `.ab-lang`), showing the language you'd switch TO ("中文" / "English").
 - Chinese copy uses fullwidth punctuation (，：？) after CJK characters; no em dashes.
-- Not yet translated: the case-study pages (`/projects/lockscreen`, `/projects/miui-design-system`, `/projects/applovin-oobe`, `/projects/touch-hotspots`) and the legacy detail deck. They stay English regardless of the toggle.
+- Not yet translated: the case-study pages (`/projects/lockscreen`, `/projects/miui-design-system`, `/projects/applovin-oobe`, `/projects/touch-hotspots`) and the legacy detail deck. They stay English regardless of the toggle. The `/projects` index (added 2026-07-08) IS bilingual, same recipe as `/` and `/about`.
 
 ## Touch Hot Zone case study (2026-07-07)
 
@@ -53,7 +59,7 @@ Removed in the 2026-07-04 redundancy cleanup (recover from git history if needed
 | Home (plain edition) | built | `/` | Hero rotating role + 01 Millions (5 marquee rows) + 02 Business (A/B cards) + 03 Teams (workshop grid, hover phrases) + 04 Evidence + Curiosity (off-clock lightbox) + 05 Contact. Scroll-driven page-bg swap (`data-bg` on `.sm-root`) is the only scroll choreography. |
 | Story (old home) | archived | — | git tag `archive/story-page`. Recover primitives from there if needed. |
 | Overview | not built | `/overview` | PRD §1.1 — elevator-pitch view. Footer already links to it. |
-| Projects | not built | `/projects` | Case-study grid. Lockscreen detail already exists at `/projects/lockscreen/detail` but no index grid yet. Footer already links to it. |
+| Projects | built | `/projects` | Bilingual card grid of all six projects (`pj-` prefix, consumes `tokens.css`). Four cards link to case-study landings; Foldable and Linkly carry mono notes instead. |
 | Lockscreen case study | built (redesigned 2026-07-04) | `/projects/lockscreen` | Landing restyled to the homepage's monochrome editorial look (`lockscreen.css`, `lsx-` prefix, consumes `tokens.css`). SeeDetail password gate + contact modal restyled, logic unchanged. |
 | MIUI Design System case study | built | `/projects/miui-design-system` | Short visual-first landing (`miui-ds.css`, `mds-` prefix, consumes `tokens.css`). Stat band + SVG diagrams + before/after pairs from `public/miui/`. Linked from homepage It-means row 2. |
 | Touch Hot Zone case study | built | `/projects/touch-hotspots` | Short visual-first landing (`touch-hotspots.css`, `thz-` prefix, consumes `tokens.css`). Stat bands + five SVG diagrams + real heatmap from `public/toucharea/`. Linked from homepage It-means row 4. |
@@ -62,10 +68,10 @@ Removed in the 2026-07-04 redundancy cleanup (recover from git history if needed
 
 ## Outstanding
 
-Design work to scope: Overview page · Projects index · Case-study detail template.
+Design work to scope: Overview page · Case-study detail template.
 
 Homepage follow-ups:
-- Footer links to `/overview` and `/projects` currently 404 (pages not built yet, links kept intentionally per PRD).
+- Footer link to `/overview` currently 404s (page not built yet, link kept intentionally per PRD). `/projects` shipped 2026-07-08.
 
 Known issues (found in the 2026-07-04 redundancy scan, deliberately not fixed yet):
 - `/api/send-email` route does not exist, but the lockscreen SeeDetail modal's contact form POSTs to it, so sending always fails. Either implement the route (e.g. Resend) or drop the form.

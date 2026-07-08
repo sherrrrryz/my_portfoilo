@@ -335,7 +335,7 @@
    loaded, this stylesheet follows client-side navigation everywhere, and
    without the guard a dark visit to the legacy detail deck would repaint
    its overscroll area. globals.css sets the light value. */
-:root[data-theme="dark"]:has(.sm-root, .lsx-root, .ab-root, .mds-root, .alo-root, .thz-root) {
+:root[data-theme="dark"]:has(.sm-root, .lsx-root, .ab-root, .mds-root, .alo-root, .thz-root, .pj-root) {
   color-scheme: dark;
   background-color: #0e0e0e;
 }
