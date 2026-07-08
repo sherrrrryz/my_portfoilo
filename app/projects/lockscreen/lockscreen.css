@@ -428,3 +428,34 @@ html:not([data-theme="dark"]) .lsx-theme__moon { display: none; }
 .lsx-field input:focus,
 .lsx-field textarea:focus { border-color: var(--lsx-ink); }
 .lsx-modal__send { margin-top: 16px; width: 100%; }
+
+/* ── colophon + language switch ─────────────────────────────────────
+   Footer strip under the CTA, same recipe as the homepage colophon.
+   The switch reads as a quiet mono link, darkens to ink on hover. */
+.lsx-colophon {
+  margin-top: clamp(48px, 8vh, 96px);
+  padding-top: 24px;
+  border-top: 1px solid var(--lsx-line);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--lsx-ink-3);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.lsx-lang {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--lsx-ink-3);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.lsx-lang:hover,
+.lsx-lang:focus-visible { color: var(--lsx-ink); }

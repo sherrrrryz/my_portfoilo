@@ -554,3 +554,34 @@ html:not([data-theme="dark"]) .mds-theme__moon { display: none; }
   text-transform: uppercase;
   color: var(--mds-ink-3);
 }
+
+/* ── colophon + language switch ─────────────────────────────────────
+   Footer strip under the CTA, same recipe as the homepage colophon.
+   The switch reads as a quiet mono link, darkens to ink on hover. */
+.mds-colophon {
+  margin-top: clamp(48px, 8vh, 96px);
+  padding-top: 24px;
+  border-top: 1px solid var(--mds-line);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--mds-ink-3);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.mds-lang {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--mds-ink-3);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.mds-lang:hover,
+.mds-lang:focus-visible { color: var(--mds-ink); }
