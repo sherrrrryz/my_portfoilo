@@ -1573,7 +1573,6 @@ const UI = {
     navMark: 'Xueyi Zhou',
     kicker: 'Xueyi (Sherry) Zhou · Product Designer',
     heroLine: 'I, as a',
-    scroll: 'Scroll to read ↓',
     mMillions: 'For Millions',
     mBusiness: 'For Business',
     mTeams: 'For Teams',
@@ -1599,7 +1598,6 @@ const UI = {
     navMark: '周雪怡',
     kicker: '周雪怡 (Sherry) · 产品设计师',
     heroLine: '我，作为',
-    scroll: '向下滚动阅读 ↓',
     mMillions: '为亿万用户',
     mBusiness: '为商业',
     mTeams: '为团队',
@@ -1742,7 +1740,6 @@ export default function SimplePage() {
               ? '为亿万用户设计，为商业设计，为团队设计，也为纯粹的好奇心设计。'
               : 'Designing for millions, for business, for teams, and out of plain curiosity.'}
           </p>
-          <span className="sm-hero__scroll">{u.scroll}</span>
         </div>
       </header>
 

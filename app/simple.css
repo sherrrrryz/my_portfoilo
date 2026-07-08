@@ -304,18 +304,6 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   color: var(--sm-paper);
 }
 
-.sm-hero__scroll {
-  margin-top: clamp(40px, 8vh, 80px);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--sm-ink-3);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
 /* ── Millions: the three "It means" rows ───────────────────────── */
 .sm-question {
   font-size: clamp(2.1rem, 7vw, 5.5rem);
