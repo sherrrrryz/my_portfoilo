@@ -1590,8 +1590,8 @@ const UI = {
     sublabelWw: 'Workshops · aligning across departments',
     curiosityHead: 'Curiosity doesn’t stop at the office door.',
     contactHead: 'Let’s build for real people.',
+    fHome: 'Home',
     fAbout: 'About',
-    fOverview: 'Overview',
     fProjects: 'Projects',
     colophon: 'Xueyi (Sherry) Zhou © 2026',
   },
@@ -1616,8 +1616,8 @@ const UI = {
     sublabelWw: '工作坊 · 跨部门对齐',
     curiosityHead: '好奇心不会停在办公室门口。',
     contactHead: '一起为真实的人做点东西吧。',
+    fHome: '首页',
     fAbout: '关于',
-    fOverview: '概览',
     fProjects: '项目',
     colophon: '周雪怡 (Sherry) © 2026',
   },
@@ -1697,7 +1697,18 @@ export default function SimplePage() {
         <Link href="/" className="sm-nav__mark">
           {u.navMark}
         </Link>
-        <ThemeToggle />
+        <div className="sm-nav__links">
+          <Link href="/" className="sm-nav__link" aria-current="page">
+            {u.fHome}
+          </Link>
+          <Link href="/about" className="sm-nav__link">
+            {u.fAbout}
+          </Link>
+          <Link href="/projects" className="sm-nav__link">
+            {u.fProjects}
+          </Link>
+          <ThemeToggle />
+        </div>
       </nav>
 
       {/* ── Hero ─────────────────────────────────────────────── */}
@@ -1917,11 +1928,6 @@ export default function SimplePage() {
           <a className="sm-contact__mail" href="mailto:sherrrrrryz@gmail.com">
             sherrrrrryz@gmail.com
           </a>
-          <div className="sm-contact__row">
-            <Link href="/about">{u.fAbout}</Link>
-            <Link href="/overview">{u.fOverview}</Link>
-            <Link href="/projects">{u.fProjects}</Link>
-          </div>
           <div className="sm-colophon">
             <span>{u.colophon}</span>
             <LangToggle lang={lang} onChange={changeLang} />

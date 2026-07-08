@@ -474,7 +474,6 @@ const ALSO_TRUE: L10n[] = [
 const UI = {
   en: {
     navMark: 'Xueyi Zhou',
-    crumb: 'About',
     kicker: 'About · Xueyi (Sherry) Zhou',
     heroSub1: 'Product designer. Raised in Beijing, based in Toronto.',
     heroSub2: 'I design for millions of people at work, and for two cats at home.',
@@ -488,13 +487,12 @@ const UI = {
     alsoAria: 'Also true',
     contactHead: 'Now you know me. Your turn.',
     fHome: 'Home',
-    fOverview: 'Overview',
+    fAbout: 'About',
     fProjects: 'Projects',
     colophon: 'Xueyi (Sherry) Zhou © 2026',
   },
   zh: {
     navMark: '周雪怡',
-    crumb: '关于',
     kicker: '关于 · 周雪怡 (Sherry)',
     heroSub1: '产品设计师。北京长大，现居多伦多。',
     heroSub2: '在公司为亿万用户做设计，在家为两只猫做设计。',
@@ -508,7 +506,7 @@ const UI = {
     alsoAria: '同样属实',
     contactHead: '现在你认识我了。该你了。',
     fHome: '首页',
-    fOverview: '概览',
+    fAbout: '关于',
     fProjects: '项目',
     colophon: '周雪怡 (Sherry) © 2026',
   },
@@ -552,7 +550,15 @@ export default function AboutPage() {
           {u.navMark}
         </Link>
         <div className="ab-nav__side">
-          <span className="ab-nav__crumb">{u.crumb}</span>
+          <Link href="/" className="ab-nav__link">
+            {u.fHome}
+          </Link>
+          <Link href="/about" className="ab-nav__link" aria-current="page">
+            {u.fAbout}
+          </Link>
+          <Link href="/projects" className="ab-nav__link">
+            {u.fProjects}
+          </Link>
           <ThemeToggle />
         </div>
       </nav>
@@ -735,11 +741,6 @@ export default function AboutPage() {
           <a className="ab-contact__mail" href="mailto:sherrrrrryz@gmail.com">
             sherrrrrryz@gmail.com
           </a>
-          <div className="ab-contact__row">
-            <Link href="/">{u.fHome}</Link>
-            <Link href="/overview">{u.fOverview}</Link>
-            <Link href="/projects">{u.fProjects}</Link>
-          </div>
           <div className="ab-colophon">
             <span>{u.colophon}</span>
             <LangToggle lang={lang} onChange={changeLang} />

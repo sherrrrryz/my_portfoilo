@@ -143,7 +143,7 @@
   color: var(--sm-ink);
   text-decoration: none;
 }
-.sm-nav__links { display: flex; gap: clamp(14px, 3vw, 32px); }
+.sm-nav__links { display: flex; align-items: center; gap: clamp(14px, 3vw, 32px); }
 .sm-nav a.sm-nav__link {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
@@ -154,6 +154,7 @@
   transition: color var(--duration-base) var(--ease-out);
 }
 .sm-nav a.sm-nav__link:hover { color: var(--sm-ink); }
+.sm-nav a.sm-nav__link[aria-current='page'] { color: var(--sm-ink); }
 
 /* light/dark toggle — bare mono icon button; the sun/moon swap is pure CSS
    keyed off html[data-theme], so the button needs no client state. */
@@ -1378,23 +1379,6 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   transition: border-color var(--duration-base) var(--ease-out);
 }
 .sm-contact__mail:hover { border-color: var(--sm-ink); }
-.sm-contact__row {
-  margin-top: clamp(36px, 6vh, 64px);
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(16px, 3vw, 32px);
-  align-items: center;
-}
-.sm-contact__row a {
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--sm-ink-3);
-  text-decoration: none;
-  transition: color var(--duration-base) var(--ease-out);
-}
-.sm-contact__row a:hover { color: var(--sm-ink); }
 .sm-colophon {
   margin-top: clamp(48px, 8vh, 96px);
   padding-top: 24px;
