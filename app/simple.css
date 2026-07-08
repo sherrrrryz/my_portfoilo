@@ -817,9 +817,8 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
 [data-theme="dark"] .sm-opt--loser .sm-mock { filter: none; }
 [data-theme="dark"] .sm-opt--winner .sm-mock { filter: brightness(0.6); }
 
-/* Full-width case-study entry bar under the A/B cards. Raised card surface
-   (same recipe as .sm-card) so it reads as the section's one action;
-   inverts on hover. */
+/* Full-width case-study entry bar under the A/B cards. Card surface with a
+   30%-ink border so it reads as the section's one action; inverts on hover. */
 .sm-case-link {
   margin-top: clamp(32px, 5vh, 56px);
   display: flex;
@@ -828,12 +827,9 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   flex-wrap: wrap;
   gap: 10px 24px;
   padding: clamp(18px, 2.5vw, 26px) clamp(18px, 2.5vw, 30px);
-  border: none;
+  border: 1px solid color-mix(in srgb, var(--sm-ink) 30%, transparent);
   border-radius: var(--radius-md);
   background: var(--sm-card);
-  box-shadow:
-    0 1px 2px rgba(17, 17, 17, 0.04),
-    0 12px 32px -18px rgba(17, 17, 17, 0.22);
   color: var(--sm-ink);
   text-decoration: none;
   transition: background-color var(--duration-base) var(--ease-out),
