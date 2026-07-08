@@ -818,7 +818,7 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
 [data-theme="dark"] .sm-opt--winner .sm-mock { filter: brightness(0.6); }
 
 /* Full-width case-study entry bar under the A/B cards. Card surface with a
-   30%-ink border so it reads as the section's one action; inverts on hover. */
+   15%-ink border so it reads as the section's one action; inverts on hover. */
 .sm-case-link {
   margin-top: clamp(32px, 5vh, 56px);
   display: flex;
@@ -827,7 +827,7 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   flex-wrap: wrap;
   gap: 10px 24px;
   padding: clamp(18px, 2.5vw, 26px) clamp(18px, 2.5vw, 30px);
-  border: 1px solid color-mix(in srgb, var(--sm-ink) 30%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sm-ink) 15%, transparent);
   border-radius: var(--radius-md);
   background: var(--sm-card);
   color: var(--sm-ink);
