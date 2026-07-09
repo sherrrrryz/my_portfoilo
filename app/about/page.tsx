@@ -613,10 +613,11 @@ export default function AboutPage() {
                     id="tsinghua"
                     tag={{ en: '2013 to 2020', zh: '2013 至 2020' }}
                     desc={{
-                      en: 'Two bachelor’s at once, then a master’s at the Future Laboratory, researching scent visualization and tactile graphics for blind users.',
-                      zh: '同时读两个本科，之后在未来实验室读硕士，研究香味可视化和面向盲人的触觉图形。',
+                      en: 'Consistently ranked the No.1 or No.2 university in China and among the best in Asia. The link opens the university site.',
+                      zh: '常年位居中国大学排名第一或第二，也是亚洲最顶尖的大学之一。点击打开清华官网。',
                     }}
                     emoji="🎓"
+                    href="https://www.tsinghua.edu.cn/"
                   >
                     清华大学
                   </Fact>
@@ -689,10 +690,11 @@ export default function AboutPage() {
                     id="tsinghua"
                     tag={{ en: '2013 to 2020', zh: '2013 至 2020' }}
                     desc={{
-                      en: 'Two bachelor’s at once, then a master’s at the Future Laboratory, researching scent visualization and tactile graphics for blind users.',
-                      zh: '同时读两个本科，之后在未来实验室读硕士，研究香味可视化和面向盲人的触觉图形。',
+                      en: 'Consistently ranked the No.1 or No.2 university in China and among the best in Asia. The link opens the university site.',
+                      zh: '常年位居中国大学排名第一或第二，也是亚洲最顶尖的大学之一。点击打开清华官网。',
                     }}
                     emoji="🎓"
+                    href="https://www.tsinghua.edu.cn/en/"
                   >
                     Tsinghua University
                   </Fact>
