@@ -596,7 +596,19 @@ export default function AboutPage() {
             {lang === 'zh' ? (
               <>
                 <p>
-                  我在北京长大，在清华大学度过了七年，拿到信息艺术设计的本科学位、新闻与传播的第二学位，以及同一个交叉学科实验室的硕士学位。
+                  我在北京长大，在
+                  <Fact
+                    id="tsinghua"
+                    tag={{ en: '2013 to 2020', zh: '2013 至 2020' }}
+                    desc={{
+                      en: 'Two bachelor’s at once, then a master’s at the Future Lab, researching scent visualization and tactile graphics for blind users.',
+                      zh: '同时读两个本科，之后在未来实验室读硕士，研究香味可视化和面向盲人的触觉图形。',
+                    }}
+                    emoji="🎓"
+                  >
+                    清华大学
+                  </Fact>
+                  度过了七年，拿到信息艺术设计的本科学位、新闻与传播的第二学位，以及同一个交叉学科实验室的硕士学位。
                 </p>
                 <p>
                   2020 年起，我的设计横跨每一种屏幕尺寸：在{' '}
@@ -644,9 +656,20 @@ export default function AboutPage() {
             ) : (
               <>
                 <p>
-                  I grew up in Beijing and spent seven years at Tsinghua
-                  University, leaving with a bachelor&rsquo;s in Information Art
-                  and Design, a second bachelor&rsquo;s in Journalism and
+                  I grew up in Beijing and spent seven years at{' '}
+                  <Fact
+                    id="tsinghua"
+                    tag={{ en: '2013 to 2020', zh: '2013 至 2020' }}
+                    desc={{
+                      en: 'Two bachelor’s at once, then a master’s at the Future Lab, researching scent visualization and tactile graphics for blind users.',
+                      zh: '同时读两个本科，之后在未来实验室读硕士，研究香味可视化和面向盲人的触觉图形。',
+                    }}
+                    emoji="🎓"
+                  >
+                    Tsinghua University
+                  </Fact>
+                  , leaving with a bachelor&rsquo;s in Information Art and
+                  Design, a second bachelor&rsquo;s in Journalism and
                   Communication, and a master&rsquo;s from the same
                   interdisciplinary lab.
                 </p>
