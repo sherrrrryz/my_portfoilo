@@ -485,7 +485,7 @@ export default function ProjectTouchHotspots() {
               loading="lazy"
               draggable={false}
             />
-            <figcaption>Presenting the study inside Xiaomi&rsquo;s design department.</figcaption>
+            <figcaption>Sharing the findings with the product, design and user research teams, to unanimous praise.</figcaption>
           </figure>
         </div>
       </section>
