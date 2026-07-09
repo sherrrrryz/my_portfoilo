@@ -477,6 +477,16 @@ export default function ProjectTouchHotspots() {
             <span className="thz-quote__by">{project.quoteBy}</span>
           </blockquote>
           <p className="thz-note">{project.closing}</p>
+          <figure className="thz-figure">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/toucharea/presenting.jpg"
+              alt="Presenting the study on stage at Xiaomi, standing at a Mi lectern with a microphone in front of a large screen showing the research deck's welcome slide"
+              loading="lazy"
+              draggable={false}
+            />
+            <figcaption>Presenting the study inside Xiaomi&rsquo;s design department.</figcaption>
+          </figure>
         </div>
       </section>
 
