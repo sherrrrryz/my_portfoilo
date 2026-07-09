@@ -472,6 +472,153 @@ function CatPile() {
   );
 }
 
+const DIVES = [
+  {
+    src: '/about/dive-under.jpg',
+    alt: 'Scuba divers descending along a coral wall in the Philippines',
+  },
+  {
+    src: '/about/dive-crew.jpg',
+    alt: 'Tsinghua student diver association posing with their banner on a beach at dusk',
+  },
+  {
+    src: '/about/dive-boat.jpg',
+    alt: 'Divers in wetsuits resting on a boat ladder, backlit over the sea',
+  },
+] as const;
+
+function DiveCard() {
+  const lang = useLang();
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      className="ab-oc__card"
+      style={{ cursor: emojiCursor('🤿') }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
+      tabIndex={0}
+      aria-label={
+        lang === 'zh'
+          ? '水肺潜水。跟清华潜水协会出海，在菲律宾拿到初级和高级潜水证。'
+          : 'Scuba diving. Open Water and Advanced certified in the Philippines with the Tsinghua diver association.'
+      }
+    >
+      <div className="ab-photo">
+        <span className="ab-tiles">
+          {DIVES.map((c, i) => (
+            <span className="ab-tiles__img" data-i={i} key={c.src}>
+              <Image
+                src={c.src}
+                alt={c.alt}
+                fill
+                sizes={
+                  i === 0
+                    ? '(max-width: 880px) 90vw, 440px'
+                    : '(max-width: 880px) 45vw, 220px'
+                }
+                draggable={false}
+              />
+            </span>
+          ))}
+        </span>
+        <AnimatePresence>
+          {hovered && (
+            <motion.div
+              className="ab-photo__tooltip"
+              initial={{ opacity: 0, y: 12, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 8, scale: 0.96 }}
+              transition={{ type: 'spring', stiffness: 340, damping: 26 }}
+            >
+              <span className="ab-photo__tt-tag">
+                {lang === 'zh'
+                  ? '清华大学学生潜水协会'
+                  : 'Student Diver Association of Tsinghua'}
+              </span>
+              <p className="ab-photo__tt-title">
+                {lang === 'zh'
+                  ? '初级加高级潜水证，2019'
+                  : 'Open Water and Advanced, 2019'}
+              </p>
+              <p className="ab-photo__tt-desc">
+                {lang === 'zh'
+                  ? '跟着协会出海，两张证都在菲律宾考下。我到过最安静的地方，是水下二十米。'
+                  : 'Club trips took me to the Philippines, where both certificates were earned. The quietest place I have ever been is twenty meters down.'}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+      <span className="ab-oc__title">
+        {lang === 'zh' ? '夏天属于海水' : 'Summer is for salt water'}
+      </span>
+      <span className="ab-oc__tag">
+        {lang === 'zh'
+          ? '跟清华潜水协会出海，在菲律宾拿到初级和高级潜水证。'
+          : 'Open Water and Advanced certified with the university diving club, in the Philippines.'}
+      </span>
+    </div>
+  );
+}
+
+/* Snowboarding video: a local grayscale poster (same treatment as the
+   photos) that swaps to the real YouTube iframe on click, so the page
+   loads no third-party code until someone actually presses play. */
+const REEL_ID = '8ZNU1zSpDX0';
+
+function ReelCard() {
+  const lang = useLang();
+  const [playing, setPlaying] = useState(false);
+  return (
+    <div className="ab-oc__card">
+      <div className="ab-reel">
+        {playing ? (
+          <iframe
+            className="ab-reel__frame"
+            src={`https://www.youtube-nocookie.com/embed/${REEL_ID}?autoplay=1&rel=0`}
+            title={
+              lang === 'zh'
+                ? '清华滑雪协会二世谷之行视频'
+                : 'Niseko trip, Ski and Snowboard Club in Tsinghua'
+            }
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowFullScreen
+          />
+        ) : (
+          <button
+            type="button"
+            className="ab-reel__poster"
+            style={{ cursor: emojiCursor('🎬') }}
+            onClick={() => setPlaying(true)}
+            aria-label={
+              lang === 'zh' ? '播放二世谷滑雪视频' : 'Play the Niseko snowboarding video'
+            }
+          >
+            <Image
+              src="/about/niseko-reel.jpg"
+              alt="Still from the Niseko trip video: a smiling snowboarder in goggles and a GoPro helmet on a powder slope"
+              fill
+              sizes="(max-width: 880px) 90vw, 45vw"
+              draggable={false}
+            />
+            <span className="ab-reel__play" aria-hidden="true" />
+          </button>
+        )}
+      </div>
+      <span className="ab-oc__title">
+        {lang === 'zh' ? '粉雪实录' : 'Proof of powder'}
+      </span>
+      <span className="ab-oc__tag">
+        {lang === 'zh'
+          ? '滑雪协会的日本二世谷之行。点开看粉雪。'
+          : 'The club trip to Niseko, Japan. Press play for the powder days.'}
+      </span>
+    </div>
+  );
+}
+
 const ALSO_TRUE: L10n[] = [
   { en: '📰 Trained in news writing and photography', zh: '📰 受过新闻写作与摄影训练' },
   {
@@ -495,7 +642,7 @@ const UI = {
     mOff: 'Off the clock',
     mHello: 'Say hello',
     pathSub: '2013 to now · hover a row',
-    offHead: 'Powder in winter, cats all year.',
+    offHead: 'Powder in winter, reefs in summer, cats all year.',
     alsoAria: 'Also true',
     contactHead: 'Now you know me. Your turn.',
     fHome: 'Home',
@@ -514,7 +661,7 @@ const UI = {
     mOff: '工作之外',
     mHello: '打个招呼',
     pathSub: '2013 至今 · 悬停查看',
-    offHead: '冬天滑雪，四季撸猫。',
+    offHead: '冬天滑雪，夏天潜水，四季撸猫。',
     alsoAria: '同样属实',
     contactHead: '现在你认识我了。该你了。',
     fHome: '首页',
@@ -790,6 +937,8 @@ export default function AboutPage() {
           <div className="ab-oc">
             <SnowCard />
             <CatPile />
+            <DiveCard />
+            <ReelCard />
           </div>
           <ul className="ab-pills" aria-label={u.alsoAria}>
             {ALSO_TRUE.map((t) => (
