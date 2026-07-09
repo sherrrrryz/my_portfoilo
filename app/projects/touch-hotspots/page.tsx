@@ -59,7 +59,7 @@ const project = {
   findings:
     "Per-zone hit rates fell into three clean bands: an easy zone under the thumb's natural sweep, a stretch zone reachable with effort, and a dead zone the thumb abandons. The maps below are the real data, first how to read one, then both hands side by side.",
   shipped:
-    "We applied the map two ways. Statically, by moving controls into the easy zone. Dynamically, by re-examining whole flows: among 500,000 daily calendar users, 70% only edit the title when creating an event, yet could not finish that one-handed. Auto-focusing the title and moving the confirm buttons down cut the interaction path by about 40%. The biggest win, bottom tab navigation replacing top tabs, launched in MIUI 15.",
+    "We turned the map into design guidance and audited MIUI screen by screen, overlaying the zones on real UI to check where every control lands. The lock screen shortcuts, notifications and the file manager below are a small sample of that review. The full guidance covered static fixes, moving controls into the easy zone, and whole-flow redesigns, with the biggest win, bottom tab navigation replacing top tabs, launching in MIUI 15.",
   quote: "3.5 inches is the perfect size for consumers' hands.",
   quoteBy: "Steve Jobs, 2010. Screens kept growing anyway.",
   closing:
