@@ -619,16 +619,6 @@ function ReelCard() {
   );
 }
 
-const ALSO_TRUE: L10n[] = [
-  { en: '📰 Trained in news writing and photography', zh: '📰 受过新闻写作与摄影训练' },
-  {
-    en: '🤲 Co-authored tactile display research for blind users',
-    zh: '🤲 合著过面向盲人的触觉显示研究',
-  },
-  { en: '📄 Wrote patents for cross-device interaction', zh: '📄 写过跨设备交互专利' },
-  { en: '🗣️ Bilingual, Mandarin and English', zh: '🗣️ 中英双语' },
-];
-
 /* All inline page copy that isn't part of a data constant above. */
 const UI = {
   en: {
@@ -643,7 +633,6 @@ const UI = {
     mHello: 'Say hello',
     pathSub: '2013 to now · hover a row',
     offHead: 'Powder in winter, reefs in summer, cats all year.',
-    alsoAria: 'Also true',
     contactHead: 'Now you know me. Your turn.',
     fHome: 'Home',
     fAbout: 'About',
@@ -662,7 +651,6 @@ const UI = {
     mHello: '打个招呼',
     pathSub: '2013 至今 · 悬停查看',
     offHead: '冬天滑雪，夏天潜水，四季撸猫。',
-    alsoAria: '同样属实',
     contactHead: '现在你认识我了。该你了。',
     fHome: '首页',
     fAbout: '关于',
@@ -940,13 +928,6 @@ export default function AboutPage() {
             <DiveCard />
             <ReelCard />
           </div>
-          <ul className="ab-pills" aria-label={u.alsoAria}>
-            {ALSO_TRUE.map((t) => (
-              <li className="ab-pill" key={t.en}>
-                {t[lang]}
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
