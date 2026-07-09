@@ -60,11 +60,6 @@ const project = {
     "Per-zone hit rates fell into three clean bands: an easy zone under the thumb's natural sweep, a stretch zone reachable with effort, and a dead zone the thumb abandons. The maps below are the real data, first how to read one, then both hands side by side.",
   shipped:
     "We applied the map two ways. Statically, by moving controls into the easy zone. Dynamically, by re-examining whole flows: among 500,000 daily calendar users, 70% only edit the title when creating an event, yet could not finish that one-handed. Auto-focusing the title and moving the confirm buttons down cut the interaction path by about 40%. The biggest win, bottom tab navigation replacing top tabs, launched in MIUI 15.",
-  flowStats: [
-    { num: "500K", label: "daily active users analyzed" },
-    { num: "70%", label: "create events by editing title only" },
-    { num: "40%", sub: "↓", label: "interaction path after redesign" },
-  ],
   quote: "3.5 inches is the perfect size for consumers' hands.",
   quoteBy: "Steve Jobs, 2010. Screens kept growing anyway.",
   closing:
@@ -271,61 +266,6 @@ function ExperimentDiagram() {
   );
 }
 
-/* ── 06 · Top tabs to bottom tabs ────────────────────────────────────
-   The single most impactful application: navigation moved from the dead
-   zone into the easy zone, shipped in MIUI 15. */
-function TabsDiagram() {
-  const phone = (x: number, tabsTop: boolean, title: string, id: string) => {
-    const y = 56;
-    const h = 224;
-    const tabY = tabsTop ? y + 14 : y + h - 40;
-    return (
-      <g>
-        <clipPath id={id}>
-          <rect x={x} y={y} width={132} height={h} rx={12} />
-        </clipPath>
-        <g clipPath={`url(#${id})`}>
-          <circle cx={x + 122} cy={y + h} r={118} fill="currentColor" fillOpacity={0.1} />
-          <circle cx={x + 122} cy={y + h} r={118} fill="none" stroke="currentColor" strokeOpacity={0.4} strokeDasharray="4 5" />
-        </g>
-        <Phone x={x} y={y} w={132} h={h} />
-        {/* tab bar: three pills */}
-        <g fill="currentColor">
-          <rect x={x + 14} y={tabY} width={30} height={10} rx={5} fillOpacity={0.9} />
-          <rect x={x + 52} y={tabY} width={30} height={10} rx={5} fillOpacity={0.35} />
-          <rect x={x + 90} y={tabY} width={30} height={10} rx={5} fillOpacity={0.35} />
-        </g>
-        {/* content ghost lines */}
-        <g stroke="currentColor" strokeOpacity={0.18}>
-          <line x1={x + 16} y1={y + 86} x2={x + 116} y2={y + 86} />
-          <line x1={x + 16} y1={y + 110} x2={x + 116} y2={y + 110} />
-          <line x1={x + 16} y1={y + 134} x2={x + 96} y2={y + 134} />
-        </g>
-        <text x={x + 66} y={36} textAnchor="middle" fontSize="12" letterSpacing="2" fill="currentColor" fillOpacity={0.55}>
-          {title}
-        </text>
-        <text x={x + 66} y={306} textAnchor="middle" fontSize="14" fill="currentColor" fillOpacity={0.7}>
-          {tabsTop ? "✕ tabs in the dead zone" : "✓ tabs under the thumb"}
-        </text>
-      </g>
-    );
-  };
-  return (
-    <div
-      className="thz-illo"
-      role="img"
-      aria-label="Before and after diagram: tab navigation at the top of the screen sits in the thumb's dead zone, tab navigation at the bottom sits inside the easy zone. The bottom layout shipped in MIUI 15."
-    >
-      <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg">
-        {phone(134, true, "BEFORE · TOP TABS", "thz-tabs-a")}
-        <path d="M330 168h56m0 0-10-7m10 7-10 7" fill="none" stroke="currentColor" strokeOpacity={0.55} strokeWidth={1.5} />
-        {phone(454, false, "AFTER · BOTTOM TABS", "thz-tabs-b")}
-      </svg>
-      <p className="thz-illo__caption">The most impactful change, launched in MIUI 15</p>
-    </div>
-  );
-}
-
 export default function ProjectTouchHotspots() {
   return (
     <div className="thz-root">
@@ -525,18 +465,6 @@ export default function ProjectTouchHotspots() {
             />
             <figcaption>The same audit on notifications and the file manager, zone by zone, control by control.</figcaption>
           </figure>
-          <div className="thz-stats thz-stats--3">
-            {project.flowStats.map((s, i) => (
-              <div className="thz-stat" key={i}>
-                <div className="thz-stat__num">
-                  {s.num}
-                  {s.sub ? <sub>{s.sub}</sub> : null}
-                </div>
-                <div className="thz-stat__label">{s.label}</div>
-              </div>
-            ))}
-          </div>
-          <TabsDiagram />
         </div>
       </section>
 
