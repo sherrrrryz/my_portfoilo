@@ -923,9 +923,9 @@ export default function AboutPage() {
           <Marker num="03" label={u.mOff} />
           <h2 className="ab-h">{u.offHead}</h2>
           <div className="ab-oc">
-            <SnowCard />
             <CatPile />
             <DiveCard />
+            <SnowCard />
             <ReelCard />
           </div>
         </div>
