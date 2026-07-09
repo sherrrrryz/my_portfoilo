@@ -143,6 +143,27 @@
 [data-theme="dark"] .mds-theme__sun { display: none; }
 html:not([data-theme="dark"]) .mds-theme__moon { display: none; }
 
+/* language switch — same recipe as .lsx-lang on /projects/lockscreen;
+   duplicated per page (isolation rule). Sits among the nav links. */
+.mds-lang {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--mds-ink-3);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.mds-lang:hover,
+.mds-lang:focus-visible { color: var(--mds-ink); }
+.mds-lang:focus-visible { outline: 2px solid var(--mds-ink); outline-offset: 2px; }
+
 /* ── hero ──────────────────────────────────────────────────────── */
 .mds-hero {
   border-top: none;
