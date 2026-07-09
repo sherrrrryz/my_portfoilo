@@ -132,24 +132,6 @@ const project = {
       zh: "即用感：用户可随时点击右上角的应用按钮直接生效，降低低自定义需求用户的使用成本。",
     },
   ],
-  usabilityFocus: [
-    {
-      en: "Long-press to trigger editing may cause accidental activations;",
-      zh: "长按触发锁屏编辑可能容易误触；",
-    },
-    {
-      en: "Clicking on the panel does nothing, but user expectations vary (apply/customize/preview);",
-      zh: "点击面板暂无反应，但不同用户的预期不一（应用 / 自定义 / 预览）；",
-    },
-    {
-      en: "Information layer style editing is in a secondary level, making it too deep;",
-      zh: "信息层样式编辑需进入二级页面，层级较深；",
-    },
-    {
-      en: "After customization, users cannot preview the effect before applying.",
-      zh: "自定义后、应用前无法预览效果。",
-    },
-  ],
   images: {
     hero: ["/lockscreen/lockscreencover.png", "/lockscreen/background.png"],
     competitor: ["/lockscreen/competitor1.png", "/lockscreen/competitor2.png"],
@@ -169,7 +151,6 @@ const UI = {
     mCompetitor: "Competitor analysis",
     mPrinciples: "Design principles & strategies",
     mFinal: "Final model highlights",
-    mUsability: "Usability results",
     lOverview: "Overview",
     lContributions: "My contributions",
     lTeam: "Team",
@@ -200,7 +181,6 @@ const UI = {
     mCompetitor: "竞品分析",
     mPrinciples: "设计原则与产品策略",
     mFinal: "最终方案亮点",
-    mUsability: "可用性结论",
     lOverview: "概述",
     lContributions: "我的贡献",
     lTeam: "团队",
@@ -394,14 +374,6 @@ export default function ProjectLockScreen() {
             <Fig src={project.images.final[2]} alt={u.altFinalHorizontal} />
             <Fig src={project.images.final[3]} alt={u.altFinalApply} />
             <Fig src={project.images.final[4]} alt={u.altFinalFramework} />
-          </div>
-        </section>
-
-        {/* ── 06 · Usability results ───────────────────────────── */}
-        <section className="lsx-section">
-          <div className="lsx-wrap">
-            <Marker num="06" label={u.mUsability} />
-            <Rows items={project.usabilityFocus.map(t)} />
           </div>
         </section>
 
