@@ -166,34 +166,37 @@ function useCardShift<T extends HTMLElement>(open: boolean) {
 
 /* Underlined fact inside the bio. Hover / focus floats a small dark card
    with a mono tag + one short story. Same recipe as the homepage's
-   CompanyHover, generalized. */
+   CompanyHover, generalized. With `href` the trigger renders as an external
+   link (new tab) instead of a plain span; the card behaves the same. */
 function Fact({
   children,
   id,
   tag,
   desc,
   emoji,
+  href,
 }: {
   children: ReactNode;
   id: string;
   tag: L10n;
   desc: L10n;
   emoji?: string;
+  href?: string;
 }) {
   const t = useT();
   const [open, setOpen] = useState(false);
   const { cardRef, shift } = useCardShift<HTMLSpanElement>(open);
-  return (
-    <span
-      className="ab-fact"
-      style={emoji ? { cursor: emojiCursor(emoji) } : undefined}
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      onFocus={() => setOpen(true)}
-      onBlur={() => setOpen(false)}
-      tabIndex={0}
-      aria-describedby={open ? `fact-${id}` : undefined}
-    >
+  const hostProps = {
+    className: 'ab-fact',
+    style: emoji ? { cursor: emojiCursor(emoji) } : undefined,
+    onMouseEnter: () => setOpen(true),
+    onMouseLeave: () => setOpen(false),
+    onFocus: () => setOpen(true),
+    onBlur: () => setOpen(false),
+    'aria-describedby': open ? `fact-${id}` : undefined,
+  };
+  const body = (
+    <>
       {children}
       <AnimatePresence>
         {open && (
@@ -213,6 +216,15 @@ function Fact({
           </motion.span>
         )}
       </AnimatePresence>
+    </>
+  );
+  return href ? (
+    <a href={href} target="_blank" rel="noreferrer" {...hostProps}>
+      {body}
+    </a>
+  ) : (
+    <span tabIndex={0} {...hostProps}>
+      {body}
     </span>
   );
 }
@@ -601,14 +613,30 @@ export default function AboutPage() {
                     id="tsinghua"
                     tag={{ en: '2013 to 2020', zh: '2013 至 2020' }}
                     desc={{
-                      en: 'Two bachelor’s at once, then a master’s at the Future Lab, researching scent visualization and tactile graphics for blind users.',
+                      en: 'Two bachelor’s at once, then a master’s at the Future Laboratory, researching scent visualization and tactile graphics for blind users.',
                       zh: '同时读两个本科，之后在未来实验室读硕士，研究香味可视化和面向盲人的触觉图形。',
                     }}
                     emoji="🎓"
                   >
                     清华大学
                   </Fact>
-                  度过了七年，拿到信息艺术设计的本科学位、新闻与传播的第二学位，以及同一个交叉学科实验室的硕士学位。
+                  度过了七年，拿到信息艺术设计的本科学位、新闻与传播的第二学位，以及
+                  <Fact
+                    id="futurelab"
+                    tag={{
+                      en: 'thfl.tsinghua.edu.cn',
+                      zh: 'thfl.tsinghua.edu.cn',
+                    }}
+                    desc={{
+                      en: 'Tsinghua’s interdisciplinary lab mixing computing, media and art to prototype future human-machine interaction. The link opens the lab site.',
+                      zh: '清华的交叉学科实验室，融合计算、媒体与艺术，探索未来人机交互。点击打开实验室官网。',
+                    }}
+                    emoji="🔬"
+                    href="https://thfl.tsinghua.edu.cn/"
+                  >
+                    未来实验室
+                  </Fact>
+                  的硕士学位。
                 </p>
                 <p>
                   2020 年起，我的设计横跨每一种屏幕尺寸：在{' '}
@@ -661,7 +689,7 @@ export default function AboutPage() {
                     id="tsinghua"
                     tag={{ en: '2013 to 2020', zh: '2013 至 2020' }}
                     desc={{
-                      en: 'Two bachelor’s at once, then a master’s at the Future Lab, researching scent visualization and tactile graphics for blind users.',
+                      en: 'Two bachelor’s at once, then a master’s at the Future Laboratory, researching scent visualization and tactile graphics for blind users.',
                       zh: '同时读两个本科，之后在未来实验室读硕士，研究香味可视化和面向盲人的触觉图形。',
                     }}
                     emoji="🎓"
@@ -670,8 +698,23 @@ export default function AboutPage() {
                   </Fact>
                   , leaving with a bachelor&rsquo;s in Information Art and
                   Design, a second bachelor&rsquo;s in Journalism and
-                  Communication, and a master&rsquo;s from the same
-                  interdisciplinary lab.
+                  Communication, and a master&rsquo;s from{' '}
+                  <Fact
+                    id="futurelab"
+                    tag={{
+                      en: 'thfl.tsinghua.edu.cn',
+                      zh: 'thfl.tsinghua.edu.cn',
+                    }}
+                    desc={{
+                      en: 'Tsinghua’s interdisciplinary lab mixing computing, media and art to prototype future human-machine interaction. The link opens the lab site.',
+                      zh: '清华的交叉学科实验室，融合计算、媒体与艺术，探索未来人机交互。点击打开实验室官网。',
+                    }}
+                    emoji="🔬"
+                    href="https://thfl.tsinghua.edu.cn/en/"
+                  >
+                    the Future Laboratory
+                  </Fact>
+                  .
                 </p>
                 <p>
                   Since 2020 I have designed across every screen size: phones,
