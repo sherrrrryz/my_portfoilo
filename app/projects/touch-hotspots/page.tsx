@@ -480,8 +480,8 @@ export default function ProjectTouchHotspots() {
           <figure className="thz-figure">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/toucharea/Cover.png"
-              alt="The real hit-rate heatmaps from the study: two phone screens covered in per-zone percentages, left hand and right hand, with high hit rates pooling in the lower corner near each thumb and falling toward the opposite top corner"
+              src="/toucharea/heatmap-hands.png"
+              alt="The real hit-rate heatmaps from the study, two full phone screens side by side: left hand and right hand, each covered in per-zone percentages, with the green high-hit-rate pool sitting low on the thumb's side and fading to red and black toward the opposite top corner"
               loading="lazy"
               draggable={false}
             />
