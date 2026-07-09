@@ -3,7 +3,8 @@
    research, told the same way as /projects/miui-design-system: short
    editorial copy on the shared monochrome token scale, with the long
    research text replaced by inline SVG illustrations, stat bands and the
-   real heatmap from public/toucharea/.
+   real study artifacts (test app screens, heatmaps, UI overlays) from
+   public/toucharea/.
 
    No TSX imports shared with the homepage or other project routes
    (isolation rule): layout primitives are local markup, styling lives in
@@ -56,7 +57,7 @@ const project = {
     "We split the screen into 144 zones sized from Apple's ideal 9 by 9 millimeter target. In each zone, participants long-pressed a square, waited for it to turn green, then tapped it. 40 people, 20 per grip style, ran the task with both hands after 10 practice rounds.",
   metrics: ["Hit rate", "Abandon rate", "Misoperation rate", "Click duration", "Click offset"],
   findings:
-    "Per-zone hit rates fell into three clean bands: an easy zone under the thumb's natural sweep, a stretch zone reachable with effort, and a dead zone the thumb abandons. The two maps below are the real data, left hand and right hand.",
+    "Per-zone hit rates fell into three clean bands: an easy zone under the thumb's natural sweep, a stretch zone reachable with effort, and a dead zone the thumb abandons. The maps below are the real data, first how to read one, then both hands side by side.",
   shipped:
     "We applied the map two ways. Statically, by moving controls into the easy zone. Dynamically, by re-examining whole flows: among 500,000 daily calendar users, 70% only edit the title when creating an event, yet could not finish that one-handed. Auto-focusing the title and moving the confirm buttons down cut the interaction path by about 40%. The biggest win, bottom tab navigation replacing top tabs, launched in MIUI 15.",
   flowStats: [
@@ -270,55 +271,6 @@ function ExperimentDiagram() {
   );
 }
 
-/* ── 05 · Three reach bands ──────────────────────────────────────────
-   Stylized summary of the finding: easy, stretch and dead zones for each
-   thumb, mirrored left and right. */
-function ZonesDiagram() {
-  const map = (x: number, mirrored: boolean, title: string, id: string) => {
-    const ax = mirrored ? x + 10 : x + 130; /* thumb anchor corner */
-    return (
-      <g>
-        <clipPath id={id}>
-          <rect x={x} y={56} width={140} height={232} rx={12} />
-        </clipPath>
-        <rect x={x} y={56} width={140} height={232} rx={12} fill="currentColor" fillOpacity={0.05} />
-        <g clipPath={`url(#${id})`}>
-          <circle cx={ax} cy={288} r={172} fill="currentColor" fillOpacity={0.12} />
-          <circle cx={ax} cy={288} r={108} fill="currentColor" fillOpacity={0.26} />
-          <circle cx={ax} cy={288} r={172} fill="none" stroke="currentColor" strokeOpacity={0.4} strokeDasharray="4 5" />
-          <circle cx={ax} cy={288} r={108} fill="none" stroke="currentColor" strokeOpacity={0.55} />
-        </g>
-        <Phone x={x} y={56} w={140} h={232} />
-        <text x={x + 70} y={36} textAnchor="middle" fontSize="12" letterSpacing="2" fill="currentColor" fillOpacity={0.55}>
-          {title}
-        </text>
-      </g>
-    );
-  };
-  return (
-    <div
-      className="thz-illo"
-      role="img"
-      aria-label="Diagram of the three reach bands for each thumb: an easy zone in the lower corner near the thumb, a stretch zone around it, and a dead zone in the far upper corner. Left and right hands mirror each other."
-    >
-      <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg">
-        {map(130, true, "LEFT THUMB", "thz-zone-l")}
-        {map(450, false, "RIGHT THUMB", "thz-zone-r")}
-        {/* legend */}
-        <g fontSize="12" fill="currentColor">
-          <rect x={200} y={304} width={12} height={12} fill="currentColor" fillOpacity={0.26} />
-          <text x={220} y={314} fillOpacity={0.7}>easy</text>
-          <rect x={300} y={304} width={12} height={12} fill="currentColor" fillOpacity={0.12} />
-          <text x={320} y={314} fillOpacity={0.7}>stretch</text>
-          <rect x={410} y={304} width={12} height={12} fill="currentColor" fillOpacity={0.05} stroke="currentColor" strokeOpacity={0.3} />
-          <text x={430} y={314} fillOpacity={0.7}>dead zone</text>
-        </g>
-      </svg>
-      <p className="thz-illo__caption">Every thumb draws the same three bands, mirrored per hand</p>
-    </div>
-  );
-}
-
 /* ── 06 · Top tabs to bottom tabs ────────────────────────────────────
    The single most impactful application: navigation moved from the dead
    zone into the easy zone, shipped in MIUI 15. */
@@ -479,6 +431,26 @@ export default function ProjectTouchHotspots() {
           <Marker num="04" label="The experiment" />
           <p className="thz-body">{project.experiment}</p>
           <ExperimentDiagram />
+          <figure className="thz-figure">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/toucharea/app-onboarding.png"
+              alt="Four screens of the tap test app: a welcome form collecting name, gender and daily phone-use habits, an instruction to hold the phone one-handed and tap a comfortable spot, the tapped grid with a confirm button, and a screen asking which grip the participant is using"
+              loading="lazy"
+              draggable={false}
+            />
+            <figcaption>The test app we built. Participants register, calibrate a comfortable spot, then declare their grip.</figcaption>
+          </figure>
+          <figure className="thz-figure">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/toucharea/app-trial.png"
+              alt="Four more screens of the tap test app: practice mode instructions, a trial where a blue square is long-pressed while a gray square waits, the gray square turned green and ready to tap, and the experiment 1 instructions asking participants to keep their palm in place"
+              loading="lazy"
+              draggable={false}
+            />
+            <figcaption>One trial: long-press the blue square, wait for the target to turn green, tap it. 10 practice rounds first.</figcaption>
+          </figure>
           <p className="thz-note">Five metrics were collected for every zone:</p>
           <ul className="thz-chips" style={{ marginTop: 14 }} aria-label="Metrics collected per zone">
             {project.metrics.map((m, i) => (
@@ -498,14 +470,33 @@ export default function ProjectTouchHotspots() {
           <figure className="thz-figure">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
+              src="/toucharea/heatmap-legend.png"
+              alt="The hit-rate heatmap with its legend: each cell shows the percentage of people who tapped that zone successfully. Green cells mean 75% or more hit the target, yellow 25% to 75%, red 3% to 25%, and black cells were hit by no one"
+              loading="lazy"
+              draggable={false}
+            />
+            <figcaption>How to read the map. Each cell is one zone&rsquo;s tap hit rate: green 75%+, yellow 25&ndash;75%, red under 25%, black untouched.</figcaption>
+          </figure>
+          <figure className="thz-figure">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src="/toucharea/Cover.png"
               alt="The real hit-rate heatmaps from the study: two phone screens covered in per-zone percentages, left hand and right hand, with high hit rates pooling in the lower corner near each thumb and falling toward the opposite top corner"
               loading="lazy"
               draggable={false}
             />
-            <figcaption>Per-zone hit rates, left hand vs right hand. Warmer cells sit under the thumb.</figcaption>
+            <figcaption>Per-zone hit rates, left hand vs right hand. The green pool mirrors with the thumb.</figcaption>
           </figure>
-          <ZonesDiagram />
+          <figure className="thz-figure">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/toucharea/heatmap-bands.png"
+              alt="The heatmap annotated with the three reach bands: the green center is reachable with just a little thumb movement, the yellow ring is reachable with some effort but risks tapping the wrong spot, and the dark top corner is basically out of reach with a high rate of mis-taps"
+              loading="lazy"
+              draggable={false}
+            />
+            <figcaption>The three bands on the real data: easy under the thumb, stretch around it, dead zone in the far corner.</figcaption>
+          </figure>
         </div>
       </section>
 
@@ -514,6 +505,26 @@ export default function ProjectTouchHotspots() {
         <div className="thz-wrap">
           <Marker num="06" label="From map to shipped design" />
           <p className="thz-body">{project.shipped}</p>
+          <figure className="thz-figure">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/toucharea/overlay-lockscreen.jpg"
+              alt="Three lock screens side by side: an iOS lock screen, the MIUI lock screen, and the same MIUI lock screen with the touch hot zone map overlaid, showing the camera and flashlight shortcuts sitting inside the easy zone"
+              loading="lazy"
+              draggable={false}
+            />
+            <figcaption>Auditing shipped UI: the map overlaid on the MIUI lock screen puts its shortcuts in the easy zone.</figcaption>
+          </figure>
+          <figure className="thz-figure">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/toucharea/overlay-apps.jpg"
+              alt="The overlay applied to more screens: lock screen notifications landing in the stretch zone, and the file manager app whose tabs and recent files sit across the easy and stretch zones"
+              loading="lazy"
+              draggable={false}
+            />
+            <figcaption>The same audit on notifications and the file manager, zone by zone, control by control.</figcaption>
+          </figure>
           <div className="thz-stats thz-stats--3">
             {project.flowStats.map((s, i) => (
               <div className="thz-stat" key={i}>
