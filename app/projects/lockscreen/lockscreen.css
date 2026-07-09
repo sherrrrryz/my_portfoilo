@@ -146,6 +146,27 @@
 [data-theme="dark"] .lsx-theme__sun { display: none; }
 html:not([data-theme="dark"]) .lsx-theme__moon { display: none; }
 
+/* language switch — same recipe as .pj-lang on /projects; duplicated
+   per page (isolation rule). Styled to sit among the nav links. */
+.lsx-lang {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--lsx-ink-3);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.lsx-lang:hover,
+.lsx-lang:focus-visible { color: var(--lsx-ink); }
+.lsx-lang:focus-visible { outline: 2px solid var(--lsx-ink); outline-offset: 2px; }
+
 /* ── hero ──────────────────────────────────────────────────────── */
 .lsx-hero {
   border-top: none;

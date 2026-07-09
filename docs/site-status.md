@@ -18,7 +18,8 @@ Six cards in homepage order: the four It-means projects (Lock Screen Personaliza
 - A `lang` state (`'en' | 'zh'`) is persisted in localStorage `lang` and shared across both pages; a `LangContext` + `useT()` hook feed subcomponents. SSR always renders English; the saved language is restored after hydration (no mismatch, one repaint). `<html lang>` is kept in sync (`en` / `zh-CN`).
 - The toggle is a `LangToggle` button at the bottom right of the footer colophon (`.sm-lang` / `.ab-lang`), showing the language you'd switch TO ("中文" / "English").
 - Chinese copy uses fullwidth punctuation (，：？) after CJK characters; no em dashes.
-- Not yet translated: the case-study pages (`/projects/lockscreen`, `/projects/miui-design-system`, `/projects/applovin-oobe`, `/projects/touch-hotspots`) and the legacy detail deck. They stay English regardless of the toggle. The `/projects` index (added 2026-07-08) IS bilingual, same recipe as `/` and `/about`.
+- Not yet translated: the case-study pages `/projects/miui-design-system`, `/projects/applovin-oobe`, `/projects/touch-hotspots`, and the legacy detail deck. They stay English regardless of the toggle. The `/projects` index (added 2026-07-08) IS bilingual, same recipe as `/` and `/about`.
+- `/projects/lockscreen` became bilingual 2026-07-09, same recipe (Chinese copy sourced from the original Framer case study, static-acknowledge-295569.framer.app/project1). Its `LangToggle` sits in the sticky nav next to ThemeToggle (`.lsx-lang`) since the page has no footer colophon; `SeeDetailButton` takes an optional `label` prop for the localized CTA. The SeeDetail modal (password gate + contact form) stays English, logic untouched.
 
 ## Touch Hot Zone case study (2026-07-07)
 
