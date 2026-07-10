@@ -627,15 +627,6 @@ const WORKSHOP = [
       zh: '小会议室，同一份文档，悬而未决的问题逐条敲定。',
     },
   },
-  {
-    src: '/section3-3/ws-17.jpg',
-    workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
-    title: { en: '40-person plenary', zh: '40 人全体会' },
-    desc: {
-      en: 'Whole-room debrief before the tables broke into their own tracks.',
-      zh: '各桌分头推进之前，全场先对齐一次。',
-    },
-  },
 ] as const;
 
 /* One image in the workshops grid. Hover lifts the card and floats a small
