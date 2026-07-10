@@ -1961,8 +1961,8 @@ export default function SimplePage() {
         <div className="sm-wrap">
           <Marker num="05" label={u.mHello} />
           <h2 className="sm-h sm-h--sm">{u.contactHead}</h2>
-          <a className="sm-contact__mail" href="mailto:sherrrrrryz@gmail.com">
-            sherrrrrryz@gmail.com
+          <a className="sm-contact__mail" href="mailto:sherrrryz@outlook.com">
+            sherrrryz@outlook.com
           </a>
           <a
             className="sm-contact__resume"

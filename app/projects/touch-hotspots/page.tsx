@@ -495,14 +495,14 @@ export default function ProjectTouchHotspots() {
         <div className="thz-wrap">
           <p className="thz-cta__line">Want the full dataset and method?</p>
           <div className="thz-cta__row">
-            <a className="thz-btn" href="mailto:sherrrrrryz@gmail.com">
+            <a className="thz-btn" href="mailto:sherrrryz@outlook.com">
               Email me
             </a>
             <Link className="thz-btn thz-btn--ghost" href="/projects/miui-design-system">
               Next case study &rarr;
             </Link>
           </div>
-          <div className="thz-cta__hint">sherrrrrryz@gmail.com &middot; happy to walk through the research</div>
+          <div className="thz-cta__hint">sherrrryz@outlook.com &middot; happy to walk through the research</div>
         </div>
       </section>
     </div>

@@ -283,7 +283,7 @@ const UI = {
     ctaLine: "Want the story behind the numbers?",
     ctaEmail: "Email me",
     ctaNext: "Next case study →",
-    ctaHint: "sherrrrrryz@gmail.com · happy to walk through the full deck",
+    ctaHint: "sherrrryz@outlook.com · happy to walk through the full deck",
   },
   zh: {
     navMark: "周雪怡",
@@ -333,7 +333,7 @@ const UI = {
     ctaLine: "想听数字背后的故事？",
     ctaEmail: "给我写邮件",
     ctaNext: "下一个案例 →",
-    ctaHint: "sherrrrrryz@gmail.com · 乐意完整讲一遍这份案例",
+    ctaHint: "sherrrryz@outlook.com · 乐意完整讲一遍这份案例",
   },
 } as const;
 
@@ -653,7 +653,7 @@ export default function MiuiDs() {
         <div className="mds-wrap">
           <p className="mds-cta__line">{u.ctaLine}</p>
           <div className="mds-cta__row">
-            <a className="mds-btn" href="mailto:sherrrrrryz@gmail.com">
+            <a className="mds-btn" href="mailto:sherrrryz@outlook.com">
               {u.ctaEmail}
             </a>
             <Link className="mds-btn mds-btn--ghost" href="/projects/lockscreen">

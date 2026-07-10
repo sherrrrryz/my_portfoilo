@@ -505,14 +505,14 @@ export default function ProjectApplovinOobe() {
         <div className="alo-wrap">
           <p className="alo-cta__line">Want the full experiment ladder, round by round?</p>
           <div className="alo-cta__row">
-            <a className="alo-btn" href="mailto:sherrrrrryz@gmail.com">
+            <a className="alo-btn" href="mailto:sherrrryz@outlook.com">
               Email me
             </a>
             <Link className="alo-btn alo-btn--ghost" href="/projects/miui-design-system">
               Next case study &rarr;
             </Link>
           </div>
-          <div className="alo-cta__hint">sherrrrrryz@gmail.com &middot; happy to walk through the real data</div>
+          <div className="alo-cta__hint">sherrrryz@outlook.com &middot; happy to walk through the real data</div>
         </div>
       </section>
     </div>

@@ -430,8 +430,8 @@ export default function ProjectsIndex() {
         <div className="pj-wrap">
           <Marker num="02" label={u.mHello} />
           <h2 className="pj-contact__head">{u.contactHead}</h2>
-          <a className="pj-contact__mail" href="mailto:sherrrrrryz@gmail.com">
-            sherrrrrryz@gmail.com
+          <a className="pj-contact__mail" href="mailto:sherrrryz@outlook.com">
+            sherrrryz@outlook.com
           </a>
           <a
             className="pj-contact__resume"

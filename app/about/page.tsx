@@ -938,8 +938,8 @@ export default function AboutPage() {
         <div className="ab-wrap">
           <Marker num="04" label={u.mHello} />
           <h2 className="ab-h">{u.contactHead}</h2>
-          <a className="ab-contact__mail" href="mailto:sherrrrrryz@gmail.com">
-            sherrrrrryz@gmail.com
+          <a className="ab-contact__mail" href="mailto:sherrrryz@outlook.com">
+            sherrrryz@outlook.com
           </a>
           <a
             className="ab-contact__resume"
