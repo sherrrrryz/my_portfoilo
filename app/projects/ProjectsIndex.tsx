@@ -267,6 +267,7 @@ const UI = {
     cta: 'Case study',
     mHello: 'Say hello',
     contactHead: 'Want the full story on any of these?',
+    resume: 'Resume ↗',
     fHome: 'Home',
     fAbout: 'About',
     fProjects: 'Projects',
@@ -283,6 +284,7 @@ const UI = {
     cta: '案例',
     mHello: '打个招呼',
     contactHead: '想听其中任何一个的完整故事？',
+    resume: '简历 ↗',
     fHome: '首页',
     fAbout: '关于',
     fProjects: '项目',
@@ -430,6 +432,14 @@ export default function ProjectsIndex() {
           <h2 className="pj-contact__head">{u.contactHead}</h2>
           <a className="pj-contact__mail" href="mailto:sherrrrrryz@gmail.com">
             sherrrrrryz@gmail.com
+          </a>
+          <a
+            className="pj-contact__resume"
+            href="/Sherry_Zhou_Resume.pdf"
+            target="_blank"
+            rel="noopener"
+          >
+            {u.resume}
           </a>
           <div className="pj-colophon">
             <span>{u.colophon}</span>

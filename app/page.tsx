@@ -1625,6 +1625,7 @@ const UI = {
     sublabelWw: 'Workshops · aligning across departments',
     curiosityHead: 'Curiosity doesn’t stop at the office door.',
     contactHead: 'Let’s build for real people.',
+    resume: 'Resume ↗',
     fHome: 'Home',
     fAbout: 'About',
     fProjects: 'Projects',
@@ -1650,6 +1651,7 @@ const UI = {
     sublabelWw: '工作坊 · 跨部门对齐',
     curiosityHead: '好奇心不会停在办公室门口。',
     contactHead: '一起为真实的人做点东西吧。',
+    resume: '简历 ↗',
     fHome: '首页',
     fAbout: '关于',
     fProjects: '项目',
@@ -1961,6 +1963,14 @@ export default function SimplePage() {
           <h2 className="sm-h sm-h--sm">{u.contactHead}</h2>
           <a className="sm-contact__mail" href="mailto:sherrrrrryz@gmail.com">
             sherrrrrryz@gmail.com
+          </a>
+          <a
+            className="sm-contact__resume"
+            href="/Sherry_Zhou_Resume.pdf"
+            target="_blank"
+            rel="noopener"
+          >
+            {u.resume}
           </a>
           <div className="sm-colophon">
             <span>{u.colophon}</span>

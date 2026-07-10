@@ -677,6 +677,21 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
   transition: border-color var(--duration-base) var(--ease-out);
 }
 .ab-contact__mail:hover { border-color: var(--ab-ink); }
+.ab-contact__resume {
+  display: block;
+  width: fit-content;
+  margin-top: clamp(16px, 3vh, 28px);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  color: var(--ab-ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--ab-line-2);
+  transition:
+    color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+}
+.ab-contact__resume:hover { color: var(--ab-ink); border-color: var(--ab-ink); }
 .ab-colophon {
   margin-top: clamp(48px, 8vh, 96px);
   padding-top: 24px;

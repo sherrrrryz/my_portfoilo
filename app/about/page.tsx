@@ -634,6 +634,7 @@ const UI = {
     pathSub: '2013 to now · hover a row',
     offHead: 'Powder in winter, reefs in summer, cats all year.',
     contactHead: 'Now you know me. Your turn.',
+    resume: 'Resume ↗',
     fHome: 'Home',
     fAbout: 'About',
     fProjects: 'Projects',
@@ -652,6 +653,7 @@ const UI = {
     pathSub: '2013 至今 · 悬停查看',
     offHead: '冬天滑雪，夏天潜水，四季撸猫。',
     contactHead: '现在你认识我了。该你了。',
+    resume: '简历 ↗',
     fHome: '首页',
     fAbout: '关于',
     fProjects: '项目',
@@ -938,6 +940,14 @@ export default function AboutPage() {
           <h2 className="ab-h">{u.contactHead}</h2>
           <a className="ab-contact__mail" href="mailto:sherrrrrryz@gmail.com">
             sherrrrrryz@gmail.com
+          </a>
+          <a
+            className="ab-contact__resume"
+            href="/Sherry_Zhou_Resume.pdf"
+            target="_blank"
+            rel="noopener"
+          >
+            {u.resume}
           </a>
           <div className="ab-colophon">
             <span>{u.colophon}</span>

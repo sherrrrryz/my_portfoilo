@@ -1371,6 +1371,23 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   transition: border-color var(--duration-base) var(--ease-out);
 }
 .sm-contact__mail:hover { border-color: var(--sm-ink); }
+/* Quiet mono link under the mail line; block so it drops below the
+   inline-block mail anchor, fit-content so the hairline hugs the text. */
+.sm-contact__resume {
+  display: block;
+  width: fit-content;
+  margin-top: clamp(16px, 3vh, 28px);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  color: var(--sm-ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--sm-line-2);
+  transition:
+    color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+}
+.sm-contact__resume:hover { color: var(--sm-ink); border-color: var(--sm-ink); }
 .sm-colophon {
   margin-top: clamp(48px, 8vh, 96px);
   padding-top: 24px;
