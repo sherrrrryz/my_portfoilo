@@ -230,7 +230,7 @@ function Fact({
 }
 
 /* Hero portrait: a tilted print that swaps between the studio photo and the
-   weekend photo on hover (or tap, for touch), caption included. */
+   vacation photo on hover (or tap, for touch), caption included. */
 function PortraitSwap() {
   const lang = useLang();
   const [alt, setAlt] = useState(false);
@@ -256,8 +256,8 @@ function PortraitSwap() {
           draggable={false}
         />
         <Image
-          src="/about/portrait-color.jpg"
-          alt="Sherry sitting on a wooden bench in a green striped shirt, smiling"
+          src="/about/portrait-vacation.jpg"
+          alt="Sherry watching goldfish through the glass of an aquarium tank, an orange fancy goldfish swimming past her face"
           className="ab-portrait__img--alt"
           fill
           sizes="(max-width: 880px) 90vw, 420px"
@@ -267,10 +267,10 @@ function PortraitSwap() {
       <span className="ab-portrait__cap">
         {lang === 'zh'
           ? alt
-            ? '周末版本。'
+            ? '度假版本。'
             : '作品集版本。'
           : alt
-            ? 'The weekend version.'
+            ? 'The vacation version.'
             : 'The portfolio version.'}
       </span>
     </button>
