@@ -466,44 +466,44 @@ const DS_PHOTOS = Array.from(
 
 const WORKSHOP = [
   {
-    src: '/section3-3/1-1.png',
-    workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
-    title: { en: 'Opener: "How might we"', zh: '开场：“我们如何能”' },
-    desc: {
-      en: 'Setting the frame before 40 people split into breakout groups.',
-      zh: '在 40 人分组讨论之前，先把问题框定下来。',
-    },
-  },
-  {
-    src: '/section3-3/2-1.png',
-    workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
-    title: { en: 'Small-group sketching', zh: '小组草图' },
-    desc: {
-      en: 'Senior engineers drew their own components. Nobody stayed quiet.',
-      zh: '资深工程师亲手画自己的组件，没有人闲着。',
-    },
-  },
-  {
-    src: '/section3-3/1-3.png',
+    src: '/section3-3/ws-01.png',
     workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
-    title: { en: 'Clustered user needs', zh: '用户需求聚类' },
+    title: { en: 'The deck: design thinking', zh: '开场页：设计思维' },
     desc: {
-      en: 'Two days of sticky notes collapsed into five opportunity areas.',
-      zh: '两天的便利贴，归拢成五个机会领域。',
+      en: 'Slides built from scratch to run the whole sprint, not a template.',
+      zh: '为整场工作坊从零做的幻灯片，不是套模板。',
     },
   },
   {
-    src: '/section3-3/2-2.png',
-    workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
-    title: { en: 'Cross-team critique', zh: '跨团队评审' },
+    src: '/section3-3/ws-02.png',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'House rule No.1', zh: '房规第一条' },
     desc: {
-      en: 'Three roles reviewed the same screen. Disagreements surfaced fast.',
-      zh: '三种角色评审同一个界面，分歧很快浮出水面。',
+      en: 'Think harder. Always ask why. The tone was set on slide two.',
+      zh: '想得再深一点，永远追问为什么。基调在第二页就定下了。',
     },
   },
   {
-    src: '/section3-3/1-2.png',
-    workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
+    src: '/section3-3/ws-03.png',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'Fail early, fast, often', zh: '早失败，快失败，常失败' },
+    desc: {
+      en: 'Permission to be wrong, printed in bold.',
+      zh: '把“允许犯错”用粗体印出来。',
+    },
+  },
+  {
+    src: '/section3-3/ws-04.png',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'Empathy map', zh: '共情地图' },
+    desc: {
+      en: 'Says, thinks, does, feels. Pinning the user down before any sketching.',
+      zh: '说、想、做、感受。动笔之前先把用户钉清楚。',
+    },
+  },
+  {
+    src: '/section3-3/ws-05.png',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
     title: { en: 'Redefining the problem', zh: '重新定义问题' },
     desc: {
       en: 'Madlib template forcing each team to name the real user friction.',
@@ -511,70 +511,106 @@ const WORKSHOP = [
     },
   },
   {
-    src: '/section3-3/2-5.png',
+    src: '/section3-3/ws-06.png',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'Opener: "How might we"', zh: '开场：“我们如何能”' },
+    desc: {
+      en: 'Turning the problem into possibilities before ideation starts.',
+      zh: '在发散之前，先把问题翻译成可能性。',
+    },
+  },
+  {
+    src: '/section3-3/ws-07.png',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'Crazy 8s', zh: '疯狂八稿' },
+    desc: {
+      en: '8 minutes, 8 ideas, sticky notes only.',
+      zh: '8 分钟 8 个点子，只许写在便利贴上。',
+    },
+  },
+  {
+    src: '/section3-3/ws-08.png',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'Pick the "WOW"', zh: '选出「WOW」' },
+    desc: {
+      en: 'Novelty against effort: NOW, WOW, HOW, and CIAO.',
+      zh: '新颖度对实现难度：NOW、WOW、HOW、CIAO。',
+    },
+  },
+  {
+    src: '/section3-3/ws-09.png',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'Idea parking station', zh: '想法停留站' },
+    desc: {
+      en: 'No idea gets thrown away. Off-topic ones get parked, not killed.',
+      zh: '任何点子都不扔，跑题的先停靠，不枪毙。',
+    },
+  },
+  {
+    src: '/section3-3/ws-10.png',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'The toolkit', zh: '工具包' },
+    desc: {
+      en: 'Paper phone templates, a big whiteboard, and POP for instant prototypes.',
+      zh: '手机纸模板、大白板，再加 POP 应用做即时原型。',
+    },
+  },
+  {
+    src: '/section3-3/ws-11.png',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'Speed-dating interviews', zh: '快速轮换访谈' },
+    desc: {
+      en: 'Every 10 minutes the interviewee rotates to the next table.',
+      zh: '每 10 分钟，受访者轮换到下一张桌子。',
+    },
+  },
+  {
+    src: '/section3-3/ws-12.jpg',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'Ideas hit the flipchart', zh: '想法上墙' },
+    desc: {
+      en: 'Each group walked the room through their sketches, one sheet at a time.',
+      zh: '各组轮流讲解草图，一页一页过。',
+    },
+  },
+  {
+    src: '/section3-3/ws-13.jpg',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'Silent ideation', zh: '安静写想法' },
+    desc: {
+      en: 'Heads down, sticky notes first. Discussion starts after everyone writes.',
+      zh: '先埋头写便利贴，写完才开始讨论。',
+    },
+  },
+  {
+    src: '/section3-3/ws-14.jpg',
+    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
+    title: { en: 'The parking station, in use', zh: '停留站实况' },
+    desc: {
+      en: 'Sketches parked and picked over, fingers already pointing at favorites.',
+      zh: '草图停靠上墙，大家已经开始指认心头好。',
+    },
+  },
+  {
+    src: '/section3-3/ws-14-1.jpg',
     workshop: { en: 'Lock screen brainstorm', zh: '锁屏头脑风暴' },
-    title: { en: 'Card-sorting the catalog', zh: '卡片分类' },
+    title: { en: 'Moodboards, side by side', zh: '灵感板并排陈列' },
     desc: {
-      en: 'Every lock-screen style on the wall. One afternoon to re-group them all.',
-      zh: '所有锁屏样式贴上墙，一个下午全部重新归组。',
+      en: "Eight designers' references on one board, comments and stars included.",
+      zh: '八位设计师的灵感放在同一块板上，评论和星标都在。',
     },
   },
   {
-    src: '/section3-3/1-4.png',
+    src: '/section3-3/ws-15.jpg',
     workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
-    title: { en: 'Impact × effort matrix', zh: '影响 × 成本矩阵' },
+    title: { en: 'Paper prototypes on the table', zh: '纸面原型上桌' },
     desc: {
-      en: 'PMs, engineers, designers scored the same list side by side.',
-      zh: '产品、工程、设计并排给同一张清单打分。',
+      en: 'Home screen layouts printed and passed around for a first gut check.',
+      zh: '桌面布局打印出来传着看，先过直觉这一关。',
     },
   },
   {
-    src: '/section3-3/2-3.png',
-    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
-    title: { en: 'Dot-vote round', zh: '圆点投票' },
-    desc: {
-      en: 'Five dots each. Loudest voice in the room suddenly had to choose.',
-      zh: '每人五个圆点，嗓门最大的人也得做出选择。',
-    },
-  },
-  {
-    src: '/section3-3/1-5.png',
-    workshop: { en: 'Lock screen brainstorm', zh: '锁屏头脑风暴' },
-    title: { en: 'Final recap', zh: '最终复盘' },
-    desc: {
-      en: 'One deck to carry the decisions back to each department.',
-      zh: '一份文档，把决定带回各个部门。',
-    },
-  },
-  {
-    src: '/section3-3/2-4.png',
-    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
-    title: { en: 'Pair focus block', zh: '结对专注时段' },
-    desc: {
-      en: 'Designer + PM working through one flow end to end, together.',
-      zh: '设计师和产品经理一起，把一条流程从头走到尾。',
-    },
-  },
-  {
-    src: '/section3-3/new1.png',
-    workshop: { en: 'Desktop feature workshop', zh: '桌面功能工作坊' },
-    title: { en: 'Cross-team working session', zh: '跨团队工作会' },
-    desc: {
-      en: 'Designers, PMs, and engineers heads-down at the same table.',
-      zh: '设计、产品、工程围着同一张桌子埋头干活。',
-    },
-  },
-  {
-    src: '/section3-3/new2.png',
-    workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
-    title: { en: '40-person plenary', zh: '40 人全体会' },
-    desc: {
-      en: 'Whole-room debrief before the tables broke into their own tracks.',
-      zh: '各桌分头推进之前，全场先对齐一次。',
-    },
-  },
-  {
-    src: '/section3-3/new3.png',
+    src: '/section3-3/ws-15-1.jpg',
     workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
     title: { en: 'Pain-point wall + dot vote', zh: '痛点墙 + 圆点投票' },
     desc: {
@@ -583,12 +619,21 @@ const WORKSHOP = [
     },
   },
   {
-    src: '/section3-3/new4.png',
+    src: '/section3-3/ws-16.jpg',
     workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
-    title: { en: 'Team-by-team critique board', zh: '逐组评审墙' },
+    title: { en: 'Working session', zh: '工作会' },
     desc: {
-      en: "Every designer's work reviewed side by side by the whole team.",
-      zh: '每位设计师的产出并排陈列，全组一起评审。',
+      en: 'Small room, shared doc, open questions settled one by one.',
+      zh: '小会议室，同一份文档，悬而未决的问题逐条敲定。',
+    },
+  },
+  {
+    src: '/section3-3/ws-17.jpg',
+    workshop: { en: 'Design system workshop', zh: '设计系统工作坊' },
+    title: { en: '40-person plenary', zh: '40 人全体会' },
+    desc: {
+      en: 'Whole-room debrief before the tables broke into their own tracks.',
+      zh: '各桌分头推进之前，全场先对齐一次。',
     },
   },
 ] as const;
