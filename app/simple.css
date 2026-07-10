@@ -1180,7 +1180,10 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
 .sm-oc-pile {
   position: relative;
   display: block;
-  aspect-ratio: 4 / 3;
+  /* 16/10, not 4/3: the visible top prints are mostly 1.5-1.9 landscape
+     (with the 7%/9% insets the frame lands at ~1.53), so a taller box
+     just cover-crops their sides away */
+  aspect-ratio: 16 / 10;
 }
 .sm-oc-pile__img {
   position: absolute;
