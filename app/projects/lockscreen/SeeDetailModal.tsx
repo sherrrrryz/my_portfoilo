@@ -3,8 +3,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
-import { ContactForm } from "../../_components/ContactModal";
-
 interface SeeDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -136,15 +134,20 @@ export default function SeeDetailModal({ isOpen, onClose }: SeeDetailModalProps)
 
         <hr className="lsx-modal__hr" />
 
-        {/* Section 2: Contact — the shared form, so the send path and its
-            error handling are the same one the footers use. `context` only
-            shapes the subject line. */}
+        {/* Section 2: Contact. A plain mailto, not a form — the site sends no
+            mail of its own. The subject is prefilled so a request that lands
+            in the inbox is self-explanatory. */}
         <div>
           <h2 className="lsx-modal__h">Contact me to learn more</h2>
           <p className="lsx-modal__p">
             Send me an email and I&apos;ll share the details with you.
           </p>
-          <ContactForm lang="en" context="Lock Screen" />
+          <a
+            className="lsx-btn lsx-btn--ghost lsx-modal__mail"
+            href="mailto:sherrrryz@outlook.com?subject=Lock%20Screen%20case%20study"
+          >
+            sherrrryz@outlook.com
+          </a>
         </div>
       </div>
     </div>

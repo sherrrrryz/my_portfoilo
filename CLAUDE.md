@@ -26,7 +26,7 @@ app/projects/lockscreen/detail/components/**    (all slide components)
 app/projects/lockscreen/detail/hooks/**         (presentation hooks)
 ```
 
-**No longer off-limits (redesigned 2026-07-04):** the case-study landing (`app/projects/lockscreen/page.tsx`, `SeeDetailButton/Context/Modal.tsx`) was restyled to match the homepage's monochrome editorial look. It now imports `_styles/tokens.css` and styles itself via `app/projects/lockscreen/lockscreen.css` (`lsx-` prefix). The SeeDetail password gate and contact form logic are unchanged.
+**No longer off-limits (redesigned 2026-07-04):** the case-study landing (`app/projects/lockscreen/page.tsx`, `SeeDetailButton/Context/Modal.tsx`) was restyled to match the homepage's monochrome editorial look. It now imports `_styles/tokens.css` and styles itself via `app/projects/lockscreen/lockscreen.css` (`lsx-` prefix). The SeeDetail password gate is unchanged. Its contact half used to be a form POSTing to `/api/send-email`; that route was deleted in `e6a690f` and the form spent months failing silently, so on 2026-07-21 the whole email-sending path was dropped. **The site now sends no mail of its own** — every contact affordance is a plain `mailto:`. Don't reintroduce a form without a backend to match.
 
 **Legacy primitives the detail deck still imports — off-limits with it:**
 ```
@@ -38,8 +38,6 @@ The other four legacy primitives (project3col, projectimg, sectionDivider, twoco
 **Shared `app/globals.css`** — read-only for us. It declares legacy CSS variables (`--accent: #2EA82C`, `.prose`, `.dark` mode ramp, MDX typography) that the detail deck consumes. The new design system in `app/_styles/tokens.css` is **separate** — imported from `app/page.tsx` and `app/projects/lockscreen/page.tsx`. Don't merge the two, don't collapse variables across them, don't add `@import` from one file to the other.
 
 **Isolation rule in one line:** the homepage (`/`) and the lockscreen route (`/projects/lockscreen/**`) must never share a TSX import, and each keeps its page styles in its own CSS file (`simple.css` vs `lockscreen.css`); they may both consume `_styles/tokens.css`. The only other shared file is `globals.css`, which neither side rewrites.
-
-**The one sanctioned exception (added 2026-07-21):** `app/_components/ContactModal.tsx` (+ its `contact-modal.css`) is imported by `/`, `/about`, `/projects` **and** `app/projects/lockscreen/SeeDetailModal.tsx`. The rule exists to keep the **legacy detail deck** from entangling with new code; the contact form is new code on both sides and imports nothing legacy, so the purpose is intact while the letter is not. It earned the exception because it carries fetch + loading + error + success state and a backend contract (`/api/send-email`) — four copies of that drift, unlike the stateless per-page copies of `ThemeToggle` / `LangToggle` / `emojiCursor`, which stay duplicated. It styles itself on `--theme-*` directly, never on any page's `--sm-`/`--ab-`/`--pj-`/`--lsx-` aliases, because it portals to `<body>` outside every page root. **Do not treat this as licence to share anything else** — the off-limits list above is unchanged, and `lockscreen/detail/**` remains untouchable.
 
 ## Other hard constraints
 

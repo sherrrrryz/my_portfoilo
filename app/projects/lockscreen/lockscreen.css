@@ -297,6 +297,7 @@ html:not([data-theme="dark"]) .lsx-theme__moon { display: none; }
   font-weight: var(--font-semibold);
   letter-spacing: var(--tracking-widest);
   text-transform: uppercase;
+  text-decoration: none;
   cursor: pointer;
   transition: background-color var(--duration-base) var(--ease-out),
     color var(--duration-base) var(--ease-out);
@@ -314,6 +315,7 @@ html:not([data-theme="dark"]) .lsx-theme__moon { display: none; }
   color: var(--lsx-paper);
 }
 .lsx-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.lsx-modal__mail { margin-top: 16px; width: 100%; }
 
 /* ── bottom CTA ────────────────────────────────────────────────── */
 .lsx-cta__line {
