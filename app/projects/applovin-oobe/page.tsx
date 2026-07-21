@@ -17,6 +17,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
 import ThemeToggle from "./ThemeToggle";
+import CopyEmail from "./CopyEmail";
 
 export const metadata: Metadata = {
   title: "AppLovin OOBE App Discovery · Xueyi Zhou",
@@ -505,9 +506,7 @@ export default function ProjectApplovinOobe() {
         <div className="alo-wrap">
           <p className="alo-cta__line">Want the full experiment ladder, round by round?</p>
           <div className="alo-cta__row">
-            <a className="alo-btn" href="mailto:sherrrryz@outlook.com">
-              Email me
-            </a>
+            <CopyEmail label="Copy email" />
             <Link className="alo-btn alo-btn--ghost" href="/projects/miui-design-system">
               Next case study &rarr;
             </Link>

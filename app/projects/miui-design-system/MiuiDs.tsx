@@ -19,7 +19,7 @@ import "../../_styles/tokens.css";
 import "./miui-ds.css";
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ThemeToggle from "./ThemeToggle";
 
 /* ── i18n plumbing — per-page copy of the homepage recipe ─────────── */
@@ -281,7 +281,9 @@ const UI = {
     baBefore: "Before",
     baAfter: "After",
     ctaLine: "Want the story behind the numbers?",
-    ctaEmail: "Email me",
+    ctaEmail: "Copy email",
+    ctaCopied: "Copied to clipboard",
+    ctaCopyManual: "Selected. Press \u2318C or Ctrl+C",
     ctaNext: "Next case study →",
     ctaHint: "sherrrryz@outlook.com · happy to walk through the full deck",
   },
@@ -331,7 +333,9 @@ const UI = {
     baBefore: "改版前",
     baAfter: "改版后",
     ctaLine: "想听数字背后的故事？",
-    ctaEmail: "给我写邮件",
+    ctaEmail: "复制邮箱",
+    ctaCopied: "已复制到剪贴板",
+    ctaCopyManual: "已选中，按 \u2318C 或 Ctrl+C 复制",
     ctaNext: "下一个案例 →",
     ctaHint: "sherrrryz@outlook.com · 乐意完整讲一遍这份案例",
   },
@@ -413,6 +417,69 @@ const ICONS = {
     </svg>
   ),
 };
+
+const CONTACT_EMAIL = "sherrrryz@outlook.com";
+
+/* Click-to-copy for the CTA. Not a mailto: that only does something when the
+   device has a mail client registered, and on one that doesn't it fails
+   silently. Falls back to selecting the address if the Clipboard API is
+   denied, so there is never a dead end. Per-page copy (isolation rule). */
+function CopyEmail({
+  label,
+  copiedLabel,
+  manualLabel,
+}: {
+  label: string;
+  copiedLabel: string;
+  manualLabel: string;
+}) {
+  const [toast, setToast] = useState("");
+  const btnRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(""), 2400);
+    return () => clearTimeout(t);
+  }, [toast]);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      setToast(copiedLabel);
+    } catch {
+      const el = btnRef.current;
+      if (el) {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const sel = window.getSelection();
+        sel?.removeAllRanges();
+        sel?.addRange(range);
+      }
+      setToast(manualLabel);
+    }
+  };
+
+  return (
+    <>
+      <button
+        ref={btnRef}
+        type="button"
+        className="mds-btn"
+        aria-label={`Copy email address: ${CONTACT_EMAIL}`}
+        onClick={copy}
+      >
+        {label}
+      </button>
+      <div
+        className={`mds-toast${toast ? " mds-toast--on" : ""}`}
+        role="status"
+        aria-live="polite"
+      >
+        {toast}
+      </div>
+    </>
+  );
+}
 
 export default function MiuiDs() {
   const [lang, setLang] = useState<Lang>("en");
@@ -653,9 +720,11 @@ export default function MiuiDs() {
         <div className="mds-wrap">
           <p className="mds-cta__line">{u.ctaLine}</p>
           <div className="mds-cta__row">
-            <a className="mds-btn" href="mailto:sherrrryz@outlook.com">
-              {u.ctaEmail}
-            </a>
+            <CopyEmail
+              label={u.ctaEmail}
+              copiedLabel={u.ctaCopied}
+              manualLabel={u.ctaCopyManual}
+            />
             <Link className="mds-btn mds-btn--ghost" href="/projects/lockscreen">
               {u.ctaNext}
             </Link>

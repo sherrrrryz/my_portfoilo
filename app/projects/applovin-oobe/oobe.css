@@ -472,6 +472,34 @@ html:not([data-theme="dark"]) .alo-theme__moon { display: none; }
   transition: background-color var(--duration-base) var(--ease-out),
     color var(--duration-base) var(--ease-out);
 }
+/* Copy confirmation for the CTA. Fixed to the viewport bottom, faded with a
+   transition so it needs no animation library. Same recipe as the footers. */
+.alo-toast {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(20px, 5vh, 44px);
+  z-index: 70;
+  transform: translate(-50%, 10px);
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: var(--alo-ink);
+  color: var(--alo-paper);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+.alo-toast--on { opacity: 1; transform: translate(-50%, 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .alo-toast { transition: opacity var(--duration-base) var(--ease-out); transform: translate(-50%, 0); }
+}
+
 .alo-btn:hover {
   background: var(--alo-paper);
   color: var(--alo-ink);

@@ -17,6 +17,7 @@ import "./touch-hotspots.css";
 import type { Metadata } from "next";
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
+import CopyEmail from "./CopyEmail";
 
 export const metadata: Metadata = {
   title: "Touch Hot Zone · Xueyi Zhou",
@@ -495,9 +496,7 @@ export default function ProjectTouchHotspots() {
         <div className="thz-wrap">
           <p className="thz-cta__line">Want the full dataset and method?</p>
           <div className="thz-cta__row">
-            <a className="thz-btn" href="mailto:sherrrryz@outlook.com">
-              Email me
-            </a>
+            <CopyEmail label="Copy email" />
             <Link className="thz-btn thz-btn--ghost" href="/projects/miui-design-system">
               Next case study &rarr;
             </Link>
