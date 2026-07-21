@@ -437,36 +437,45 @@ function FollowPointer({
   );
 }
 
+/* Strip art lives in /public/strips as WebP resized to 800px tall, which is
+   exactly what the layout pins (see .sm-ls-track img: height is fixed, width
+   auto, capped at 380 CSS px => 760 device px at DPR 2).
+   The originals in /public/{lockscreen-web,section1-2..5} are 139.7 MB of
+   full-res PNG/JPG, up to 3240x7020 — 19x to 74x more pixels than any strip
+   can show. Every one of them was being fetched and decoded on the way into
+   this section (~180 ms of main-thread decode each), which is what made the
+   scroll stutter. Regenerate with scripts/strip-resize.mjs if the art
+   changes; never point these arrays back at the full-res folders. */
 const LOCKSCREENS = Array.from(
   { length: 23 },
-  (_, i) => `/lockscreen-web/ls-${String(i + 1).padStart(2, '0')}.jpg`,
+  (_, i) => `/strips/ls-${String(i + 1).padStart(2, '0')}.webp`,
 );
 
 const FOLDABLE_PHOTOS = [
-  '/section1-3/desktop-unfold-a.png',
-  '/section1-3/desktop-unfold-b.png',
-  '/section1-3/desktop-fold.png',
-  '/section1-3/calender-unfold-a.png',
-  '/section1-3/calender-unfold-b.png',
-  '/section1-3/calender-fold.png',
-  '/section1-3/note-unfold-a.png',
-  '/section1-3/note-unfold-b.png',
-  '/section1-3/note-fold.png',
+  '/strips/desktop-unfold-a.webp',
+  '/strips/desktop-unfold-b.webp',
+  '/strips/desktop-fold.webp',
+  '/strips/calender-unfold-a.webp',
+  '/strips/calender-unfold-b.webp',
+  '/strips/calender-fold.webp',
+  '/strips/note-unfold-a.webp',
+  '/strips/note-unfold-b.webp',
+  '/strips/note-fold.webp',
 ];
 
 const TOUCH_PHOTOS = Array.from(
   { length: 11 },
-  (_, i) => `/section1-4/touch-${String(i + 1).padStart(2, '0')}.png`,
+  (_, i) => `/strips/touch-${String(i + 1).padStart(2, '0')}.webp`,
 );
 
 const MISC_PHOTOS = Array.from(
   { length: 12 },
-  (_, i) => `/section1-5/s5-${String(i + 1).padStart(2, '0')}.png`,
+  (_, i) => `/strips/s5-${String(i + 1).padStart(2, '0')}.webp`,
 );
 
 const DS_PHOTOS = Array.from(
   { length: 10 },
-  (_, i) => `/section1-2/ds-${String(i + 1).padStart(2, '0')}.png`,
+  (_, i) => `/strips/ds-${String(i + 1).padStart(2, '0')}.webp`,
 );
 
 const WORKSHOP = [
@@ -689,9 +698,15 @@ const STRIP_STAGGER_MS = 260;
    IO evaluates live geometry, so every row still fires at the same visual
    line (its head entering the top ~68% of the viewport).
 
-   A second, much earlier observer flips `near` one viewport ahead, swapping
-   the strip's images from lazy to eager so they're decoded before the
-   reveal starts — no pop-in while the strip is growing. */
+   A second, earlier observer flips `near` ahead of the reveal, swapping the
+   strip's images from lazy to eager so they're decoded before the reveal
+   starts — no pop-in while the strip is growing.
+
+   That lead has to stay SMALL. The five row heads sit only ~1070px apart in
+   total (measured: 1422 / 1708 / 1970 / 2232 / 2493), so all five fit inside
+   ~1.3 viewports. The old '100% 0px 100% 0px' spanned three viewports, which
+   meant approaching row 1 marked every row near at once and dumped all 65
+   images into one burst. Half a viewport of lead keeps the rows staggered. */
 function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
   const t = useT();
   const headRef = useRef<HTMLDivElement | null>(null);
@@ -709,7 +724,7 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
         setNear(true);
         nearIO.disconnect();
       },
-      { rootMargin: '100% 0px 100% 0px' },
+      { rootMargin: '0px 0px 50% 0px' },
     );
     nearIO.observe(el);
 
