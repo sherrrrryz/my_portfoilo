@@ -440,12 +440,14 @@ function FollowPointer({
 /* Strip art lives in /public/strips as WebP resized to 800px tall, which is
    exactly what the layout pins (see .sm-ls-track img: height is fixed, width
    auto, capped at 380 CSS px => 760 device px at DPR 2).
-   The originals in /public/{lockscreen-web,section1-2..5} are 139.7 MB of
-   full-res PNG/JPG, up to 3240x7020 — 19x to 74x more pixels than any strip
-   can show. Every one of them was being fetched and decoded on the way into
-   this section (~180 ms of main-thread decode each), which is what made the
-   scroll stutter. Regenerate with scripts/strip-resize.mjs if the art
-   changes; never point these arrays back at the full-res folders. */
+   These used to point at the full-res originals in
+   /public/{lockscreen-web,section1-2..5}: 139.7 MB of PNG/JPG up to
+   3240x7020, i.e. 19x to 74x more pixels than any strip can show. All 65
+   were fetched and decoded on the way into this section (~180 ms of
+   main-thread decode each), which is what made the scroll stutter. Those
+   folders are now deleted; recover them from git history before 9c69ded if
+   the art needs regenerating, then re-run scripts/strip-resize.mjs.
+   Never point these arrays back at full-res sources. */
 const LOCKSCREENS = Array.from(
   { length: 23 },
   (_, i) => `/strips/ls-${String(i + 1).padStart(2, '0')}.webp`,

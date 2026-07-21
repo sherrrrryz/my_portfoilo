@@ -2,14 +2,21 @@
    strips — from the full-res originals.
  *
  * The originals (/public/lockscreen-web, /public/section1-2 .. section1-5)
- * are 139.7 MB of PNG/JPG at up to 3240x7020. The strips display each image
+ * were 139.7 MB of PNG/JPG at up to 3240x7020. The strips display each image
  * at a pinned height of clamp(220px, 30vh, 380px) with width:auto, so at
  * most 760 device px tall on a DPR-2 screen: 19x to 74x fewer pixels than
- * the sources carry. Serving the originals cost ~180 ms of main-thread
+ * the sources carried. Serving the originals cost ~180 ms of main-thread
  * decode per image and made the scroll stutter on the way into the section.
  *
+ * HEADS UP: those five source folders were deleted once /public/strips was
+ * generated, so this script will not run as-is. Restore them first:
+ *
+ *   git checkout 9c69ded -- public/lockscreen-web public/section1-2 \
+ *     public/section1-3 public/section1-4 public/section1-5
+ *
  * Output is 800px-tall WebP (~1.7 MB for all 65 files). Run this after
- * changing any strip art, then commit /public/strips:
+ * changing any strip art, then commit /public/strips and drop the sources
+ * again:
  *
  *   npm i --no-save sharp && node scripts/strip-resize.mjs
  *

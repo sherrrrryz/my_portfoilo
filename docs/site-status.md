@@ -49,7 +49,9 @@ The Story page (7-section scroll-driven experience, `app/_story/**`) and the two
 Still in the tree and shared:
 
 - `app/_styles/tokens.css` — imported by `app/page.tsx` and `app/projects/lockscreen/page.tsx`. Pruned in the 2026-07-04 redundancy cleanup: the LAYER 2.5 `[data-theme]` palettes, LAYER 3 component tokens, LAYER 3.5 re-substitution block, and `.stage-*` utilities were deleted (Story-page exclusive, zero consumers); Layer 1 primitives + Layer 2 semantics + the Tailwind `@theme` block remain as the design-system base.
-- All `public/` assets — the plain homepage reuses the Story page's imagery (`lockscreen-web/`, `section1-*/`, `section2/`, `section3-3/`, `simple/off-clock/`).
+- All `public/` assets — the plain homepage reuses the Story page's imagery (`section2/`, `section3-3/`, `simple/off-clock/`, and `strips/` for the "It means" marquees).
+
+  **`strips/` is generated, not authored.** The five original folders it replaced (`lockscreen-web/`, `section1-2/` … `section1-5/`) were 139.7 MB of full-res PNG/JPG feeding strips that render at most 380 CSS px tall — 19x to 74x oversized, ~180 ms of main-thread decode each, and the cause of the homepage scroll stutter. They were downsized to 800px-tall WebP (1.72 MB total, 81x smaller) and the sources deleted in `9c69ded`. To change strip art: `git checkout 9c69ded -- public/lockscreen-web public/section1-2 public/section1-3 public/section1-4 public/section1-5`, edit, re-run `scripts/strip-resize.mjs`, commit `public/strips/`, delete the sources again. Don't point `app/page.tsx`'s strip arrays back at full-res folders.
 
 Removed in the 2026-07-04 redundancy cleanup (recover from git history if needed): `app/_lab/` (ui stash + `cn()` util), `app/components/{project3col,projectimg,sectionDivider,twocol}.tsx`, and the npm deps `lenis`, `swiper`, `@radix-ui/react-dialog`, `@radix-ui/react-dropdown-menu`, `class-variance-authority`, `clsx`, `tailwind-merge`. Kept: `app/components/fadeIn.tsx` + `pageheader.tsx` (imported by the off-limits detail deck) and `lucide-react` (same).
 
