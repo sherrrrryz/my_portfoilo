@@ -10,6 +10,61 @@ interface SeeDetailModalProps {
 
 const CORRECT_PASSWORD = "102594";
 
+const CONTACT_EMAIL = "sherrrryz@outlook.com";
+
+/* Click-to-copy, matching the footers. Not a mailto: that only does anything
+   when the device has a mail client registered, and fails silently when it
+   doesn't. Falls back to selecting the address if the Clipboard API is denied,
+   so there is never a dead end. Per-page copy (isolation rule). */
+function CopyMail() {
+  const [toast, setToast] = useState("");
+  const mailRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(""), 2400);
+    return () => clearTimeout(t);
+  }, [toast]);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      setToast("Copied to clipboard");
+    } catch {
+      const el = mailRef.current;
+      if (el) {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const sel = window.getSelection();
+        sel?.removeAllRanges();
+        sel?.addRange(range);
+      }
+      setToast("Selected. Press \u2318C or Ctrl+C");
+    }
+  };
+
+  return (
+    <>
+      <button
+        ref={mailRef}
+        type="button"
+        className="lsx-btn lsx-btn--ghost lsx-modal__mail"
+        aria-label={`Copy email address: ${CONTACT_EMAIL}`}
+        onClick={copy}
+      >
+        {CONTACT_EMAIL}
+      </button>
+      <div
+        className={`lsx-toast${toast ? " lsx-toast--on" : ""}`}
+        role="status"
+        aria-live="polite"
+      >
+        {toast}
+      </div>
+    </>
+  );
+}
+
 export default function SeeDetailModal({ isOpen, onClose }: SeeDetailModalProps) {
   const router = useRouter();
   const [digits, setDigits] = useState<string[]>(Array(6).fill(""));
@@ -134,20 +189,15 @@ export default function SeeDetailModal({ isOpen, onClose }: SeeDetailModalProps)
 
         <hr className="lsx-modal__hr" />
 
-        {/* Section 2: Contact. A plain mailto, not a form — the site sends no
-            mail of its own. The subject is prefilled so a request that lands
-            in the inbox is self-explanatory. */}
+        {/* Section 2: Contact. Click-to-copy, not a form — the site sends no
+            mail of its own, so the address goes to the visitor's clipboard and
+            they write from wherever they actually read mail. */}
         <div>
           <h2 className="lsx-modal__h">Contact me to learn more</h2>
           <p className="lsx-modal__p">
             Send me an email and I&apos;ll share the details with you.
           </p>
-          <a
-            className="lsx-btn lsx-btn--ghost lsx-modal__mail"
-            href="mailto:sherrrryz@outlook.com?subject=Lock%20Screen%20case%20study"
-          >
-            sherrrryz@outlook.com
-          </a>
+          <CopyMail />
         </div>
       </div>
     </div>

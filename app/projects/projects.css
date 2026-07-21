@@ -291,18 +291,58 @@ a.pj-card__note--link:focus-visible { color: var(--pj-ink); }
   margin: 0;
   text-wrap: balance;
 }
+/* Renders as a button: clicking copies the address, it navigates nowhere.
+   Button reset first, then the same editorial weight the anchor had. */
 .pj-contact__mail {
   display: inline-block;
   margin-top: clamp(20px, 4vh, 36px);
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
   font-size: clamp(1.6rem, 5vw, 3.4rem);
   font-weight: var(--font-bold);
   letter-spacing: var(--tracking-tight);
+  text-align: left;
   color: var(--pj-ink);
-  text-decoration: none;
   border-bottom: 2px solid var(--pj-line-2);
+  cursor: pointer;
   transition: border-color var(--duration-base) var(--ease-out);
 }
+.pj-contact__mail:focus-visible {
+  outline: 2px solid var(--pj-ink);
+  outline-offset: 4px;
+}
 .pj-contact__mail:hover { border-color: var(--pj-ink); }
+/* Copy confirmation. Fixed to the viewport bottom so it reads the same
+   whether the footer is centred or scrolled past. Kept mounted and faded
+   with a transition, so it needs no animation library. */
+.pj-toast {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(20px, 5vh, 44px);
+  z-index: 70;
+  transform: translate(-50%, 10px);
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: var(--pj-ink);
+  color: var(--pj-paper);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+.pj-toast--on { opacity: 1; transform: translate(-50%, 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .pj-toast { transition: opacity var(--duration-base) var(--ease-out); transform: translate(-50%, 0); }
+}
+
 .pj-contact__resume {
   display: block;
   width: fit-content;

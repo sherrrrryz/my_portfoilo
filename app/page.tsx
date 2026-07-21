@@ -1593,6 +1593,8 @@ function OffClock() {
   );
 }
 
+const CONTACT_EMAIL = 'sherrrryz@outlook.com';
+
 function Marker({ num, label }: { num: string; label: string }) {
   return (
     <div className="sm-marker">
@@ -1611,6 +1613,73 @@ function LinkedInMark() {
     <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true">
       <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.44-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
     </svg>
+  );
+}
+
+/* Click-to-copy, not a mailto. A mailto only does something when the device
+   has a mail client registered; on one that doesn't it fails silently and the
+   visitor never says so. Copying is the path that works everywhere.
+
+   Three layers, because with mailto gone a failed copy would leave no way to
+   reach the address at all: Clipboard API, then selecting the text so the
+   keyboard shortcut still works, and the toast says which one happened.
+   Duplicated per page (isolation rule, same as ThemeToggle / LangToggle). */
+function CopyMail({
+  copyLabel,
+  copiedLabel,
+  manualLabel,
+}: {
+  copyLabel: string;
+  copiedLabel: string;
+  manualLabel: string;
+}) {
+  const [toast, setToast] = useState('');
+  const mailRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(''), 2400);
+    return () => clearTimeout(t);
+  }, [toast]);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      setToast(copiedLabel);
+    } catch {
+      const el = mailRef.current;
+      if (el) {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const sel = window.getSelection();
+        sel?.removeAllRanges();
+        sel?.addRange(range);
+      }
+      setToast(manualLabel);
+    }
+  };
+
+  return (
+    <>
+      <button
+        ref={mailRef}
+        type="button"
+        className="sm-contact__mail"
+        aria-label={`${copyLabel}: ${CONTACT_EMAIL}`}
+        onClick={copy}
+      >
+        {CONTACT_EMAIL}
+      </button>
+      {/* Kept mounted so it can transition both ways; empty until it fires,
+          so role=status has nothing to announce at page load. */}
+      <div
+        className={`sm-toast${toast ? ' sm-toast--on' : ''}`}
+        role="status"
+        aria-live="polite"
+      >
+        {toast}
+      </div>
+    </>
   );
 }
 
@@ -1638,6 +1707,9 @@ const UI = {
     contactHead: 'Let’s build for real people.',
     resume: 'Resume ↗',
     linkedin: 'LinkedIn ↗',
+    copy: 'Copy email address',
+    copied: 'Copied to clipboard',
+    copyManual: 'Selected. Press \u2318C or Ctrl+C',
     fHome: 'Home',
     fAbout: 'About',
     fProjects: 'Projects',
@@ -1665,6 +1737,9 @@ const UI = {
     contactHead: '一起为真实的人做点东西吧。',
     resume: '简历 ↗',
     linkedin: '领英 ↗',
+    copy: '复制邮箱地址',
+    copied: '已复制到剪贴板',
+    copyManual: '已选中，按 \u2318C 或 Ctrl+C 复制',
     fHome: '首页',
     fAbout: '关于',
     fProjects: '项目',
@@ -1974,9 +2049,11 @@ export default function SimplePage() {
         <div className="sm-wrap">
           <Marker num="05" label={u.mHello} />
           <h2 className="sm-h sm-h--sm">{u.contactHead}</h2>
-          <a className="sm-contact__mail" href="mailto:sherrrryz@outlook.com">
-            sherrrryz@outlook.com
-          </a>
+          <CopyMail
+            copyLabel={u.copy}
+            copiedLabel={u.copied}
+            manualLabel={u.copyManual}
+          />
           <a
             className="sm-contact__resume"
             href="/Sherry_Zhou_Resume.pdf"
