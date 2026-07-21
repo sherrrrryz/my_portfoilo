@@ -673,13 +673,15 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
   padding: 0;
   border: 0;
   background: none;
-  font-family: inherit;
-  font-size: clamp(1.6rem, 5vw, 3.4rem);
-  font-weight: var(--font-bold);
-  letter-spacing: var(--tracking-tight);
+  /* Same mono voice and size as the resume link right below it, so the
+     two contact affordances read as one pair rather than a display
+     headline followed by a footnote. */
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
   text-align: left;
   color: var(--ab-ink);
-  border-bottom: 2px solid var(--ab-line-2);
+  border-bottom: 1px solid var(--ab-line-2);
   cursor: pointer;
   transition: border-color var(--duration-base) var(--ease-out);
 }
@@ -720,7 +722,9 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
 .ab-contact__resume {
   display: block;
   width: fit-content;
-  margin-top: clamp(16px, 3vh, 28px);
+  /* Same step as LinkedIn below, so email / resume / LinkedIn stack at one
+     even rhythm now that all three share the mono voice. */
+  margin-top: clamp(10px, 2vh, 16px);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   letter-spacing: var(--tracking-wide);
