@@ -268,6 +268,8 @@ function CompanyHover({ c }: { c: (typeof COMPANIES)[number] }) {
   );
 }
 
+const COMING_SOON: L10n = { en: 'Coming soon', zh: '敬请期待' };
+
 const MEANS = [
   {
     text: {
@@ -285,6 +287,9 @@ const MEANS = [
     meta: { en: 'MIUI Design System 2.0 · 2023', zh: 'MIUI 设计系统 2.0 · 2023' },
     href: '/projects/miui-design-system',
   },
+  /* No case study written yet, so this row swaps the 👀 cursor for a
+     "Coming soon" follow-pointer pill (see MeanRow) rather than offering a
+     link affordance that goes nowhere. */
   {
     text: {
       en: "It means ‘just make it bigger’ is never the answer.",
@@ -745,19 +750,35 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
     idx === 4 ? ' sm-mean--misc' : ''
   }${open ? ' sm-open' : ''}`;
 
+  /* Row 3's case study isn't written yet. Rather than a 👀 cursor promising a
+     jump that never comes, it says so: the same follow-pointer pill the flip
+     cards use, reading "Coming soon". */
+  const comingSoon = idx === 2;
+
+  const text = (
+    <p
+      className="sm-means__text"
+      style={comingSoon ? undefined : { cursor: emojiCursor('👀') }}
+    >
+      {m.href ? (
+        <Link href={m.href} className="sm-means__text-link">
+          {t(m.text)}
+        </Link>
+      ) : (
+        t(m.text)
+      )}
+    </p>
+  );
+
   const head = (
     <div className="sm-mean__head" ref={headRef}>
       <span className="sm-means__idx">{String(idx + 1).padStart(2, '0')}</span>
       <div>
-        <p className="sm-means__text" style={{ cursor: emojiCursor('👀') }}>
-          {m.href ? (
-            <Link href={m.href} className="sm-means__text-link">
-              {t(m.text)}
-            </Link>
-          ) : (
-            t(m.text)
-          )}
-        </p>
+        {comingSoon ? (
+          <FollowPointer title={t(COMING_SOON)}>{text}</FollowPointer>
+        ) : (
+          text
+        )}
         {t(m.meta) && (
           <div className="sm-means__meta">{t(m.meta)}</div>
         )}
