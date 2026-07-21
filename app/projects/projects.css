@@ -318,6 +318,26 @@ a.pj-card__note--link:focus-visible { color: var(--pj-ink); }
     border-color var(--duration-base) var(--ease-out);
 }
 .pj-contact__resume:hover { color: var(--pj-ink); border-color: var(--pj-ink); }
+/* LinkedIn sits one step under the resume link, same quiet mono voice.
+   flex + fit-content so the glyph and label share a row and the hairline
+   hugs both, reading as one link rather than an icon plus a bullet. */
+.pj-contact__social {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin-top: clamp(10px, 2vh, 16px);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  color: var(--pj-ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--pj-line-2);
+  transition:
+    color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+}
+.pj-contact__social:hover { color: var(--pj-ink); border-color: var(--pj-ink); }
 .pj-colophon {
   margin-top: clamp(48px, 8vh, 96px);
   padding-top: 24px;

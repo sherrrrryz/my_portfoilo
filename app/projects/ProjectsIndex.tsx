@@ -268,6 +268,7 @@ const UI = {
     mHello: 'Say hello',
     contactHead: 'Want the full story on any of these?',
     resume: 'Resume ↗',
+    linkedin: 'LinkedIn ↗',
     fHome: 'Home',
     fAbout: 'About',
     fProjects: 'Projects',
@@ -285,6 +286,7 @@ const UI = {
     mHello: '打个招呼',
     contactHead: '想听其中任何一个的完整故事？',
     resume: '简历 ↗',
+    linkedin: '领英 ↗',
     fHome: '首页',
     fAbout: '关于',
     fProjects: '项目',
@@ -299,6 +301,17 @@ function Marker({ num, label }: { num: string; label: string }) {
       <span>{label}</span>
       <span className="pj-marker__line" aria-hidden="true" />
     </div>
+  );
+}
+
+/* LinkedIn glyph for the footer social link. Inlined per page because the
+   three monochrome pages deliberately share no TSX imports; currentColor
+   keeps it on the same ink ramp as the link text. */
+function LinkedInMark() {
+  return (
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true">
+      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.44-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+    </svg>
   );
 }
 
@@ -440,6 +453,15 @@ export default function ProjectsIndex() {
             rel="noopener"
           >
             {u.resume}
+          </a>
+          <a
+            className="pj-contact__social"
+            href="https://www.linkedin.com/in/xueyizhou"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <LinkedInMark />
+            {u.linkedin}
           </a>
           <div className="pj-colophon">
             <span>{u.colophon}</span>

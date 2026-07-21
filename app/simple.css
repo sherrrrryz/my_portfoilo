@@ -164,7 +164,7 @@
   border: 0;
   padding: 6px;
   margin: 0;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   color: var(--sm-ink-3);
@@ -591,7 +591,7 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   height: clamp(44px, 5vh, 60px);
   border-radius: 12px;
   overflow: hidden;
-  display: inline-flex;
+  display: flex;
   align-items: stretch;
   box-shadow:
     0 1px 2px rgba(17, 17, 17, 0.06),
@@ -852,7 +852,7 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   opacity: 0.6;
 }
 .sm-case-link__cta {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 10px;
   font-size: var(--text-md);
@@ -941,7 +941,7 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   top: -0.65em;
   right: -0.4em;
   transform: translateX(100%);
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 5px;
   padding: 3px 8px 3px 7px;
@@ -1388,6 +1388,26 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
     border-color var(--duration-base) var(--ease-out);
 }
 .sm-contact__resume:hover { color: var(--sm-ink); border-color: var(--sm-ink); }
+/* LinkedIn sits one step under the resume link, same quiet mono voice.
+   flex + fit-content so the glyph and label share a row and the hairline
+   hugs both, reading as one link rather than an icon plus a bullet. */
+.sm-contact__social {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin-top: clamp(10px, 2vh, 16px);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  color: var(--sm-ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--sm-line-2);
+  transition:
+    color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+}
+.sm-contact__social:hover { color: var(--sm-ink); border-color: var(--sm-ink); }
 .sm-colophon {
   margin-top: clamp(48px, 8vh, 96px);
   padding-top: 24px;
