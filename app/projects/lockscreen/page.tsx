@@ -19,6 +19,7 @@ import "./lockscreen.css";
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import BackLink from "./BackLink";
 import { SeeDetailProvider } from "./SeeDetailContext";
 import SeeDetailButton from "./SeeDetailButton";
 import ThemeToggle from "./ThemeToggle";
@@ -144,7 +145,7 @@ const project = {
 const UI = {
   en: {
     navMark: "Xueyi Zhou",
-    back: "← Back to home",
+    back: "← Back",
     kicker: "Case study · Xiaomi MIUI 15 · 2023",
     mOverview: "Overview",
     mBackground: "Project background",
@@ -174,7 +175,7 @@ const UI = {
   },
   zh: {
     navMark: "周雪怡",
-    back: "← 返回首页",
+    back: "← 返回",
     kicker: "案例研究 · 小米 MIUI 15 · 2023",
     mOverview: "概述",
     mBackground: "项目背景",
@@ -275,9 +276,7 @@ export default function ProjectLockScreen() {
             {u.navMark}
           </Link>
           <div className="lsx-nav__right">
-            <Link href="/" className="lsx-nav__link">
-              {u.back}
-            </Link>
+            <BackLink label={u.back} />
             <LangToggle lang={lang} onChange={changeLang} />
             <ThemeToggle />
           </div>

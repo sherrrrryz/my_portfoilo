@@ -16,6 +16,7 @@ import "./oobe.css";
 import type { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
+import BackLink from "./BackLink";
 import ThemeToggle from "./ThemeToggle";
 import CopyEmail from "./CopyEmail";
 
@@ -307,9 +308,7 @@ export default function ProjectApplovinOobe() {
           Xueyi Zhou
         </Link>
         <div className="alo-nav__right">
-          <Link href="/" className="alo-nav__link">
-            &larr; Back to home
-          </Link>
+          <BackLink label="← Back" />
           <ThemeToggle />
         </div>
       </nav>

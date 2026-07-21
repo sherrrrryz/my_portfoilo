@@ -16,6 +16,7 @@ import "./touch-hotspots.css";
 
 import type { Metadata } from "next";
 import Link from "next/link";
+import BackLink from "./BackLink";
 import ThemeToggle from "./ThemeToggle";
 import CopyEmail from "./CopyEmail";
 
@@ -275,9 +276,7 @@ export default function ProjectTouchHotspots() {
           Xueyi Zhou
         </Link>
         <div className="thz-nav__right">
-          <Link href="/" className="thz-nav__link">
-            &larr; Back to home
-          </Link>
+          <BackLink label="← Back" />
           <ThemeToggle />
         </div>
       </nav>

@@ -20,6 +20,7 @@ import "./miui-ds.css";
 
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import BackLink from "./BackLink";
 import ThemeToggle from "./ThemeToggle";
 
 /* ── i18n plumbing — per-page copy of the homepage recipe ─────────── */
@@ -237,7 +238,7 @@ const project = {
 const UI = {
   en: {
     navMark: "Xueyi Zhou",
-    back: "← Back to home",
+    back: "← Back",
     kicker: "Case study · Xiaomi MIUI · 2022–2023",
     mOverview: "Overview",
     mInherited: "The system I inherited",
@@ -289,7 +290,7 @@ const UI = {
   },
   zh: {
     navMark: "周雪怡",
-    back: "← 返回首页",
+    back: "← 返回",
     kicker: "案例研究 · 小米 MIUI · 2022–2023",
     mOverview: "概述",
     mInherited: "我接手的系统",
@@ -519,9 +520,7 @@ export default function MiuiDs() {
           {u.navMark}
         </Link>
         <div className="mds-nav__right">
-          <Link href="/" className="mds-nav__link">
-            {u.back}
-          </Link>
+          <BackLink label={u.back} />
           <LangToggle lang={lang} onChange={changeLang} />
           <ThemeToggle />
         </div>
