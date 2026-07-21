@@ -1,11 +1,31 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, IBM_Plex_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { metaData } from "./lib/config";
 
 const inter = Inter({ subsets: ["latin"] });
+
+// Switzer & IBM Plex Mono feed the new design system's --font-sans/--font-mono
+// (tokens.css) via CSS variables only. Inter stays applied as before — the
+// legacy detail deck's typography depends on it.
+const switzer = localFont({
+  src: [
+    { path: "./fonts/Switzer-Variable.woff2", weight: "100 900", style: "normal" },
+    { path: "./fonts/Switzer-VariableItalic.woff2", weight: "100 900", style: "italic" },
+  ],
+  variable: "--font-switzer",
+  display: "swap",
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-plex-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(metaData.baseUrl),
@@ -51,7 +71,11 @@ export default function RootLayout({
   return (
     // suppressHydrationWarning: the inline theme script below sets data-theme
     // on <html> before hydration; React must not flag that attribute diff.
-    <html lang="en" className={inter.className} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.className} ${switzer.variable} ${plexMono.variable}`}
+      suppressHydrationWarning
+    >
       <body className="antialiased">
         {/* Pre-paint theme resolution: saved choice, else OS preference.
             Sets data-theme on <html>; the page-theme tokens in

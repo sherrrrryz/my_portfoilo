@@ -95,8 +95,10 @@
   --tag-peach-ink:   #c2410c;
 
   /* ------ Typography: families ------ */
-  --font-sans: 'Switzer', 'Switzer-Variable', -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* --font-switzer / --font-plex-mono are set by next/font in app/layout.tsx;
+     the literal family names stay as fallback for contexts without them. */
+  --font-sans: var(--font-switzer, 'Switzer'), 'Switzer', 'Switzer-Variable', -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono, 'IBM Plex Mono'), 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   /* ------ Typography: sizes ------
      Fixed small sizes for micro-type, fluid clamp sizes for display type. */

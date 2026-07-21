@@ -2,7 +2,11 @@
 
 Snapshot of what's live and what still needs building. Update whenever a scaffold lands or a section ships. Use this as the "where are we" doc; use [`prd.md`](./prd.md) for the full spec.
 
-Last updated: 2026-07-08 (Projects index shipped; see below).
+Last updated: 2026-07-21 (design-system fonts actually shipped; see below).
+
+## Fonts shipped (2026-07-21)
+
+The Switzer / IBM Plex Mono families that `tokens.css` had declared since the start were never actually loaded — no `@font-face`, no font files; visitors rendered Inter + system mono the whole time (dev machines with Switzer installed locally masked the bug). Now self-hosted via next/font in `app/layout.tsx`: Switzer variable woff2 (normal + italic, 100–900, from Fontshare, ITF FFL) in `app/fonts/`, IBM Plex Mono 400/500/600 via `next/font/google`. Both are exposed only as CSS variables (`--font-switzer`, `--font-plex-mono`) consumed by the `--font-sans`/`--font-mono` stacks in `tokens.css`; `inter.className` stays applied unchanged so the legacy detail deck's typography is untouched.
 
 ## Projects index (2026-07-08)
 
