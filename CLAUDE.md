@@ -39,6 +39,8 @@ The other four legacy primitives (project3col, projectimg, sectionDivider, twoco
 
 **Isolation rule in one line:** the homepage (`/`) and the lockscreen route (`/projects/lockscreen/**`) must never share a TSX import, and each keeps its page styles in its own CSS file (`simple.css` vs `lockscreen.css`); they may both consume `_styles/tokens.css`. The only other shared file is `globals.css`, which neither side rewrites.
 
+**The one sanctioned exception (added 2026-07-21):** `app/_components/ContactModal.tsx` (+ its `contact-modal.css`) is imported by `/`, `/about`, `/projects` **and** `app/projects/lockscreen/SeeDetailModal.tsx`. The rule exists to keep the **legacy detail deck** from entangling with new code; the contact form is new code on both sides and imports nothing legacy, so the purpose is intact while the letter is not. It earned the exception because it carries fetch + loading + error + success state and a backend contract (`/api/send-email`) — four copies of that drift, unlike the stateless per-page copies of `ThemeToggle` / `LangToggle` / `emojiCursor`, which stay duplicated. It styles itself on `--theme-*` directly, never on any page's `--sm-`/`--ab-`/`--pj-`/`--lsx-` aliases, because it portals to `<body>` outside every page root. **Do not treat this as licence to share anything else** — the off-limits list above is unchanged, and `lockscreen/detail/**` remains untouchable.
+
 ## Other hard constraints
 
 - **Don't push `main` without explicit user approval.** Vercel auto-deploys.

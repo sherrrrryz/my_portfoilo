@@ -421,31 +421,3 @@ html:not([data-theme="dark"]) .lsx-theme__moon { display: none; }
   text-align: center;
   color: var(--terracotta-500);
 }
-.lsx-modal__ok {
-  margin: 16px 0 0;
-  padding: 10px 0;
-  font-size: var(--text-sm);
-  font-weight: var(--font-semibold);
-  text-align: center;
-  color: var(--accent);
-}
-.lsx-field { display: grid; gap: 10px; }
-.lsx-field input,
-.lsx-field textarea {
-  width: 100%;
-  padding: 10px 14px;
-  font: inherit;
-  font-size: var(--text-sm);
-  color: var(--lsx-ink);
-  background: transparent;
-  border: 1px solid var(--lsx-line-2);
-  border-radius: var(--radius-sm);
-  outline: none;
-  resize: none;
-  transition: border-color var(--duration-base) var(--ease-out);
-}
-.lsx-field input::placeholder,
-.lsx-field textarea::placeholder { color: var(--lsx-ink-3); }
-.lsx-field input:focus,
-.lsx-field textarea:focus { border-color: var(--lsx-ink); }
-.lsx-modal__send { margin-top: 16px; width: 100%; }

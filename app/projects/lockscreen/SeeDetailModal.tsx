@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
+import { ContactForm } from "../../_components/ContactModal";
+
 interface SeeDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -15,11 +17,6 @@ export default function SeeDetailModal({ isOpen, onClose }: SeeDetailModalProps)
   const [digits, setDigits] = useState<string[]>(Array(6).fill(""));
   const [error, setError] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-
-  // Contact form state
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -97,49 +94,6 @@ export default function SeeDetailModal({ isOpen, onClose }: SeeDetailModalProps)
     }
   };
 
-  const [sending, setSending] = useState(false);
-  const [sendSuccess, setSendSuccess] = useState(false);
-  const [sendError, setSendError] = useState("");
-
-  const handleSendEmail = async () => {
-    if (!name.trim() || !email.trim()) {
-      setSendError("Please fill in your name and email.");
-      return;
-    }
-
-    setSending(true);
-    setSendError("");
-
-    try {
-      const res = await fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), email: email.trim(), message: message.trim() }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to send");
-      }
-
-      setSendSuccess(true);
-      setName("");
-      setEmail("");
-      setMessage("");
-    } catch {
-      setSendError("Failed to send email. Please try again.");
-    } finally {
-      setSending(false);
-    }
-  };
-
-  // Reset contact form state when modal opens
-  useEffect(() => {
-    if (isOpen) {
-      setSendSuccess(false);
-      setSendError("");
-    }
-  }, [isOpen]);
-
   if (!isOpen) return null;
 
   return (
@@ -182,50 +136,15 @@ export default function SeeDetailModal({ isOpen, onClose }: SeeDetailModalProps)
 
         <hr className="lsx-modal__hr" />
 
-        {/* Section 2: Contact */}
+        {/* Section 2: Contact — the shared form, so the send path and its
+            error handling are the same one the footers use. `context` only
+            shapes the subject line. */}
         <div>
           <h2 className="lsx-modal__h">Contact me to learn more</h2>
           <p className="lsx-modal__p">
             Send me an email and I&apos;ll share the details with you.
           </p>
-
-          <div className="lsx-field">
-            <input
-              type="text"
-              placeholder="Your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="Your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <textarea
-              placeholder="Message (optional)"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              rows={3}
-            />
-          </div>
-
-          {sendSuccess ? (
-            <p className="lsx-modal__ok">
-              ✓ Email sent successfully! I&apos;ll get back to you soon.
-            </p>
-          ) : (
-            <>
-              {sendError && <p className="lsx-modal__err">{sendError}</p>}
-              <button
-                onClick={handleSendEmail}
-                disabled={sending}
-                className="lsx-btn lsx-btn--ghost lsx-modal__send"
-              >
-                {sending ? "Sending..." : "Send email"}
-              </button>
-            </>
-          )}
+          <ContactForm lang="en" context="Lock Screen" />
         </div>
       </div>
     </div>

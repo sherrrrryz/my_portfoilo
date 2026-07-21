@@ -20,6 +20,8 @@
 ============================================================================ */
 
 import './_styles/tokens.css';
+import ContactModal from './_components/ContactModal';
+
 import './simple.css';
 
 import Link from 'next/link';
@@ -1675,6 +1677,7 @@ const UI = {
 export default function SimplePage() {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [lang, setLang] = useState<Lang>('en');
+  const [contactOpen, setContactOpen] = useState(false);
 
   /* Restore the saved language after hydration (SSR is always English, so
      the first client render matches the server markup — no mismatch). */
@@ -1974,9 +1977,13 @@ export default function SimplePage() {
         <div className="sm-wrap">
           <Marker num="05" label={u.mHello} />
           <h2 className="sm-h sm-h--sm">{u.contactHead}</h2>
-          <a className="sm-contact__mail" href="mailto:sherrrryz@outlook.com">
+          <button
+            type="button"
+            className="sm-contact__mail cm-trigger"
+            onClick={() => setContactOpen(true)}
+          >
             sherrrryz@outlook.com
-          </a>
+          </button>
           <a
             className="sm-contact__resume"
             href="/Sherry_Zhou_Resume.pdf"
@@ -2000,6 +2007,13 @@ export default function SimplePage() {
           </div>
         </div>
       </footer>
+
+      <ContactModal
+        open={contactOpen}
+        onClose={() => setContactOpen(false)}
+        lang={lang}
+        context="Homepage"
+      />
     </div>
     </LangContext.Provider>
   );

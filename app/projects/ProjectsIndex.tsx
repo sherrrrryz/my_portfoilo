@@ -17,6 +17,8 @@
 ============================================================================ */
 
 import '../_styles/tokens.css';
+import ContactModal from '../_components/ContactModal';
+
 import './projects.css';
 
 import Link from 'next/link';
@@ -367,6 +369,7 @@ function ProjectCard({ p }: { p: Project }) {
 
 export default function ProjectsIndex() {
   const [lang, setLang] = useState<Lang>('en');
+  const [contactOpen, setContactOpen] = useState(false);
 
   /* Restore the saved language after hydration (SSR is always English, so
      the first client render matches the server markup — no mismatch). */
@@ -443,9 +446,13 @@ export default function ProjectsIndex() {
         <div className="pj-wrap">
           <Marker num="02" label={u.mHello} />
           <h2 className="pj-contact__head">{u.contactHead}</h2>
-          <a className="pj-contact__mail" href="mailto:sherrrryz@outlook.com">
+          <button
+            type="button"
+            className="pj-contact__mail cm-trigger"
+            onClick={() => setContactOpen(true)}
+          >
             sherrrryz@outlook.com
-          </a>
+          </button>
           <a
             className="pj-contact__resume"
             href="/Sherry_Zhou_Resume.pdf"
@@ -469,6 +476,13 @@ export default function ProjectsIndex() {
           </div>
         </div>
       </footer>
+
+      <ContactModal
+        open={contactOpen}
+        onClose={() => setContactOpen(false)}
+        lang={lang}
+        context="Projects"
+      />
     </div>
     </LangContext.Provider>
   );

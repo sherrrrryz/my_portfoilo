@@ -18,6 +18,8 @@
 ============================================================================ */
 
 import '../_styles/tokens.css';
+import ContactModal from '../_components/ContactModal';
+
 import './about.css';
 
 import Link from 'next/link';
@@ -676,6 +678,7 @@ const UI = {
 
 export default function AboutPage() {
   const [lang, setLang] = useState<Lang>('en');
+  const [contactOpen, setContactOpen] = useState(false);
 
   /* Restore the saved language after hydration (SSR is always English, so
      the first client render matches the server markup — no mismatch). */
@@ -951,9 +954,13 @@ export default function AboutPage() {
         <div className="ab-wrap">
           <Marker num="04" label={u.mHello} />
           <h2 className="ab-h">{u.contactHead}</h2>
-          <a className="ab-contact__mail" href="mailto:sherrrryz@outlook.com">
+          <button
+            type="button"
+            className="ab-contact__mail cm-trigger"
+            onClick={() => setContactOpen(true)}
+          >
             sherrrryz@outlook.com
-          </a>
+          </button>
           <a
             className="ab-contact__resume"
             href="/Sherry_Zhou_Resume.pdf"
@@ -977,6 +984,13 @@ export default function AboutPage() {
           </div>
         </div>
       </footer>
+
+      <ContactModal
+        open={contactOpen}
+        onClose={() => setContactOpen(false)}
+        lang={lang}
+        context="About"
+      />
     </div>
     </LangContext.Provider>
   );

@@ -1,0 +1,160 @@
+/* ============================================================================
+   Contact form + modal — shared by /, /about, /projects and the lockscreen
+   password gate. Prefix: cm-.
+
+   Reads --theme-* straight from _styles/tokens.css instead of any page's
+   --sm-/--ab-/--pj-/--lsx- aliases: the panel portals to <body>, outside
+   every page root, and it has to look right on all four pages without
+   knowing which one opened it. Monochrome throughout; terracotta appears
+   only on the error line, which is system feedback.
+============================================================================ */
+
+.cm-ov {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: color-mix(in srgb, #111111 45%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.cm-panel {
+  position: relative;
+  width: min(90vw, 30rem);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: clamp(24px, 4vw, 40px);
+  background: var(--theme-card);
+  color: var(--theme-ink);
+  border: 1px solid var(--theme-line);
+  border-radius: var(--radius-lg);
+}
+
+.cm-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  border: 0;
+  background: none;
+  font-size: var(--text-lg);
+  line-height: 1;
+  color: var(--theme-ink-3);
+  cursor: pointer;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.cm-close:hover { color: var(--theme-ink); }
+.cm-close:focus-visible {
+  outline: 2px solid var(--theme-ink);
+  outline-offset: 2px;
+}
+
+.cm-title {
+  margin: 0 0 4px;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--theme-ink);
+}
+.cm-sub {
+  margin: 0 0 18px;
+  font-size: var(--text-sm);
+  color: var(--theme-ink-3);
+}
+
+/* ── the form itself (also used inline, outside the modal) ──────────── */
+.cm-form { display: grid; gap: 10px; }
+
+.cm-form input,
+.cm-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--theme-ink);
+  background: transparent;
+  border: 1px solid var(--theme-line-2);
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-base) var(--ease-out);
+}
+.cm-form textarea { resize: vertical; min-height: 88px; }
+.cm-form input::placeholder,
+.cm-form textarea::placeholder { color: var(--theme-ink-3); }
+.cm-form input:focus,
+.cm-form textarea:focus { outline: none; border-color: var(--theme-ink); }
+
+/* Pill button, same silhouette as the lockscreen ghost button it replaces. */
+.cm-send {
+  margin-top: 6px;
+  width: 100%;
+  padding: 14px 20px;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--theme-ink);
+  background: transparent;
+  border: 1px solid var(--theme-ink);
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    color var(--duration-base) var(--ease-out),
+    background-color var(--duration-base) var(--ease-out);
+}
+.cm-send:hover:not(:disabled) {
+  color: var(--theme-paper);
+  background: var(--theme-ink);
+}
+.cm-send:focus-visible {
+  outline: 2px solid var(--theme-ink);
+  outline-offset: 2px;
+}
+.cm-send:disabled { opacity: 0.5; cursor: default; }
+
+/* Quiet mailto under the button. Same voice as the footer's resume /
+   LinkedIn links so it reads as a fallback, not a second call to action. */
+.cm-direct {
+  justify-self: start;
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--theme-ink-3);
+  text-decoration: none;
+  border-bottom: 1px solid var(--theme-line-2);
+  transition:
+    color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
+}
+.cm-direct:hover { color: var(--theme-ink); border-color: var(--theme-ink); }
+
+/* System feedback — the one licensed use of colour in here. */
+.cm-err {
+  margin: 2px 0 0;
+  font-size: var(--text-sm);
+  color: var(--terracotta-500);
+}
+.cm-ok {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--theme-ink-2);
+}
+
+/* The mail address in a footer opens the modal instead of handing off to a
+   mail client, so it must not look like plain text. Inherits whatever the
+   page's mail link already sets; this only supplies button-reset. */
+.cm-trigger {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cm-ov, .cm-panel { transition: none; }
+}
