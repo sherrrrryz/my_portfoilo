@@ -59,7 +59,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/avatar.png", type: "image/png" },
+    ],
+    apple: "/avatar.png",
   },
 };
 
