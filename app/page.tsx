@@ -1751,6 +1751,8 @@ const UI = {
     fHome: 'Home',
     fAbout: 'About',
     fProjects: 'Projects',
+    ctaAbout: 'About me',
+    ctaProjects: 'Projects',
     colophon: 'Xueyi (Sherry) Zhou © 2026',
   },
   zh: {
@@ -1781,6 +1783,8 @@ const UI = {
     fHome: '首页',
     fAbout: '关于',
     fProjects: '项目',
+    ctaAbout: '关于我',
+    ctaProjects: '项目',
     colophon: '周雪怡 (Sherry) © 2026',
   },
 } as const;
@@ -2087,6 +2091,14 @@ export default function SimplePage() {
         <div className="sm-wrap">
           <Marker num="05" label={u.mHello} />
           <h2 className="sm-h sm-h--sm">{u.contactHead}</h2>
+          <div className="sm-contact__ctas">
+            <Link href="/about" className="sm-btn">
+              {u.ctaAbout}
+            </Link>
+            <Link href="/projects" className="sm-btn">
+              {u.ctaProjects}
+            </Link>
+          </div>
           <CopyMail
             copyLabel={u.copy}
             copiedLabel={u.copied}

@@ -382,6 +382,48 @@ a.pj-card__note--link:focus-visible { color: var(--pj-ink); }
     border-color var(--duration-base) var(--ease-out);
 }
 .pj-contact__social:hover { color: var(--pj-ink); border-color: var(--pj-ink); }
+/* Closing navigation: the same pill pair the home footer uses (filled +
+   ghost, mono uppercase), pointing at / and /about. The contact head keeps
+   margin 0, so the top margin here sets the same tight gap the other pages
+   get via their heading margin. Duplicated per page (isolation rule: themed
+   pages share tokens.css only, never TSX). */
+.pj-contact__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(20px, 4vh, 36px);
+  /* Collapses with the mail link's margin-top below, so this alone sets the
+     larger gap that separates the CTA pair from the contact links. */
+  margin-bottom: clamp(56px, 9vh, 96px);
+}
+.pj-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 26px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--pj-ink);
+  background: transparent;
+  color: var(--pj-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out);
+}
+.pj-btn:hover {
+  background: var(--pj-ink);
+  color: var(--pj-paper);
+}
+.pj-btn:focus-visible {
+  outline: 2px solid var(--pj-ink);
+  outline-offset: 2px;
+}
 .pj-colophon {
   margin-top: clamp(48px, 8vh, 96px);
   padding-top: 24px;

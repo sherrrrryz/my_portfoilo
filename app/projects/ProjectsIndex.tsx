@@ -275,6 +275,8 @@ const UI = {
     fHome: 'Home',
     fAbout: 'About',
     fProjects: 'Projects',
+    ctaHome: 'Home',
+    ctaAbout: 'About me',
     colophon: 'Xueyi (Sherry) Zhou © 2026',
   },
   zh: {
@@ -296,6 +298,8 @@ const UI = {
     fHome: '首页',
     fAbout: '关于',
     fProjects: '项目',
+    ctaHome: '首页',
+    ctaAbout: '关于我',
     colophon: '周雪怡 (Sherry) © 2026',
   },
 } as const;
@@ -518,6 +522,14 @@ export default function ProjectsIndex() {
         <div className="pj-wrap">
           <Marker num="02" label={u.mHello} />
           <h2 className="pj-contact__head">{u.contactHead}</h2>
+          <div className="pj-contact__ctas">
+            <Link href="/about" className="pj-btn">
+              {u.ctaAbout}
+            </Link>
+            <Link href="/" className="pj-btn">
+              {u.ctaHome}
+            </Link>
+          </div>
           <CopyMail
             copyLabel={u.copy}
             copiedLabel={u.copied}

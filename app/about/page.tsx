@@ -722,6 +722,8 @@ const UI = {
     fHome: 'Home',
     fAbout: 'About',
     fProjects: 'Projects',
+    ctaHome: 'Home',
+    ctaProjects: 'Projects',
     colophon: 'Xueyi (Sherry) Zhou © 2026',
   },
   zh: {
@@ -745,6 +747,8 @@ const UI = {
     fHome: '首页',
     fAbout: '关于',
     fProjects: '项目',
+    ctaHome: '首页',
+    ctaProjects: '项目',
     colophon: '周雪怡 (Sherry) © 2026',
   },
 } as const;
@@ -1026,6 +1030,14 @@ export default function AboutPage() {
         <div className="ab-wrap">
           <Marker num="04" label={u.mHello} />
           <h2 className="ab-h">{u.contactHead}</h2>
+          <div className="ab-contact__ctas">
+            <Link href="/" className="ab-btn">
+              {u.ctaHome}
+            </Link>
+            <Link href="/projects" className="ab-btn">
+              {u.ctaProjects}
+            </Link>
+          </div>
           <CopyMail
             copyLabel={u.copy}
             copiedLabel={u.copied}
