@@ -181,6 +181,10 @@
 .rs-bullets li::marker { color: var(--rs-ink-3); }
 .rs-bullets li + li { margin-top: 0.9mm; }
 .rs-bullets--side li + li { margin-top: 1.5mm; }
+.rs-bullets strong {
+  font-weight: 600;
+  color: var(--rs-ink);
+}
 
 /* ── sidebar ───────────────────────────────────────────────────── */
 .rs-edu + .rs-edu { margin-top: 3mm; }
@@ -195,8 +199,8 @@
    so it gets a slightly smaller, tighter setting to stay on one page. ── */
 .rs-root:lang(en) .rs-sheet {
   padding-top: 11mm;
-  font-size: 8.3pt;
-  line-height: 1.37;
+  font-size: 8.5pt;
+  line-height: 1.4;
 }
 .rs-root:lang(en) .rs-head { margin-bottom: 5mm; }
 .rs-root:lang(en) .rs-job + .rs-job { margin-top: 2.8mm; }

@@ -10,7 +10,7 @@ Last updated: 2026-07-21 (design-system fonts actually shipped; see below).
 
 - Always light: `.rs-root` is deliberately not in the dark `:has()` guard.
 - Bullets use native `::marker`, not positioned pseudo-elements. A positioned `<li>` paints in a later layer and Chrome then writes all bullet text after all headings in the PDF, which breaks the reading order for resume parsers.
-- The two-column grid cannot break across pages. If content exceeds 297mm the whole grid jumps to page 2 and leaves page 1 nearly empty, so re-measure the sheet height after content edits (currently about 287mm English, 291mm Chinese).
+- The two-column grid cannot break across pages. If content exceeds 297mm the whole grid jumps to page 2 and leaves page 1 nearly empty, so re-measure the sheet height after content edits (currently about 291mm in both languages).
 - `todo` on a bullet in `content.ts` renders a screen-only editing note (hidden in print).
 
 ## Fonts shipped (2026-07-21)

@@ -49,9 +49,22 @@ function Bullets({
 function SideList({ items }: { items: readonly string[] }) {
   return (
     <ul className="rs-bullets rs-bullets--side">
-      {items.map((s) => (
-        <li key={s}>{s}</li>
-      ))}
+      {items.map((s) => {
+        /* "Category: items" entries get the category in bold. */
+        const cut = s.indexOf(': ');
+        return (
+          <li key={s}>
+            {cut > 0 ? (
+              <>
+                <strong>{s.slice(0, cut)}</strong>
+                {s.slice(cut)}
+              </>
+            ) : (
+              s
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 }

@@ -227,12 +227,12 @@ const en: ResumeContent = {
     },
   ],
   labels: {
-    profile: 'Profile',
+    profile: 'Summary',
     experience: 'Work Experience',
     education: 'Education',
     skills: 'Skills',
     languages: 'Languages',
-    personal: 'Personal',
+    personal: 'Interests',
     back: '← Back to About',
     export: 'Export PDF',
     exportHint: 'Choose "Save as PDF" in the print dialog, paper size A4.',
@@ -240,8 +240,9 @@ const en: ResumeContent = {
     switchLabel: '中文',
     switchHref: '/resume?lang=zh',
   },
+  /* Identity + years, then proof of scale, then what sets her apart. */
   profile:
-    'Product designer with 5+ years at Huawei, Xiaomi and AppLovin, now part-time Head of Product at Karmaplot, a novel reading app. Led the design system and lock screen editor on an OS used by 700 million people, and designed revenue-tested growth flows where the best variant lifted distribution 10.6%. Works from data and experiments through UI/UX to shipped front-end code.',
+    'Product designer with 5+ years at Huawei, Xiaomi and AppLovin, shipping to an OS used by 700 million people and to tens of millions of new phones each quarter. Led a design system adopted by 7+ teams and growth experiments that lifted app distribution 10.6%. Now part-time Head of Product at a reading-app startup, working from data and experiments through UI/UX to shipped front-end code.',
   jobs: [
     {
       role: 'Head of Product (part-time)',
@@ -251,15 +252,15 @@ const en: ResumeContent = {
         {
           bullets: [
             {
-              text: 'Help the founding team of a novel reading app turn video traffic into app readers and revenue, covering data analysis, experiment design, product UI/UX and front-end development.',
+              text: 'Lead product for Karmaplot, a novel reading app at an early-stage startup, converting video traffic into app readers and revenue.',
               todo: 'one result number: conversion rate, revenue or traffic scale',
             },
             {
-              text: 'Analyze video-to-app conversion and monetization data, then design and run the product experiments that decide what ships next.',
+              text: 'Design and run product experiments from video-to-app conversion and monetization data, using the results to set what ships next.',
               todo: 'number of experiments, or the lift from one of them',
             },
             {
-              text: 'Design the product UI/UX and build front-end features, taking work from concept to release.',
+              text: 'Cover 4 functions end to end for the founding team: data analysis, experiment design, UI/UX design and front-end development.',
             },
           ],
         },
@@ -274,10 +275,10 @@ const en: ResumeContent = {
         {
           bullets: [
             {
-              text: 'Designed OOBE app discovery flows shipped with Samsung, T-Mobile and a dozen other OEMs, reaching tens of millions of newly unboxed phones each quarter and contributing seven figures of revenue.',
+              text: 'Lifted app distribution 10.6% and net installs per user from 0.37 to 0.47 across 10M+ new devices by shipping 4 experiment tracks, with 75% click-through on the winning bundle.',
             },
             {
-              text: 'Shipped 4 experiment tracks; the strongest drove a 10.6% distribution lift and 75% bundle click-through across 10M+ new devices, lifting net installs per user from 0.37 to 0.47.',
+              text: 'Designed OOBE app discovery flows for Samsung, T-Mobile and a dozen other OEMs, reaching tens of millions of new phones a quarter and seven-figure revenue.',
             },
           ],
         },
@@ -293,13 +294,16 @@ const en: ResumeContent = {
           label: 'Design system & guidelines',
           bullets: [
             {
-              text: 'Led MIUI Design System 2.0 across 7+ teams on an OS used by 700 million people; grew the guideline team from 2 to 7, aligned component rules with 6 SDK engineers, rebuilt the component guidelines and introduced design tokens.',
+              text: 'Led MIUI Design System 2.0 for an OS used by 700 million people, aligning 7+ product teams and 6 SDK engineers on shared component rules and introducing design tokens.',
             },
             {
-              text: 'Defined multilingual guidelines with the internationalization and R&D teams: adaptive layouts that fix text truncation, cross-cultural rules for imagery, icons and color, and localization guidance for 20+ business teams.',
+              text: 'Grew the guideline team from 2 to 7 people while rebuilding the full set of component guidelines.',
             },
             {
-              text: 'Defined the foldable-screen design guidelines that every business team followed across the OS.',
+              text: 'Guided 20+ business teams through localization with multilingual guidelines: adaptive layouts that prevent text truncation, and cross-cultural rules for imagery, icons and color.',
+            },
+            {
+              text: 'Set the foldable-screen design guidelines adopted by every business team across the OS.',
             },
           ],
         },
@@ -307,13 +311,13 @@ const en: ResumeContent = {
           label: 'Lock screen & desktop',
           bullets: [
             {
-              text: 'Owned the MIUI lock screen editor end to end as the sole UX designer, shipping 40+ screens across the Classic, Magazine and Rhombus template families with Xiaomi HyperOS 1 in 10 months.',
+              text: 'Shipped 40+ lock screen editor screens in 10 months as the sole UX designer, covering 3 template families (Classic, Magazine, Rhombus) for the Xiaomi HyperOS 1 launch.',
             },
             {
-              text: 'Covered the desktop team’s interaction design and research: MIUI 14 large icons and folders, continuous widget adding, widget edit-mode specs, usability tests and 3D widget explorations.',
+              text: 'Delivered desktop interaction design for MIUI 14, including large icons and folders, continuous widget adding and widget edit-mode specs, validated through usability tests.',
             },
             {
-              text: 'Designed and ran a 40-person cross-department co-creation workshop on the desktop experience.',
+              text: 'Designed and facilitated a 40-person co-creation workshop across departments on the desktop experience.',
             },
           ],
         },
@@ -321,7 +325,7 @@ const en: ResumeContent = {
           label: 'HCI research',
           bullets: [
             {
-              text: 'Owned Xiaomi’s first design-led HCI study end to end, mapping 144 touch zones with 40 participants into heatmaps, hot zone design guidelines and an audit app.',
+              text: 'Ran Xiaomi’s first design-led HCI study end to end, mapping 144 touch zones with 40 participants into heatmaps, hot zone guidelines and an audit app.',
             },
           ],
         },
@@ -336,10 +340,10 @@ const en: ResumeContent = {
         {
           bullets: [
             {
-              text: 'Designed gesture systems and cross-device interaction across phones, tablets and foldables.',
+              text: 'Designed gesture systems and cross-device interaction for 3 form factors: phones, tablets and foldables.',
             },
             {
-              text: 'Wrote patents for cross-device interaction features and a 34-page cursor user research report.',
+              text: 'Authored patents for cross-device interaction features and a 34-page user research report on cursor behavior.',
             },
           ],
         },
@@ -364,20 +368,17 @@ const en: ResumeContent = {
     },
     { degree: 'Exchange Program', school: 'Design School Kolding, Denmark' },
   ],
+  /* "Category: items". The page bolds the part before the first ": ". */
   skills: [
-    'AI-assisted building: independently shipping websites, apps, visualizations and prototypes',
-    'Product and UX/UI design',
-    'Design systems and design tokens',
-    'Adaptive and responsive design for mobile, tablet, foldable and desktop',
-    'Metric definition',
-    'A/B testing and experiment design',
-    'User interviews, usability testing and HCI research',
-    'Workshop design and facilitation',
-    'Front-end development: Next.js, React',
-    'Figma, ProtoPie, POP',
+    'Design: product design, UX/UI, interaction design, design systems, design tokens',
+    'Platforms: mobile, tablet, foldable, desktop; adaptive and responsive layout',
+    'Research: user interviews, usability testing, HCI studies, workshop facilitation',
+    'Data: metric definition, A/B testing, experiment design',
+    'Build: front-end development (Next.js, React), AI-assisted prototyping',
+    'Tools: Figma, ProtoPie, POP',
   ],
-  languages: ['Chinese / Native', 'English / Fluent'],
-  personal: ['Ski & Snowboard', 'Scuba Diving', 'Interactive Installation'],
+  languages: ['Chinese (native)', 'English (fluent)'],
+  personal: ['Skiing and snowboarding', 'Scuba diving', 'Interactive installations'],
 };
 
 export const RESUME = { en, zh } as const;
