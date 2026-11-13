@@ -144,7 +144,7 @@ const zh: ResumeContent = {
           label: '锁屏与桌面',
           bullets: [
             {
-              text: '作为唯一的 UX 设计师，10 个月内交付 40+ 个锁屏编辑器界面，覆盖经典、杂志、菱形 3 个模板系列，随 Xiaomi HyperOS 1 发布。',
+              text: '作为 11 人团队中唯一的 UX 设计师负责 MIUI 锁屏编辑器：用一套通用的自定义框架和双轴画廊导航覆盖 3 个模板系列，10 个月交付 40+ 个界面。',
             },
             {
               text: '完成 MIUI 14 桌面交互设计，包括大图标与大文件夹、连续添加小组件和小组件编辑态规范，并通过可用性测试验证。',
@@ -303,7 +303,7 @@ const en: ResumeContent = {
           label: 'Lock screen & desktop',
           bullets: [
             {
-              text: 'Shipped 40+ lock screen editor screens in 10 months as the sole UX designer, covering 3 template families (Classic, Magazine, Rhombus) for the Xiaomi HyperOS 1 launch.',
+              text: 'Designed the MIUI lock screen editor as sole UX designer in a team of 11: one editing framework and two-axis gallery for 3 template families, 40+ screens in 10 months.',
             },
             {
               text: 'Delivered desktop interaction design for MIUI 14, including large icons and folders, continuous widget adding and widget edit-mode specs, validated through usability tests.',
