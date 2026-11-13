@@ -202,7 +202,7 @@ const zh: ResumeContent = {
   ],
   /* "类别：内容". The page bolds the part before the first colon. */
   skills: [
-    '产品设计：交互设计，移动应用、Web 和系统级功能的 UX/UI',
+    '产品设计：移动应用、Web 和系统级功能的 UX/UI',
     '设计系统：组件规范、design token、本地化规则',
     '多设备：手机、平板、折叠屏，自适应布局，手势',
     '增长与数据：A/B 测试、实验设计、转化与变现分析',
@@ -374,7 +374,7 @@ const en: ResumeContent = {
      Each item traces to a bullet above: nothing is listed that the
      experience section does not show her doing. */
   skills: [
-    'Product design: interaction design, UX/UI for mobile apps, web and OS-level features',
+    'Product design: UX/UI for mobile apps, web and OS-level features',
     'Design systems: component guidelines, design tokens, localization rules',
     'Multi-device: phone, tablet, foldable; adaptive layout, gestures',
     'Growth and data: A/B testing, experiment design, conversion and monetization analysis',
