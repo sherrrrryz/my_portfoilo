@@ -180,6 +180,11 @@
 .rs-bullets li { color: var(--rs-ink-2); }
 .rs-bullets li::marker { color: var(--rs-ink-3); }
 .rs-bullets li + li { margin-top: 0.9mm; }
+/* Sidebar lists (skills, languages, interests) carry no markers. */
+.rs-bullets--side {
+  padding-left: 0;
+  list-style: none;
+}
 .rs-bullets--side li + li { margin-top: 1.5mm; }
 .rs-bullets strong {
   font-weight: 600;
