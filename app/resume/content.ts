@@ -372,7 +372,7 @@ const en: ResumeContent = {
      Each item traces to a bullet above: nothing is listed that the
      experience section does not show her doing. */
   skills: [
-    'Product design: interaction design, UX/UI, OS features (lock screen, launcher, widgets, onboarding)',
+    'Product design: interaction design, UX/UI for mobile apps, web and OS-level features',
     'Design systems: component guidelines, design tokens, localization rules',
     'Multi-device: phone, tablet, foldable; adaptive layout, gestures',
     'Growth and data: A/B testing, experiment design, conversion and monetization analysis',
