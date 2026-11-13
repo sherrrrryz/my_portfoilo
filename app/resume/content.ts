@@ -91,7 +91,6 @@ const zh: ResumeContent = {
           bullets: [
             {
               text: '负责初创公司小说阅读应用 Karmaplot 的产品，把 TikTok 视频流量转化为读者和收入。',
-              todo: '补一个结果数字：转化率、收入或流量规模',
             },
             {
               text: '基于 TikTok 到 app 的转化与变现数据设计并推进产品实验，用实验结果决定后续迭代。',
@@ -255,7 +254,6 @@ const en: ResumeContent = {
           bullets: [
             {
               text: 'Lead product for Karmaplot, a novel reading app at an early-stage startup, converting TikTok video traffic into app readers and revenue.',
-              todo: 'one result number: conversion rate, revenue or traffic scale',
             },
             {
               text: 'Design and run product experiments from TikTok-to-app conversion and monetization data, using the results to set what ships next.',
