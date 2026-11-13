@@ -53,7 +53,7 @@ export type ResumeContent = {
 const zh: ResumeContent = {
   lang: 'zh-Hans',
   name: '周雪怡',
-  nameAlt: 'Xueyi (Sherry) Zhou',
+  nameAlt: '',
   title: '产品设计师',
   contact: [
     { label: '所在地', value: '加拿大 多伦多' },
