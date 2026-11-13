@@ -51,7 +51,7 @@ function SideList({ items }: { items: readonly string[] }) {
     <ul className="rs-bullets rs-bullets--side">
       {items.map((s) => {
         /* "Category: items" entries get the category in bold. */
-        const cut = s.indexOf(': ');
+        const cut = s.search(/: |：/);
         return (
           <li key={s}>
             {cut > 0 ? (
