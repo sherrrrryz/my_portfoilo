@@ -94,7 +94,6 @@ const zh: ResumeContent = {
             },
             {
               text: '基于 TikTok 到 app 的转化与变现数据设计并推进产品实验，用实验结果决定后续迭代。',
-              todo: '补实验数量或其中一个实验的提升幅度',
             },
             {
               text: '借助 AI 编程工具把工作延伸到设计之外：提交线上前端代码 PR，并搭建每个实验所需的埋点和数据看板。',
@@ -257,7 +256,6 @@ const en: ResumeContent = {
             },
             {
               text: 'Design and run product experiments from TikTok-to-app conversion and monetization data, using the results to set what ships next.',
-              todo: 'number of experiments, or the lift from one of them',
             },
             {
               text: 'Use AI coding tools to work beyond design: ship production front-end pull requests and build the event tracking and analytics dashboards behind each experiment.',
