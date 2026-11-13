@@ -242,7 +242,7 @@ const en: ResumeContent = {
   },
   /* Identity + years, then proof of scale, then what sets her apart. */
   profile:
-    'Product designer with 5+ years at Huawei, Xiaomi and AppLovin, shipping to an OS used by 700 million people and to tens of millions of new phones each quarter. Led a design system adopted by 7+ teams and growth experiments that lifted app distribution 10.6%. Now part-time Head of Product at a reading-app startup, working from data and experiments through UI/UX to shipped front-end code.',
+    'Product designer with 5+ years at Huawei, Xiaomi and AppLovin, shipping to an OS used by 700 million people and to tens of millions of new phones each quarter. Led a design system adopted by 7+ teams and growth experiments that lifted app distribution 10.6%. Now part-time Head of Product at a reading-app startup, using AI tools to extend the role from design into data analysis, experimentation and production front-end code.',
   jobs: [
     {
       role: 'Head of Product (part-time)',
@@ -260,7 +260,7 @@ const en: ResumeContent = {
               todo: 'number of experiments, or the lift from one of them',
             },
             {
-              text: 'Cover 4 functions end to end for the founding team: data analysis, experiment design, UI/UX design and front-end development.',
+              text: 'Use AI coding tools to work beyond design: ship production front-end pull requests and build the event tracking and analytics dashboards behind each experiment.',
             },
           ],
         },
