@@ -378,7 +378,7 @@ const en: ResumeContent = {
     'Growth and data: A/B testing, experiment design, conversion and monetization analysis',
     'Research: HCI studies, usability testing, co-creation workshops',
     'AI-assisted development: production front-end PRs (React, Next.js), event tracking, analytics dashboards',
-    'Tools: Figma, ProtoPie, POP',
+    'Tools: Figma, Claude Code, Cursor, PostHog',
   ],
   languages: ['Chinese (native)', 'English (fluent)'],
   personal: ['Skiing and snowboarding', 'Scuba diving', 'Interactive installations'],
