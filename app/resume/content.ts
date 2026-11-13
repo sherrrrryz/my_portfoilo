@@ -174,7 +174,7 @@ const zh: ResumeContent = {
           bullets: [
             { text: '为手机、平板、折叠屏 3 类设备设计手势系统与跨设备交互。' },
             {
-              text: '撰写跨设备交互功能专利，并完成一份 34 页的光标用户研究报告。',
+              text: '撰写跨设备交互功能专利。',
             },
           ],
         },
@@ -335,7 +335,7 @@ const en: ResumeContent = {
               text: 'Designed gesture systems and cross-device interaction for 3 form factors: phones, tablets and foldables.',
             },
             {
-              text: 'Authored patents for cross-device interaction features and a 34-page user research report on cursor behavior.',
+              text: 'Authored patents for cross-device interaction features.',
             },
           ],
         },
