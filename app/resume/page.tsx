@@ -6,8 +6,8 @@
    Always renders as a light sheet of paper, on screen and in print, so it is
    deliberately NOT in the dark-theme :has() guard in tokens.css.
 
-   Chinese only for now; English lands as a second entry in content.ts.
-   Not indexed and not in the sitemap while it is a draft.
+   English by default, Chinese at /resume?lang=zh; both render from the same
+   ResumeContent shape in content.ts. Not indexed and not in the sitemap while it is a draft.
 ============================================================================ */
 
 import '../_styles/tokens.css';
@@ -19,18 +19,27 @@ import PrintButton from './PrintButton';
 import { RESUME, type Bullet } from './content';
 
 export const metadata: Metadata = {
-  title: '简历 · 周雪怡',
-  description: '周雪怡 (Xueyi Sherry Zhou) 的简历，产品设计师。',
+  title: 'Resume · Xueyi Zhou',
+  description: 'Resume of Xueyi (Sherry) Zhou, product designer.',
   robots: { index: false, follow: false },
 };
 
-function Bullets({ items }: { items: readonly Bullet[] }) {
+function Bullets({
+  items,
+  todoLabel,
+}: {
+  items: readonly Bullet[];
+  todoLabel: string;
+}) {
   return (
     <ul className="rs-bullets">
       {items.map((b) => (
         <li key={b.text}>
           {b.text}
-          {b.todo ? <span className="rs-todo">待补：{b.todo}</span> : null}
+          {b.todo ? <span className="rs-todo">
+              {todoLabel}
+              {b.todo}
+            </span> : null}
         </li>
       ))}
     </ul>
@@ -47,8 +56,13 @@ function SideList({ items }: { items: readonly string[] }) {
   );
 }
 
-export default function ResumePage() {
-  const r = RESUME.zh;
+export default async function ResumePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ lang?: string }>;
+}) {
+  const { lang } = await searchParams;
+  const r = lang === 'zh' ? RESUME.zh : RESUME.en;
   const l = r.labels;
 
   return (
@@ -58,6 +72,9 @@ export default function ResumePage() {
           {l.back}
         </Link>
         <span className="rs-bar__hint">{l.exportHint}</span>
+        <Link href={l.switchHref} className="rs-bar__back">
+          {l.switchLabel}
+        </Link>
         <PrintButton label={l.export} />
       </div>
 
@@ -69,7 +86,9 @@ export default function ResumePage() {
               <span className="rs-name__dot" aria-hidden="true">
                 .
               </span>
-              <span className="rs-name__alt">{r.nameAlt}</span>
+              {r.nameAlt ? (
+                <span className="rs-name__alt">{r.nameAlt}</span>
+              ) : null}
             </h1>
             <p className="rs-title">{r.title}</p>
           </div>
@@ -125,7 +144,7 @@ export default function ResumePage() {
                   {job.groups.map((g, i) => (
                     <div key={g.label ?? i}>
                       {g.label ? <h4 className="rs-job__group">{g.label}</h4> : null}
-                      <Bullets items={g.bullets} />
+                      <Bullets items={g.bullets} todoLabel={l.todo} />
                     </div>
                   ))}
                 </div>

@@ -6,11 +6,11 @@ Last updated: 2026-07-21 (design-system fonts actually shipped; see below).
 
 ## Resume page (2026-11-13)
 
-`/resume` is the resume built as a web page (`app/resume/page.tsx` server component + `content.ts` data + `PrintButton.tsx` + `resume.css`, `rs-` prefix, consumes the light theme scale from `tokens.css`). Two-column A4 sheet sized in pt / mm; the "导出 PDF" button calls `window.print()` and the `@media print` block strips the toolbar so "Save as PDF" yields a one-page, text-based PDF. Status: Chinese draft awaiting Sherry's edits, English not written (add an `en` entry in `content.ts`). `noindex`, absent from the sitemap and all navs; footers still link the old `public/Sherry_Zhou_Resume.pdf`.
+`/resume` is the resume built as a web page (`app/resume/page.tsx` server component + `content.ts` data + `PrintButton.tsx` + `resume.css`, `rs-` prefix, consumes the light theme scale from `tokens.css`). Two-column A4 sheet sized in pt / mm; the "导出 PDF" button calls `window.print()` and the `@media print` block strips the toolbar so "Save as PDF" yields a one-page, text-based PDF. English by default, Chinese at `/resume?lang=zh` (server-side `searchParams`, toolbar link switches). Status: both are drafts awaiting Sherry's edits; English uses a smaller, tighter setting via `.rs-root:lang(en)` because Latin text runs longer. `noindex`, absent from the sitemap and all navs; footers still link the old `public/Sherry_Zhou_Resume.pdf`.
 
 - Always light: `.rs-root` is deliberately not in the dark `:has()` guard.
 - Bullets use native `::marker`, not positioned pseudo-elements. A positioned `<li>` paints in a later layer and Chrome then writes all bullet text after all headings in the PDF, which breaks the reading order for resume parsers.
-- The two-column grid cannot break across pages. If content exceeds 297mm the whole grid jumps to page 2 and leaves page 1 nearly empty, so re-measure the sheet height after content edits (currently about 291mm).
+- The two-column grid cannot break across pages. If content exceeds 297mm the whole grid jumps to page 2 and leaves page 1 nearly empty, so re-measure the sheet height after content edits (currently about 287mm English, 291mm Chinese).
 - `todo` on a bullet in `content.ts` renders a screen-only editing note (hidden in print).
 
 ## Fonts shipped (2026-07-21)

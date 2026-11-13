@@ -1,7 +1,6 @@
 /* ============================================================================
-   /resume content. One ResumeContent object per language; the page renders
-   whichever it is handed, so adding English later means adding an `en` entry
-   here and nothing else.
+   /resume content. One ResumeContent object per language (en, zh); the page
+   renders whichever it is handed.
 
    Sources: /about (PATH + bio), public/Sherry_Zhou_Resume.pdf, the case-study
    pages. Bullets follow "result, measured by, how" and open with a verb.
@@ -37,6 +36,11 @@ export type ResumeContent = {
     back: string;
     export: string;
     exportHint: string;
+    /** Prefix for the screen-only editing notes. */
+    todo: string;
+    /** Toolbar link to the other language. */
+    switchLabel: string;
+    switchHref: string;
   };
   profile: string;
   jobs: Job[];
@@ -70,9 +74,12 @@ const zh: ResumeContent = {
     back: '← 返回关于我',
     export: '导出 PDF',
     exportHint: '在打印对话框中选择“存储为 PDF”，纸张 A4。',
+    todo: '待补：',
+    switchLabel: 'English',
+    switchHref: '/resume',
   },
   profile:
-    '产品设计师，在北京长大，现居多伦多。曾任职于 AppLovin、小米和华为，目前兼任小说阅读应用 Karmaplot 的产品负责人。为亿级用户设计，在 7 亿人使用的操作系统上交付功能；为业务设计，每个决策都以安装量和营收做 A/B 检验；为团队设计，主导设计系统、用户研究和跨部门工作坊。',
+    '产品设计师，5 年以上经验，先后任职于华为、小米和 AppLovin，现兼任小说阅读应用 Karmaplot 的产品负责人。在 7 亿人使用的操作系统上主导过设计系统和锁屏编辑器，也在以营收为标准的 A/B 实验中做过增长设计，最优方案带来 10.6% 的分发提升。能从数据分析、实验设计一路做到 UI/UX 和前端上线。',
   jobs: [
     {
       role: '产品负责人（兼职）',
@@ -205,4 +212,172 @@ const zh: ResumeContent = {
   personal: ['双板与单板滑雪', '水肺潜水', '交互装置'],
 };
 
-export const RESUME = { zh } as const;
+const en: ResumeContent = {
+  lang: 'en',
+  name: 'Xueyi (Sherry) Zhou',
+  nameAlt: '',
+  title: 'Product Designer',
+  contact: [
+    { label: 'Location', value: 'Toronto, Canada' },
+    { label: 'Portfolio', value: 'xueyizhou.xyz', href: 'https://xueyizhou.xyz' },
+    {
+      label: 'Email',
+      value: 'sherrrryz@outlook.com',
+      href: 'mailto:sherrrryz@outlook.com',
+    },
+  ],
+  labels: {
+    profile: 'Profile',
+    experience: 'Work Experience',
+    education: 'Education',
+    skills: 'Skills',
+    languages: 'Languages',
+    personal: 'Personal',
+    back: '← Back to About',
+    export: 'Export PDF',
+    exportHint: 'Choose "Save as PDF" in the print dialog, paper size A4.',
+    todo: 'To add: ',
+    switchLabel: '中文',
+    switchHref: '/resume?lang=zh',
+  },
+  profile:
+    'Product designer with 5+ years at Huawei, Xiaomi and AppLovin, now part-time Head of Product at Karmaplot, a novel reading app. Led the design system and lock screen editor on an OS used by 700 million people, and designed revenue-tested growth flows where the best variant lifted distribution 10.6%. Works from data and experiments through UI/UX to shipped front-end code.',
+  jobs: [
+    {
+      role: 'Head of Product (part-time)',
+      org: 'Karmaplot · JuVon Holdings Limited',
+      dates: 'May 2026 – Present',
+      groups: [
+        {
+          bullets: [
+            {
+              text: 'Help the founding team of a novel reading app turn video traffic into app readers and revenue, covering data analysis, experiment design, product UI/UX and front-end development.',
+              todo: 'one result number: conversion rate, revenue or traffic scale',
+            },
+            {
+              text: 'Analyze video-to-app conversion and monetization data, then design and run the product experiments that decide what ships next.',
+              todo: 'number of experiments, or the lift from one of them',
+            },
+            {
+              text: 'Design the product UI/UX and build front-end features, taking work from concept to release.',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      role: 'Product Designer II',
+      org: 'AppLovin',
+      place: 'Beijing, then Toronto',
+      dates: '2023 – 2025',
+      groups: [
+        {
+          bullets: [
+            {
+              text: 'Designed OOBE app discovery flows shipped with Samsung, T-Mobile and a dozen other OEMs, reaching tens of millions of newly unboxed phones each quarter and contributing seven figures of revenue.',
+            },
+            {
+              text: 'Shipped 4 experiment tracks; the strongest drove a 10.6% distribution lift and 75% bundle click-through across 10M+ new devices, lifting net installs per user from 0.37 to 0.47.',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      role: 'UX Designer, promoted to Senior UX Designer',
+      org: 'Xiaomi',
+      place: 'Beijing',
+      dates: '2021 – 2023',
+      groups: [
+        {
+          label: 'Design system & guidelines',
+          bullets: [
+            {
+              text: 'Led MIUI Design System 2.0 across 7+ teams on an OS used by 700 million people; grew the guideline team from 2 to 7, aligned component rules with 6 SDK engineers, rebuilt the component guidelines and introduced design tokens.',
+            },
+            {
+              text: 'Defined multilingual guidelines with the internationalization and R&D teams: adaptive layouts that fix text truncation, cross-cultural rules for imagery, icons and color, and localization guidance for 20+ business teams.',
+            },
+            {
+              text: 'Defined the foldable-screen design guidelines that every business team followed across the OS.',
+            },
+          ],
+        },
+        {
+          label: 'Lock screen & desktop',
+          bullets: [
+            {
+              text: 'Owned the MIUI lock screen editor end to end as the sole UX designer, shipping 40+ screens across the Classic, Magazine and Rhombus template families with Xiaomi HyperOS 1 in 10 months.',
+            },
+            {
+              text: 'Covered the desktop team’s interaction design and research: MIUI 14 large icons and folders, continuous widget adding, widget edit-mode specs, usability tests and 3D widget explorations.',
+            },
+            {
+              text: 'Designed and ran a 40-person cross-department co-creation workshop on the desktop experience.',
+            },
+          ],
+        },
+        {
+          label: 'HCI research',
+          bullets: [
+            {
+              text: 'Owned Xiaomi’s first design-led HCI study end to end, mapping 144 touch zones with 40 participants into heatmaps, hot zone design guidelines and an audit app.',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      role: 'UX Designer, Human Factors and HCI Group',
+      org: 'Huawei',
+      place: 'Beijing',
+      dates: '2020 – 2021',
+      groups: [
+        {
+          bullets: [
+            {
+              text: 'Designed gesture systems and cross-device interaction across phones, tablets and foldables.',
+            },
+            {
+              text: 'Wrote patents for cross-device interaction features and a 34-page cursor user research report.',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  education: [
+    {
+      degree: 'MA, Information Art and Design',
+      school: 'Tsinghua University, The Future Laboratory',
+      dates: '2017 – 2020',
+    },
+    {
+      degree: 'BA, Information Art and Design',
+      school: 'Tsinghua University',
+      dates: '2013 – 2017',
+    },
+    {
+      degree: 'BA, Journalism and Communication (dual degree)',
+      school: 'Tsinghua University',
+      dates: '2013 – 2018',
+    },
+    { degree: 'Exchange Program', school: 'Design School Kolding, Denmark' },
+  ],
+  skills: [
+    'AI-assisted building: independently shipping websites, apps, visualizations and prototypes',
+    'Product and UX/UI design',
+    'Design systems and design tokens',
+    'Adaptive and responsive design for mobile, tablet, foldable and desktop',
+    'Metric definition',
+    'A/B testing and experiment design',
+    'User interviews, usability testing and HCI research',
+    'Workshop design and facilitation',
+    'Front-end development: Next.js, React',
+    'Figma, ProtoPie, POP',
+  ],
+  languages: ['Chinese / Native', 'English / Fluent'],
+  personal: ['Ski & Snowboard', 'Scuba Diving', 'Interactive Installation'],
+};
+
+export const RESUME = { en, zh } as const;
