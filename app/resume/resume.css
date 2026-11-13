@@ -241,7 +241,13 @@
     font-size: 14px;
   }
   .rs-head,
-  .rs-cols { grid-template-columns: 1fr; }
+  .rs-cols,
+  .rs-root:lang(en) .rs-cols { grid-template-columns: 1fr; }
+  /* the :lang(en) print sizing above outranks the plain selectors here */
+  .rs-root:lang(en) .rs-sheet {
+    padding-top: 24px;
+    font-size: 14px;
+  }
   .rs-side {
     order: 2;
     padding-right: 0;
