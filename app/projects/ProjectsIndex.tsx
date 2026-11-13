@@ -537,7 +537,7 @@ export default function ProjectsIndex() {
           />
           <a
             className="pj-contact__resume"
-            href="/Sherry_Zhou_Resume.pdf"
+            href={lang === 'zh' ? '/resume?lang=zh' : '/resume'}
             target="_blank"
             rel="noopener"
           >

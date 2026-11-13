@@ -1094,7 +1094,7 @@ export default function AboutPage() {
           />
           <a
             className="ab-contact__resume"
-            href="/Sherry_Zhou_Resume.pdf"
+            href={lang === 'zh' ? '/resume?lang=zh' : '/resume'}
             target="_blank"
             rel="noopener"
           >
