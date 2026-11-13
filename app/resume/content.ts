@@ -108,7 +108,7 @@ const zh: ResumeContent = {
         {
           bullets: [
             {
-              text: '通过 4 条实验线，在 1000 万+ 新设备上把应用分发提升 10.6%，人均净安装量从 0.37 提升到 0.47，最优合集方案的点击率达 75%。',
+              text: '通过 4 条实验线，在 1000 万+ 新设备上把应用分发提升 10.6%，最优合集方案的点击率达 75%。',
             },
             {
               text: '为三星、T-Mobile 等十余家 OEM 设计 OOBE 应用发现流程，每季度触达数千万台新手机，带来七位数营收。',
@@ -267,7 +267,7 @@ const en: ResumeContent = {
         {
           bullets: [
             {
-              text: 'Lifted app distribution 10.6% and net installs per user from 0.37 to 0.47 across 10M+ new devices by shipping 4 experiment tracks, with 75% click-through on the winning bundle.',
+              text: 'Lifted app distribution 10.6% across 10M+ new devices by shipping 4 experiment tracks, with 75% click-through on the winning bundle.',
             },
             {
               text: 'Designed OOBE app discovery flows for Samsung, T-Mobile and a dozen other OEMs, reaching tens of millions of new phones a quarter and seven-figure revenue.',
