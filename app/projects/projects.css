@@ -1,7 +1,7 @@
 /* ============================================================================
    /projects — the project index. Same monochrome editorial voice as the
    homepage: black ink on paper, hairline rules, mono micro-type. Card grid
-   per PRD §1.1 (项目库), no filters — six projects don't need them.
+   per PRD §1.1 (项目库), no filters — five projects don't need them.
 
    Grayscale values come from the shared page-theme scale in
    _styles/tokens.css (flips on html[data-theme="dark"]); only the --pj-*

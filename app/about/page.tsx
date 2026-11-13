@@ -406,11 +406,22 @@ const PATH = [
     },
   },
   {
-    years: '2025–now',
+    years: '2025–2026',
     title: { en: 'Toronto · what’s next', zh: '多伦多 · 下一步' },
     detail: {
       en: 'Settling into a new city, building this site, and staying curious about what to design next.',
       zh: '安顿一座新城市，搭这个网站，并对接下来要设计什么保持好奇。',
+    },
+  },
+  {
+    years: '2026–now',
+    title: {
+      en: 'Karmaplot · Head of Product, part-time',
+      zh: 'Karmaplot · 产品负责人（兼职）',
+    },
+    detail: {
+      en: 'A novel reading app from the startup JuVon Holdings Limited. I help the founding team turn video traffic into app readers and revenue, covering data analysis, experiment design, product UI/UX and front-end development.',
+      zh: '初创公司 JuVon Holdings Limited 旗下的小说阅读 app。我帮助创始团队把视频流量转化到 app 并变现，工作涵盖数据分析、实验设计、产品 UI/UX 设计和前端开发。',
     },
   },
 ] as const;
@@ -706,7 +717,7 @@ const UI = {
     kicker: 'About · Xueyi (Sherry) Zhou',
     heroSub1: 'Product designer. Raised in Beijing, based in Toronto.',
     heroSub2: 'I design for millions of people at work, and for two cats at home.',
-    scroll: 'Scroll for the full story ↓',
+    heroResume: 'Resume →',
     mShort: 'The short version',
     mPath: 'The path',
     mOff: 'Off the clock',
@@ -731,7 +742,7 @@ const UI = {
     kicker: '关于 · 周雪怡 (Sherry)',
     heroSub1: '产品设计师。北京长大，现居多伦多。',
     heroSub2: '在公司为亿万用户做设计，在家为两只猫做设计。',
-    scroll: '向下滚动看完整故事 ↓',
+    heroResume: '简历 →',
     mShort: '简短版本',
     mPath: '来时的路',
     mOff: '工作之外',
@@ -822,7 +833,14 @@ export default function AboutPage() {
               </h1>
               <p className="ab-hero__sub">{u.heroSub1}</p>
               <p className="ab-hero__sub">{u.heroSub2}</p>
-              <span className="ab-hero__scroll">{u.scroll}</span>
+              <div className="ab-hero__cta">
+                <Link
+                  href={lang === 'zh' ? '/resume?lang=zh' : '/resume'}
+                  className="ab-btn"
+                >
+                  {u.heroResume}
+                </Link>
+              </div>
             </div>
             <PortraitSwap />
           </div>
@@ -910,6 +928,21 @@ export default function AboutPage() {
                 <p>
                   2024 年底，我随 AppLovin 从北京搬到多伦多，把日常工作语言切换成英语，开始勾画下一步。这个网站就是其中的一部分。
                 </p>
+                <p>
+                  现在，我也在小说阅读 app{' '}
+                  <Fact
+                    id="karmaplot"
+                    tag={{ en: 'May 2026 to now', zh: '2026 年 5 月至今' }}
+                    desc={{
+                      en: 'Part-time head of product at a startup, JuVon Holdings Limited. Data analysis, experiment design, product UI/UX and front-end development.',
+                      zh: '在初创公司 JuVon Holdings Limited 兼职担任产品负责人。负责数据分析、实验设计、产品 UI/UX 设计和前端开发。',
+                    }}
+                    emoji="📖"
+                  >
+                    Karmaplot
+                  </Fact>{' '}
+                  兼职担任产品负责人，把视频流量转化为读者和收入。
+                </p>
               </>
             ) : (
               <>
@@ -992,6 +1025,22 @@ export default function AboutPage() {
                   switched my daily working language to English, and started
                   sketching what comes next. This site is part of that.
                 </p>
+                <p>
+                  These days I am also the part-time head of product at{' '}
+                  <Fact
+                    id="karmaplot"
+                    tag={{ en: 'May 2026 to now', zh: '2026 年 5 月至今' }}
+                    desc={{
+                      en: 'Part-time head of product at a startup, JuVon Holdings Limited. Data analysis, experiment design, product UI/UX and front-end development.',
+                      zh: '在初创公司 JuVon Holdings Limited 兼职担任产品负责人。负责数据分析、实验设计、产品 UI/UX 设计和前端开发。',
+                    }}
+                    emoji="📖"
+                  >
+                    Karmaplot
+                  </Fact>
+                  , a novel reading app, turning video traffic into readers and
+                  revenue.
+                </p>
               </>
             )}
           </div>
@@ -1045,7 +1094,7 @@ export default function AboutPage() {
           />
           <a
             className="ab-contact__resume"
-            href="/Sherry_Zhou_Resume.pdf"
+            href={lang === 'zh' ? '/resume?lang=zh' : '/resume'}
             target="_blank"
             rel="noopener"
           >

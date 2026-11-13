@@ -2106,7 +2106,7 @@ export default function SimplePage() {
           />
           <a
             className="sm-contact__resume"
-            href="/Sherry_Zhou_Resume.pdf"
+            href={lang === 'zh' ? '/resume?lang=zh' : '/resume'}
             target="_blank"
             rel="noopener"
           >

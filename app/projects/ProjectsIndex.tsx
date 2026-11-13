@@ -3,12 +3,12 @@
 /* ============================================================================
    /projects — the project index (client half; metadata lives in page.tsx).
 
-   Six cards: the homepage's four "It means" projects (lock screen, MIUI
-   design system, foldable framework, touch hot zone), the AppLovin OOBE
-   work, and Linkly, the personal project. Four link to their case-study
-   landings; the foldable framework has no write-up yet and Linkly's full
-   walkthrough lives in the homepage's Curiosity lightbox, so those two
-   carry a mono note instead of a CTA.
+   Five cards: three of the homepage's "It means" projects (lock screen,
+   MIUI design system, touch hot zone), the AppLovin OOBE work, and Linkly,
+   the personal project. Four link to their case-study landings; Linkly's
+   full walkthrough lives in the homepage's Curiosity lightbox, so it carries
+   a mono note instead of a CTA. The foldable framework card was removed
+   2026-11-13 (no write-up); it is still on the homepage.
 
    Same monochrome editorial voice as the homepage and /about, and the same
    per-page copies of ThemeToggle / LangToggle / emojiCursor (isolation
@@ -108,7 +108,7 @@ function emojiCursor(emoji: string): string {
   return `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}") 16 16, pointer`;
 }
 
-/* ── the six projects ─────────────────────────────────────────────
+/* ── the five projects ─────────────────────────────────────────────
    Homepage order: It-means rows 1-4, then the AppLovin OOBE work from
    02 · For Business, then the personal project from 04 · Curiosity. */
 type Project = {
@@ -169,27 +169,6 @@ const PROJECTS: Project[] = [
       en: 'Design systems · Design ops · Design-led',
       zh: '设计系统 · 设计运营 · 设计驱动',
     },
-  },
-  {
-    id: 'foldable',
-    img: '/foldable/note-unfold-a.png',
-    imgPos: 'top',
-    alt: {
-      en: 'The MIUI notes app laid out on an unfolded foldable screen.',
-      zh: '展开的折叠屏上的 MIUI 笔记应用布局。',
-    },
-    title: { en: 'Foldable Screen Framework', zh: '折叠屏框架' },
-    org: { en: 'Xiaomi', zh: '小米' },
-    year: '2022',
-    dek: {
-      en: '“Just make it bigger” is never the answer. Layout rules for apps that live on two screen sizes at once.',
-      zh: '“把它做大一点”从来都不是答案。为同时活在两种屏幕尺寸上的应用定下布局规则。',
-    },
-    tags: {
-      en: 'Interaction framework · Adaptive layout',
-      zh: '交互框架 · 自适应布局',
-    },
-    note: { en: 'Write-up in progress', zh: '案例整理中' },
   },
   {
     id: 'touch-hotspots',
@@ -261,7 +240,7 @@ const UI = {
     kicker: 'Projects · Xueyi (Sherry) Zhou',
     heroLine: 'Selected work.',
     heroSub:
-      'Six projects: an OS for 700 million people at Xiaomi, growth measured in dollars at AppLovin, and one personal project for the way I travel.',
+      'Five projects: an OS for 700 million people at Xiaomi, growth measured in dollars at AppLovin, and one personal project for the way I travel.',
     mIndex: 'The work',
     sublabel: '6 projects · 2022 to now',
     cta: 'Case study',
@@ -284,7 +263,7 @@ const UI = {
     kicker: '项目 · 周雪怡 (Sherry)',
     heroLine: '精选作品。',
     heroSub:
-      '六个项目：在小米为 7 亿人做操作系统，在 AppLovin 做以美元衡量的增长，还有一个为旅行方式而做的个人项目。',
+      '五个项目：在小米为 7 亿人做操作系统，在 AppLovin 做以美元衡量的增长，还有一个为旅行方式而做的个人项目。',
     mIndex: '作品',
     sublabel: '6 个项目 · 2022 至今',
     cta: '案例',
@@ -537,7 +516,7 @@ export default function ProjectsIndex() {
           />
           <a
             className="pj-contact__resume"
-            href="/Sherry_Zhou_Resume.pdf"
+            href={lang === 'zh' ? '/resume?lang=zh' : '/resume'}
             target="_blank"
             rel="noopener"
           >
