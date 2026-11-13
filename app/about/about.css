@@ -170,14 +170,9 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
   max-width: 40ch;
 }
 .ab-hero__sub + .ab-hero__sub { margin-top: 0.6em; }
-.ab-hero__scroll {
-  display: inline-flex;
+.ab-hero__cta {
+  display: flex;
   margin-top: clamp(32px, 6vh, 64px);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--ab-ink-3);
 }
 
 /* waving hand: one polite wave when the headline is hovered */

@@ -717,7 +717,7 @@ const UI = {
     kicker: 'About · Xueyi (Sherry) Zhou',
     heroSub1: 'Product designer. Raised in Beijing, based in Toronto.',
     heroSub2: 'I design for millions of people at work, and for two cats at home.',
-    scroll: 'Scroll for the full story ↓',
+    heroResume: 'Resume →',
     mShort: 'The short version',
     mPath: 'The path',
     mOff: 'Off the clock',
@@ -742,7 +742,7 @@ const UI = {
     kicker: '关于 · 周雪怡 (Sherry)',
     heroSub1: '产品设计师。北京长大，现居多伦多。',
     heroSub2: '在公司为亿万用户做设计，在家为两只猫做设计。',
-    scroll: '向下滚动看完整故事 ↓',
+    heroResume: '简历 →',
     mShort: '简短版本',
     mPath: '来时的路',
     mOff: '工作之外',
@@ -833,7 +833,14 @@ export default function AboutPage() {
               </h1>
               <p className="ab-hero__sub">{u.heroSub1}</p>
               <p className="ab-hero__sub">{u.heroSub2}</p>
-              <span className="ab-hero__scroll">{u.scroll}</span>
+              <div className="ab-hero__cta">
+                <Link
+                  href={lang === 'zh' ? '/resume?lang=zh' : '/resume'}
+                  className="ab-btn"
+                >
+                  {u.heroResume}
+                </Link>
+              </div>
             </div>
             <PortraitSwap />
           </div>
