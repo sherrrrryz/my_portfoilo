@@ -368,13 +368,16 @@ const en: ResumeContent = {
     },
     { degree: 'Exchange Program', school: 'Design School Kolding, Denmark' },
   ],
-  /* "Category: items". The page bolds the part before the first ": ". */
+  /* "Category: items". The page bolds the part before the first ": ".
+     Each item traces to a bullet above: nothing is listed that the
+     experience section does not show her doing. */
   skills: [
-    'Design: product design, UX/UI, interaction design, design systems, design tokens',
-    'Platforms: mobile, tablet, foldable, desktop; adaptive and responsive layout',
-    'Research: user interviews, usability testing, HCI studies, workshop facilitation',
-    'Data: metric definition, A/B testing, experiment design',
-    'Build: front-end development (Next.js, React), AI-assisted prototyping',
+    'Product design: interaction design, UX/UI, OS features (lock screen, launcher, widgets, onboarding)',
+    'Design systems: component guidelines, design tokens, localization rules',
+    'Multi-device: phone, tablet, foldable; adaptive layout, gestures',
+    'Growth and data: A/B testing, experiment design, conversion and monetization analysis',
+    'Research: HCI studies, usability testing, co-creation workshops',
+    'Build: front-end (Next.js, React), AI-assisted prototyping',
     'Tools: Figma, ProtoPie, POP',
   ],
   languages: ['Chinese (native)', 'English (fluent)'],
