@@ -377,7 +377,7 @@ const en: ResumeContent = {
     'Multi-device: phone, tablet, foldable; adaptive layout, gestures',
     'Growth and data: A/B testing, experiment design, conversion and monetization analysis',
     'Research: HCI studies, usability testing, co-creation workshops',
-    'Build: front-end (Next.js, React), AI-assisted prototyping',
+    'AI-assisted development: production front-end PRs (React, Next.js), event tracking, analytics dashboards',
     'Tools: Figma, ProtoPie, POP',
   ],
   languages: ['Chinese (native)', 'English (fluent)'],
