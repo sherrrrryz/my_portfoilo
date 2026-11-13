@@ -53,7 +53,7 @@ export type ResumeContent = {
 const zh: ResumeContent = {
   lang: 'zh-Hans',
   name: '周雪怡',
-  nameAlt: 'Xueyi (Sherry) Zhou',
+  nameAlt: '',
   title: '产品设计师',
   contact: [
     { label: '所在地', value: '加拿大 多伦多' },
@@ -90,10 +90,7 @@ const zh: ResumeContent = {
         {
           bullets: [
             {
-              text: '负责初创公司小说阅读应用 Karmaplot 的产品，把 TikTok 视频流量转化为读者和收入。',
-            },
-            {
-              text: '基于 TikTok 到 app 的转化与变现数据设计并推进产品实验，用实验结果决定后续迭代。',
+              text: '负责小说阅读应用 Karmaplot，用数据和实验把 TikTok 流量变成读者和收入。',
             },
             {
               text: '借助 AI 编程工具把工作延伸到设计之外：提交线上前端代码 PR，并搭建每个实验所需的埋点和数据看板。',
@@ -111,7 +108,7 @@ const zh: ResumeContent = {
         {
           bullets: [
             {
-              text: '通过 4 条实验线，在 1000 万+ 新设备上把应用分发提升 10.6%，人均净安装量从 0.37 提升到 0.47，最优合集方案的点击率达 75%。',
+              text: '通过 4 条实验线，在 1000 万+ 新设备上把应用分发提升 10.6%，最优合集方案的点击率达 75%。',
             },
             {
               text: '为三星、T-Mobile 等十余家 OEM 设计 OOBE 应用发现流程，每季度触达数千万台新手机，带来七位数营收。',
@@ -147,7 +144,7 @@ const zh: ResumeContent = {
           label: '锁屏与桌面',
           bullets: [
             {
-              text: '作为唯一的 UX 设计师，10 个月内交付 40+ 个锁屏编辑器界面，覆盖经典、杂志、菱形 3 个模板系列，随 Xiaomi HyperOS 1 发布。',
+              text: '作为 11 人团队中唯一的 UX 设计师负责 MIUI 锁屏编辑器：用一套通用的自定义框架和双轴画廊导航覆盖 3 个模板系列，10 个月交付 40+ 个界面。',
             },
             {
               text: '完成 MIUI 14 桌面交互设计，包括大图标与大文件夹、连续添加小组件和小组件编辑态规范，并通过可用性测试验证。',
@@ -177,7 +174,7 @@ const zh: ResumeContent = {
           bullets: [
             { text: '为手机、平板、折叠屏 3 类设备设计手势系统与跨设备交互。' },
             {
-              text: '撰写跨设备交互功能专利，并完成一份 34 页的光标用户研究报告。',
+              text: '撰写跨设备交互功能专利。',
             },
           ],
         },
@@ -252,10 +249,7 @@ const en: ResumeContent = {
         {
           bullets: [
             {
-              text: 'Lead product for Karmaplot, a novel reading app at an early-stage startup, converting TikTok video traffic into app readers and revenue.',
-            },
-            {
-              text: 'Design and run product experiments from TikTok-to-app conversion and monetization data, using the results to set what ships next.',
+              text: 'Lead product for Karmaplot, a novel reading app, running experiments on conversion and monetization data to turn TikTok traffic into readers and revenue.',
             },
             {
               text: 'Use AI coding tools to work beyond design: ship production front-end pull requests and build the event tracking and analytics dashboards behind each experiment.',
@@ -273,7 +267,7 @@ const en: ResumeContent = {
         {
           bullets: [
             {
-              text: 'Lifted app distribution 10.6% and net installs per user from 0.37 to 0.47 across 10M+ new devices by shipping 4 experiment tracks, with 75% click-through on the winning bundle.',
+              text: 'Lifted app distribution 10.6% across 10M+ new devices by shipping 4 experiment tracks, with 75% click-through on the winning bundle.',
             },
             {
               text: 'Designed OOBE app discovery flows for Samsung, T-Mobile and a dozen other OEMs, reaching tens of millions of new phones a quarter and seven-figure revenue.',
@@ -309,7 +303,7 @@ const en: ResumeContent = {
           label: 'Lock screen & desktop',
           bullets: [
             {
-              text: 'Shipped 40+ lock screen editor screens in 10 months as the sole UX designer, covering 3 template families (Classic, Magazine, Rhombus) for the Xiaomi HyperOS 1 launch.',
+              text: 'Designed the MIUI lock screen editor as sole UX designer in a team of 11: one editing framework and two-axis gallery for 3 template families, 40+ screens in 10 months.',
             },
             {
               text: 'Delivered desktop interaction design for MIUI 14, including large icons and folders, continuous widget adding and widget edit-mode specs, validated through usability tests.',
@@ -341,7 +335,7 @@ const en: ResumeContent = {
               text: 'Designed gesture systems and cross-device interaction for 3 form factors: phones, tablets and foldables.',
             },
             {
-              text: 'Authored patents for cross-device interaction features and a 34-page user research report on cursor behavior.',
+              text: 'Authored patents for cross-device interaction features.',
             },
           ],
         },
