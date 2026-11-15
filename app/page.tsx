@@ -1758,7 +1758,7 @@ const UI = {
   zh: {
     navMark: '周雪怡',
     kicker: '周雪怡 (Sherry) · 产品设计师',
-    heroLine: '我是',
+    heroLine: '我作为',
     mMillions: '为亿万用户',
     mBusiness: '为业务',
     mTeams: '为团队',
