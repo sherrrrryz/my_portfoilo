@@ -1841,7 +1841,7 @@ const UI = {
     mCuriosity: '好奇心',
     mHello: '打个招呼',
     q1: '如何为 7 亿人做设计？',
-    bizHead: '在 AppLovin，设计好不好，看的是美元。',
+    bizHead: '在 AppLovin，设计由数据驱动。',
     oemsAria: 'OEM 厂商与运营商合作伙伴',
     verdict: '三条都测了，三条都错了。',
     winnerTag: '胜出',
