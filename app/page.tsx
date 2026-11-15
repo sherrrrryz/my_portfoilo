@@ -2014,10 +2014,9 @@ export default function SimplePage() {
             </h2>
             {lang === 'zh' ? (
               <p className="sm-body sm-group__body">
-                新手机第一次开机，会先给用户推荐一批应用，这就是 OOBE。这套流程随
-                <strong>三星</strong>、<strong>T-Mobile</strong>{' '}
-                等十多家厂商的手机出厂，每个季度出现在数千万台新机上，带来
-                <strong>七位数的营收</strong>。
+                每个季度，有数千万人拆开新手机，开机时看到的应用推荐就是这套 OOBE
+                流程。它随<strong>三星</strong>、<strong>T-Mobile</strong>{' '}
+                等十多家厂商出厂，带来<strong>七位数的营收</strong>。
               </p>
             ) : (
               <p className="sm-body sm-group__body">
