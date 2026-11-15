@@ -316,6 +316,25 @@ const MEANS = [
   },
 ];
 
+/* Last known MOUSE position, shared by every FollowPointer. Scrolling with
+   a still mouse fires no mouseenter/mouseleave, so the pill would stay
+   stuck on whichever host the pointer was last moved over. Each host
+   re-hit-tests this point on scroll instead (see FollowPointer). Mouse
+   only: a touch has no resting position to test. */
+const lastMouse = { x: 0, y: 0, known: false };
+if (typeof window !== 'undefined') {
+  window.addEventListener(
+    'pointermove',
+    (e) => {
+      if (e.pointerType !== 'mouse') return;
+      lastMouse.x = e.clientX;
+      lastMouse.y = e.clientY;
+      lastMouse.known = true;
+    },
+    { passive: true },
+  );
+}
+
 /* Same following-cursor effect as the Story page's Business cards
    (following-pointer.tsx, now only in git tag archive/story-page), restyled
    black/white for /simple. Re-implemented locally because that component
@@ -350,8 +369,39 @@ function FollowPointer({
 
   const [suppressed, setSuppressed] = useState(false);
 
+  /* Content moves under a still pointer while scrolling: re-check, once per
+     frame, whether the pointer now rests on this host. Plain hit-testing,
+     not scroll-driven motion, so no ScrollTrigger here. */
+  const hostRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    let raf = 0;
+    const onScroll = () => {
+      if (!lastMouse.known || raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const host = hostRef.current;
+        const hit = document.elementFromPoint(lastMouse.x, lastMouse.y);
+        if (!host || !hit || !host.contains(hit)) {
+          setInside(false);
+          setSuppressed(false);
+          return;
+        }
+        const ex = !!hit.closest('[data-no-follower]');
+        setPos({ x: lastMouse.x, y: lastMouse.y });
+        setSuppressed(ex);
+        setInside(!ex);
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
     <div
+      ref={hostRef}
       className={className}
       style={{
         position: 'relative',
