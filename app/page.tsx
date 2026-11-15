@@ -775,7 +775,9 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
   const text = (
     <p
       className="sm-means__text"
-      style={comingSoon ? undefined : { cursor: emojiCursor('👀') }}
+      /* Linked rows and the Coming-soon row get a follow-pointer pill, which
+         hides the native cursor; only the unlinked grab-bag row keeps 👀. */
+      style={m.href || comingSoon ? undefined : { cursor: emojiCursor('👀') }}
     >
       {m.href ? (
         <Link href={m.href} className="sm-means__text-link">
@@ -822,8 +824,11 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
     );
   }
 
-  return (
-    <div className={className}>
+  /* Linked rows: the whole block is the link (stretched ::after on the <a>,
+     see .sm-means__text-link in simple.css), and hovering anywhere in it
+     floats the project name next to the pointer. */
+  const body = (
+    <>
       {head}
 
       {idx === 0 && (
@@ -877,8 +882,17 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
+
+  if (m.href) {
+    return (
+      <FollowPointer className={className} title={t(m.meta).split(' · ')[0]}>
+        {body}
+      </FollowPointer>
+    );
+  }
+  return <div className={className}>{body}</div>;
 }
 
 const FLIP = [
