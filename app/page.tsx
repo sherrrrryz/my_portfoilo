@@ -2014,8 +2014,9 @@ export default function SimplePage() {
             </h2>
             {lang === 'zh' ? (
               <p className="sm-body sm-group__body">
-                开机引导（OOBE）里的应用推荐流程，预装在<strong>三星</strong>、
-                <strong>T-Mobile</strong> 等十多家厂商和运营商的手机上，每季度覆盖数千万台新开箱的设备，带来
+                新手机第一次开机，会先给用户推荐一批应用，这就是 OOBE。这套流程随
+                <strong>三星</strong>、<strong>T-Mobile</strong>
+                等十多家厂商的手机出厂，每个季度出现在数千万台新机上，带来
                 <strong>七位数的营收</strong>。
               </p>
             ) : (
