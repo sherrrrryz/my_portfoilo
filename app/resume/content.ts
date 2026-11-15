@@ -78,22 +78,23 @@ const zh: ResumeContent = {
     switchLabel: 'English',
     switchHref: '/resume',
   },
-  /* Kept in step with the English entry below, sentence for sentence. */
+  /* Written in Chinese on its own terms, not translated line by line from the
+     English entry. The facts and figures match; the phrasing does not have to. */
   profile:
-    '产品设计师，5 年以上经验，先后任职于华为、小米和 AppLovin，作品覆盖 7 亿人使用的操作系统和每季度数千万台新手机。主导过 7+ 团队共用的设计系统，也做过让应用分发提升 10.6% 的增长实验。现兼任一家小说阅读应用初创公司的产品负责人，借助 AI 工具把工作范围从设计拓展到数据分析、实验和线上前端代码。',
+    '5 年以上产品设计经验，先后就职于华为、小米和 AppLovin。在小米主导 MIUI 设计系统 2.0，面向 7 亿用户，带领 7 人以上团队重建 MIUI 设计规范；在 AppLovin 负责新机开机引导中的应用推荐，每季度覆盖数千万台新机，通过增长实验将应用分发量提升 10.6%。现任初创公司 Karmaplot（小说阅读应用）产品负责人，借助 AI 工具将工作从设计延伸到数据分析、实验和线上前端开发。',
   jobs: [
     {
-      role: '产品负责人（兼职）',
+      role: '产品负责人',
       org: 'Karmaplot · JuVon Holdings Limited',
       dates: '2026.05 – 至今',
       groups: [
         {
           bullets: [
             {
-              text: '负责小说阅读应用 Karmaplot，用数据和实验把 TikTok 流量变成读者和收入。',
+              text: '负责小说阅读应用 Karmaplot 的产品工作，围绕转化与变现数据设计实验，将 TikTok 流量转化为读者和收入。',
             },
             {
-              text: '借助 AI 编程工具把工作延伸到设计之外：提交线上前端代码 PR，并搭建每个实验所需的埋点和数据看板。',
+              text: '借助 AI 编程工具承担设计以外的工作：向线上前端代码提交 PR，并为每项实验搭建数据埋点和看板。',
             },
           ],
         },
@@ -108,17 +109,17 @@ const zh: ResumeContent = {
         {
           bullets: [
             {
-              text: '通过 4 条实验线，在 1000 万+ 新设备上把应用分发提升 10.6%，最优合集方案的点击率达 75%。',
+              text: '设计并上线 4 个方向的增长实验，应用分发量提升 10.6%，其中最优的应用合集方案点击率达 75%。',
             },
             {
-              text: '为三星、T-Mobile 等十余家 OEM 设计 OOBE 应用发现流程，每季度触达数千万台新手机，带来七位数营收。',
+              text: '为三星、T-Mobile 等十余家 OEM 设计开机引导（OOBE）中的应用推荐流程，每季度覆盖数千万台新机，带来七位数美元营收。',
             },
           ],
         },
       ],
     },
     {
-      role: 'UX 设计师，晋升为资深 UX 设计师',
+      role: '资深 UX 设计师',
       org: '小米',
       place: '北京',
       dates: '2021 – 2023',
@@ -127,16 +128,16 @@ const zh: ResumeContent = {
           label: '设计系统与规范',
           bullets: [
             {
-              text: '主导 MIUI 设计系统 2.0，服务 7 亿人使用的操作系统；推动 7+ 产品团队和 6 名 SDK 工程师统一组件规则，并引入 design token。',
+              text: '主导 MIUI 设计系统 2.0，协同 7+ 产品团队和 6 名 SDK 工程师统一组件规范，并引入 design token。',
             },
             {
-              text: '把规范小组从 2 人扩充到 7 人，同时重写全套组件规范。',
+              text: '将规范小组从 2 人扩充至 7 人，期间重写全套组件规范。',
             },
             {
-              text: '制定多语言规范并指导 20+ 业务团队完成本地化：用自适应布局避免文字截断，为图像、图标和色彩建立跨文化规则。',
+              text: '制定多语言设计规范，指导 20+ 业务团队完成本地化适配：以自适应布局解决文字截断，并为配图、图标和色彩建立跨文化使用规则。',
             },
             {
-              text: '制定折叠屏设计规范，全系统各业务团队统一采用。',
+              text: '制定折叠屏设计规范，在全系统各业务团队落地。',
             },
           ],
         },
@@ -144,13 +145,13 @@ const zh: ResumeContent = {
           label: '锁屏与桌面',
           bullets: [
             {
-              text: '作为 11 人团队中唯一的 UX 设计师负责 MIUI 锁屏编辑器：用一套通用的自定义框架和双轴画廊导航覆盖 3 个模板系列，10 个月交付 40+ 个界面。',
+              text: '负责 MIUI 锁屏编辑器：以一套通用的自定义框架和双轴画廊导航支撑 3 个模板系列，10 个月交付 40+ 个界面。',
             },
             {
-              text: '完成 MIUI 14 桌面交互设计，包括大图标与大文件夹、连续添加小组件和小组件编辑态规范，并通过可用性测试验证。',
+              text: '负责 MIUI 14 桌面交互设计，涵盖大图标与大文件夹、小组件连续添加、小组件编辑态规范，方案经可用性测试验证。',
             },
             {
-              text: '设计并主持 40 人参与的跨部门桌面体验共创工作坊。',
+              text: '策划并主持 40 人参与的跨部门桌面体验共创工作坊。',
             },
           ],
         },
@@ -158,7 +159,7 @@ const zh: ResumeContent = {
           label: 'HCI 研究',
           bullets: [
             {
-              text: '端到端完成小米首个由设计团队发起的 HCI 研究：40 名参与者、144 个触控区域，产出热力图、热区设计规范和一款走查应用。',
+              text: '全流程主导小米首个由设计团队发起的 HCI 研究：40 名被试、144 个触控区域，产出触控热力图、热区设计规范和一款设计走查应用。',
             },
           ],
         },
@@ -172,9 +173,9 @@ const zh: ResumeContent = {
       groups: [
         {
           bullets: [
-            { text: '为手机、平板、折叠屏 3 类设备设计手势系统与跨设备交互。' },
+            { text: '负责手机、平板、折叠屏三类设备的手势系统与跨设备交互设计。' },
             {
-              text: '撰写跨设备交互功能专利。',
+              text: '撰写跨设备交互方向的专利。',
             },
           ],
         },
@@ -193,20 +194,20 @@ const zh: ResumeContent = {
       school: '清华大学',
       dates: '2013 – 2018',
     },
-    { degree: '交换项目', school: '丹麦科灵设计学院' },
+    { degree: '交换生', school: '丹麦科灵设计学院' },
   ],
   /* "类别：内容". The page bolds the part before the first colon. */
   skills: [
-    '产品设计：移动应用、Web 和系统级功能的 UX/UI',
-    '设计系统：组件规范、design token、本地化规则',
-    '多设备：手机、平板、折叠屏，自适应布局，手势',
+    '产品设计：移动端、Web 及系统级功能的交互与界面设计',
+    '设计系统：组件规范、design token、本地化规范',
+    '多设备适配：手机、平板、折叠屏，自适应布局，手势交互',
     '增长与数据：A/B 测试、实验设计、转化与变现分析',
     '用户研究：HCI 研究、可用性测试、共创工作坊',
-    'AI 辅助开发：线上前端代码 PR、埋点、数据看板',
+    'AI 辅助开发：线上前端代码 PR、数据埋点、数据看板',
     '工具：Figma、Claude Code、Cursor、PostHog',
   ],
   languages: ['中文（母语）', '英语（流利）'],
-  personal: ['双板与单板滑雪', '水肺潜水', '交互装置'],
+  personal: ['滑雪（双板、单板）', '水肺潜水', '交互装置'],
 };
 
 const en: ResumeContent = {
@@ -239,10 +240,10 @@ const en: ResumeContent = {
   },
   /* Identity + years, then proof of scale, then what sets her apart. */
   profile:
-    'Product designer with 5+ years at Huawei, Xiaomi and AppLovin, shipping to an OS used by 700 million people and to tens of millions of new phones each quarter. Led a design system adopted by 7+ teams and growth experiments that lifted app distribution 10.6%. Now part-time Head of Product at a reading-app startup, using AI tools to extend the role from design into data analysis, experimentation and production front-end code.',
+    'Product designer with 5+ years at Huawei, Xiaomi and AppLovin, shipping to an OS used by 700 million people and to tens of millions of new phones each quarter. Led a team of 7+ to rebuild the MIUI design guidelines and ran growth experiments that lifted app distribution 10.6%. Now Head of Product at a reading-app startup, using AI tools to extend the role from design into data analysis, experimentation and production front-end code.',
   jobs: [
     {
-      role: 'Head of Product (part-time)',
+      role: 'Head of Product',
       org: 'Karmaplot · JuVon Holdings Limited',
       dates: 'May 2026 – Present',
       groups: [
@@ -267,17 +268,17 @@ const en: ResumeContent = {
         {
           bullets: [
             {
-              text: 'Lifted app distribution 10.6% across 10M+ new devices by shipping 4 experiment tracks, with 75% click-through on the winning bundle.',
+              text: 'Lifted app distribution 10.6% by shipping 4 experiment tracks, with 75% click-through on the winning bundle.',
             },
             {
-              text: 'Designed OOBE app discovery flows for Samsung, T-Mobile and a dozen other OEMs, reaching tens of millions of new phones a quarter and seven-figure revenue.',
+              text: 'Designed OOBE app discovery flows for Samsung, T-Mobile and a dozen other OEMs, reaching tens of millions of new phones a quarter and seven-figure USD revenue.',
             },
           ],
         },
       ],
     },
     {
-      role: 'UX Designer, promoted to Senior UX Designer',
+      role: 'Senior UX Designer',
       org: 'Xiaomi',
       place: 'Beijing',
       dates: '2021 – 2023',
@@ -286,7 +287,7 @@ const en: ResumeContent = {
           label: 'Design system & guidelines',
           bullets: [
             {
-              text: 'Led MIUI Design System 2.0 for an OS used by 700 million people, aligning 7+ product teams and 6 SDK engineers on shared component rules and introducing design tokens.',
+              text: 'Led MIUI Design System 2.0, aligning 7+ product teams and 6 SDK engineers on shared component rules and introducing design tokens.',
             },
             {
               text: 'Grew the guideline team from 2 to 7 people while rebuilding the full set of component guidelines.',
@@ -303,7 +304,7 @@ const en: ResumeContent = {
           label: 'Lock screen & desktop',
           bullets: [
             {
-              text: 'Designed the MIUI lock screen editor as sole UX designer in a team of 11: one editing framework and two-axis gallery for 3 template families, 40+ screens in 10 months.',
+              text: 'Designed the MIUI lock screen editor: one editing framework and two-axis gallery for 3 template families, 40+ screens in 10 months.',
             },
             {
               text: 'Delivered desktop interaction design for MIUI 14, including large icons and folders, continuous widget adding and widget edit-mode specs, validated through usability tests.',
