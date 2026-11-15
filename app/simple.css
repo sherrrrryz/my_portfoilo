@@ -206,6 +206,13 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   color: var(--sm-ink);
   margin: 0;
 }
+/* Chinese hero runs "我作为" + role on ONE line. Sized so the longest role
+   (工作坊主持人, ~9.5em with the cursor) still fits a phone; otherwise the
+   headline would hop between one and two lines as the role rotates. */
+.sm-hero__line--zh {
+  font-size: clamp(1.75rem, 8.6vw, 7rem);
+  white-space: nowrap;
+}
 /* rotating role — simple crossfade, no decryption */
 .sm-role {
   display: inline-block;

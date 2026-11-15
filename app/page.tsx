@@ -1881,9 +1881,10 @@ export default function SimplePage() {
       <header className="sm-section sm-hero">
         <div className="sm-wrap">
           <div className="sm-hero__kicker">{u.kicker}</div>
-          <h1 className="sm-hero__line">
+          <h1 className={`sm-hero__line${lang === 'zh' ? ' sm-hero__line--zh' : ''}`}>
             {u.heroLine}
-            <br />
+            {/* English breaks after "I, as a"; Chinese runs on one line */}
+            {lang === 'en' && <br />}
             <RotatingRole />
             <span className="sm-role__cursor" aria-hidden="true">
               _
