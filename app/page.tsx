@@ -326,11 +326,15 @@ function FollowPointer({
   className,
   children,
   onOpen,
+  hand,
 }: {
   title: ReactNode;
   className?: string;
   children: ReactNode;
   onOpen?: () => void;
+  /* Clickable hosts: keep the native hand cursor and float only the pill,
+     instead of hiding the cursor behind the drawn arrow. */
+  hand?: boolean;
 }) {
   const [inside, setInside] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
@@ -349,7 +353,10 @@ function FollowPointer({
   return (
     <div
       className={className}
-      style={{ position: 'relative', cursor: suppressed ? 'auto' : 'none' }}
+      style={{
+        position: 'relative',
+        cursor: suppressed ? 'auto' : hand ? 'pointer' : 'none',
+      }}
       onMouseEnter={(e) => {
         setPos({ x: e.clientX, y: e.clientY });
         const ex = overExcluded(e.target);
@@ -387,7 +394,7 @@ function FollowPointer({
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.12 }}
               >
-                <svg
+                {!hand && <svg
                   viewBox="0 0 16 16"
                   height="18"
                   width="18"
@@ -403,7 +410,7 @@ function FollowPointer({
                   }}
                 >
                   <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z" />
-                </svg>
+                </svg>}
                 <motion.div
                   initial={{ scale: 0.6, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
@@ -887,7 +894,7 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
 
   if (m.href) {
     return (
-      <FollowPointer className={className} title={t(m.meta).split(' · ')[0]}>
+      <FollowPointer className={className} title={t(m.meta).split(' · ')[0]} hand>
         {body}
       </FollowPointer>
     );
