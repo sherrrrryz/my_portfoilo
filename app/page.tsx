@@ -1892,10 +1892,9 @@ export default function SimplePage() {
           </h1>
           {lang === 'zh' ? (
             <p className="sm-hero__sub">
-              UX / 产品设计师，在
+              UX / 产品设计师，曾任职于
               <CompanyHover c={COMPANIES[0]} />、
-              <CompanyHover c={COMPANIES[1]} /> 和<CompanyHover c={COMPANIES[2]} />
-              做过设计。
+              <CompanyHover c={COMPANIES[1]} /> 和<CompanyHover c={COMPANIES[2]} />。
             </p>
           ) : (
             <p className="sm-hero__sub">
