@@ -213,6 +213,17 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   font-size: clamp(1.75rem, 8.6vw, 7rem);
   white-space: nowrap;
 }
+/* Chinese needs more leading than Latin. Han glyphs fill the whole em box
+   (no ascender/descender air), so the display leading tuned for English
+   (1.08 to 1.35) makes wrapped Chinese lines touch. Keyed off <html lang>,
+   which page.tsx sets to zh-CN when the reader switches language. */
+:lang(zh) .sm-h,
+:lang(zh) .sm-question,
+:lang(zh) .sm-card__title { line-height: 1.3; }
+:lang(zh) .sm-means__text,
+:lang(zh) .sm-verdict,
+:lang(zh) .sm-tenet { line-height: 1.4; }
+:lang(zh) .sm-hero__sub { line-height: 1.6; }
 /* rotating role — simple crossfade, no decryption */
 .sm-role {
   display: inline-block;
