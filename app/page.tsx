@@ -1843,7 +1843,7 @@ const UI = {
     q1: '如何为 7 亿人做设计？',
     bizHead: '在 AppLovin，\n设计由数据驱动。',
     oemsAria: 'OEM 厂商与运营商合作伙伴',
-    verdict: '三条都测了，三条都错了。',
+    verdict: '结果恰恰相反。',
     winnerTag: '胜出',
     caseMeta: 'AppLovin OOBE · 2025',
     caseCta: '查看完整案例',
