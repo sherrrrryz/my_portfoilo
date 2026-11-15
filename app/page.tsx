@@ -45,6 +45,10 @@ gsap.registerPlugin(ScrollTrigger);
    src/href and localize only their text fields, so the two languages
    can never drift apart structurally. */
 type Lang = 'en' | 'zh';
+
+/* Chinese edition is switched off for now: the toggle renders greyed out and
+   a saved "zh" preference is ignored. Flip to true to bring it back. */
+const ZH_ENABLED = false;
 type L10n = { en: string; zh: string };
 
 const LangContext = createContext<Lang>('en');
@@ -131,6 +135,7 @@ function LangToggle({
     <button
       type="button"
       className="sm-lang"
+      disabled={!ZH_ENABLED && lang === 'en'}
       aria-label={lang === 'en' ? '切换到中文' : 'Switch to English'}
       onClick={() => onChange(lang === 'en' ? 'zh' : 'en')}
     >
@@ -1798,7 +1803,7 @@ export default function SimplePage() {
   useEffect(() => {
     try {
       const saved = localStorage.getItem('lang');
-      if (saved === 'zh' || saved === 'en') setLang(saved);
+      if (saved === 'en' || (ZH_ENABLED && saved === 'zh')) setLang(saved);
     } catch {
       /* private mode etc. — stay in English */
     }

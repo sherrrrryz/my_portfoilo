@@ -826,6 +826,14 @@ html:not([data-theme="dark"]) .ab-theme__moon { display: none; }
 }
 .ab-lang:hover,
 .ab-lang:focus-visible { color: var(--ab-ink); }
+/* Switched off (Chinese edition disabled): greyed, no underline, no hover. */
+.ab-lang:disabled,
+.ab-lang:disabled:hover {
+  color: var(--ab-ink-3);
+  opacity: 0.4;
+  cursor: not-allowed;
+  text-decoration: none;
+}
 
 /* ── responsive ────────────────────────────────────────────────── */
 @media (max-width: 880px) {

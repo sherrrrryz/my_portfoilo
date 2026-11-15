@@ -451,6 +451,14 @@ a.pj-card__note--link:focus-visible { color: var(--pj-ink); }
 }
 .pj-lang:hover,
 .pj-lang:focus-visible { color: var(--pj-ink); }
+/* Switched off (Chinese edition disabled): greyed, no underline, no hover. */
+.pj-lang:disabled,
+.pj-lang:disabled:hover {
+  color: var(--pj-ink-3);
+  opacity: 0.4;
+  cursor: not-allowed;
+  text-decoration: none;
+}
 
 /* ── responsive ────────────────────────────────────────────────── */
 @media (max-width: 860px) {

@@ -163,6 +163,14 @@ html:not([data-theme="dark"]) .mds-theme__moon { display: none; }
 .mds-lang:hover,
 .mds-lang:focus-visible { color: var(--mds-ink); }
 .mds-lang:focus-visible { outline: 2px solid var(--mds-ink); outline-offset: 2px; }
+/* Switched off (Chinese edition disabled): greyed, no underline, no hover. */
+.mds-lang:disabled,
+.mds-lang:disabled:hover {
+  color: var(--mds-ink-3);
+  opacity: 0.4;
+  cursor: not-allowed;
+  text-decoration: none;
+}
 
 /* ── hero ──────────────────────────────────────────────────────── */
 .mds-hero {
