@@ -800,11 +800,7 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
     <div className="sm-mean__head" ref={headRef}>
       <span className="sm-means__idx">{String(idx + 1).padStart(2, '0')}</span>
       <div>
-        {comingSoon ? (
-          <FollowPointer title={t(COMING_SOON)}>{text}</FollowPointer>
-        ) : (
-          text
-        )}
+        {text}
         {t(m.meta) && (
           <div className="sm-means__meta">{t(m.meta)}</div>
         )}
@@ -895,6 +891,15 @@ function MeanRow({ m, idx }: { m: (typeof MEANS)[number]; idx: number }) {
   if (m.href) {
     return (
       <FollowPointer className={className} title={t(m.meta).split(' · ')[0]} hand>
+        {body}
+      </FollowPointer>
+    );
+  }
+  /* Same full-block hit area as the linked rows, but nothing to open:
+     the drawn arrow (not the hand) carries the "Coming soon" pill. */
+  if (comingSoon) {
+    return (
+      <FollowPointer className={className} title={t(COMING_SOON)}>
         {body}
       </FollowPointer>
     );
