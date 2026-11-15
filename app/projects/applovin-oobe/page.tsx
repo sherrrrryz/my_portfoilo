@@ -402,6 +402,10 @@ export default function ProjectApplovinOobe() {
             src="/oobe/exp1-survey.png"
             alt="Sanitized screens of the 5-step preference survey, one app category per page"
           />
+          <Fig
+            src="/oobe/exp1-results.png"
+            alt="Sanitized screens of the personalized recommendations that follow the survey, one category per page, ending on an all-done screen"
+          />
           <XStats stats={project.experiments.survey5.stats} />
           <Take txt={project.experiments.survey5.takeaway} />
         </div>
