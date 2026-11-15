@@ -335,6 +335,11 @@ if (typeof window !== 'undefined') {
   );
 }
 
+/* A tap fires emulated mouse events, which would leave a pill stuck at the
+   tap point on phones. The pill is a hover affordance only. */
+const canHover = () =>
+  typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches;
+
 /* Same following-cursor effect as the Story page's Business cards
    (following-pointer.tsx, now only in git tag archive/story-page), restyled
    black/white for /simple. Re-implemented locally because that component
@@ -408,6 +413,7 @@ function FollowPointer({
         cursor: suppressed ? 'auto' : hand ? 'pointer' : 'none',
       }}
       onMouseEnter={(e) => {
+        if (!canHover()) return;
         setPos({ x: e.clientX, y: e.clientY });
         const ex = overExcluded(e.target);
         setSuppressed(ex);
@@ -419,6 +425,7 @@ function FollowPointer({
         setSuppressed(false);
       }}
       onMouseMove={(e) => {
+        if (!canHover()) return;
         setPos({ x: e.clientX, y: e.clientY });
         const ex = overExcluded(e.target);
         setSuppressed(ex);
@@ -2089,6 +2096,10 @@ export default function SimplePage() {
                       </div>
                     </div>
                   </div>
+                  {/* Touch screens have no hover, so the pill's takeaway is
+                      printed in the card instead (CSS shows it only under
+                      `hover: none`). */}
+                  <p className="sm-card__insight">{c.insight[lang]}</p>
                 </article>
               </FollowPointer>
             ))}

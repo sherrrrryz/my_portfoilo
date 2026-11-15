@@ -772,12 +772,20 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   grid-template-columns: 1fr 1fr;
   gap: clamp(10px, 1.4vw, 16px);
 }
+/* The experiment's takeaway. With a mouse it rides the follow-pointer pill,
+   so it stays hidden here; on touch screens (no hover) it is printed in the
+   card, under the two mockups. */
 .sm-card__insight {
+  display: none;
   margin: 0;
-  padding-left: 2px;
+  margin-top: clamp(4px, 0.8vh, 10px);
   font-size: var(--text-sm);
-  font-style: italic;
-  color: var(--sm-ink-3);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-relaxed);
+  color: var(--sm-ink);
+}
+@media (hover: none) {
+  .sm-card__insight { display: block; }
 }
 
 /* Two option boxes — loser is paper on paper, winner flips to ink on ink.
