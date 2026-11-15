@@ -1841,7 +1841,7 @@ const UI = {
     mCuriosity: '好奇心',
     mHello: '打个招呼',
     q1: '如何为 7 亿人做设计？',
-    bizHead: '在 AppLovin，设计由数据驱动。',
+    bizHead: '在 AppLovin，\n设计由数据驱动。',
     oemsAria: 'OEM 厂商与运营商合作伙伴',
     verdict: '三条都测了，三条都错了。',
     winnerTag: '胜出',
@@ -2008,7 +2008,10 @@ export default function SimplePage() {
 
           {/* Group 1 — headline + context */}
           <div className="sm-group">
-            <h2 className="sm-h">{u.bizHead}</h2>
+            {/* pre-line: the Chinese headline carries a \n after the comma */}
+            <h2 className="sm-h" style={{ whiteSpace: 'pre-line' }}>
+              {u.bizHead}
+            </h2>
             {lang === 'zh' ? (
               <p className="sm-body sm-group__body">
                 开机引导（OOBE）里的应用推荐流程，预装在<strong>三星</strong>、
