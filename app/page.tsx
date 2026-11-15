@@ -309,7 +309,7 @@ const MEANS = [
   {
     text: {
       en: "It means there's always another kind of design waiting to be made.",
-      zh: '总还有另一种设计，等着去做。',
+      zh: '总还有另一种设计，等着去尝试。',
     },
     meta: { en: '', zh: '' },
     href: '',
