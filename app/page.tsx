@@ -274,7 +274,7 @@ const MEANS = [
   {
     text: {
       en: 'It means making something personal — at a scale where nothing feels personal.',
-      zh: '规模再大，也要做出只属于一个人的东西。',
+      zh: '做给所有人用，却让每个人觉得是为自己做的。',
     },
     meta: { en: 'Xiaomi Lock Screen · 2023', zh: '小米锁屏 · 2023' },
     href: '/projects/lockscreen',
