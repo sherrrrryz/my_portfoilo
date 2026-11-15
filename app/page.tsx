@@ -1977,14 +1977,16 @@ export default function SimplePage() {
             <p className="sm-hero__sub">
               UX / 产品设计师，曾任职于
               <CompanyHover c={COMPANIES[0]} />、
-              <CompanyHover c={COMPANIES[1]} /> 和<CompanyHover c={COMPANIES[2]} />。
+              <CompanyHover c={COMPANIES[1]} /> 和<CompanyHover c={COMPANIES[2]} />
+              ，现为初创公司产品负责人。
             </p>
           ) : (
             <p className="sm-hero__sub">
               A UX/Product Designer with experience at{' '}
               <CompanyHover c={COMPANIES[0]} />,{' '}
               <CompanyHover c={COMPANIES[1]} />, and{' '}
-              <CompanyHover c={COMPANIES[2]} />.
+              <CompanyHover c={COMPANIES[2]} />. Now Head of Product at a
+              startup.
             </p>
           )}
           <p className="sm-hero__sub">
