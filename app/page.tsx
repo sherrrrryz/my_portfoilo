@@ -1906,7 +1906,7 @@ export default function SimplePage() {
           )}
           <p className="sm-hero__sub">
             {lang === 'zh'
-              ? '为亿万用户做设计，为业务做设计，为团队做设计，也因为好奇做设计。'
+              ? '为亿万用户、为业务、为团队做设计，也为好奇心。'
               : 'Designing for millions, for business, for teams, and out of plain curiosity.'}
           </p>
         </div>
