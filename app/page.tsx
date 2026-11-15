@@ -282,7 +282,7 @@ const MEANS = [
   {
     text: {
       en: 'It means building the system that other designers build on.',
-      zh: '搭好一套系统，让其他设计师在它之上做设计。',
+      zh: '先打好地基，其他设计师才能往上盖。',
     },
     meta: { en: 'MIUI Design System 2.0 · 2023', zh: 'MIUI 设计系统 2.0 · 2023' },
     href: '/projects/miui-design-system',
