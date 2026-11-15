@@ -80,10 +80,10 @@ const zh: ResumeContent = {
   },
   /* Kept in step with the English entry below, sentence for sentence. */
   profile:
-    '产品设计师，5 年以上经验，先后任职于华为、小米和 AppLovin，作品覆盖 7 亿人使用的操作系统和每季度数千万台新手机。主导过 7+ 团队共用的设计系统，也做过让应用分发提升 10.6% 的增长实验。现兼任一家小说阅读应用初创公司的产品负责人，借助 AI 工具把工作范围从设计拓展到数据分析、实验和线上前端代码。',
+    '产品设计师，5 年以上经验，先后任职于华为、小米和 AppLovin，作品覆盖 7 亿人使用的操作系统和每季度数千万台新手机。主导过 7+ 团队共用的设计系统，也做过让应用分发提升 10.6% 的增长实验。现任一家小说阅读应用初创公司的产品负责人，借助 AI 工具把工作范围从设计拓展到数据分析、实验和线上前端代码。',
   jobs: [
     {
-      role: '产品负责人（兼职）',
+      role: '产品负责人',
       org: 'Karmaplot · JuVon Holdings Limited',
       dates: '2026.05 – 至今',
       groups: [
@@ -239,10 +239,10 @@ const en: ResumeContent = {
   },
   /* Identity + years, then proof of scale, then what sets her apart. */
   profile:
-    'Product designer with 5+ years at Huawei, Xiaomi and AppLovin, shipping to an OS used by 700 million people and to tens of millions of new phones each quarter. Led a design system adopted by 7+ teams and growth experiments that lifted app distribution 10.6%. Now part-time Head of Product at a reading-app startup, using AI tools to extend the role from design into data analysis, experimentation and production front-end code.',
+    'Product designer with 5+ years at Huawei, Xiaomi and AppLovin, shipping to an OS used by 700 million people and to tens of millions of new phones each quarter. Led a design system adopted by 7+ teams and growth experiments that lifted app distribution 10.6%. Now Head of Product at a reading-app startup, using AI tools to extend the role from design into data analysis, experimentation and production front-end code.',
   jobs: [
     {
-      role: 'Head of Product (part-time)',
+      role: 'Head of Product',
       org: 'Karmaplot · JuVon Holdings Limited',
       dates: 'May 2026 – Present',
       groups: [
