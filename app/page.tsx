@@ -301,7 +301,7 @@ const MEANS = [
   {
     text: {
       en: 'It means designing what your finger feels, not what your eye sees.',
-      zh: '设计的是手指摸到的，不是眼睛看到的。',
+      zh: '为手指的触感做设计，而不只是为眼睛。',
     },
     meta: { en: 'Touch Hot Zone · 2024', zh: '触摸热区 · 2024' },
     href: '/projects/touch-hotspots',
