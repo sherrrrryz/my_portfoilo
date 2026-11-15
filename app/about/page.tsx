@@ -416,8 +416,8 @@ const PATH = [
   {
     years: '2026–now',
     title: {
-      en: 'Karmaplot · Head of Product, part-time',
-      zh: 'Karmaplot · 产品负责人（兼职）',
+      en: 'Karmaplot · Head of Product',
+      zh: 'Karmaplot · 产品负责人',
     },
     detail: {
       en: 'A novel reading app from the startup JuVon Holdings Limited. I help the founding team turn video traffic into app readers and revenue, covering data analysis, experiment design, product UI/UX and front-end development.',
@@ -934,14 +934,14 @@ export default function AboutPage() {
                     id="karmaplot"
                     tag={{ en: 'May 2026 to now', zh: '2026 年 5 月至今' }}
                     desc={{
-                      en: 'Part-time head of product at a startup, JuVon Holdings Limited. Data analysis, experiment design, product UI/UX and front-end development.',
-                      zh: '在初创公司 JuVon Holdings Limited 兼职担任产品负责人。负责数据分析、实验设计、产品 UI/UX 设计和前端开发。',
+                      en: 'Head of product at a startup, JuVon Holdings Limited. Data analysis, experiment design, product UI/UX and front-end development.',
+                      zh: '在初创公司 JuVon Holdings Limited 担任产品负责人。负责数据分析、实验设计、产品 UI/UX 设计和前端开发。',
                     }}
                     emoji="📖"
                   >
                     Karmaplot
                   </Fact>{' '}
-                  兼职担任产品负责人，把视频流量转化为读者和收入。
+                  担任产品负责人，把视频流量转化为读者和收入。
                 </p>
               </>
             ) : (
@@ -1026,13 +1026,13 @@ export default function AboutPage() {
                   sketching what comes next. This site is part of that.
                 </p>
                 <p>
-                  These days I am also the part-time head of product at{' '}
+                  These days I am also the head of product at{' '}
                   <Fact
                     id="karmaplot"
                     tag={{ en: 'May 2026 to now', zh: '2026 年 5 月至今' }}
                     desc={{
-                      en: 'Part-time head of product at a startup, JuVon Holdings Limited. Data analysis, experiment design, product UI/UX and front-end development.',
-                      zh: '在初创公司 JuVon Holdings Limited 兼职担任产品负责人。负责数据分析、实验设计、产品 UI/UX 设计和前端开发。',
+                      en: 'Head of product at a startup, JuVon Holdings Limited. Data analysis, experiment design, product UI/UX and front-end development.',
+                      zh: '在初创公司 JuVon Holdings Limited 担任产品负责人。负责数据分析、实验设计、产品 UI/UX 设计和前端开发。',
                     }}
                     emoji="📖"
                   >
