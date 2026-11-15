@@ -1764,7 +1764,7 @@ const UI = {
     mTeams: '为团队',
     mCuriosity: '好奇心',
     mHello: '打个招呼',
-    q1: '给 7 亿人做设计，是什么体验？',
+    q1: '如何为 7 亿人做设计？',
     bizHead: '在 AppLovin，设计好不好，看的是美元。',
     oemsAria: 'OEM 厂商与运营商合作伙伴',
     verdict: '三条都测了，三条都错了。',
