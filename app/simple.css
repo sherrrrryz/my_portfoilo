@@ -206,6 +206,24 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   color: var(--sm-ink);
   margin: 0;
 }
+/* Chinese hero runs "我作为" + role on ONE line. Sized so the longest role
+   (工作坊主持人, ~9.5em with the cursor) still fits a phone; otherwise the
+   headline would hop between one and two lines as the role rotates. */
+.sm-hero__line--zh {
+  font-size: clamp(1.75rem, 8.6vw, 7rem);
+  white-space: nowrap;
+}
+/* Chinese needs more leading than Latin. Han glyphs fill the whole em box
+   (no ascender/descender air), so the display leading tuned for English
+   (1.08 to 1.35) makes wrapped Chinese lines touch. Keyed off <html lang>,
+   which page.tsx sets to zh-CN when the reader switches language. */
+:lang(zh) .sm-h,
+:lang(zh) .sm-question,
+:lang(zh) .sm-card__title { line-height: 1.3; }
+:lang(zh) .sm-means__text,
+:lang(zh) .sm-verdict,
+:lang(zh) .sm-tenet { line-height: 1.4; }
+:lang(zh) .sm-hero__sub { line-height: 1.6; }
 /* rotating role — simple crossfade, no decryption */
 .sm-role {
   display: inline-block;
@@ -346,9 +364,25 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   letter-spacing: var(--tracking-wide);
   color: var(--sm-ink-3);
 }
-/* cursor: inherit keeps the row's 👀 emoji cursor (set inline from
-   MeanRow via emojiCursor()) instead of the UA's pointer. */
+/* cursor: inherit so the link takes whatever the row sets (the hidden
+   cursor under the follow-pointer pill) instead of the UA's pointer. */
 .sm-means__text-link { color: inherit; text-decoration: none; cursor: inherit; }
+/* Stretched link: the whole row is the hit area, not just the sentence.
+   The ::after is positioned against .sm-mean (the nearest positioned
+   ancestor) and widened to the viewport so the full-bleed strip counts
+   too. z-index lifts it over the strip, whose marquee transform would
+   otherwise paint on top. It sits inside the <a>, so hovering anywhere
+   underlines the sentence. */
+.sm-mean { position: relative; }
+.sm-means__text-link::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 50vw);
+  width: 100vw;
+  z-index: 1;
+}
 .sm-means__text-link:hover,
 .sm-means__text-link:focus-visible {
   text-decoration: underline;
@@ -738,12 +772,20 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
   grid-template-columns: 1fr 1fr;
   gap: clamp(10px, 1.4vw, 16px);
 }
+/* The experiment's takeaway. With a mouse it rides the follow-pointer pill,
+   so it stays hidden here; on touch screens (no hover) it is printed in the
+   card, under the two mockups. */
 .sm-card__insight {
+  display: none;
   margin: 0;
-  padding-left: 2px;
+  margin-top: clamp(4px, 0.8vh, 10px);
   font-size: var(--text-sm);
-  font-style: italic;
-  color: var(--sm-ink-3);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-relaxed);
+  color: var(--sm-ink);
+}
+@media (hover: none) {
+  .sm-card__insight { display: block; }
 }
 
 /* Two option boxes — loser is paper on paper, winner flips to ink on ink.
