@@ -150,9 +150,11 @@ export default async function ResumePage({
               <h2 className="rs-h">{l.experience}</h2>
               {r.jobs.map((job) => (
                 <div className="rs-job" key={job.org}>
-                  <h3 className="rs-job__role">{job.role}</h3>
+                  <h3 className="rs-job__role">
+                    {job.role} <span className="rs-job__org">{job.org}</span>
+                  </h3>
                   <p className="rs-job__meta">
-                    {[job.org, job.place, job.dates].filter(Boolean).join(' / ')}
+                    {[job.place, job.dates].filter(Boolean).join(' / ')}
                   </p>
                   {job.groups.map((g, i) => (
                     <div key={g.label ?? i}>

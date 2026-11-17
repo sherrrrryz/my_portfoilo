@@ -160,6 +160,11 @@
   font-weight: 600;
   line-height: 1.35;
 }
+/* Company sits on the title line, same size, one step lighter than the role. */
+.rs-job__org {
+  margin-left: 1.6mm;
+  font-weight: 400;
+}
 .rs-job__meta {
   margin-bottom: 1.4mm;
   color: var(--rs-ink-3);
