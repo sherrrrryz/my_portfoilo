@@ -5,21 +5,31 @@ import { usePresentationTimer } from "../hooks/usePresentationTimer";
 
 interface SpeakerPanelProps {
   notes: string;
+  lang?: "en" | "zh";
 }
 
-export function SpeakerPanel({ notes }: SpeakerPanelProps) {
+export function SpeakerPanel({ notes, lang = "en" }: SpeakerPanelProps) {
+  const zh = lang === "zh";
   const [visible, setVisible] = useState(false);
   const { elapsed, isRunning, start, pause, reset } = usePresentationTimer();
 
-  const wordCount = notes.trim() ? notes.trim().split(/\s+/).length : 0;
-  const estimatedSeconds = Math.round((wordCount / 130) * 60);
+  // Chinese has no spaces between words: count Han characters plus any
+  // Latin words or numbers, and pace it at ~240 per minute instead of 130.
+  const wordCount = zh
+    ? (notes.match(/[\u4e00-\u9fff]|[A-Za-z0-9.%]+/g) ?? []).length
+    : notes.trim() ? notes.trim().split(/\s+/).length : 0;
+  const estimatedSeconds = Math.round((wordCount / (zh ? 240 : 130)) * 60);
   const estMin = Math.floor(estimatedSeconds / 60);
   const estSec = estimatedSeconds % 60;
   const estimatedTime = wordCount === 0
-    ? "Visual only"
-    : estMin > 0
-      ? `~${estMin}m ${estSec > 0 ? `${estSec}s` : ""}`
-      : `~${estSec}s`;
+    ? (zh ? "仅展示画面" : "Visual only")
+    : zh
+      ? estMin > 0
+        ? `约 ${estMin} 分${estSec > 0 ? ` ${estSec} 秒` : ""}`
+        : `约 ${estSec} 秒`
+      : estMin > 0
+        ? `~${estMin}m ${estSec > 0 ? `${estSec}s` : ""}`
+        : `~${estSec}s`;
 
   return (
     <>
@@ -29,7 +39,7 @@ export function SpeakerPanel({ notes }: SpeakerPanelProps) {
         className="fixed top-1/2 -translate-y-1/2 right-8 z-[110] px-3 py-1.5 rounded-full bg-black/70 text-white text-xs hover:bg-black/80 transition-colors cursor-pointer"
         style={{ ...(visible ? { display: "none" } : {}) }}
       >
-        Speaker Notes
+        {zh ? "演讲备注" : "Speaker Notes"}
       </button>
 
       {/* Panel */}
@@ -44,10 +54,10 @@ export function SpeakerPanel({ notes }: SpeakerPanelProps) {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
               <span className="text-white/60 text-xs uppercase tracking-wider font-medium">
-                Speaker Notes
+                {zh ? "演讲备注" : "Speaker Notes"}
               </span>
               <span className="text-white/40 text-xs">
-                {wordCount} words · {estimatedTime}
+                {wordCount} {zh ? "字" : "words"} · {estimatedTime}
               </span>
             </div>
             <PresentationTimer
@@ -56,6 +66,7 @@ export function SpeakerPanel({ notes }: SpeakerPanelProps) {
               onStart={start}
               onPause={pause}
               onReset={reset}
+              lang={lang}
             />
           </div>
           <div className="flex flex-col gap-3 text-white/90 text-sm leading-relaxed">

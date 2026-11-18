@@ -2,7 +2,9 @@
 import React, { useRef, useState, useCallback, useEffect, RefObject } from "react";
 
 import { slides as allSlides } from "../slideData";
-const slides = allSlides.filter(s => !s.hidden);
+import { slidesZh as allSlidesZh } from "../slideData.zh";
+const slidesEn = allSlides.filter(s => !s.hidden);
+const slidesZh = allSlidesZh.filter(s => !s.hidden);
 import { Sidebar } from "./Sidebar";
 import { SlideSection } from "./SlideSection";
 import { SlideRenderer } from "./SlideRenderer";
@@ -16,9 +18,14 @@ import { useKeyboardNav } from "../hooks/useKeyboardNav";
 import { CoverSection } from "./CoverSection";
 
 export function PresentationShell() {
+  // In-page language switch. Starts in English on every visit, independent
+  // of the site-wide language preference.
+  const [lang, setLang] = useState<"en" | "zh">("en");
+  const slides = lang === "zh" ? slidesZh : slidesEn;
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<RefObject<HTMLElement | null>[]>(
-    slides.map(() => ({ current: null }))
+    slidesEn.map(() => ({ current: null }))
   );
 
   const activeIndex = useActiveSection(
@@ -48,7 +55,7 @@ export function PresentationShell() {
   }, []);
 
   const goNext = useCallback(() => {
-    if (activeIndex < slides.length - 1) scrollToSection(activeIndex + 1);
+    if (activeIndex < slidesEn.length - 1) scrollToSection(activeIndex + 1);
   }, [activeIndex, scrollToSection]);
 
   const goPrev = useCallback(() => {
@@ -91,6 +98,7 @@ export function PresentationShell() {
           slide.id === "cover" ? (
             <CoverSection
               key={slide.id}
+              lang={lang}
               ref={(el) => {
                 sectionRefs.current[index].current = el;
               }}
@@ -110,15 +118,24 @@ export function PresentationShell() {
       </div>
 
       {/* Fixed UI elements */}
+      <button
+        type="button"
+        onClick={() => setLang(lang === "en" ? "zh" : "en")}
+        aria-label={lang === "en" ? "切换到中文" : "Switch to English"}
+        className="fixed top-4 right-16 z-[110] h-9 px-3 flex items-center justify-center rounded-full bg-black/10 hover:bg-black/20 text-gray-600 hover:text-gray-900 transition-all text-sm cursor-pointer"
+      >
+        {lang === "en" ? "中文" : "EN"}
+      </button>
       <CloseButton />
       <PageIndicator current={activeIndex + 1} total={slides.length} />
       <PrevNextButtons
+        lang={lang}
         onPrev={goPrev}
         onNext={goNext}
         canPrev={activeIndex > 0}
         canNext={activeIndex < slides.length - 1}
       />
-      <SpeakerPanel notes={slides[activeIndex].speakerNotes} />
+      <SpeakerPanel notes={slides[activeIndex].speakerNotes} lang={lang} />
 
       {/* Lightbox */}
       {lightbox && (

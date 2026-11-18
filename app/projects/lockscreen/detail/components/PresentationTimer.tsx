@@ -6,6 +6,7 @@ interface PresentationTimerProps {
   onStart: () => void;
   onPause: () => void;
   onReset: () => void;
+  lang?: "en" | "zh";
 }
 
 function formatTime(seconds: number) {
@@ -20,7 +21,9 @@ export function PresentationTimer({
   onStart,
   onPause,
   onReset,
+  lang = "en",
 }: PresentationTimerProps) {
+  const zh = lang === "zh";
   return (
     <div className="flex items-center gap-3">
       <span className="font-mono text-white text-base tabular-nums">
@@ -30,13 +33,13 @@ export function PresentationTimer({
         onClick={isRunning ? onPause : onStart}
         className="px-3 py-1 rounded text-xs bg-white/20 hover:bg-white/30 text-white transition-colors cursor-pointer"
       >
-        {isRunning ? "Pause" : "Start"}
+        {isRunning ? (zh ? "暂停" : "Pause") : (zh ? "开始" : "Start")}
       </button>
       <button
         onClick={onReset}
         className="px-3 py-1 rounded text-xs bg-white/10 hover:bg-white/20 text-white/70 transition-colors cursor-pointer"
       >
-        Reset
+        {zh ? "重置" : "Reset"}
       </button>
     </div>
   );
