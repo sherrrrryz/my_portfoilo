@@ -470,3 +470,15 @@ a.pj-card__note--link:focus-visible { color: var(--pj-ink); }
   .pj-card__arrow { transition: none; }
   a.pj-card:hover .pj-card__media img { transform: none; }
 }
+
+/* Four nav links plus the toggle no longer fit a phone-width bar. The Home
+   link goes first: the name mark on the left already links to /. Duplicated
+   per page (isolation rule). */
+.pj-nav__mark,
+.pj-nav__link { white-space: nowrap; }
+@media (max-width: 480px) {
+  .pj-nav { gap: 16px; }
+  .pj-nav__side { gap: 10px; }
+  .pj-nav__link { letter-spacing: 0; }
+  .pj-nav__side > .pj-nav__link[href='/'] { display: none; }
+}

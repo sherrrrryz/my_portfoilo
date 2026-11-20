@@ -259,6 +259,7 @@ const UI = {
     fHome: 'Home',
     fAbout: 'About',
     fProjects: 'Projects',
+    fAI: 'AI Related',
     ctaHome: 'Home',
     ctaAbout: 'About me',
     colophon: 'Xueyi (Sherry) Zhou © 2026',
@@ -282,6 +283,7 @@ const UI = {
     fHome: '首页',
     fAbout: '关于',
     fProjects: '项目',
+    fAI: 'AI 相关',
     ctaHome: '首页',
     ctaAbout: '关于我',
     colophon: '周雪怡 (Sherry) © 2026',
@@ -474,6 +476,9 @@ export default function ProjectsIndex() {
           </Link>
           <Link href="/projects" className="pj-nav__link" aria-current="page">
             {u.fProjects}
+          </Link>
+          <Link href="/ai" className="pj-nav__link">
+            {u.fAI}
           </Link>
           <ThemeToggle />
         </div>

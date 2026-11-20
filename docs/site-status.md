@@ -4,6 +4,14 @@ Snapshot of what's live and what still needs building. Update whenever a scaffol
 
 Last updated: 2026-07-21 (design-system fonts actually shipped; see below).
 
+## AI Related page (2026-11-20)
+
+`/ai` is a fourth nav destination, "AI Related" (`app/ai/page.tsx` server wrapper + `AiRelated.tsx` client half + `ai.css`, `ai-` prefix, consumes `tokens.css`; own ThemeToggle/LangToggle copies per the isolation convention; `.ai-root` is in the dark `:has()` guard). It is a blog-style list of Sherry's personal projects: each row is a small 4:3 thumbnail on the left (grayscale at rest, color on hover) with the title and a mono tag line on the right. Rows come from the `POSTS` array; `img` and `href` are optional, so a row can land before its thumbnail or write-up exists.
+
+- Six rows as of 2026-11-20, in the order Sherry listed them: AI CHI Papers, Linkly (web app), App Docs Kit, Skill Lab, Relay Activity Kit (links to `/relay/prototype/#gallery`), Text Reader. Each opens the live project in a new tab (external `href` renders a plain `<a target="_blank">`, internal ones a `<Link>`). Thumbnails are 800x600 captures in `public/ai/`; Linkly reuses `public/simple/off-clock/linkly/cover.jpg` because its live URL opens on a sign-in screen; `relay-kit.jpg` is a crop of the card from the Activity Kit gallery.
+- Titles and tag lines are a first pass summarised from the live sites, not yet reviewed by Sherry. The route is still `noindex` and absent from the sitemap; remove both once she signs off.
+- The nav on `/`, `/about`, `/projects` and `/ai` now has four links. At 480px and below the Home link is hidden (the name mark already links to `/`) and the link tracking and gaps tighten, otherwise the bar wraps on phones. The rule is duplicated at the end of each page's CSS.
+
 ## Resume page (2026-11-13)
 
 `/resume` is the resume built as a web page (`app/resume/page.tsx` server component + `content.ts` data + `PrintButton.tsx` + `resume.css`, `rs-` prefix, consumes the light theme scale from `tokens.css`). Two-column A4 sheet sized in pt / mm; the "导出 PDF" button calls `window.print()` and the `@media print` block strips the toolbar so "Save as PDF" yields a one-page, text-based PDF. English by default, Chinese at `/resume?lang=zh` (server-side `searchParams`, toolbar link switches). Status: both are drafts awaiting Sherry's edits; English uses a smaller, tighter setting via `.rs-root:lang(en)` because Latin text runs longer. `noindex` and absent from the sitemap. Linked from the `/about` hero button and from the footer "Resume ↗" link on `/`, `/about` and `/projects` (language-aware: `?lang=zh` when the page is in Chinese). The old `public/Sherry_Zhou_Resume.pdf` is no longer linked anywhere but is still in `public/`.

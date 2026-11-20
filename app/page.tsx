@@ -1839,6 +1839,7 @@ const UI = {
     fHome: 'Home',
     fAbout: 'About',
     fProjects: 'Projects',
+    fAI: 'AI Related',
     ctaAbout: 'About me',
     ctaProjects: 'Projects',
     colophon: 'Xueyi (Sherry) Zhou © 2026',
@@ -1871,6 +1872,7 @@ const UI = {
     fHome: '首页',
     fAbout: '关于',
     fProjects: '项目',
+    fAI: 'AI 相关',
     ctaAbout: '关于我',
     ctaProjects: '项目',
     colophon: '周雪怡 (Sherry) © 2026',
@@ -1960,6 +1962,9 @@ export default function SimplePage() {
           </Link>
           <Link href="/projects" className="sm-nav__link">
             {u.fProjects}
+          </Link>
+          <Link href="/ai" className="sm-nav__link">
+            {u.fAI}
           </Link>
           <ThemeToggle />
         </div>

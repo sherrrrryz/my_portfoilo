@@ -738,6 +738,7 @@ const UI = {
     fHome: 'Home',
     fAbout: 'About',
     fProjects: 'Projects',
+    fAI: 'AI Related',
     ctaHome: 'Home',
     ctaProjects: 'Projects',
     colophon: 'Xueyi (Sherry) Zhou © 2026',
@@ -763,6 +764,7 @@ const UI = {
     fHome: '首页',
     fAbout: '关于',
     fProjects: '项目',
+    fAI: 'AI 相关',
     ctaHome: '首页',
     ctaProjects: '项目',
     colophon: '周雪怡 (Sherry) © 2026',
@@ -815,6 +817,9 @@ export default function AboutPage() {
           </Link>
           <Link href="/projects" className="ab-nav__link">
             {u.fProjects}
+          </Link>
+          <Link href="/ai" className="ab-nav__link">
+            {u.fAI}
           </Link>
           <ThemeToggle />
         </div>

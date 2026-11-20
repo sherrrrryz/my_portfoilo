@@ -1616,3 +1616,15 @@ html:not([data-theme="dark"]) .sm-theme__moon { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .sm-role__word { transition: none; }
 }
+
+/* Four nav links plus the toggle no longer fit a phone-width bar. The Home
+   link goes first: the name mark on the left already links to /. Duplicated
+   per page (isolation rule). */
+.sm-nav__mark,
+.sm-nav__link { white-space: nowrap; }
+@media (max-width: 480px) {
+  .sm-nav { gap: 16px; }
+  .sm-nav__links { gap: 10px; }
+  .sm-nav a.sm-nav__link { letter-spacing: 0; }
+  .sm-nav__links > .sm-nav__link[href='/'] { display: none; }
+}
