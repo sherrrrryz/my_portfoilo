@@ -3,12 +3,12 @@
 /* ============================================================================
    /projects — the project index (client half; metadata lives in page.tsx).
 
-   Five cards: three of the homepage's "It means" projects (lock screen,
-   MIUI design system, touch hot zone), the AppLovin OOBE work, and Linkly,
-   the personal project. Four link to their case-study landings; Linkly's
-   full walkthrough lives in the homepage's Curiosity lightbox, so it carries
-   a mono note instead of a CTA. The foldable framework card was removed
-   2026-11-13 (no write-up); it is still on the homepage.
+   Four cards: three of the homepage's "It means" projects (lock screen,
+   MIUI design system, touch hot zone) and the AppLovin OOBE work. All four
+   link to their case-study landings. The foldable framework card was
+   removed 2026-11-13 (no write-up; still on the homepage) and the Linkly
+   card 2026-11-20 (it now lives on /ai; its walkthrough is still in the
+   homepage's Curiosity lightbox).
 
    Same monochrome editorial voice as the homepage and /about, and the same
    per-page copies of ThemeToggle / LangToggle / emojiCursor (isolation
@@ -113,9 +113,9 @@ function emojiCursor(emoji: string): string {
   return `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}") 16 16, pointer`;
 }
 
-/* ── the five projects ─────────────────────────────────────────────
+/* ── the four projects ─────────────────────────────────────────────
    Homepage order: It-means rows 1-4, then the AppLovin OOBE work from
-   02 · For Business, then the personal project from 04 · Curiosity. */
+   02 · For Business. */
 type Project = {
   id: string;
   href?: string;
@@ -215,27 +215,6 @@ const PROJECTS: Project[] = [
       zh: '产品设计 · 实验设计 · 增长',
     },
   },
-  {
-    id: 'linkly',
-    img: '/simple/off-clock/linkly/cover.jpg',
-    alt: {
-      en: 'Linkly cover: where every travel link finds its place.',
-      zh: 'Linkly 封面：让每条旅行链接都有归处。',
-    },
-    title: { en: 'Linkly', zh: 'Linkly' },
-    org: { en: 'Personal · iOS', zh: '个人项目 · iOS' },
-    year: '2025',
-    dek: {
-      en: 'Where every travel link finds its place. From interviews to persona to flows to refined screens.',
-      zh: '让每条旅行链接都有归处。从访谈到画像、流程，再到细化界面。',
-    },
-    tags: {
-      en: 'End-to-end UX · UX certification',
-      zh: '端到端 UX · UX 认证',
-    },
-    note: { en: 'Walkthrough on the homepage →', zh: '首页查看完整过程 →' },
-    noteHref: '/#curiosity',
-  },
 ];
 
 /* All inline page copy that isn't part of a data constant above. */
@@ -245,9 +224,9 @@ const UI = {
     kicker: 'Projects · Xueyi (Sherry) Zhou',
     heroLine: 'Selected work.',
     heroSub:
-      'Five projects: an OS for 700 million people at Xiaomi, growth measured in dollars at AppLovin, and one personal project for the way I travel.',
+      'Four projects: an OS for 700 million people at Xiaomi, and growth measured in dollars at AppLovin.',
     mIndex: 'The work',
-    sublabel: '6 projects · 2022 to now',
+    sublabel: '4 projects · 2022 to now',
     cta: 'Case study',
     mHello: 'Say hello',
     contactHead: 'Want the full story on any of these?',
@@ -269,9 +248,9 @@ const UI = {
     kicker: '项目 · 周雪怡 (Sherry)',
     heroLine: '精选作品。',
     heroSub:
-      '五个项目：在小米为 7 亿人做操作系统，在 AppLovin 做以美元衡量的增长，还有一个为旅行方式而做的个人项目。',
+      '四个项目：在小米为 7 亿人做操作系统，在 AppLovin 做以美元衡量的增长。',
     mIndex: '作品',
-    sublabel: '6 个项目 · 2022 至今',
+    sublabel: '4 个项目 · 2022 至今',
     cta: '案例',
     mHello: '打个招呼',
     contactHead: '想听其中任何一个的完整故事？',

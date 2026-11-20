@@ -11,7 +11,7 @@ import ProjectsIndex from "./ProjectsIndex";
 export const metadata: Metadata = {
   title: "Projects · Xueyi Zhou",
   description:
-    "Five projects by Xueyi (Sherry) Zhou: lock screens and design systems at Xiaomi, growth experiments at AppLovin, and one personal iOS project.",
+    "Four projects by Xueyi (Sherry) Zhou: lock screens and design systems at Xiaomi, and growth experiments at AppLovin.",
 };
 
 export default function ProjectsPage() {
