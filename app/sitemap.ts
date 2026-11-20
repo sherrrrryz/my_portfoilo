@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: BaseUrl, lastModified: today },
     { url: `${BaseUrl}about`, lastModified: today },
     { url: `${BaseUrl}projects`, lastModified: today },
+    { url: `${BaseUrl}ai`, lastModified: today },
     { url: `${BaseUrl}projects/lockscreen`, lastModified: today },
     { url: `${BaseUrl}projects/miui-design-system`, lastModified: today },
     { url: `${BaseUrl}projects/touch-hotspots`, lastModified: today },

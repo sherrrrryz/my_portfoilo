@@ -82,7 +82,7 @@ Before writing a new component, walk this ladder in order. Stop at the first ste
 - `/about` — about page, same monochrome edition (`app/about/page.tsx` + `app/about/about.css`, `ab-` prefix; photos in `public/about/`)
 - `/simple` — 308 permanent redirect to `/` (the page used to live there; see `next.config.ts`)
 - `/projects` — project index, bilingual monochrome card grid (`app/projects/ProjectsIndex.tsx` + `projects.css`, `pj-` prefix; `page.tsx` is a thin server wrapper for metadata, deliberately not a `layout.tsx`)
-- `/ai` — "AI Related" page, blog-style list of personal projects (`app/ai/AiRelated.tsx` + `ai.css`, `ai-` prefix; `page.tsx` is a thin server wrapper for metadata; thumbnails in `public/ai/`). `noindex` and not in the sitemap until Sherry signs off the copy.
+- `/ai` — "AI Related" page, blog-style list of personal projects (`app/ai/AiRelated.tsx` + `ai.css`, `ai-` prefix; `page.tsx` is a thin server wrapper for metadata; thumbnails in `public/ai/`).
 - `/projects/lockscreen` — case study landing, monochrome edition (`app/projects/lockscreen/page.tsx` + `lockscreen.css`)
 - `/projects/lockscreen/detail` — case study deep-dive slide deck (OFF-LIMITS)
 - `/resume` — resume as a print-first A4 page, exported to PDF via the browser print dialog (`app/resume/page.tsx` + `content.ts` + `resume.css`, `rs-` prefix). English by default, Chinese at `?lang=zh`; `noindex`, not in the sitemap; linked from the `/about` hero and the three page footers. Always light; must stay on one A4 page (re-check after every content edit).
