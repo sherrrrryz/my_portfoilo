@@ -108,51 +108,23 @@ type Post = {
   href?: string;
 };
 
-/* Six personal projects, in the order Sherry listed them. Every row opens
+/* Seven personal projects, in the order Sherry set on 2026-11-20. Every row opens
    the live project in a new tab. Thumbnails are 800x600 captures of each
    site in public/ai/ (Linkly reuses the homepage cover, since its live
    URL opens on a sign-in screen). */
 const POSTS: Post[] = [
   {
-    id: 'ai-papers',
-    href: 'https://sherrrrryz.github.io/ai-papers/index.html',
-    img: '/ai/ai-papers.jpg',
+    id: 'design-review-assistant',
+    href: 'https://design-review-assistant-demo.vercel.app/reviews/new',
+    img: '/ai/design-review-assistant.jpg',
     alt: {
-      en: 'A searchable table of AI-related CHI papers with year, type and topic filters.',
-      zh: 'AI 相关 CHI 论文的可搜索表格，带年份、类型和主题筛选。',
+      en: 'Design Review Assistant: the new-review screen, picking a React Native project to check against Figma frames.',
+      zh: '设计走查助手的新建走查页面：选择一个 React Native 项目，对照 Figma 画面检查。',
     },
-    title: { en: 'AI CHI Papers', zh: 'AI CHI 论文库' },
+    title: { en: 'Design Review Assistant', zh: '设计走查助手' },
     tags: {
-      en: 'HCI research · Paper library · Search and filters',
-      zh: 'HCI 研究 · 论文库 · 搜索筛选',
-    },
-  },
-  {
-    id: 'linkly',
-    href: 'https://linkly-sable-chi.vercel.app/',
-    img: '/simple/off-clock/linkly/cover.jpg',
-    alt: {
-      en: 'Linkly cover: where every travel link finds its place.',
-      zh: 'Linkly 封面：让每条旅行链接都有归处。',
-    },
-    title: { en: 'Linkly', zh: 'Linkly' },
-    tags: {
-      en: 'Web app · Travel links · Design to build',
-      zh: 'Web 应用 · 旅行链接 · 从设计到上线',
-    },
-  },
-  {
-    id: 'app-docs-kit',
-    href: 'https://app-docs-kit.vercel.app/#/',
-    img: '/ai/app-docs-kit.jpg',
-    alt: {
-      en: 'App Docs Kit overview page: a project documentation framework written for AI agents.',
-      zh: 'App 文档模板包概览页：一套给 AI 代理读的项目文档框架。',
-    },
-    title: { en: 'App Docs Kit', zh: 'App 文档模板包' },
-    tags: {
-      en: 'AI agents · Documentation framework · Templates',
-      zh: 'AI 代理 · 文档框架 · 模板',
+      en: 'Design QA · Figma to code · React Native',
+      zh: '设计走查 · Figma 对照代码 · React Native',
     },
   },
   {
@@ -170,6 +142,20 @@ const POSTS: Post[] = [
     },
   },
   {
+    id: 'app-docs-kit',
+    href: 'https://app-docs-kit.vercel.app/#/',
+    img: '/ai/app-docs-kit.jpg',
+    alt: {
+      en: 'App Docs Kit overview page: a project documentation framework written for AI agents.',
+      zh: 'App 文档模板包概览页：一套给 AI 代理读的项目文档框架。',
+    },
+    title: { en: 'App Docs Kit', zh: 'App 文档模板包' },
+    tags: {
+      en: 'AI agents · Documentation framework · Templates',
+      zh: 'AI 代理 · 文档框架 · 模板',
+    },
+  },
+  {
     id: 'relay',
     href: 'https://sherrrrryz.github.io/relay/prototype/#gallery',
     img: '/ai/relay-kit.jpg',
@@ -181,6 +167,34 @@ const POSTS: Post[] = [
     tags: {
       en: 'Component gallery · Interaction experiments · Figma',
       zh: '组件库 · 交互实验 · Figma',
+    },
+  },
+  {
+    id: 'linkly',
+    href: 'https://linkly-sable-chi.vercel.app/',
+    img: '/simple/off-clock/linkly/cover.jpg',
+    alt: {
+      en: 'Linkly cover: where every travel link finds its place.',
+      zh: 'Linkly 封面：让每条旅行链接都有归处。',
+    },
+    title: { en: 'Linkly', zh: 'Linkly' },
+    tags: {
+      en: 'Web app · Travel links · Design to build',
+      zh: 'Web 应用 · 旅行链接 · 从设计到上线',
+    },
+  },
+  {
+    id: 'ai-papers',
+    href: 'https://sherrrrryz.github.io/ai-papers/index.html',
+    img: '/ai/ai-papers.jpg',
+    alt: {
+      en: 'A searchable table of AI-related CHI papers with year, type and topic filters.',
+      zh: 'AI 相关 CHI 论文的可搜索表格，带年份、类型和主题筛选。',
+    },
+    title: { en: 'AI CHI Papers', zh: 'AI CHI 论文库' },
+    tags: {
+      en: 'HCI research · Paper library · Search and filters',
+      zh: 'HCI 研究 · 论文库 · 搜索筛选',
     },
   },
   {

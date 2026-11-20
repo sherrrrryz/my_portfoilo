@@ -10,7 +10,7 @@ import AiRelated from "./AiRelated";
 export const metadata: Metadata = {
   title: "AI Related · Xueyi Zhou",
   description:
-    "Six personal projects by Xueyi (Sherry) Zhou, from a CHI paper library to a documentation kit for AI agents.",
+    "Seven personal projects by Xueyi (Sherry) Zhou, from a CHI paper library to a documentation kit for AI agents.",
 };
 
 export default function AiPage() {
